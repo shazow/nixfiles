@@ -2,7 +2,7 @@
 {
   boot.blacklistedKernelModules = [ "mei_me" ];
   imports = [
-    ./common.nix
+    ./desktop.nix
     <nixos-hardware/lenovo/thinkpad/x1/6th-gen/QHD>
   ];
   networking.hostName = "examplehost";
