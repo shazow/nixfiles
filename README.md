@@ -4,12 +4,11 @@ Some of my .nix files
 
 ## References
 
-Big thanks to my local friend group of NixOS pioneers who paved through the unknowns.
+Big thanks to my friend group of NixOS pioneers who paved through the unknowns, and answered many questions along the way.
 
-### Home configs
-
-- @attente
-- @arilotter and his configs: https://github.com/arilotter/dotfiles
+- [@arilotter](https://github.com/arilotter) and https://github.com/arilotter/dotfiles (which heavily inspired my layout)
+- [@attente](https://github.com/attente)
+- Bonus shoutout to [@jpf](https://github.com/jpf) for checking out nixOS long before it was cool
 
 ### Full Disk Encryption (FDE)
 
