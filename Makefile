@@ -14,7 +14,7 @@ password: .hashedPassword.nix
 	mkpasswd -m sha-512 > "$@"
 
 ${KEYFILE}:
-	dd if=/dev/random of="$@" bs=1 count=${KEYSIZE}
+	dd if=/dev/urandom of="$@" bs=1 count=${KEYSIZE}
 	@echo "Add keyfile to encrypted volume: cryptsetup luksAddKey $$DEVICE ${KEYFILE}"
 
 initrd.keys.gz: ${KEYFILE}
