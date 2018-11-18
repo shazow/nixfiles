@@ -13,6 +13,6 @@
     description = "Example";
     extraGroups = [ "wheel" "sudoers" "audio" "video" "disk" "networkmanager"];
     uid = 1000;
-    hashedPassword = let hashedPassword = import ./.hashedPassword.nix; in hashedPassword; # Make with mkpasswd
+    hashedPassword = let hashedPassword = import ../.hashedPassword.nix; in hashedPassword; # Make with mkpasswd
   };
 }
