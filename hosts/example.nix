@@ -1,4 +1,3 @@
-{ config, pkgs, ... }:
 {
   boot.blacklistedKernelModules = [ "mei_me" ];
   imports = [
