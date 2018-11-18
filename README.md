@@ -2,6 +2,8 @@
 
 Some of my .nix files
 
+**Status**: WIP. Trying to craft a combined config across many references, then going to try it on a VM, then going to try and migrate my own installs gracefully. Wish me luck.
+
 ## References
 
 Big thanks to my friend group of NixOS pioneers who paved through the unknowns, and answered many questions along the way.
