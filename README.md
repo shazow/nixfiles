@@ -9,7 +9,7 @@ Some of my .nix files
 Big thanks to my friend group of NixOS pioneers who paved through the unknowns, and answered many questions along the way.
 
 - [@arilotter](https://github.com/arilotter) and https://github.com/arilotter/dotfiles (which heavily inspired my layout)
-- [@attente](https://github.com/attente)
+- [@attente](https://github.com/attente) and his yet-unpublished configs
 - Bonus shoutout to [@jpf](https://github.com/jpf) for checking out NixOS long before it was cool
 
 ### Full Disk Encryption (FDE)
