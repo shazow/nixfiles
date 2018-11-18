@@ -1,36 +1,22 @@
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 {
-  system.copySystemConfiguration = true;
-  
   imports = [
     ./common.nix
   ];
 
   nixpkgs.config.allowUnfree = true;
+
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   networking.networkmanager.enable = true;
-
-  # Select internationalisation properties.
-  i18n = {
-    consoleFont = "Lat2-Terminus16";
-    consoleKeyMap = "us";
-    defaultLocale = "en_US.UTF-8";
-  };
-
-  time.timeZone = "America/Toronto";
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     wget git mkpasswd neovim dmidecode
   ];
-  
-  environment.shellAliases = {
-    vim = "nvim";
-  };
-  
+
   environment.shellInit = ''
     export EDITOR=nvim
     export VISUAL=nvim
@@ -57,7 +43,7 @@
   services.printing.enable = true;
   sound.enable = true;
   hardware.pulseaudio.enable = true;
-  
+
   # X11
   services.xserver = {
     enable = true;

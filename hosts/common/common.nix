@@ -1,2 +1,10 @@
-# TODO: I want a setup where all my different machine-specific configs are in hosts/*.nix,
-# and host.nix is a symlink or import of a specific host. Hardware configs will live here.
+{
+  system.copySystemConfiguration = true;
+  time.timeZone = "America/Toronto";
+
+  i18n = {
+    consoleFont = "Lat2-Terminus16";
+    consoleKeyMap = "us";
+    defaultLocale = "en_US.UTF-8";
+  };
+}
