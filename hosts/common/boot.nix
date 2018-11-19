@@ -9,6 +9,7 @@
 # - https://gist.github.com/ladinu/bfebdd90a5afd45dec811296016b2a3f
 # - Single password unlock: https://github.com/NixOS/nixpkgs/issues/24386
 # - Password reuse: https://github.com/NixOS/nixpkgs/pull/29441
+# - FDE example: https://github.com/Chiiruno/configuration/blob/master/etc/nixos/boot.nix
 #
 let disk = import ../../disk.nix;
 in
