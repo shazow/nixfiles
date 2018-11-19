@@ -70,7 +70,7 @@ in
   filesystems."/boot/efi" = {
     label = "uefi";
     options = [ "discard" ];
-	;
+  };
 
   swapDevices = [
     { device = "/dev/mapper/cryptswap"; }
