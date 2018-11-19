@@ -26,7 +26,7 @@ in
     device = disk.bootDevice;
     efiSupport = true;
     enableCryptodisk = true;
-    extraInitrd = /boot/initrd.keys.gz;
+    # extraInitrd = /boot/initrd.keys.gz; # Replaced by boot.initrd.secrets?
   };
 
   # Resume
@@ -34,6 +34,9 @@ in
 
   # LUKS
   boot.initrd.supportedFilesystems = [ "btrfs" ];
+  boot.initrd.secrets = {
+    "${disk.key}" = disk.key
+  };
   boot.initrd.luks.devices =
   let
     keyFile = disk.keyFile;
@@ -57,10 +60,16 @@ in
   };
 
   filesystems."/boot" = {
+    label = "boot";
     device = "/dev/mapper/cryptroot";
     fstype = "btrfs";
     options = [ "defaults","noatime","compress=lzo","autodefrag","subvol=@home" ];
   };
+  
+  filesystems."/boot/efi" = {
+    label = "uefi";
+    options = [ "discard" ];
+	;
 
   swapDevices = [
     { device = "/dev/mapper/cryptswap"; }
