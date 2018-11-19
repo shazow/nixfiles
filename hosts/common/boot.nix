@@ -36,7 +36,7 @@ in
   # LUKS
   boot.initrd.supportedFilesystems = [ "btrfs" ];
   boot.initrd.secrets = {
-    "${disk.key}" = disk.key
+    "${disk.key}" = disk.key;
   };
   boot.initrd.luks.devices =
   let
@@ -51,20 +51,20 @@ in
   filesystems."/" = {
     device = "/dev/mapper/cryptroot";
     fstype = "btrfs";
-    options = [ "defaults","noatime","nodiratime","compress=lzo","autodefrag","commit=100","subvol=@rootnix" ];
+    options = [ "defaults", "noatime", "nodiratime", "compress=lzo", "autodefrag", "commit=100", "subvol=@rootnix" ];
   };
 
   filesystems."/home" = {
     device = "/dev/mapper/cryptroot";
     fstype = "btrfs";
-    options = [ "defaults","noatime","compress=lzo","autodefrag","subvol=@home" ];
+    options = [ "defaults", "noatime", "compress=lzo", "autodefrag", "subvol=@home" ];
   };
 
   filesystems."/boot" = {
     label = "boot";
     device = "/dev/mapper/cryptroot";
     fstype = "btrfs";
-    options = [ "defaults","noatime","compress=lzo","autodefrag","subvol=@home" ];
+    options = [ "defaults", "noatime", "compress=lzo", "autodefrag", "subvol=@home" ];
   };
   
   filesystems."/boot/efi" = {
