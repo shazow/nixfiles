@@ -27,7 +27,7 @@ in
     efiSupport = true;
     enableCryptodisk = true;
     extraInitrd = /boot/initrd.keys.gz;
-  }
+  };
 
   # Resume
   boot.resumeDevice = "/dev/cryptswap";
