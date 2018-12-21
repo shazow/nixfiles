@@ -6,17 +6,11 @@ Some of my .nix files
 
 ## Installing
 
-```
-curl -Ls "https://github.com/shazow/nixfiles/archive/master.zip" -o nixfiles.zip
-unzip nixfiles.zip
-cd nixfiles-master
-```
-
 ### Disk Setup
 
-Rough sketch of the expected disk layout with full-disk encryption:
+Rough sketch of the expected disk layout with full-disk encryption. If trying in a VM, make sure to use a SCSI virtual disk (instead of HDA) and UEFI enabled.
 
-```
+```console
 parted /dev/sda -- mklabel gpt
 parted /dev/sda -- mkpart ESP fat32 1MiB 512MiB
 parted /dev/sda -- set 1 boot on
@@ -55,6 +49,24 @@ mkdir /mnt/boot/efi
 mount /dev/sda1 /mnt/boot/efi
 ```
 
+### NixOS Setup
+
+```console
+curl -Ls "https://github.com/shazow/nixfiles/archive/master.zip" -o nixfiles.zip
+unzip nixfiles.zip
+
+mkdir /mnt/etc
+mv nixfiles-master /mnt/etc/nixos
+
+cd /mnt/etc/nixos
+mkpasswd -m sha-512 > .hashedPassword.nix
+chmod 400 .hashedPassword.nix
+
+cp hosts/example.nix configuration.nix
+echo "Edit configuration.nix ... Some of the paths are wrong here, need to fix."
+
+nixos-install
+```
 
 
 ## References
