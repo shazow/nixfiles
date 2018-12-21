@@ -38,7 +38,7 @@ in
   # LUKS
   boot.initrd.supportedFilesystems = [ "btrfs" ];
   boot.initrd.secrets = {
-    "${disk.key}" = disk.key;
+    "${disk.keyFile}" = disk.keyFile;
   };
   boot.initrd.luks.devices =
   let
