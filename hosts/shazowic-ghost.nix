@@ -8,7 +8,7 @@
 
   imports = [
     ./hosts/common/boot.nix
-    ./hosts/common/desktop.nix
+    # ./hosts/common/desktop.nix
   ];
   networking.hostName = "shazowic-ghost";
 
