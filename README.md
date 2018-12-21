@@ -62,6 +62,14 @@ cd /mnt/etc/nixos
 mkpasswd -m sha-512 > .hashedPassword.nix
 chmod 400 .hashedPassword.nix
 
+cat > disk.nix << EOF
+{
+  keyFile = "/etc/nixos/cryptroot.key";
+  cryptroot = "/dev/sda2";
+  cryptswap = "/dev/sda3";
+}
+EOF
+
 cp hosts/example.nix configuration.nix
 echo "Edit configuration.nix ... Some of the paths are wrong here, need to fix."
 
