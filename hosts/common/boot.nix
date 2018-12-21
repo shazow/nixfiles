@@ -50,26 +50,26 @@ in
   ];
 
   # Filesystems
-  filesystems."/" = {
+  fileSystems."/" = {
     device = "/dev/mapper/cryptroot";
     fstype = "btrfs";
     options = [ "defaults" "noatime" "nodiratime" "compress=lzo" "autodefrag" "commit=100" "subvol=@rootnix" ];
   };
 
-  filesystems."/home" = {
+  fileSystems."/home" = {
     device = "/dev/mapper/cryptroot";
     fstype = "btrfs";
     options = [ "defaults" "noatime" "compress=lzo" "autodefrag" "subvol=@home" ];
   };
 
-  filesystems."/boot" = {
+  fileSystems."/boot" = {
     label = "boot";
     device = "/dev/mapper/cryptroot";
     fstype = "btrfs";
     options = [ "defaults" "noatime" "compress=lzo" "autodefrag" "subvol=@home" ];
   };
   
-  filesystems."/boot/efi" = {
+  fileSystems."/boot/efi" = {
     label = "uefi";
     options = [ "discard" ];
   };
