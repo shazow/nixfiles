@@ -8,39 +8,47 @@ Some of my .nix files
 
 ### Disk Setup
 
-Rough sketch of the expected disk layout with full-disk encryption. If trying in a VM, make sure to use a SCSI virtual disk (instead of HDA) and UEFI enabled.
+Rough sketch of the expected disk layout with full-disk encryption.
+
+**NOtE**: If trying in a VM, make sure to use a SCSI virtual disk (instead of HDA) and UEFI enabled.
 
 ```console
+# Setup partition layout
 parted /dev/sda -- mklabel gpt
 parted /dev/sda -- mkpart ESP fat32 1MiB 512MiB
 parted /dev/sda -- set 1 boot on
 parted /dev/sda -- mkpart primary 512MiB -1GiB
 parted /dev/sda -- mkpart primary linux-swap -1GiB 100%
 
+# Generate root private key file
 if [[ ! -f cryptroot.key ]]; then
   dd if=/dev/urandom of=cryptroot.key bs=1 count=4096
   chmod 0400 cryptroot.key
 fi
 
+# Encrypt the partitions
 cryptsetup luksFormat /dev/sda2  # Enter password
 cryptsetup luksFormat /dev/sda3  # Enter the same password
 cryptsetup luksAddKey /dev/sda2 cryptroot.key
 cryptsetup luksAddKey /dev/sda3 cryptroot.key
 
+# Open the encrypted partitions
 cryptsetup open -d cryptroot.key /dev/sda2 cryptroot
 cryptsetup open -d cryptroot.key /dev/sda3 cryptswap
 
+# Format the underlying partitions
 mkfs.fat -F 32 -n efi /dev/sda1
 mkswap /dev/mapper/cryptswap
 mkfs.btrfs /dev/mapper/cryptroot
 mount -o defaults,noatime,compress=lzo,autodefrag /dev/mapper/cryptroot /mnt
 
+# Create volumes on the btrfs root
 btrfs subvolume create /mnt/@rootnix
 btrfs subvolume create /mnt/@boot
 btrfs subvolume create /mnt/@home
 
+# Remount with new volumes
 umount /mnt
-
 mount -o compress=lzo,subvol=@rootnix /dev/mapper/cryptroot /mnt
 mkdir -p /mnt/boot /mnt/home
 mount -o compress=lzo,subvol=@boot /dev/mapper/cryptroot /mnt/boot
@@ -59,7 +67,7 @@ mkdir /mnt/etc
 mv nixfiles-master /mnt/etc/nixos
 
 cd /mnt/etc/nixos
-mkpasswd -m sha-512 > .hashedPassword.nix
+echo \"$(mkpasswd -m sha-512)\" > .hashedPassword.nix
 chmod 400 .hashedPassword.nix
 
 cat > disk.nix << EOF
