@@ -12,6 +12,7 @@ password: .hashedPassword.nix
 
 .hashedPassword.nix:
 	mkpasswd -m sha-512 > "$@"
+	chmod 400 "$@"
 
 ${KEYFILE}:
 	dd if=/dev/urandom of="$@" bs=1 count=${KEYSIZE}
@@ -19,3 +20,4 @@ ${KEYFILE}:
 
 initrd.keys.gz: ${KEYFILE}
 	find $^ | cpio --quiet -H newc -o | gzip -9 -n > "$@"
+	chmod 400 "$@"
