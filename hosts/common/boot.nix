@@ -52,20 +52,20 @@ in
   # Filesystems
   fileSystems."/" = {
     device = "/dev/mapper/cryptroot";
-    fstype = "btrfs";
+    fsType = "btrfs";
     options = [ "defaults" "noatime" "nodiratime" "compress=lzo" "autodefrag" "commit=100" "subvol=@rootnix" ];
   };
 
   fileSystems."/home" = {
     device = "/dev/mapper/cryptroot";
-    fstype = "btrfs";
+    fsType = "btrfs";
     options = [ "defaults" "noatime" "compress=lzo" "autodefrag" "subvol=@home" ];
   };
 
   fileSystems."/boot" = {
     label = "boot";
     device = "/dev/mapper/cryptroot";
-    fstype = "btrfs";
+    fsType = "btrfs";
     options = [ "defaults" "noatime" "compress=lzo" "autodefrag" "subvol=@home" ];
   };
   
