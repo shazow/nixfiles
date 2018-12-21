@@ -57,6 +57,18 @@ mkdir /mnt/boot/efi
 mount /dev/sda1 /mnt/boot/efi
 ```
 
+Resume an existing disk setup:
+
+```console
+cryptsetup open /dev/sda2 cryptroot  # Enter password
+cryptsetup open /dev/sda3 cryptswap  # Enter password
+
+mount -o compress=lzo,subvol=@rootnix /dev/mapper/cryptroot /mnt
+mount -o compress=lzo,subvol=@boot /dev/mapper/cryptroot /mnt/boot
+mount -o compress=lzo,subvol=@home /dev/mapper/cryptroot /mnt/home
+mount /dev/sda1 /mnt/boot/efi
+```
+
 ### NixOS Setup
 
 ```console
