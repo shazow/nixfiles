@@ -13,10 +13,10 @@ Rough sketch of the expected disk layout with full-disk encryption.
 ```console
 # Setup partition layout
 parted /dev/sda -- mklabel gpt
-parted /dev/sda -- mkpart ESP fat32 1MiB 512MiB
+parted /dev/sda -- mkpart ESP fat32 1MiB 512MiB  # EFI partition
 parted /dev/sda -- set 1 boot on
-parted /dev/sda -- mkpart primary 512MiB -1GiB
-parted /dev/sda -- mkpart primary linux-swap -1GiB 100%
+parted /dev/sda -- mkpart primary 512MiB -1GiB  # Main btrfs partition, with some room for swap.
+parted /dev/sda -- mkpart primary linux-swap -1GiB 100%  # Swap should be >RAM size if you're going to use hibernate
 
 # Generate root private key file
 if [[ ! -f cryptroot.key ]]; then
