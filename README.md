@@ -105,7 +105,7 @@ nixos-install
 
 Big thanks to my friend group of NixOS pioneers who paved through the unknowns, and answered many questions along the way.
 
-- [@arilotter](https://github.com/arilotter) and https://github.com/arilotter/dotfiles (which heavily inspired my layout)
+- [@arilotter](https://github.com/arilotter) and https://github.com/arilotter/dotfiles
 - [@attente](https://github.com/attente) and https://github.com/attente/dotfiles
 - Bonus shoutout to [@jpf](https://github.com/jpf) for checking out NixOS long before it was cool
 
