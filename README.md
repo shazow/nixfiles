@@ -82,9 +82,12 @@ cd /mnt/etc/nixos
 echo \"$(mkpasswd -m sha-512)\" > .hashedPassword.nix
 chmod 400 .hashedPassword.nix
 
+# TODO: Make initrd.keys.gz (see Makefile)
+
 cat > disk.nix << EOF
 {
-  keyFile = "/etc/nixos/cryptroot.key";
+  extraInitrd = "/etc/nixos/initrd.keys.gz";
+  keyFile = "cryptroot.key";
   cryptroot = "/dev/sda2";
   cryptswap = "/dev/sda3";
   efi = "/dev/sda1";
