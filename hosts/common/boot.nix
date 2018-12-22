@@ -28,7 +28,7 @@ in
     device = "nodev";
     efiSupport = true;
     enableCryptodisk = true;
-    # extraInitrd = /boot/initrd.keys.gz; # Replaced by boot.initrd.secrets?
+    extraInitrd = ${disk.extraInitrd}; # Replaced by boot.initrd.secrets?
     # efiInstallAsRemovable = true; # in case canTouchEfiVariables doesn't work for your system
   };
 
