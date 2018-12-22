@@ -71,6 +71,8 @@ in
   
   fileSystems."/boot/efi" = {
     label = "uefi";
+    device = "${disk.efi}";
+    fsType = "vfat";
     options = [ "discard" ];
   };
 
