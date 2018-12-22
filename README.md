@@ -87,6 +87,7 @@ cat > disk.nix << EOF
   keyFile = "/etc/nixos/cryptroot.key";
   cryptroot = "/dev/sda2";
   cryptswap = "/dev/sda3";
+  efi = "/dev/sda1";
 }
 EOF
 
