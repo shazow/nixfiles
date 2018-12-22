@@ -12,11 +12,12 @@ Rough sketch of the expected disk layout with full-disk encryption.
 
 ```console
 # Setup partition layout
+# Swap should be >RAM size if you're going to use hibernate
 parted /dev/sda -- mklabel gpt
-parted /dev/sda -- mkpart ESP fat32 1MiB 512MiB  # EFI partition
+parted /dev/sda -- mkpart ESP fat32 1MiB 512MiB  # boot
 parted /dev/sda -- set 1 boot on
-parted /dev/sda -- mkpart primary 512MiB -1GiB  # Main btrfs partition, with some room for swap.
-parted /dev/sda -- mkpart primary linux-swap -1GiB 100%  # Swap should be >RAM size if you're going to use hibernate
+parted /dev/sda -- mkpart primary 512MiB -1GiB  # root
+parted /dev/sda -- mkpart primary linux-swap -1GiB 100%  # swap
 
 # Generate root private key file
 if [[ ! -f cryptroot.key ]]; then
@@ -25,6 +26,7 @@ if [[ ! -f cryptroot.key ]]; then
 fi
 
 # Encrypt the partitions
+# Swap partition is also encrypted, so our hibernate state is encrypted.
 cryptsetup luksFormat /dev/sda2  # Enter password
 cryptsetup luksFormat /dev/sda3  # Enter the same password
 cryptsetup luksAddKey /dev/sda2 cryptroot.key
