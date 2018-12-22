@@ -24,11 +24,10 @@ in
   boot.loader.grub = {
     enable = true;
     version = 2;
-    # device = disk.bootDevice;
-    device = "nodev";
+    device = "nodev"; # Use EFI as the bootloader
     efiSupport = true;
     enableCryptodisk = true;
-    extraInitrd = ${disk.extraInitrd}; # Replaced by boot.initrd.secrets?
+    extraInitrd = disk.extraInitrd # Replaced by boot.initrd.secrets?
     # efiInstallAsRemovable = true; # in case canTouchEfiVariables doesn't work for your system
   };
 
