@@ -11,7 +11,7 @@
 # - Password reuse: https://github.com/NixOS/nixpkgs/pull/29441
 # - FDE example: https://github.com/Chiiruno/configuration/blob/master/etc/nixos/boot.nix
 #
-let disk = import ../../disk.nix;
+let disk = import ../disk.nix;
 in
 {
   boot.loader.systemd-boot.enable = true;
@@ -27,7 +27,7 @@ in
     device = "nodev"; # Use EFI as the bootloader
     efiSupport = true;
     enableCryptodisk = true;
-    extraInitrd = disk.extraInitrd # Replaced by boot.initrd.secrets?
+    extraInitrd = disk.extraInitrd # Replaced by boot.initrd.secrets? https://github.com/NixOS/nixpkgs/issues/41608
     # efiInstallAsRemovable = true; # in case canTouchEfiVariables doesn't work for your system
   };
 
