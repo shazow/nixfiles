@@ -27,7 +27,7 @@ in
     device = "nodev"; # Use EFI as the bootloader
     efiSupport = true;
     enableCryptodisk = true;
-    extraInitrd = disk.extraInitrd # Replaced by boot.initrd.secrets? https://github.com/NixOS/nixpkgs/issues/41608
+    extraInitrd = disk.extraInitrd; # Replaced by boot.initrd.secrets? https://github.com/NixOS/nixpkgs/issues/41608
     # efiInstallAsRemovable = true; # in case canTouchEfiVariables doesn't work for your system
   };
 
