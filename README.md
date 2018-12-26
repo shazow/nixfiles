@@ -8,7 +8,7 @@ Some of my .nix files
 
 Rough sketch of the expected disk layout with full-disk encryption.
 
-**NOtE**: If trying in a VM, make sure to use a SCSI virtual disk (instead of HDA) and UEFI enabled.
+**NOTE**: If trying in a VM, make sure to use a SCSI virtual disk (instead of HDA) and UEFI enabled.
 
 ```console
 # Setup partition layout
@@ -70,6 +70,8 @@ mount /dev/sda1 /mnt/boot/efi
 ```
 
 ### NixOS Setup
+
+If you're installing from inside another distro, you can use these instructions: https://nixos.org/nixos/manual/index.html#sec-installing-from-other-distro (just make sure to do it as the root user).
 
 ```console
 curl -Ls "https://github.com/shazow/nixfiles/archive/master.zip" -o nixfiles.zip
