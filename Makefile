@@ -11,7 +11,7 @@ configuration.nix: hosts/${HOST}.nix
 password: .hashedPassword.nix
 
 .hashedPassword.nix:
-	mkpasswd -m sha-512 > "$@"  # TODO: Wrap in quotes.
+	echo "\"$$(mkpasswd -m sha-512)\"" > "$@"
 	chmod 400 "$@"
 
 ${KEYFILE}:
