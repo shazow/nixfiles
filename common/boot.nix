@@ -31,14 +31,16 @@ in
     # efiInstallAsRemovable = true; # in case canTouchEfiVariables doesn't work for your system
   };
 
+  # Once boot.initrd.secrets is a thing again... (See above)
+  #boot.initrd.secrets = {
+  #  "${disk.keyFile}" = disk.keyFile;
+  #};
+
   # Resume
   boot.resumeDevice = "/dev/cryptswap";
 
   # LUKS
   boot.initrd.supportedFilesystems = [ "btrfs" ];
-  boot.initrd.secrets = {
-    "${disk.keyFile}" = disk.keyFile;
-  };
   boot.initrd.luks.devices =
   let
     keyFile = disk.keyFile;
