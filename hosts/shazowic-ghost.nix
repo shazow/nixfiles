@@ -1,5 +1,4 @@
 { config, lib, ... }:
-
 {
   boot.blacklistedKernelModules = [ "mei_me" ];
   boot.initrd.availableKernelModules = [ "ata_piix" "ohci_pci" "ahci" "sd_mod" "sr_mod" ];
@@ -7,8 +6,8 @@
   virtualisation.virtualbox.guest.enable = true;
 
   imports = [
-    ./hosts/common/boot.nix
-    ./hosts/common/server.nix
+    ./common/boot.nix
+    ./common/server.nix
   ];
   networking.hostName = "shazowic-ghost";
 
