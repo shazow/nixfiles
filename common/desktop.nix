@@ -12,7 +12,7 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    wget git mkpasswd neovim dmidecode
+    wget git mkpasswd neovim dmidecode unzip gnumake
   ];
 
   environment.shellInit = ''
@@ -36,17 +36,13 @@
 
   networking.firewall.allowedTCPPorts = [];
   networking.firewall.allowedUDPPorts = [];
+  hardware.pulseaudio.enable = true;
+  programs.light.enable = true;
   services.avahi.enable = true;
   services.avahi.nssmdns = true;
   services.printing.enable = true;
-  sound.enable = true;
-  hardware.pulseaudio.enable = true;
-
-  # X11
-  services.xserver = {
-    enable = true;
-    layout = "us";
-  };
+  services.xserver.enable = true;
+  services.xserver.layout = "us";
   services.xserver.libinput.enable = true;
-  programs.light.enable = true;
+  sound.enable = true;
 }
