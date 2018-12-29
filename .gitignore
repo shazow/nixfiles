@@ -1,0 +1,5 @@
+/.*
+configuration.nix
+disk.nix
+*.gz
+*.key
