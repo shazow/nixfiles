@@ -88,7 +88,7 @@ chmod 400 .hashedPassword.nix
 
 cat > disk.nix << EOF
 {
-  extraInitrd = "/etc/nixos/initrd.keys.gz";
+  extraInitrd = ./initrd.keys.gz;
   keyFile = "cryptroot.key";
   cryptroot = "/dev/sda2";
   cryptswap = "/dev/sda3";
