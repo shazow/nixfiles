@@ -44,8 +44,8 @@ in
     keyFile = disk.keyFile;
   in
   [
-    { name = "cryptroot"; device = "${disk.cryptroot}"; allowDiscards = true; keyFile = keyFile; }
-    { name = "cryptswap"; device = "${disk.cryptswap}"; allowDiscards = true; keyFile = keyFile; }
+    { name = "cryptroot"; device = disk.cryptroot; allowDiscards = true; keyFile = keyFile; }
+    { name = "cryptswap"; device = disk.cryptswap; allowDiscards = true; keyFile = keyFile; }
   ];
 
   # Filesystems
@@ -70,7 +70,7 @@ in
   
   fileSystems."/boot/efi" = {
     label = "uefi";
-    device = "${disk.efi}";
+    device = disk.efi;
     fsType = "vfat";
     options = [ "discard" ];
   };
