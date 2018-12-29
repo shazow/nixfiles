@@ -61,13 +61,6 @@ in
     options = [ "defaults" "noatime" "compress=lzo" "autodefrag" "subvol=@home" ];
   };
 
-  fileSystems."/boot" = {
-    label = "boot";
-    device = "/dev/mapper/cryptroot";
-    fsType = "btrfs";
-    options = [ "defaults" "noatime" "compress=lzo" "autodefrag" "subvol=@home" ];
-  };
-  
   fileSystems."/boot/efi" = {
     label = "uefi";
     device = disk.efi;
