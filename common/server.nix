@@ -7,6 +7,7 @@
   environment.systemPackages = with pkgs; [
     neovim
     gnumake
+    git
   ];
 
   networking.networkmanager.enable = true;
