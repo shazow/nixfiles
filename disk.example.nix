@@ -1,6 +1,6 @@
 # cp disk.example.nix disk.nix
 {
-  extraInitrd = "initrd.keys.gz";
+  extraInitrd = ./initrd.keys.gz;
   keyFile = "cryptroot.key";
   efi = /dev/nvme0n1p1;
   cryptswap = /dev/nvme0n1p2;
