@@ -31,9 +31,10 @@
     ENERGY_PERF_POLICY_ON_BAT=powersave
   '';
 
+  # TODO: Figure out how to disable these...
   # Disable the "throttling bug fix" -_- https://github.com/NixOS/nixos-hardware/blob/master/common/pc/laptop/cpu-throttling-bug.nix
-  systemd.timers.cpu-throttling.enable = false;
-  systemd.services.cpu-throttling.enable = false;
+  #systemd.timers.cpu-throttling.enable = false;
+  #systemd.services.cpu-throttling.enable = false;
 
   i18n = {
     consoleFont = "Lat2-Terminus16";
