@@ -69,9 +69,28 @@ mount -o compress=lzo,subvol=@home /dev/mapper/cryptroot /mnt/home
 mount /dev/sda1 /mnt/boot/efi
 ```
 
-### NixOS Setup
+### NixOS Setup from another distro
 
-If you're installing from inside another distro, you can use these instructions: https://nixos.org/nixos/manual/index.html#sec-installing-from-other-distro (just make sure to do it as the root user).
+If you're installing from inside another distro, you can use these instructions: https://nixos.org/nixos/manual/index.html#sec-installing-from-other-distro
+
+In Arch, using the aur/nix package [does not work](https://github.com/shazow/nixfiles/issues/3).
+
+To add hardware-specific configuration imports (like these nixfiles use), we'll need [nixos-hardware (setup instructions)](https://github.com/NixOS/nixos-hardware#setup).
+
+The nix environment activator only includes the nixpkgs channel in the NIX_PATH by default, so we'll need to add that too:
+
+```console
+export NIXPATH=${NIXPATH}:${NIX_PATH//nixpkgs/nixos-hardware}
+```
+
+After that, off we go:
+
+```console
+sudo PATH="$PATH" NIX_PATH="$NIX_PATH" `which nixos-install` --root /mnt
+```
+
+
+### NixOS Setup from scratch (in a VM)
 
 ```console
 curl -Ls "https://github.com/shazow/nixfiles/archive/master.zip" -o nixfiles.zip
@@ -99,7 +118,7 @@ EOF
 cp hosts/example.nix configuration.nix
 echo "Edit configuration.nix ... Some of the paths are wrong here, need to fix."
 
-nixos-install
+nixos-install --root /mnt
 ```
 
 
