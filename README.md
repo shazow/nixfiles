@@ -10,7 +10,7 @@ Rough sketch of the expected disk layout with full-disk encryption.
 
 **NOTE**: If trying in a VM, make sure to use a SCSI virtual disk (instead of HDA) and UEFI enabled.
 
-```console
+```bash
 # Setup partition layout
 # Swap should be >RAM size if you're going to use hibernate
 parted /dev/sda -- mklabel gpt
@@ -59,7 +59,7 @@ mount /dev/sda1 /mnt/boot/efi
 
 Resume an existing disk setup:
 
-```console
+```bash
 cryptsetup open /dev/sda2 cryptroot  # Enter password
 cryptsetup open /dev/sda3 cryptswap  # Enter password
 
@@ -77,23 +77,28 @@ In Arch, using the aur/nix package [does not work](https://github.com/shazow/nix
 
 To add hardware-specific configuration imports (like these nixfiles use), we'll need [nixos-hardware (setup instructions)](https://github.com/NixOS/nixos-hardware#setup). The nix environment activator only includes the nixpkgs channel in the NIX_PATH by default, so we'll need to add that too.
 
-```console
+```bash
+# Activate the nix environment
 . $HOME/.nix-profile/etc/profile.d/nix.sh
+
+# Add the nixos-hardware channel
 nix-channel --add https://github.com/NixOS/nixos-hardware/archive/master.tar.gz nixos-hardware
 nix-channel --update nixos-hardware
-export NIXPATH=${NIXPATH}:${NIX_PATH//nixpkgs/nixos-hardware}
+
+# Add the new channel to our NIX_PATH
+export NIX_PATH=${NIX_PATH}:${NIX_PATH//nixpkgs/nixos-hardware}
 ```
 
 After that, off we go:
 
-```console
+```bash
 sudo PATH="$PATH" NIX_PATH="$NIX_PATH" `which nixos-install` --root /mnt
 ```
 
 
 ### NixOS Setup from scratch (in a VM)
 
-```console
+```bash
 curl -Ls "https://github.com/shazow/nixfiles/archive/master.zip" -o nixfiles.zip
 unzip nixfiles.zip
 
