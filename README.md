@@ -75,11 +75,12 @@ If you're installing from inside another distro, you can use these instructions:
 
 In Arch, using the aur/nix package [does not work](https://github.com/shazow/nixfiles/issues/3).
 
-To add hardware-specific configuration imports (like these nixfiles use), we'll need [nixos-hardware (setup instructions)](https://github.com/NixOS/nixos-hardware#setup).
-
-The nix environment activator only includes the nixpkgs channel in the NIX_PATH by default, so we'll need to add that too:
+To add hardware-specific configuration imports (like these nixfiles use), we'll need [nixos-hardware (setup instructions)](https://github.com/NixOS/nixos-hardware#setup). The nix environment activator only includes the nixpkgs channel in the NIX_PATH by default, so we'll need to add that too.
 
 ```console
+. $HOME/.nix-profile/etc/profile.d/nix.sh
+nix-channel --add https://github.com/NixOS/nixos-hardware/archive/master.tar.gz nixos-hardware
+nix-channel --update nixos-hardware
 export NIXPATH=${NIXPATH}:${NIX_PATH//nixpkgs/nixos-hardware}
 ```
 
