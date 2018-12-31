@@ -1,6 +1,7 @@
 { pkgs, ... }:
 {
   imports = [
+    ../backports/startx.nix
     ./common.nix
   ];
 
@@ -42,13 +43,16 @@
   services.avahi.enable = true;
   services.avahi.nssmdns = true;
   services.printing.enable = true;
-  services.xserver.enable = true;
-  services.xserver.layout = "us";
-  services.xserver.libinput.enable = true;
 
-  windowManager.i3.enable = true;
-  displayManager.startx.enable = true;
-  desktopManager.default = "none";
+  services.xserver = {
+    enable = true;
+    layout = "us";
+
+    libinput.enable = true;
+    displayManager.startx.enable = true;
+    desktopManager.default = "none";
+    windowManager.i3.enable = true;
+  };
 
   sound.enable = true;
 }
