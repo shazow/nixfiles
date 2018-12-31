@@ -89,6 +89,10 @@ nix-channel --update nixos-hardware
 export NIX_PATH=${NIX_PATH}:${NIX_PATH//nixpkgs/nixos-hardware}
 ```
 
+Some other notes for installing from another distro (doesn't apply for a normal install):
+- `${disk.efi}` should be mounted to `/mnt/boot/efi` (or whatever the root prefix is).
+- `${disk.extraInitrd}` should be an absolute path under the root prefix (otherwise when we install outside the root prefix, it messes up the path).
+
 After that, off we go:
 
 ```bash
