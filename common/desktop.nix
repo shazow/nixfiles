@@ -38,13 +38,17 @@
   networking.firewall.allowedUDPPorts = [];
   hardware.pulseaudio.enable = true;
   programs.light.enable = true;
+
   services.avahi.enable = true;
   services.avahi.nssmdns = true;
   services.printing.enable = true;
   services.xserver.enable = true;
   services.xserver.layout = "us";
   services.xserver.libinput.enable = true;
-  services.xserver.displayManager.startx.enable = true;
-  services.xserver.windowManager.i3.enable = true;
+
+  windowManager.i3.enable = true;
+  displayManager.startx.enable = true;
+  desktopManager.default = "none";
+
   sound.enable = true;
 }
