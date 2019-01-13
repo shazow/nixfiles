@@ -63,7 +63,7 @@ let hashedPassword = import ./.hashedPassword.nix; in  # Make with mkpasswd (see
     hashedPassword = hashedPassword;
   };
 
-  boot.loader.grub.extraEntries = import ./archboot.nix;
+  boot.loader.grub.extraEntries = import ./.extraboot.nix;
 
   # This value determines the NixOS release with which your system is to be
   # compatible, in order to avoid breaking some software such as database
