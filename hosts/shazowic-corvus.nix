@@ -3,6 +3,8 @@ let hashedPassword = import ./.hashedPassword.nix; in  # Make with mkpasswd (see
 { config, pkgs, lib, ... }:
 
 {
+  time.timeZone = "America/Toronto";
+
   boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.initrd.availableKernelModules = [ "xhci_pci" "nvme" ];
   boot.blacklistedKernelModules = [ "mei_me" ];
@@ -14,59 +16,39 @@ let hashedPassword = import ./.hashedPassword.nix; in  # Make with mkpasswd (see
   imports = [
     ./common/hardware-thinkpad-x1c.nix
     ./common/boot.nix
-    ./common/desktop.nix
+    ./common/desktop-i3.nix
   ];
 
   environment.systemPackages = with pkgs; [
-    # System
-    acpi
-    binutils-unwrapped
-    fd
-    fwupd
-    htop
-    lm_sensors
-    p7zip
-    pciutils
-    powertop
-    psmisc
-    ripgrep
-    sysstat
-    tree
-    unzip
-
     # Desktop
     alsaTools
+    arandr
     blueman
-    networkmanagerapplet
-    clipnotify
     dunst
     feh
-    i3lock
-    i3status-rust
     libnotify
     maim
+    openvpn
     pavucontrol
-    pcmanfm
-    rofi
-    xss-lock
+    xclip
+    xdotool
     xsel
 
     # Apps
     alacritty
-    cargo
     discord
     gnupg
-    go
     google-chrome-beta
-    python3
     signal-desktop
     vlc
 
-    # Fonts
-    dejavu_fonts
-    font-awesome-ttf
+    # Build
+    cargo
+    python3
+    gcc
+    go
+    nodejs-10_x
   ];
-  services.clipmenu.enable = true;
   services.dnsmasq.enable = true;
   services.dnsmasq.servers = [ "1.1.1.1" "8.8.8.8" "8.8.4.4" ];
 

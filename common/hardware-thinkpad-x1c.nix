@@ -1,6 +1,8 @@
 { config, pkgs, lib, ... }:
 
 {
+  hardware.cpu.intel.updateMicrocode = true;
+
   # Backport from <nixos-hardware/lenovo/thinkpad/x1/6th-gen/QHD>
   boot.kernelModules = [ "acpi_call" ];
   boot.extraModulePackages = with config.boot.kernelPackages; [ acpi_call ];

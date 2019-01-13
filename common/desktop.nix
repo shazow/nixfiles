@@ -1,58 +1,91 @@
 { pkgs, ... }:
 {
   imports = [
-    ../backports/startx.nix
-    ./common.nix
+    # Only needed for 18.09 and older:
+    # ../backports/startx.nix
   ];
 
+  # FIXME: Is this necessary?
+  system.copySystemConfiguration = true;
+
   nixpkgs.config.allowUnfree = true;
+  nixpkgs.config = {
+    allowUnfree = true;
+    packageOverrides = pkgs: {
+      neovim = pkgs.neovim.override {
+        vimAlias = true;
+      };
+    };
+  };
 
-  hardware.cpu.intel.updateMicrocode = true;
-  networking.networkmanager.enable = true;
-
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
+  # Desktop environment agnostic packages.
   environment.systemPackages = with pkgs; [
-    wget git mkpasswd neovim dmidecode unzip gnumake
+    acpi
+    bind # nslookup etc
+    binutils-unwrapped
+    dmidecode
+    fd
+    fwupd
+    git
+    gnumake
+    htop
+    lm_sensors
+    mkpasswd
+    neovim
+    p7zip
+    patchelf
+    pciutils
+    powertop
+    psmisc
+    ripgrep
+    sysstat
+    tmux
+    tree
+    unzip
+    wget
   ];
 
   environment.shellInit = ''
     export EDITOR=nvim
     export VISUAL=nvim
-
-    gpg-connect-agent /bye
-    export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
   '';
 
   fonts.fonts = with pkgs; [
-    noto-fonts
-    noto-fonts-cjk
-    noto-fonts-emoji
-    liberation_ttf
-    fira-code
-    (nerdfonts.override {
-      withFont = "--complete FiraCode";
-    })
+    dejavu_fonts
+    terminus
+    nerdfonts  # Includes font-awesome, material-icons, powerline-fonts
   ];
 
-  networking.firewall.allowedTCPPorts = [];
-  networking.firewall.allowedUDPPorts = [];
+  i18n = {
+    consoleFont = "${pkgs.terminus_font}/share/consolefonts/ter-u28n.psf.gz";
+    consoleKeyMap = "us";
+    defaultLocale = "en_US.UTF-8";
+  };
+
+  networking.networkmanager.enable = true;
+  # networking.firewall.allowedTCPPorts = [];
+  # networking.firewall.allowedUDPPorts = [];
+
   hardware.pulseaudio.enable = true;
   programs.light.enable = true;
-
   services.avahi.enable = true;
   services.avahi.nssmdns = true;
   services.printing.enable = true;
 
+  services.dnsmasq.enable = true;
+  services.dnsmasq.servers = [ "1.1.1.1" "8.8.8.8" "8.8.4.4" ];
+
+  # Gaming (Steam)
+  services.flatpak.enable = true;
+  services.flatpak.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+  hardware.opengl.driSupport32Bit = true;
+  hardware.pulseaudio.support32Bit = true;
+
+  sound.enable = true;
+
   services.xserver = {
     enable = true;
     layout = "us";
-
     libinput.enable = true;
-    displayManager.startx.enable = true;
-    desktopManager.default = "none";
-    windowManager.i3.enable = true;
   };
-
-  sound.enable = true;
 }
