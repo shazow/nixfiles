@@ -8,7 +8,6 @@
   # FIXME: Is this necessary?
   system.copySystemConfiguration = true;
 
-  nixpkgs.config.allowUnfree = true;
   nixpkgs.config = {
     allowUnfree = true;
     packageOverrides = pkgs: {
