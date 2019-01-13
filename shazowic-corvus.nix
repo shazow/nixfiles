@@ -5,10 +5,8 @@ let hashedPassword = import ./.hashedPassword.nix; in  # Make with mkpasswd (see
 {
   time.timeZone = "America/Toronto";
 
-  boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.initrd.availableKernelModules = [ "xhci_pci" "nvme" ];
   boot.blacklistedKernelModules = [ "mei_me" ];
-  hardware.enableAllFirmware = true;
 
   nix.maxJobs = lib.mkDefault 8;
   powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";

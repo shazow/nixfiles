@@ -5,6 +5,9 @@
     # ../backports/startx.nix
   ];
 
+  boot.kernelPackages = pkgs.linuxPackages_latest;
+  hardware.enableAllFirmware = true;
+
   # FIXME: Is this necessary?
   system.copySystemConfiguration = true;
 
