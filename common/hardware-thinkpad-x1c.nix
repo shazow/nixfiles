@@ -13,25 +13,24 @@
 
   fonts.fontconfig.dpi = 210;
   services.xserver.dpi = 210;
-  
+
   services.xserver.monitorSection = ''
     DisplaySize 310 174   # In millimeters
   '';
+
   services.xserver.deviceSection = ''
     Driver "intel"
     Option "TearFree" "true"
     Option "DRI" "3"
     Option "Backlight" "intel_backlight"
   '';
-  services.xserver.inputClassSections = [''
-    Identifier "X1 Carbon Touchpad"
-    MatchIsTouchpad "on"
-    Driver "libinput"
-    Option "Tapping" "on"
-    Option "AccelProfile"      "adaptive"
-    Option "AccelSpeed"        "0.25"
-    Option "ClickMethod"       "clickfinger"
-  ''];
+
+  services.xserver.libinput = {
+    enable = true;
+    disableWhileTyping = true;
+    accelSpeed = "0.25";
+    clickMethod = "clickfinger";
+  };
 
   services.tlp.extraConfig = ''
     START_CHARGE_THRESH_BAT0=75
