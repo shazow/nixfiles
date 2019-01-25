@@ -1,62 +1,42 @@
 { pkgs, ... }:
+
 {
+  programs.home-manager.enable = true;
+  services.redshift = {
+    enable = true;
+    provider = "geoclue2";
+    #provider = "manual";
+    #latitude = "43.65";
+    #longitude = "-79.38";
+    temperature.day = 5700;
+    temperature.night = 3500;
+  };
+
   nixpkgs.config.allowUnfree = true;
   home.packages = with pkgs; [
-    # system utils
-    htop
-    psmisc
-    binutils-unwrapped
-    acpi
-    sysstat
-    lm_sensors
-    fwupd
-    p7zip
-    unzip
+    # Games
+    cataclysm-dda-git
+    (dwarf-fortress.override {
+      enableTWBT = true;
+      enableTruetype = true;
+      theme = "phoebus";
+    })
 
-    # user utils
-    imagemagick
-    gnupg
+    # PDF, image mainpulation
+    ghostscript
+    gimp
+    qpdf
+    xournal
+    zathura
 
-    # languages & build tools
-    go
-    gnumake
-    gcc
-    tokei
-    python
-    python3
-    cmake
-    nodejs-10_x
-    ms-sys
+    obs-studio # Screen recording, stremaing
+    transmission-gtk # Torrents
 
-    # desktop env
-    i3status-rust
-    i3lock
-    maim
-    pavucontrol
-    feh
-    libnotify
-
-    # apps
-    appimage-run
-    google-chrome
-    alacritty
-    pcmanfm
-
-    # chat
-    discord
-    signal-desktop
+    # TODO: Move these to system config?
+    file
+    jq
+    powerstat
+    xorg.xkill
   ];
 
-  programs.home-manager = {
-    enable = true;
-    path = "https://github.com/rycee/home-manager/archive/release-18.03.tar.gz";
-  };
-
-  xsession = {
-    enable = true;
-    # TODO: windowManager.i3 = import ./i3.nix pkgs;
-  };
-
-  # TODO: programs.rofi = import ./rofi.nix pkgs;
-  # TODO: services.dunst = import ./dunst.nix pkgs;
 }
