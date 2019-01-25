@@ -5,9 +5,6 @@
     # ../backports/startx.nix
   ];
 
-  boot.kernelPackages = pkgs.linuxPackages_latest;
-  hardware.enableAllFirmware = true;
-
   # FIXME: Is this necessary?
   system.copySystemConfiguration = true;
 
@@ -27,7 +24,6 @@
     binutils-unwrapped
     dmidecode
     fd
-    fwupd
     git
     gnumake
     htop
@@ -45,6 +41,12 @@
     tree
     unzip
     wget
+
+    # Wireless
+    bluez
+    iw # wireless tooling
+    crda # wireless regulatory agent
+    wireless-regdb
   ];
 
   environment.shellInit = ''
@@ -68,7 +70,13 @@
   # networking.firewall.allowedTCPPorts = [];
   # networking.firewall.allowedUDPPorts = [];
 
-  hardware.pulseaudio.enable = true;
+  hardware.pulseaudio = {
+    enable = true;
+    # Need full for bluetooth support
+    package = pkgs.pulseaudioFull;
+    extraModules = [ pkgs.pulseaudio-modules-bt ];
+  };
+
   programs.light.enable = true;
   services.avahi.enable = true;
   services.avahi.nssmdns = true;
