@@ -10,6 +10,7 @@ in
       rustpkgs.rust
       rustpkgs.rust-src
       nixpkgs.rustracer
+      nixpkgs.cargo-edit
     ];
 
     # For rustracer
