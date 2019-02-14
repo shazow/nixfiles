@@ -3,7 +3,6 @@ let hashedPassword = import ./.hashedPassword.nix; in  # Make with mkpasswd (see
 { config, pkgs, lib, ... }:
 
 {
-  time.timeZone = "America/Toronto";
   services.localtime.enable = true;
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
@@ -23,7 +22,7 @@ let hashedPassword = import ./.hashedPassword.nix; in  # Make with mkpasswd (see
   powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
 
   imports = [
-    ./hardware/thinkpad-x1c.nix
+    ./hardware/hardware-thinkpad-x1c.nix
     ./common/boot.nix
     ./common/desktop-i3.nix
   ];
@@ -46,18 +45,8 @@ let hashedPassword = import ./.hashedPassword.nix; in  # Make with mkpasswd (see
 
     # Apps
     alacritty
-    discord
     gnupg
     google-chrome-beta
-    signal-desktop
-    vlc
-
-    # Build
-    cargo
-    python3
-    gcc
-    go
-    nodejs-10_x
 
     # Other
     alsa-firmware
@@ -66,6 +55,7 @@ let hashedPassword = import ./.hashedPassword.nix; in  # Make with mkpasswd (see
   #services.dnsmasq.servers = [ "1.1.1.1" "8.8.8.8" "8.8.4.4" ];
   networking.networkmanager.appendNameservers = [ "1.1.1.1" "8.8.8.8" "8.8.4.4" ];
   networking.hostName = "shazowic-corvus";
+  networking.networkmanager.wifi.macAddress = "preserve";  # Or "random", "stable", "permanent", "00:11:22:33:44:55"
 
   #services.avahi.enable = true;
   #services.avahi.nssmdns = true;
