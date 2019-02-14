@@ -22,7 +22,7 @@ let hashedPassword = import ./.hashedPassword.nix; in  # Make with mkpasswd (see
   powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
 
   imports = [
-    ./hardware/hardware-thinkpad-x1c.nix
+    ./hardware/thinkpad-x1c.nix
     ./common/boot.nix
     ./common/desktop-i3.nix
   ];
