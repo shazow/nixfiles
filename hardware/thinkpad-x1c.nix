@@ -42,6 +42,9 @@
     DEVICES_TO_DISABLE_ON_BAT_NOT_IN_USE="bluetooth"
   '';
 
+  # Firmware updating
+  services.fwupd.enable = true;
+
   # Disable the "throttling bug fix" -_- https://github.com/NixOS/nixos-hardware/blob/master/common/pc/laptop/cpu-throttling-bug.nix
   systemd.timers.cpu-throttling.enable = lib.mkForce false;
   systemd.services.cpu-throttling.enable = lib.mkForce false;
