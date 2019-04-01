@@ -27,6 +27,7 @@
     git
     gnumake
     htop
+    inetutils
     lm_sensors
     mkpasswd
     neovim
@@ -70,6 +71,7 @@
   # networking.firewall.allowedTCPPorts = [];
   # networking.firewall.allowedUDPPorts = [];
 
+  hardware.sane.enable = true;
   hardware.pulseaudio = {
     enable = true;
     # Need full for bluetooth support
@@ -81,6 +83,7 @@
   services.avahi.enable = true;
   services.avahi.nssmdns = true;
   services.printing.enable = true;
+  services.printing.drivers = [ pkgs.brgenml1lpr pkgs.brgenml1cupswrapper];
 
   services.dnsmasq.enable = true;
   services.dnsmasq.servers = [ "1.1.1.1" "8.8.8.8" "8.8.4.4" ];
