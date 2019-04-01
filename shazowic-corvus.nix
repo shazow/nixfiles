@@ -17,6 +17,7 @@ let hashedPassword = import ./.hashedPassword.nix; in  # Make with mkpasswd (see
   hardware.enableAllFirmware = true;
   hardware.bluetooth.enable = true;
   hardware.bluetooth.powerOnBoot = false;
+  hardware.opengl.extraPackages = with pkgs; [ vaapiIntel libvdpau-va-gl vaapiVdpau intel-ocl intel-media-driver ];
 
   nix.maxJobs = lib.mkDefault 8;
   powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
@@ -27,7 +28,13 @@ let hashedPassword = import ./.hashedPassword.nix; in  # Make with mkpasswd (see
     ./common/desktop-i3.nix
   ];
 
+  networking.firewall.allowedTCPPorts = [
+    8010  # VLC Chromecast
+  ];
+
   environment.systemPackages = with pkgs; [
+    home-manager
+
     # Desktop
     alsaTools
     arandr
@@ -56,10 +63,6 @@ let hashedPassword = import ./.hashedPassword.nix; in  # Make with mkpasswd (see
   networking.networkmanager.appendNameservers = [ "1.1.1.1" "8.8.8.8" "8.8.4.4" ];
   networking.hostName = "shazowic-corvus";
   networking.networkmanager.wifi.macAddress = "preserve";  # Or "random", "stable", "permanent", "00:11:22:33:44:55"
-
-  #services.avahi.enable = true;
-  #services.avahi.nssmdns = true;
-  services.fwupd.enable = true;
 
   users.users.shazow = {
     isNormalUser = true;
