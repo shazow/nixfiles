@@ -1,10 +1,10 @@
 let
   mozilla = import (builtins.fetchGit {
     url = "https://github.com/mozilla/nixpkgs-mozilla.git";
-    ref = "master";
+    #ref = "master";
     rev = "37f7f33ae3ddd70506cd179d9718621b5686c48d"; # 2019-02-12
-  })
-; in
+  });
+in
 
 { pkgs, ... }:
 
@@ -41,6 +41,8 @@ let
     qpdf
     xournal
     zathura
+    #skanlite
+    #simple-scan
 
     # Progamming
     ctags
@@ -48,6 +50,7 @@ let
     gcc
     go
     nodejs-10_x
+    zeal
 
     # Programming: Rust
     latest.rustChannels.nightly.rust
@@ -58,14 +61,18 @@ let
     obs-studio # Screen recording, stremaing
     transmission-gtk # Torrents
 
-    vlc
+    #mplayer  # TODO: Switch to mpc?
+    #vlc
 
     # TODO: Move these to system config?
     file
+    fzf
     jq
     powerstat
     #tlp
     xorg.xkill
+    xorg.xev
+    pasystray
   ];
 
 }
