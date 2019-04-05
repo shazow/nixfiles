@@ -1,8 +1,7 @@
 let
-  mozilla = import (builtins.fetchGit {
-    url = "https://github.com/mozilla/nixpkgs-mozilla.git";
-    #ref = "master";
-    rev = "37f7f33ae3ddd70506cd179d9718621b5686c48d"; # 2019-02-12
+  mozilla = import (builtins.fetchTarball {
+    url = "https://github.com/mozilla/nixpkgs-mozilla/archive/50bae918794d3c283aeb335b209efd71e75e3954.tar.gz"; # master @ 2019-04-05
+    sha256 = "07b7hgq5awhddcii88y43d38lncqq9c8b2px4p93r5l7z0phv89d";
   });
 in
 
