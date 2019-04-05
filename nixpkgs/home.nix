@@ -9,6 +9,10 @@ in
 
 {
 
+  imports = [
+    ./startx.nix
+  ];
+
   nixpkgs.overlays = [
     mozilla
   ];
