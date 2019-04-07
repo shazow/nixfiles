@@ -18,9 +18,7 @@
 
 
   xresources.properties = {
-    "Xft.dpi" = 140; # = 210 / 1.5
-    "Xcursor.size" = 48;
-    # "xterm*utf8" = 2;
+    "Xft.dpi" = 140; # = 210 / 1.5, where 210 is the native DPI.
   };
 
 }

@@ -73,8 +73,9 @@ in
     jq
     powerstat
     #tlp
-    xorg.xkill
+    xorg.xdpyinfo
     xorg.xev
+    xorg.xkill
     pasystray
   ];
 
