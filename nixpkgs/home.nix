@@ -8,14 +8,13 @@ in
 { pkgs, ... }:
 
 {
-
-  imports = [
-    ./startx.nix
-  ];
-
   nixpkgs.overlays = [
     mozilla
   ];
+
+  xresources.properties = {
+    "Xft.dpi" = 140; # = 210 / 1.5, where 210 is the native DPI.
+  };
 
   programs.home-manager.enable = true;
   services.redshift = {
