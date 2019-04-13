@@ -59,6 +59,7 @@
     dejavu_fonts
     terminus
     nerdfonts  # Includes font-awesome, material-icons, powerline-fonts
+    emojione
   ];
 
   i18n = {
