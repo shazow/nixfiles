@@ -31,10 +31,6 @@ in
     fi
   '';
 
-  xresources.properties = {
-    "Xft.dpi" = 140; # = 210 / 1.5, where 210 is the native DPI.
-  };
-
   programs.home-manager.enable = true;
   services.redshift = {
     enable = true;
