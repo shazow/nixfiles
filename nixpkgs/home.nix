@@ -12,6 +12,25 @@ in
     mozilla
   ];
 
+  # This setup for console-based login and automatic startx works with:
+  #   services.xserver.displayManager.startx.enable = true;
+  #   services.xserver.desktopManager.default = "none";
+
+  # TODO: exec xcalib -d :0 "${nixpkgs}/hardware/thinkpad-x1c-hdr.icm"
+  home.file.".xinitrc".text = ''
+    # dbus-launch manages cross-process communication (required for GTK systray icons, etc).
+    exec dbus-launch --exit-with-x11 i3
+  '';
+
+  home.file.".bash_profile".text = ''
+    if [[ -f ~/.bashrc ]] ; then
+      . ~/.bashrc
+    fi
+    if [[ ! $DISPLAY && $XDG_VTNR -eq 1 ]]; then
+      exec ssh-agent startx
+    fi
+  '';
+
   xresources.properties = {
     "Xft.dpi" = 140; # = 210 / 1.5, where 210 is the native DPI.
   };
@@ -55,7 +74,7 @@ in
     zeal
 
     # Programming: Rust
-    latest.rustChannels.nightly.rust
+    #latest.rustChannels.nightly.rust
     #latest.rustChannels.nightly.rust-src  # Needed for $RUST_SRC_PATH?
     rustracer
     cargo-edit
