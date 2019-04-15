@@ -8,6 +8,9 @@ in
 { pkgs, ... }:
 
 {
+  programs.home-manager.enable = true;
+  nixpkgs.config.allowUnfree = true;
+
   nixpkgs.overlays = [
     mozilla
   ];
@@ -34,7 +37,12 @@ in
   home.file.".config/i3/config".source = config/i3/config;
   home.file.".config/i3/status.toml".source = config/i3/status.toml;
 
-  programs.home-manager.enable = true;
+  # FIXME: Remove this in favour of fonts.fontconfig.dpi (not sure why that's
+  # not sufficieny yet?)
+  xresources.properties = {
+    "Xft.dpi" = 140; # = 210 / 1.5, where 210 is the native DPI.
+  };
+
   services.redshift = {
     enable = true;
     provider = "geoclue2";
@@ -45,7 +53,6 @@ in
     temperature.night = 3500;
   };
 
-  nixpkgs.config.allowUnfree = true;
   home.packages = with pkgs; [
     # Games
     cataclysm-dda-git
