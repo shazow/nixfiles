@@ -91,6 +91,7 @@ in
     xorg.xev
     xorg.xkill
     pasystray
+    whois
   ];
 
 }
