@@ -31,6 +31,9 @@ in
     fi
   '';
 
+  home.file.".config/i3/config".source = config/i3/config;
+  home.file.".config/i3/status.toml".source = config/i3/status.toml;
+
   programs.home-manager.enable = true;
   services.redshift = {
     enable = true;
