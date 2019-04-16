@@ -102,6 +102,34 @@ in
     xorg.xkill
     pasystray
     whois
+
+    # Needed for GTK
+    gnome3.dconf
   ];
+
+  gtk = {
+    enable = true;
+    font = {
+      package = pkgs.google-fonts;
+      name = "Open Sans 10";
+    };
+    theme = {
+      package = pkgs.theme-vertex;
+      name = "Vertex-Dark";
+    };
+    iconTheme = {
+      package = pkgs.tango-icon-theme;
+      name = "Tango";
+    };
+    gtk3.extraConfig = {
+      gtk-decoration-layout = "appmenu,menu";
+    };
+  };
+
+  xsession.pointerCursor = {
+    name = "Vanilla-DMZ-AA";
+    package = pkgs.vanilla-dmz;
+    size = 32;
+  };
 
 }
