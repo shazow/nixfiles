@@ -96,6 +96,7 @@ in
     fzf
     jq
     powerstat
+    lsof
     #tlp
     xorg.xdpyinfo
     xorg.xev
@@ -109,10 +110,6 @@ in
 
   gtk = {
     enable = true;
-    font = {
-      package = pkgs.google-fonts;
-      name = "Open Sans 10";
-    };
     theme = {
       package = pkgs.theme-vertex;
       name = "Vertex-Dark";
@@ -120,9 +117,6 @@ in
     iconTheme = {
       package = pkgs.tango-icon-theme;
       name = "Tango";
-    };
-    gtk3.extraConfig = {
-      gtk-decoration-layout = "appmenu,menu";
     };
   };
 
