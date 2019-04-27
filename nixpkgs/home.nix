@@ -30,7 +30,7 @@ in
       . ~/.bashrc
     fi
     if [[ ! $DISPLAY && $XDG_VTNR -eq 1 ]]; then
-      exec ssh-agent startx
+      exec ssh-agent startx --  -dpi 140
     fi
   '';
 
