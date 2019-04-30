@@ -36,6 +36,7 @@ in
 
   home.file.".config/i3/config".source = config/i3/config;
   home.file.".config/i3/status.toml".source = config/i3/status.toml;
+  home.file.".tmux.conf".source = config/tmux.conf;
 
   # FIXME: Remove this in favour of fonts.fontconfig.dpi (not sure why that's
   # not sufficieny yet?)
@@ -94,6 +95,7 @@ in
     # TODO: Move these to system config?
     file
     fzf
+    gotop
     jq
     powerstat
     lsof
