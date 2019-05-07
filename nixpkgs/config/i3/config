@@ -34,6 +34,10 @@ exec --no-startup-id $term
 exec --no-startup-id nm-applet # Network
 exec --no-startup-id dunst # Notifications
 
+# Autodetect screens
+#exec --no-startup-id srandrd autorandr -c
+#exec --no-startup-id autorandr -c
+
 # Special keys
 bindsym XF86MonBrightnessUp exec light -A 10
 bindsym XF86MonBrightnessDown exec light -U 10
@@ -47,6 +51,7 @@ bindsym XF86AudioPlay exec playerctl play-pause
 bindsym XF86AudioPause exec playerctl pause
 bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
+bindsym $mod+XF86Display exec --no-startup-id xrandr --auto
 
 bindsym $mod+slash exec xdotool key XF86AudioPlay
 bindsym $mod+bracketright exec xdotool key XF86AudioNext
