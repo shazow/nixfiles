@@ -5,7 +5,8 @@ let hashedPassword = import ./.hashedPassword.nix; in  # Make with mkpasswd (see
 {
   services.localtime.enable = true;
 
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelPackages = pkgs.linuxPackages_5_0; # 5.1 is buggy?
+  #boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.initrd.availableKernelModules = [ "xhci_pci" "nvme" ];
   boot.blacklistedKernelModules = [ "mei_me" ];
   boot.extraModprobeConfig = ''
@@ -58,6 +59,12 @@ let hashedPassword = import ./.hashedPassword.nix; in  # Make with mkpasswd (see
     # Other
     alsa-firmware
   ];
+
+  services.udev = {
+    extraRules = ''
+      ACTION=="change", SUBSYSTEM=="drm", HOTPLUG=="1", RUN+="xrandr --auto"
+    '';
+  };
 
   #services.dnsmasq.enable = true;
   #services.dnsmasq.servers = [ "1.1.1.1" "8.8.8.8" "8.8.4.4" ];
