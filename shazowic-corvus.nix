@@ -5,8 +5,7 @@ let hashedPassword = import ./.hashedPassword.nix; in  # Make with mkpasswd (see
 {
   services.localtime.enable = true;
 
-  boot.kernelPackages = pkgs.linuxPackages_5_0; # 5.1 is buggy?
-  #boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.initrd.availableKernelModules = [ "xhci_pci" "nvme" ];
   boot.blacklistedKernelModules = [ "mei_me" ];
   boot.extraModprobeConfig = ''
@@ -61,8 +60,9 @@ let hashedPassword = import ./.hashedPassword.nix; in  # Make with mkpasswd (see
   ];
 
   services.udev = {
+    # FIXME: Need ENV{XAUTHORITY}="/home/shazow/.Xauthority"?
     extraRules = ''
-      ACTION=="change", SUBSYSTEM=="drm", HOTPLUG=="1", RUN+="xrandr --auto"
+      ACTION=="change", SUBSYSTEM=="drm", HOTPLUG=="1", ENV{DISPLAY}=":0", RUN+="xrandr --auto"
     '';
   };
 
