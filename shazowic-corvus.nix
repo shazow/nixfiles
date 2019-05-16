@@ -60,7 +60,10 @@ let hashedPassword = import ./.hashedPassword.nix; in  # Make with mkpasswd (see
   ];
 
   services.udev = {
+    # FIXME: Monitor with `udevadm monitor --property`
     # FIXME: Need ENV{XAUTHORITY}="/home/shazow/.Xauthority"?
+    # TODO: Add bluetooth remove lock event? ACTION=="remove", SUBSYSTEM=="bluetooth", ATTRS{address}=="00:00:00:00:00:00", ENV{DISPLAY}=":0", RUN+="su shazow -c screenlock"
+    #   Could also use rssi or lq to check signal strength. Maybe we want to launch a signal strength poller on add that dies when the device disappears, and changes the lock settings?
     extraRules = ''
       ACTION=="change", SUBSYSTEM=="drm", HOTPLUG=="1", ENV{DISPLAY}=":0", RUN+="xrandr --auto"
     '';
