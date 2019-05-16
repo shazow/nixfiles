@@ -20,8 +20,8 @@
     DisplaySize 310 174   # In millimeters
   '';
 
+  # FIXME: Removed: Driver "intel"
   services.xserver.deviceSection = ''
-    Driver "intel"
     Option "TearFree" "true"
     Option "DRI" "3"
     Option "Backlight" "intel_backlight"

@@ -64,9 +64,9 @@ let hashedPassword = import ./.hashedPassword.nix; in  # Make with mkpasswd (see
     # FIXME: Need ENV{XAUTHORITY}="/home/shazow/.Xauthority"?
     # TODO: Add bluetooth remove lock event? ACTION=="remove", SUBSYSTEM=="bluetooth", ATTRS{address}=="00:00:00:00:00:00", ENV{DISPLAY}=":0", RUN+="su shazow -c screenlock"
     #   Could also use rssi or lq to check signal strength. Maybe we want to launch a signal strength poller on add that dies when the device disappears, and changes the lock settings?
-    extraRules = ''
-      ACTION=="change", SUBSYSTEM=="drm", HOTPLUG=="1", ENV{DISPLAY}=":0", RUN+="xrandr --auto"
-    '';
+    #extraRules = ''
+    #  ACTION=="change", SUBSYSTEM=="drm", HOTPLUG=="1", ENV{DISPLAY}=":0", RUN+="xrandr --auto"
+    #'';
   };
 
   #services.dnsmasq.enable = true;
@@ -84,9 +84,16 @@ let hashedPassword = import ./.hashedPassword.nix; in  # Make with mkpasswd (see
     hashedPassword = hashedPassword;
   };
 
+  users.users.andrey = {
+    isNormalUser = true;
+    home = "/home/andrey";
+    description = "andrey";
+    uid = 1100;
+    hashedPassword = hashedPassword;
+  };
+
   # Android dev
   programs.adb.enable = true;
-
 
   boot.loader.grub.extraEntries = import ./.extraboot.nix;
 
@@ -94,5 +101,5 @@ let hashedPassword = import ./.hashedPassword.nix; in  # Make with mkpasswd (see
   # compatible, in order to avoid breaking some software such as database
   # servers. You should change this only after NixOS release notes say you
   # should.
-  system.stateVersion = "18.09"; # Did you read the comment?
+  system.stateVersion = "19.03"; # Did you read the comment?
 }
