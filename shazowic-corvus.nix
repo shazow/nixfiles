@@ -79,10 +79,14 @@ let hashedPassword = import ./.hashedPassword.nix; in  # Make with mkpasswd (see
     isNormalUser = true;
     home = "/home/shazow";
     description = "shazow";
-    extraGroups = [ "wheel" "sudoers" "audio" "video" "disk" "networkmanager" "plugdev"];
+    extraGroups = [ "wheel" "sudoers" "audio" "video" "disk" "networkmanager" "plugdev" "adbusers"];
     uid = 1000;
     hashedPassword = hashedPassword;
   };
+
+  # Android dev
+  programs.adb.enable = true;
+
 
   boot.loader.grub.extraEntries = import ./.extraboot.nix;
 
