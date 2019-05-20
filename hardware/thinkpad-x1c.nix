@@ -36,6 +36,8 @@
 
   services.tlp.enable = true;
   services.tlp.extraConfig = ''
+    CPU_SCALING_GOVERNOR_ON_AC=powersave
+    CPU_SCALING_GOVERNOR_ON_BAT=powersave
     START_CHARGE_THRESH_BAT0=75
     STOP_CHARGE_THRESH_BAT0=90
     DEVICES_TO_DISABLE_ON_STARTUP="bluetooth"
