@@ -100,6 +100,7 @@ in
     powerstat
     lsof
     #tlp
+    xcwd # cwd of the current x window, tiny C program
     xorg.xdpyinfo
     xorg.xev
     xorg.xkill

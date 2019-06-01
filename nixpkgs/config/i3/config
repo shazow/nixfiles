@@ -108,6 +108,7 @@ floating_modifier $mod
 
 # start a terminal
 bindsym $mod+Return exec $term
+bindsym $mod+Shift+Return exec $term --working-directory "$(xcwd)"
 
 # start a terminal in a fresh workspace
 # TODO: https://github.com/acrisci/i3ipc-python/blob/master/examples/workspace-new.py
