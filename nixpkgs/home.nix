@@ -78,6 +78,7 @@ in
     gcc
     go
     nodejs-10_x
+    websocat # websocket netcat
     zeal
 
     # Programming: Rust
