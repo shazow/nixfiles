@@ -91,7 +91,7 @@ in
     transmission-gtk # Torrents
 
     #mplayer  # TODO: Switch to mpc?
-    #vlc
+    vlc
 
     # TODO: Move these to system config?
     file
