@@ -2,6 +2,7 @@
 
 {
   hardware.cpu.intel.updateMicrocode = true;
+  hardware.enableRedistributableFirmware = true; # Might help wifi?
 
   # Backport from <nixos-hardware/lenovo/thinkpad/x1/6th-gen/QHD>
   boot.kernelModules = [ "acpi_call" ];
