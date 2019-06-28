@@ -75,7 +75,10 @@ let hashedPassword = import ./.hashedPassword.nix; in  # Make with mkpasswd (see
   networking.hostName = "shazowic-corvus";
   networking.networkmanager.wifi.macAddress = "preserve";  # Or "random", "stable", "permanent", "00:11:22:33:44:55"
 
-  virtualisation.docker.enable = true;
+  virtualisation.docker = {
+    enable = true;
+    enableOnBoot = false; # Started on-demand by docker.socket
+  };
 
   users.users.shazow = {
     isNormalUser = true;
