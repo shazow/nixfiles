@@ -56,6 +56,7 @@ let hashedPassword = import ./.hashedPassword.nix; in  # Make with mkpasswd (see
     google-chrome-beta
 
     # Other
+    android-udev-rules
     alsa-firmware
   ];
 
