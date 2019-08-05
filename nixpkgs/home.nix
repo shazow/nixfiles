@@ -84,7 +84,7 @@ in
     # Programming: Rust
     #latest.rustChannels.nightly.rust
     #latest.rustChannels.nightly.rust-src  # Needed for $RUST_SRC_PATH?
-    rustracer
+    #rustracer
     cargo-edit
 
     obs-studio # Screen recording, stremaing
