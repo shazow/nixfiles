@@ -130,4 +130,6 @@ in
     size = 32;
   };
 
+  # External monitor management
+  programs.autorandr = import ./autorandr.nix pkgs;
 }
