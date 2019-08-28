@@ -223,7 +223,8 @@ mode "resize" {
         bindsym $mod+Up resize shrink height 5 px or 5 ppt
         bindsym $mod+Down resize grow height 5 px or 5 ppt
 
-        bindsym $mod+p resize set 30 ppt 40 ppt, move absolute position 1800 0, mode "default"
+        bindsym $mod+s sticky toggle, mode "default"
+        bindsym $mod+p resize set 30 ppt 40 ppt, move absolute position 1800 0, mode "default", sticky toggle
         bindsym $mod+m resize set 80 ppt 50 ppt, move absolute position 300 0, mode "default"
 
         # back to normal: Enter or Escape

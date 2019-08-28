@@ -4,7 +4,9 @@ in
 { pkgs, ...}:
 {
   enable = true;
-  #hooks.postswitch = {};
+  postswitch = {
+    "notify-i3" = "${pkgs.i3}/bin/i3-msg restart";
+  };
   profiles = {
     "embedded" = {
       fingerprint.eDP1 = embeddedScreen;
