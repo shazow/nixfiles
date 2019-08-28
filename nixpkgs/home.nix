@@ -93,6 +93,8 @@ in
     #mplayer  # TODO: Switch to mpc?
     vlc
 
+    srandrd # Daemon for detecting hotplug display changes, calls autorandr
+
     # TODO: Move these to system config?
     file
     fzf

@@ -33,6 +33,7 @@ exec --no-startup-id $term
 # Replaced with systemd service: exec --no-startup-id clipmenud # Clipboard
 exec --no-startup-id nm-applet # Network
 exec --no-startup-id dunst # Notifications
+exec --no-startup-id srandrd autorandr -c # Auto-switch for external displays
 
 # Autodetect screens
 #exec --no-startup-id srandrd autorandr -c
