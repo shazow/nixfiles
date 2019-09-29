@@ -54,7 +54,6 @@ let hashedPassword = import ./.hashedPassword.nix; in  # Make with mkpasswd (see
     alacritty
     gnupg
     google-chrome-beta
-    firefox-beta-bin
 
     # Other
     android-udev-rules
