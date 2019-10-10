@@ -22,9 +22,9 @@
     xss-lock
   ];
 
-  services.clipmenu.enable = true;
+  #services.clipmenu.enable = true;
   # Based on https://github.com/cdown/clipmenu/blob/develop/init/clipmenud.service
-  systemd.user.services.clipmenud = {
+  systemd.services.clipmenud = {
     description = "Clipmenu daemon";
     serviceConfig =  {
       Type = "simple";
@@ -34,7 +34,8 @@
       RestrictRealtime = true;
       MemoryDenyWriteExecute = true;
     };
-    wantedBy = [ "default.target" ];
+    wantedBy = [ "graphical-session.target" ];
+    after = [ "graphical-session.target" ];
     environment = {
       DISPLAY = ":0";
     };
