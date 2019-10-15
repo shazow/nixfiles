@@ -24,7 +24,7 @@
 
   #services.clipmenu.enable = true;
   # Based on https://github.com/cdown/clipmenu/blob/develop/init/clipmenud.service
-  systemd.services.clipmenud = {
+  systemd.user.services.clipmenud = {
     description = "Clipmenu daemon";
     serviceConfig =  {
       Type = "simple";
