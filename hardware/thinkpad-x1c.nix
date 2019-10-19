@@ -24,8 +24,8 @@
   services.xserver.videoDrivers = [ "intel" ];
   services.xserver.deviceSection = ''
     Option "TearFree" "true"
-    # DRI "3" causes tearing issues
-    Option "DRI" "2"
+    # DRI "3" used to cause tearing issues. Seems okay now? Use "2" otherwise.
+    Option "DRI" "3"
     Option "Backlight" "intel_backlight"
   '';
 
