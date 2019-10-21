@@ -21,6 +21,7 @@ let hashedPassword = import ./.hashedPassword.nix; in  # Make with mkpasswd (see
 
   nix.maxJobs = lib.mkDefault 8;
   powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
+  powerManagement.powertop.enable = true; # Run powertop --auto-tune on start
 
   imports = [
     ./hardware/thinkpad-x1c.nix
