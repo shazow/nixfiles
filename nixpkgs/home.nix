@@ -62,6 +62,7 @@ in
       enableTruetype = true;
       theme = "phoebus";
     })
+    wesnoth
 
     # PDF, image mainpulation
     ghostscript
@@ -85,7 +86,7 @@ in
     #latest.rustChannels.nightly.rust
     #latest.rustChannels.nightly.rust-src  # Needed for $RUST_SRC_PATH?
     #rustracer
-    cargo-edit
+    #cargo-edit
 
     obs-studio # Screen recording, stremaing
     transmission-gtk # Torrents
