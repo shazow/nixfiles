@@ -23,10 +23,18 @@
 
   services.xserver.videoDrivers = [ "intel" ];
   services.xserver.deviceSection = ''
-    Option "TearFree" "true"
-    # DRI "3" causes rendering issues after sleep/resume with Electron/Alacritty.
-    Option "DRI" "2"
-    Option "Backlight" "intel_backlight"
+    Option "Backlight" "intel_backlight"  # Maybe unnecessary?
+
+    # DRI 3 with default AccelMethod causes rendering issues after sleep/resume
+    # with some GPU-accelerated 2D apps (like Electron/Alacritty). It does work
+    # with the older "UXA" AccelMethod. DRI 3 has Vulkan support which is a
+    # good tradeoff.
+
+    #Option "DRI" "2"
+    #Option "TearFree" "true"
+
+    Option "DRI" "3"
+    Option "AccelMethod" "UXA"  # Default is the newer "SNA", see note above.
   '';
 
   services.xserver.libinput = {
