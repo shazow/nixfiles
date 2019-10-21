@@ -24,8 +24,8 @@
   services.xserver.videoDrivers = [ "intel" ];
   services.xserver.deviceSection = ''
     Option "TearFree" "true"
-    # DRI "3" used to cause tearing issues. Seems okay now? Use "2" otherwise.
-    Option "DRI" "3"
+    # DRI "3" causes rendering issues after sleep/resume with Electron/Alacritty.
+    Option "DRI" "2"
     Option "Backlight" "intel_backlight"
   '';
 
