@@ -25,16 +25,15 @@
   services.xserver.deviceSection = ''
     Option "Backlight" "intel_backlight"  # Maybe unnecessary?
 
+    Option "DRI" "2"
+
     # DRI 3 with default AccelMethod causes rendering issues after sleep/resume
     # with some GPU-accelerated 2D apps (like Electron/Alacritty). It does work
-    # with the older "UXA" AccelMethod. DRI 3 has Vulkan support which is a
-    # good tradeoff.
-
-    #Option "DRI" "2"
+    # with the older "UXA" AccelMethod, but there's a 1-2s lag switching
+    # desktops to Chrome. Upside is DRI 3 has better Vulkan support?
+    #Option "DRI" "3"
+    #Option "AccelMethod" "UXA"  # Default is the newer "SNA", see note above.
     #Option "TearFree" "true"
-
-    Option "DRI" "3"
-    Option "AccelMethod" "UXA"  # Default is the newer "SNA", see note above.
   '';
 
   services.xserver.libinput = {
