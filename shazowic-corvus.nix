@@ -14,7 +14,7 @@ let hashedPassword = import ./.hashedPassword.nix; in  # Make with mkpasswd (see
      options cfg80211 ieee80211_regdom=US
      options snd_hda_intel power_save=1 power_save_controller=Y
   '';
-  hardware.enableAllFirmware = true;
+  #hardware.enableAllFirmware = true;  # This pulls in everything, including Mac hardware etc.
   hardware.bluetooth.enable = true;
   hardware.bluetooth.powerOnBoot = false;
   hardware.opengl.extraPackages = with pkgs; [ vaapiIntel libvdpau-va-gl vaapiVdpau intel-ocl intel-media-driver ];
