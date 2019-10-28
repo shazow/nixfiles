@@ -58,6 +58,7 @@ bindsym $mod+XF86Display exec xrandr --auto  # Reset screen
 bindsym $mod+slash exec xdotool key XF86AudioPlay
 bindsym $mod+bracketright exec xdotool key XF86AudioNext
 bindsym $mod+bracketleft exec xdotool key XF86AudioPrev
+bindsym $mod+Shift+i exec xrandr-invert-colors
 
 # Lock
 bindsym $mod+l exec $lockcmd

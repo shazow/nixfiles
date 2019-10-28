@@ -104,6 +104,7 @@ in
     powerstat
     lsof
     #tlp
+    xrandr-invert-colors
     xcwd # cwd of the current x window, tiny C program
     xorg.xdpyinfo
     xorg.xev
