@@ -75,6 +75,7 @@ let hashedPassword = import ./.hashedPassword.nix; in  # Make with mkpasswd (see
   services.dnsmasq.servers = [ "1.1.1.1" "8.8.8.8" "8.8.4.4" ];
   #networking.networkmanager.appendNameservers = [ "1.1.1.1" "8.8.8.8" "8.8.4.4" ];
   networking.hostName = "shazowic-corvus";
+  networking.networkmanager.wifi.backend = "iwd"; # "wpa_supplicant" is default
   networking.networkmanager.wifi.macAddress = "stable";  # One of "preserve", "random", "stable", "permanent", "00:11:22:33:44:55"
   networking.resolvconf.dnsExtensionMechanism = false; # Remove edns0 option in resolv.conf: Breaks some public WiFi but it is required for DNSSEC.
 
