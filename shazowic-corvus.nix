@@ -9,8 +9,6 @@ let hashedPassword = import ./.hashedPassword.nix; in  # Make with mkpasswd (see
   boot.initrd.availableKernelModules = [ "xhci_pci" "nvme" ];
   boot.blacklistedKernelModules = [ "mei_me" ];
   boot.extraModprobeConfig = ''
-     options iwlwifi power_save=1 d0i3_disable=0 uapsd_disable=0
-     options iwldvm force_cam=0
      options cfg80211 ieee80211_regdom=US
      options snd_hda_intel power_save=1 power_save_controller=Y
   '';
@@ -75,9 +73,10 @@ let hashedPassword = import ./.hashedPassword.nix; in  # Make with mkpasswd (see
   services.dnsmasq.servers = [ "1.1.1.1" "8.8.8.8" "8.8.4.4" ];
   #networking.networkmanager.appendNameservers = [ "1.1.1.1" "8.8.8.8" "8.8.4.4" ];
   networking.hostName = "shazowic-corvus";
+  networking.resolvconf.dnsExtensionMechanism = false; # Remove edns0 option in resolv.conf: Breaks some public WiFi but it is required for DNSSEC.
   networking.networkmanager.wifi.backend = "iwd"; # "wpa_supplicant" is default
   networking.networkmanager.wifi.macAddress = "stable";  # One of "preserve", "random", "stable", "permanent", "00:11:22:33:44:55"
-  networking.resolvconf.dnsExtensionMechanism = false; # Remove edns0 option in resolv.conf: Breaks some public WiFi but it is required for DNSSEC.
+  networking.networkmanager.wifi.powersave = true;
 
   virtualisation.docker = {
     enable = true;
