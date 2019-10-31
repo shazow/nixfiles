@@ -1,3 +1,5 @@
+## Setup
+
 HOST ?= example
 KEYFILE ?= cryptroot.key
 KEYSIZE ?= 4096
@@ -21,3 +23,23 @@ ${KEYFILE}:
 initrd.keys.gz: ${KEYFILE}
 	find $^ | cpio --quiet -H newc -o | gzip -9 -n > "$@"
 	chmod 400 "$@"
+
+
+## Management
+
+update: sync
+	sudo nixos-rebuild switch --upgrade
+	nix-env -u '*'
+	home-manager switch
+	flatpak update --appstream && flatpak update
+
+outdated: sync
+	sudo nixos-rebuild dry-build --upgrade
+
+sync:
+	sudo nix-channel --update
+	nix-channel --update
+
+clean:
+	sudo nix-collect-garbage --delete-older-than 7d
+	home-manager expire-generations "-7 days"
