@@ -38,6 +38,11 @@ in
   home.file.".config/i3/status.toml".source = config/i3/status.toml;
   home.file.".tmux.conf".source = config/tmux.conf;
 
+  # Run `gpg-connect-agent reloadagent /bye` after changing to reload config
+  home.file.".gnupg/gpg-agent.conf".text = ''
+    pinentry-program ${pkgs.pinentry}/bin/pinentry
+  '';
+
   # FIXME: Remove this in favour of fonts.fontconfig.dpi (not sure why that's
   # not sufficieny yet?)
   xresources.properties = {
