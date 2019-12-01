@@ -80,7 +80,10 @@ in
 
     # Progamming
     ctags
+    curlie
     python3
+    python37Packages.ipython
+    python37Packages.pynvim
     gcc
     go
     nodejs-10_x
