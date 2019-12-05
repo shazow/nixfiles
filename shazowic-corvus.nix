@@ -102,6 +102,9 @@ let hashedPassword = import ./.hashedPassword.nix; in  # Make with mkpasswd (see
     hashedPassword = hashedPassword;
   };
 
+  # Agent daemon required for pinentry
+  programs.gnupg.agent.enable = true;
+
   # Android dev
   programs.adb.enable = true;
 
