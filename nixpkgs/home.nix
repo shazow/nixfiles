@@ -60,8 +60,12 @@ in
   };
 
   home.packages = with pkgs; [
+    # Apps
+    alacritty
+    google-chrome-beta
+
     # Games
-    cataclysm-dda-git
+    #cataclysm-dda-git
     (dwarf-fortress.override {
       enableTWBT = true;
       enableTruetype = true;

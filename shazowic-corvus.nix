@@ -52,9 +52,7 @@ let hashedPassword = import ./.hashedPassword.nix; in  # Make with mkpasswd (see
     xsel
 
     # Apps
-    alacritty
     gnupg
-    google-chrome-beta
 
     # Other
     android-udev-rules
@@ -76,7 +74,7 @@ let hashedPassword = import ./.hashedPassword.nix; in  # Make with mkpasswd (see
   #networking.networkmanager.appendNameservers = [ "1.1.1.1" "8.8.8.8" "2001:4860:4860::8844" ];
   networking.hostName = "shazowic-corvus";
   networking.resolvconf.dnsExtensionMechanism = false; # Remove edns0 option in resolv.conf: Breaks some public WiFi but it is required for DNSSEC.
-  networking.networkmanager.wifi.backend = "iwd"; # "wpa_supplicant" is default
+  #networking.networkmanager.wifi.backend = "iwd"; # "wpa_supplicant" is default
   networking.networkmanager.wifi.macAddress = "permanent";  # One of "preserve", "random", "stable", "permanent", "00:11:22:33:44:55"
   networking.networkmanager.wifi.powersave = true;
 
