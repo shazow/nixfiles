@@ -45,10 +45,10 @@ in
   let
     keyFile = disk.keyFile;
   in
-  [
-    { name = "cryptroot"; device = disk.cryptroot; allowDiscards = true; keyFile = keyFile; }
-    { name = "cryptswap"; device = disk.cryptswap; allowDiscards = true; keyFile = keyFile; }
-  ];
+  {
+    cryptroot = { device = disk.cryptroot; allowDiscards = true; keyFile = keyFile; };
+    cryptswap = { device = disk.cryptswap; allowDiscards = true; keyFile = keyFile; };
+  };
 
   # Filesystems
   fileSystems."/" = {
