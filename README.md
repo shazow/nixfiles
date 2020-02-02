@@ -38,7 +38,7 @@ cryptsetup open /dev/sda2 cryptroot
 cryptsetup open /dev/sda3 cryptswap
 
 # Format the underlying partitions
-mkfs.fat -F 32 -n efi /dev/sda1
+mkfs.fat -F 32 -n EFI /dev/sda1  # Unencrypted EFI partition
 mkswap /dev/mapper/cryptswap
 mkfs.btrfs /dev/mapper/cryptroot
 mount -o defaults,noatime,compress=lzo,autodefrag /dev/mapper/cryptroot /mnt
