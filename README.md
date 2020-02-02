@@ -97,6 +97,8 @@ Some other notes for installing from another distro (doesn't apply for a normal 
 After that, off we go:
 
 ```bash
+sudo groupadd -g 30000 nixbld
+sudo useradd -u 30000 -g nixbld -G nixbld nixbld
 sudo PATH="$PATH" NIX_PATH="$NIX_PATH" `which nixos-install` --root /mnt
 ```
 
