@@ -63,8 +63,8 @@
   ];
 
   i18n = {
-    consoleFont = "${pkgs.terminus_font}/share/consolefonts/ter-u28n.psf.gz";
-    consoleKeyMap = "us";
+    font = "${pkgs.terminus_font}/share/consolefonts/ter-u28n.psf.gz";
+    keyMap = "us";
     defaultLocale = "en_US.UTF-8";
   };
 
