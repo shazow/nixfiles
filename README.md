@@ -19,25 +19,26 @@ parted /dev/sda -- set 1 boot on
 parted /dev/sda -- mkpart primary 512MiB -1GiB  # root
 parted /dev/sda -- mkpart primary linux-swap -1GiB 100%  # swap
 
-# Generate root private key file
-if [[ ! -f cryptroot.key ]]; then
-  dd if=/dev/urandom of=cryptroot.key bs=1 count=4096
-  chmod 0400 cryptroot.key
-fi
-
 # Encrypt the partitions
 # Swap partition is also encrypted, so our hibernate state is encrypted.
 cryptsetup luksFormat /dev/sda2  # Enter password
 cryptsetup luksFormat /dev/sda3  # Enter the same password
-cryptsetup luksAddKey /dev/sda2 cryptroot.key
-cryptsetup luksAddKey /dev/sda3 cryptroot.key
+
+# Generate root private key file
+# Can skip this if we don't want key-unlock support. Can be handy for things like USB-unlock.
+if [[ ! -f cryptroot.key ]]; then
+  dd if=/dev/urandom of=cryptroot.key bs=1 count=4096
+  chmod 0400 cryptroot.key
+  cryptsetup luksAddKey /dev/sda2 cryptroot.key
+  cryptsetup luksAddKey /dev/sda3 cryptroot.key
+fi
 
 # Open the encrypted partitions
-cryptsetup open -d cryptroot.key /dev/sda2 cryptroot
-cryptsetup open -d cryptroot.key /dev/sda3 cryptswap
+cryptsetup open /dev/sda2 cryptroot
+cryptsetup open /dev/sda3 cryptswap
 
 # Format the underlying partitions
-mkfs.fat -F 32 -n efi /dev/sda1
+mkfs.fat -F 32 -n EFI /dev/sda1  # Unencrypted EFI partition
 mkswap /dev/mapper/cryptswap
 mkfs.btrfs /dev/mapper/cryptroot
 mount -o defaults,noatime,compress=lzo,autodefrag /dev/mapper/cryptroot /mnt
