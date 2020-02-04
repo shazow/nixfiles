@@ -28,7 +28,8 @@ cryptsetup luksFormat --type luks1 /dev/sda2  # Enter password
 cryptsetup luksFormat --type luks1 /dev/sda3  # Enter the same password
 
 # Generate root private key file
-# Can skip this if we don't want key-unlock support. Can be handy for things like USB-unlock.
+# Key is added as an initrd so that we don't need to enter a password multiple times during boot.
+# Can skip this if we don't want key-unlock support. Can also be handy for things like USB-unlock.
 if [[ ! -f cryptroot.key ]]; then
   dd if=/dev/urandom of=cryptroot.key bs=1 count=4096
   chmod 0400 cryptroot.key
