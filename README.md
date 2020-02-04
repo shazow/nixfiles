@@ -21,8 +21,9 @@ parted /dev/sda -- mkpart primary linux-swap -1GiB 100%  # swap
 
 # Encrypt the partitions
 # Swap partition is also encrypted, so our hibernate state is encrypted.
-cryptsetup luksFormat /dev/sda2  # Enter password
-cryptsetup luksFormat /dev/sda3  # Enter the same password
+# We use luks1 (instead of luks2) because grub2 only supports luks1 for now. To convert, see: https://cryptsetup-team.pages.debian.net/cryptsetup/encrypted-boot.html
+cryptsetup luksFormat --type luks1 /dev/sda2  # Enter password
+cryptsetup luksFormat --type luks1 /dev/sda3  # Enter the same password
 
 # Generate root private key file
 # Can skip this if we don't want key-unlock support. Can be handy for things like USB-unlock.
