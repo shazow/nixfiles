@@ -37,7 +37,7 @@ in
   #};
 
   # Resume
-  boot.resumeDevice = "/dev/cryptswap";
+  boot.resumeDevice = "/dev/mapper/cryptswap";
 
   # LUKS
   boot.initrd.supportedFilesystems = [ "btrfs" ];
