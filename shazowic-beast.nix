@@ -5,9 +5,8 @@ let hashedPassword = import ./.hashedPassword.nix; in  # Make with mkpasswd (see
 {
   services.localtime.enable = true;
 
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  #boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "nvme" "usbhid" "sd_mod" ];
-  boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-intel" ];
   boot.blacklistedKernelModules = [ "mei_me" ];
   hardware.opengl.extraPackages = with pkgs; [ vaapiIntel libvdpau-va-gl vaapiVdpau ];
@@ -99,6 +98,7 @@ let hashedPassword = import ./.hashedPassword.nix; in  # Make with mkpasswd (see
   # Android dev
   programs.adb.enable = true;
 
+  console.font = lib.mkForce "${pkgs.terminus_font}/share/consolefonts/ter-u16n.psf.gz";
   boot.loader.grub.extraEntries = import ./.extraboot.nix;
 
   # This value determines the NixOS release with which your system is to be
