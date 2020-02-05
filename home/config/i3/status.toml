@@ -58,13 +58,13 @@ interval = 20
 format = "{min}~{max}°"
 chip = "coretemp-*"
 
-[[block]]
-block = "battery"
-interval = 10
-show = "both"
+#[[block]]
+#block = "battery"
+#interval = 10
+#show = "both"
 
-[[block]]
-block = "backlight"
+#[[block]]
+#block = "backlight"
 
 [[block]]
 block = "toggle"
