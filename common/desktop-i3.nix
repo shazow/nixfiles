@@ -23,6 +23,9 @@
     networkmanagerapplet
     pcmanfm
     rofi
+    xclip
+    xdotool
+    xsel
     xss-lock
   ];
 
