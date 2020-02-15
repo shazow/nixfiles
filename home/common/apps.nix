@@ -13,6 +13,7 @@
   home.packages = with pkgs; [
     # Apps
     alacritty
+    i3status-rust
     google-chrome-beta
     firefox-beta-bin
 
