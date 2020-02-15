@@ -6,6 +6,10 @@
   ];
 
   services.xserver = {
+    enable = true;
+    layout = "us";
+    libinput.enable = true;
+
     displayManager.startx.enable = true;
     displayManager.defaultSession = "none+i3"; # We startx in our home.nix
     windowManager.i3.enable = true;

@@ -1,11 +1,5 @@
 { pkgs, ... }:
 {
-  imports = [
-    # Only needed for 18.09 and older:
-    # ../backports/startx.nix
-  ];
-
-  # FIXME: Is this necessary?
   system.copySystemConfiguration = true;
 
   nixpkgs.config = {
@@ -96,10 +90,4 @@
   hardware.pulseaudio.support32Bit = true;
 
   sound.enable = true;
-
-  services.xserver = {
-    enable = true;
-    layout = "us";
-    libinput.enable = true;
-  };
 }
