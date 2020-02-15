@@ -22,7 +22,7 @@ let hashedPassword = import ./.hashedPassword.nix; in  # Make with mkpasswd (see
 
   imports = [
     ./common/boot.nix
-    ./common/desktop-i3.nix
+    ./common/desktop-wayland.nix
   ];
 
   # Hardware specific
@@ -51,9 +51,6 @@ let hashedPassword = import ./.hashedPassword.nix; in  # Make with mkpasswd (see
     maim
     openvpn
     pavucontrol
-    xclip
-    xdotool
-    xsel
 
     # Apps
     gnupg
