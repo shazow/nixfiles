@@ -31,7 +31,7 @@ let hashedPassword = import ./.hashedPassword.nix; in  # Make with mkpasswd (see
   services.xserver.videoDrivers = [ "nvidia" ];
   services.fwupd.enable = true;
   networking.interfaces.enp0s31f6.useDHCP = true;
-  networking.interfaces.wlp0s20f0u12.useDHCP = true;
+  #networking.interfaces.wlp0s20f0u12.useDHCP = true;
 
 
   networking.firewall.allowedTCPPorts = [
