@@ -22,7 +22,7 @@ let hashedPassword = import ./.hashedPassword.nix; in  # Make with mkpasswd (see
 
   imports = [
     ./common/boot.nix
-    ./common/desktop-wayland.nix
+    ./common/desktop-i3.nix
   ];
 
   # Hardware specific
