@@ -9,6 +9,9 @@ let hashedPassword = import ./.hashedPassword.nix; in  # Make with mkpasswd (see
   boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "nvme" "usbhid" "sd_mod" ];
   boot.kernelModules = [ "kvm-intel" ];
   boot.blacklistedKernelModules = [ "mei_me" ];
+  boot.extraModprobeConfig = ''
+      options hid_apple fnmode=2
+  '';
   hardware.opengl.extraPackages = with pkgs; [ vaapiIntel libvdpau-va-gl vaapiVdpau ];
 
 
@@ -37,6 +40,13 @@ let hashedPassword = import ./.hashedPassword.nix; in  # Make with mkpasswd (see
   networking.firewall.allowedTCPPorts = [
     8010  # VLC Chromecast
   ];
+
+  services.openssh = {
+    enable = true;
+    startWhenNeeded = true;  # Don't start until socket request comes in to systemd
+    passwordAuthentication = false;
+    challengeResponseAuthentication = false;
+  };
 
   environment.systemPackages = with pkgs; [
     home-manager
