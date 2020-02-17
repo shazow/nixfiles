@@ -20,9 +20,6 @@
     fi
   '';
 
-  home.file.".config/i3/config".source = ../config/i3/config;
-  home.file.".config/i3/status.toml".source = ../config/i3/status.toml;
-
   gtk = {
     enable = true;
     theme = {
@@ -87,5 +84,14 @@
         context = "ctrl+shift+period";
       };
     };
+  };
+
+  programs.rofi = {
+    enable = true;
+    font = "DejaVu Sans Mono 14";
+    theme = "Monokai";
+    extraConfig = ''
+      rofi.combi-mode: window,drun,calc
+    '';
   };
 }
