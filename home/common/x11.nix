@@ -7,17 +7,17 @@
 
   # TODO: exec xcalib -d :0 "${nixpkgs}/hardware/thinkpad-x1c-hdr.icm"
   home.file.".xinitrc".text = ''
-    # dbus-launch manages cross-process communication (required for GTK systray icons, etc).
-    exec dbus-launch --exit-with-x11 i3
+    # Delegate to xsession config
+    . ~/.xsession
   '';
 
   home.file.".bash_profile".text = ''
     if [[ -f ~/.bashrc ]] ; then
       . ~/.bashrc
     fi
-    #if [[ ! $DISPLAY && $XDG_VTNR -eq 1 ]]; then
-    #  exec ssh-agent startx --  -dpi 140
-    #fi
+    if [[ ! $DISPLAY && $XDG_VTNR -eq 1 ]]; then
+      exec ssh-agent startx --  -dpi 140
+    fi
   '';
 
   home.file.".config/i3/config".source = ../config/i3/config;
@@ -37,8 +37,10 @@
 
   xsession = {
     enable = true;
+
+    # dbus-launch manages cross-process communication (required for GTK systray icons, etc).
+    # FIXME: Is dbus-launch necessary now that it's part of xsession?
     windowManager.command = "dbus-launch --exit-with-x11 i3";
-    initExtra = "if [[ $DISPLAY || $XDG_VTNR -ne 1 ]]; then return 0; fi";
 
     pointerCursor = {
       name = "Vanilla-DMZ-AA";
