@@ -15,9 +15,9 @@
     if [[ -f ~/.bashrc ]] ; then
       . ~/.bashrc
     fi
-    if [[ ! $DISPLAY && $XDG_VTNR -eq 1 ]]; then
-      exec ssh-agent startx --  -dpi 140
-    fi
+    #if [[ ! $DISPLAY && $XDG_VTNR -eq 1 ]]; then
+    #  exec ssh-agent startx --  -dpi 140
+    #fi
   '';
 
   home.file.".config/i3/config".source = ../config/i3/config;
@@ -35,10 +35,16 @@
     };
   };
 
-  xsession.pointerCursor = {
-    name = "Vanilla-DMZ-AA";
-    package = pkgs.vanilla-dmz;
-    size = 32;
+  xsession = {
+    enable = true;
+    windowManager.command = "dbus-launch --exit-with-x11 i3";
+    initExtra = "if [[ $DISPLAY || $XDG_VTNR -ne 1 ]]; then return 0; fi";
+
+    pointerCursor = {
+      name = "Vanilla-DMZ-AA";
+      package = pkgs.vanilla-dmz;
+      size = 32;
+    };
   };
 
   # FIXME: Remove this in favour of fonts.fontconfig.dpi (not sure why that's
