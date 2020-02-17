@@ -1,6 +1,7 @@
 { pkgs, ... }:
 
 let i3statusCfg = import ./common/i3status-rust.nix;
+in
 {
   programs.home-manager.enable = true;
 
