@@ -13,9 +13,9 @@ let hashedPassword = import ./.hashedPassword.nix; in  # Make with mkpasswd (see
 
 
   # Bluetooth
-  services.blueman.enable = true;
-  hardware.bluetooth.enable = true;
-  hardware.bluetooth.powerOnBoot = false;
+  #services.blueman.enable = true;
+  #hardware.bluetooth.enable = true;
+  #hardware.bluetooth.powerOnBoot = false;
 
   nix.maxJobs = lib.mkDefault 4;
   powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
