@@ -64,4 +64,28 @@
     temperature.day = 5700;
     temperature.night = 3500;
   };
+
+  services.dunst = {
+    enable = true;
+    settings = {
+      global = {
+        geometry = "600x5-30+20";
+        separator_height = 2;
+        padding = 8;
+        horizontal_padding = 8;
+        font = "DejaVu Sans Mono 10";
+        format = "<b>%s</b>\n%b";
+        icon_position = "left";
+        max_icon_size = 48;
+
+        dmenu = "rofi -dmenu -p Dunst";
+        browser = "xdg-open";
+      };
+      shortcuts = {
+        close = "ctrl+space";
+        history = "ctrl+grave";
+        context = "ctrl+shift+period";
+      };
+    };
+  };
 }
