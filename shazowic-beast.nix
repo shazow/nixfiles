@@ -68,6 +68,11 @@ let hashedPassword = import ./.hashedPassword.nix; in  # Make with mkpasswd (see
     # Other
     android-udev-rules
     alsa-firmware
+
+    # Wireless
+    iw # wireless tooling
+    crda # wireless regulatory agent
+    wireless-regdb
   ];
 
   services.dnsmasq.enable = true;

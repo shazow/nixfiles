@@ -36,12 +36,6 @@
     tree
     unzip
     wget
-
-    # Wireless
-    bluez
-    iw # wireless tooling
-    crda # wireless regulatory agent
-    wireless-regdb
   ];
 
   environment.shellInit = ''
