@@ -57,6 +57,12 @@ let hashedPassword = import ./.hashedPassword.nix; in  # Make with mkpasswd (see
     # Other
     android-udev-rules
     alsa-firmware
+
+    # Wireless
+    bluez
+    iw # wireless tooling
+    crda # wireless regulatory agent
+    wireless-regdb
   ];
 
   services.udev = {

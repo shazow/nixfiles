@@ -1,11 +1,5 @@
 { pkgs, ... }:
 {
-  imports = [
-    # Only needed for 18.09 and older:
-    # ../backports/startx.nix
-  ];
-
-  # FIXME: Is this necessary?
   system.copySystemConfiguration = true;
 
   nixpkgs.config = {
@@ -42,12 +36,6 @@
     tree
     unzip
     wget
-
-    # Wireless
-    bluez
-    iw # wireless tooling
-    crda # wireless regulatory agent
-    wireless-regdb
   ];
 
   environment.shellInit = ''
@@ -91,15 +79,9 @@
   # Gaming (Steam)
   services.flatpak.enable = true;
   xdg.portal.enable = true;
-  #xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+  xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
   hardware.opengl.driSupport32Bit = true;
   hardware.pulseaudio.support32Bit = true;
 
   sound.enable = true;
-
-  services.xserver = {
-    enable = true;
-    layout = "us";
-    libinput.enable = true;
-  };
 }

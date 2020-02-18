@@ -9,13 +9,16 @@ let hashedPassword = import ./.hashedPassword.nix; in  # Make with mkpasswd (see
   boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "nvme" "usbhid" "sd_mod" ];
   boot.kernelModules = [ "kvm-intel" ];
   boot.blacklistedKernelModules = [ "mei_me" ];
+  boot.extraModprobeConfig = ''
+      options hid_apple fnmode=2
+  '';
   hardware.opengl.extraPackages = with pkgs; [ vaapiIntel libvdpau-va-gl vaapiVdpau ];
 
 
   # Bluetooth
-  services.blueman.enable = true;
-  hardware.bluetooth.enable = true;
-  hardware.bluetooth.powerOnBoot = false;
+  #services.blueman.enable = true;
+  #hardware.bluetooth.enable = true;
+  #hardware.bluetooth.powerOnBoot = false;
 
   nix.maxJobs = lib.mkDefault 4;
   powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
@@ -31,12 +34,19 @@ let hashedPassword = import ./.hashedPassword.nix; in  # Make with mkpasswd (see
   services.xserver.videoDrivers = [ "nvidia" ];
   services.fwupd.enable = true;
   networking.interfaces.enp0s31f6.useDHCP = true;
-  networking.interfaces.wlp0s20f0u12.useDHCP = true;
+  #networking.interfaces.wlp0s20f0u12.useDHCP = true;
 
 
   networking.firewall.allowedTCPPorts = [
     8010  # VLC Chromecast
   ];
+
+  services.openssh = {
+    enable = true;
+    startWhenNeeded = true;  # Don't start until socket request comes in to systemd
+    passwordAuthentication = false;
+    challengeResponseAuthentication = false;
+  };
 
   environment.systemPackages = with pkgs; [
     home-manager
@@ -51,9 +61,6 @@ let hashedPassword = import ./.hashedPassword.nix; in  # Make with mkpasswd (see
     maim
     openvpn
     pavucontrol
-    xclip
-    xdotool
-    xsel
 
     # Apps
     gnupg
@@ -61,6 +68,11 @@ let hashedPassword = import ./.hashedPassword.nix; in  # Make with mkpasswd (see
     # Other
     android-udev-rules
     alsa-firmware
+
+    # Wireless
+    iw # wireless tooling
+    crda # wireless regulatory agent
+    wireless-regdb
   ];
 
   services.dnsmasq.enable = true;

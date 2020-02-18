@@ -30,13 +30,13 @@ exec --no-startup-id xrdb -merge $HOME/.Xresources # Fix urxvt and friends
 exec --no-startup-id xss-lock -- screenlock # Capture lock events
 exec --no-startup-id xset dpms 300 # Turn off screen after 5min (also locks)
 exec --no-startup-id $term
+exec --no-startup-id nm-applet # Network tracy icon
+
 # Replaced with systemd service: exec --no-startup-id clipmenud # Clipboard
-exec --no-startup-id nm-applet # Network
-exec --no-startup-id dunst # Notifications
-exec --no-startup-id srandrd autorandr -c # Auto-switch for external displays
+# Replaced with services.dunst: exec --no-startup-id dunst # Notifications
 
 # Autodetect screens
-#exec --no-startup-id srandrd autorandr -c
+#exec --no-startup-id srandrd autorandr -c # Auto-switch for external displays
 #exec --no-startup-id autorandr -c
 
 # Special keys
@@ -239,7 +239,7 @@ bindsym $mod+r mode "resize"
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
-      tray_output primary
+      #tray_output primary  # This steals the systray
       font pango:DejaVu Sans Mono, FontAwesome 12
       status_command i3status-rs ~/.config/i3/status.toml
       colors {
