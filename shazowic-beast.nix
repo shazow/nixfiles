@@ -10,7 +10,7 @@ let hashedPassword = import ./.hashedPassword.nix; in  # Make with mkpasswd (see
   boot.kernelModules = [ "kvm-intel" ];
   boot.blacklistedKernelModules = [ "mei_me" ];
   boot.extraModprobeConfig = ''
-      options hid_apple fnmode=2
+      options hid_apple fnmode=2 swap_opt_cmd=1
   '';
   hardware.opengl.extraPackages = with pkgs; [ vaapiIntel libvdpau-va-gl vaapiVdpau ];
 
