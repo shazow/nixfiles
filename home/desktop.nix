@@ -5,6 +5,10 @@ in
 {
   programs.home-manager.enable = true;
 
+  home.packages = with pkgs; [
+    firefox-beta-bin
+  ];
+
   imports = [
     ./common/x11.nix
     ./common/apps.nix

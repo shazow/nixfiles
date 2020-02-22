@@ -76,6 +76,15 @@
         format = "<b>%s</b>\n%b";
         icon_position = "left";
         max_icon_size = 48;
+        indicate_hidden = "yes";
+        shrink = "no";
+        frame_color = "#aaaaaa";
+        markup = "full";
+        word_wrap = "yes";
+        ignore_newline = "no";
+        stack_duplicates = true;
+        hide_duplicate_count = false;
+        show_indicators = "yes";
 
         dmenu = "rofi -dmenu -p Dunst";
         browser = "xdg-open";

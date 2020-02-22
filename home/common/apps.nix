@@ -15,7 +15,6 @@
     alacritty
     i3status-rust
     google-chrome-beta
-    firefox-beta-bin
 
     # Games
     cataclysm-dda-git
