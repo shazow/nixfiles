@@ -76,9 +76,10 @@
   services.printing.enable = true;
   services.printing.drivers = [ pkgs.brgenml1lpr pkgs.brgenml1cupswrapper];
 
-  # Gaming (Steam)
+  # Gaming and app wrapping (Steam)
   services.flatpak.enable = true;
-  xdg.portal.enable = true;
+  services.accounts-daemon.enable = true; # Required for flatpak+xdg
+  xdg.portal.enable = true; # xdg portal is used for tunneling permissions to flatpak
   xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
   hardware.opengl.driSupport32Bit = true;
   hardware.pulseaudio.support32Bit = true;
