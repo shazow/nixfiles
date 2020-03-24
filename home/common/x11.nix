@@ -16,7 +16,7 @@
       . ~/.bashrc
     fi
     if [[ ! $DISPLAY && $XDG_VTNR -eq 1 ]]; then
-      exec ssh-agent startx --  -dpi 140
+      exec ssh-agent startx
     fi
   '';
 
@@ -44,12 +44,6 @@
       package = pkgs.vanilla-dmz;
       size = 32;
     };
-  };
-
-  # FIXME: Remove this in favour of fonts.fontconfig.dpi (not sure why that's
-  # not sufficieny yet?)
-  xresources.properties = {
-    "Xft.dpi" = 140; # = 210 / 1.5, where 210 is the native DPI.
   };
 
   services.redshift = {
