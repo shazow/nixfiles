@@ -52,6 +52,7 @@
     #rustracer
     #cargo-edit
 
+    drive # google drive cli
     obs-studio # Screen recording, stremaing
     transmission-gtk # Torrents
 

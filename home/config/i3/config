@@ -68,6 +68,7 @@ bindsym XF86Launch2 exec $lockcmd
 # Screenshot
 bindsym --release $mod+Print exec ss
 bindsym --release $mod+Shift+Print exec maim -s | xclip -selection clipboard -t "image/png"
+bindsym --release Alt+Shift+4 exec maim -s | xclip -selection clipboard -t "image/png"
 
 # Emoji
 bindsym $mod+Mod1+space exec --no-startup-id rofimoji.py
