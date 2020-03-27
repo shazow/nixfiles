@@ -8,7 +8,6 @@ in
     ./common/x11.nix
   ];
 
-  # TODO: I think this can safely be removed now?
   xresources.properties = {
     "Xft.dpi" = 140; # = 210 / 1.5, where 210 is the native DPI.
   ];
