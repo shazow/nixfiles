@@ -10,7 +10,7 @@ in
 
   xresources.properties = {
     "Xft.dpi" = 140; # = 210 / 1.5, where 210 is the native DPI.
-  ];
+  };
 
   # External monitor management
   programs.autorandr = import ./config/autorandr.nix;
