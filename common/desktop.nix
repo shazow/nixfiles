@@ -25,7 +25,6 @@
     lm_sensors
     mkpasswd
     neovim
-    p7zip
     patchelf
     pciutils
     powertop
