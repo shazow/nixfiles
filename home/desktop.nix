@@ -10,6 +10,7 @@ in
 
   home.packages = with pkgs; [
     firefox-beta-bin
+    blender
   ];
 
   imports = [
