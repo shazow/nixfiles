@@ -93,6 +93,10 @@ let hashedPassword = import ./.hashedPassword.nix; in  # Make with mkpasswd (see
     KERNEL=="hidraw*", ATTRS{idVendor}=="2b24", ATTRS{idProduct}=="0002",  MODE="0666", GROUP="plugdev", TAG+="uaccess", TAG+="udev-acl"
   '';
 
+  services.syncthing = {
+    enable = true;
+  };
+
   virtualisation.docker = {
     enable = true;
     enableOnBoot = false; # Started on-demand by docker.socket
