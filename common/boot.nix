@@ -31,7 +31,7 @@ in
   };
 
   boot.initrd.secrets = {
-    "${disk.keyFile}" = disk.keyFile;
+    "${disk.keyFile}" = builtins.toPath disk.keyFile;
   };
 
   # Resume
