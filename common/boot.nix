@@ -27,14 +27,12 @@ in
     device = "nodev"; # Use EFI as the bootloader
     efiSupport = true;
     enableCryptodisk = true;
-    extraInitrd = disk.extraInitrd; # Replaced by boot.initrd.secrets? https://github.com/NixOS/nixpkgs/issues/41608
     # efiInstallAsRemovable = true; # in case canTouchEfiVariables doesn't work for your system
   };
 
-  # Once boot.initrd.secrets is a thing again... (See above)
-  #boot.initrd.secrets = {
-  #  "${disk.keyFile}" = disk.keyFile;
-  #};
+  boot.initrd.secrets = {
+    "${disk.keyFile}" = disk.keyFile;
+  };
 
   # Resume
   boot.resumeDevice = "/dev/mapper/cryptswap";
