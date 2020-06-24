@@ -27,15 +27,11 @@ parted /dev/sda -- mkpart primary linux-swap -1GiB 100%  # swap
 cryptsetup luksFormat --type luks1 /dev/sda2  # Enter password
 cryptsetup luksFormat --type luks1 /dev/sda3  # Enter the same password
 
-# Generate root private key file
-# Key is added as an initrd so that we don't need to enter a password multiple times during boot if using grub.
-# Can skip this if we don't want key-unlock support. Can also be handy for things like USB-unlock.
-if [[ ! -f cryptroot.key ]]; then
-  dd if=/dev/urandom of=cryptroot.key bs=1 count=4096
-  chmod 0400 cryptroot.key
-  cryptsetup luksAddKey /dev/sda2 cryptroot.key
-  cryptsetup luksAddKey /dev/sda3 cryptroot.key
-fi
+# Good time to add a key file, if we want to do that:
+#   dd if=/dev/urandom of=cryptroot.key bs=1 count=4096
+#   chmod 0400 cryptroot.key
+#   cryptsetup luksAddKey /dev/sda2 cryptroot.key
+#   cryptsetup luksAddKey /dev/sda3 cryptroot.key
 
 # Open the encrypted partitions
 cryptsetup open /dev/sda2 cryptroot
@@ -96,7 +92,6 @@ export NIX_PATH=${NIX_PATH}:${NIX_PATH//nixpkgs/nixos-hardware}
 
 Some other notes for installing from another distro (doesn't apply for a normal install):
 - `${disk.efi}` should be mounted to `/mnt/boot/efi` (or whatever the root prefix is).
-- `${disk.extraInitrd}` should be an absolute path under the root prefix (otherwise when we install outside the root prefix, it messes up the path).
 
 After that, off we go:
 
@@ -120,12 +115,8 @@ cd /mnt/etc/nixos
 echo \"$(mkpasswd -m sha-512)\" > .hashedPassword.nix
 chmod 400 .hashedPassword.nix
 
-# TODO: Make initrd.keys.gz (see Makefile)
-
 cat > disk.nix << EOF
 {
-  extraInitrd = ./initrd.keys.gz;
-  keyFile = "cryptroot.key";
   cryptroot = "/dev/sda2";
   cryptswap = "/dev/sda3";
   efi = "/dev/sda1";

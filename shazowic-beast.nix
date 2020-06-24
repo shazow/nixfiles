@@ -126,7 +126,6 @@ let hashedPassword = import ./.hashedPassword.nix; in  # Make with mkpasswd (see
   programs.adb.enable = true;
 
   console.font = lib.mkForce "${pkgs.terminus_font}/share/consolefonts/ter-u16n.psf.gz";
-  boot.loader.grub.extraEntries = import ./.extraboot.nix;
 
   # This value determines the NixOS release with which your system is to be
   # compatible, in order to avoid breaking some software such as database

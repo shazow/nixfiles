@@ -14,38 +14,26 @@
 let disk = import ../disk.nix;
 in
 {
-  boot.loader.systemd-boot.enable = true;
+  boot.loader.systemd-boot = {
+    enable = true;
+    configurationLimit = 8;
+    editor = false; # Disable bypassing init
+  };
+
+  boot.loader.grub.enable = false; # Use systemd-boot instead
 
   # EFI
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.efi.efiSysMountPoint = "/boot/efi";
-
-  # Grub
-  boot.loader.grub = {
-    enable = true;
-    version = 2;
-    device = "nodev"; # Use EFI as the bootloader
-    efiSupport = true;
-    enableCryptodisk = true;
-    # efiInstallAsRemovable = true; # in case canTouchEfiVariables doesn't work for your system
-  };
-
-  boot.initrd.secrets = {
-    "${disk.keyFile}" = builtins.toPath disk.keyFile;
-  };
 
   # Resume
   boot.resumeDevice = "/dev/mapper/cryptswap";
 
   # LUKS
   boot.initrd.supportedFilesystems = [ "btrfs" ];
-  boot.initrd.luks.devices =
-  let
-    keyFile = disk.keyFile;
-  in
-  {
-    cryptroot = { device = disk.cryptroot; allowDiscards = true; keyFile = keyFile; };
-    cryptswap = { device = disk.cryptswap; allowDiscards = true; keyFile = keyFile; };
+  boot.initrd.luks.devices = {
+    cryptroot = { device = disk.cryptroot; allowDiscards = true; };
+    cryptswap = { device = disk.cryptswap; allowDiscards = true; };
   };
 
   # Filesystems
