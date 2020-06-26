@@ -30,7 +30,7 @@ in
   boot.resumeDevice = "/dev/mapper/cryptswap";
 
   # LUKS
-  boot.initrd.supportedFilesystems = [ "btrfs" ];
+  boot.initrd.supportedFilesystems = [ "btrfs" "ntfs" ];
   boot.initrd.luks.devices = {
     cryptroot = { device = disk.cryptroot; allowDiscards = true; };
     cryptswap = { device = disk.cryptswap; allowDiscards = true; };
