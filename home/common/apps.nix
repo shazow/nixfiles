@@ -10,6 +10,8 @@
     pinentry-program ${pkgs.pinentry}/bin/pinentry
   '';
 
+  programs.git.delta.enable = true;
+
   home.packages = with pkgs; [
     # Apps
     alacritty
