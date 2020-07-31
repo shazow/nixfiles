@@ -69,6 +69,7 @@ let hashedPassword = import ./.hashedPassword.nix; in  # Make with mkpasswd (see
     # Other
     android-udev-rules
     alsa-firmware
+    ledger-udev-rules
 
     # Wireless
     iw # wireless tooling
