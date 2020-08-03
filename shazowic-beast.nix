@@ -62,6 +62,7 @@ let hashedPassword = import ./.hashedPassword.nix; in  # Make with mkpasswd (see
     maim
     openvpn
     pavucontrol
+    wireguard
 
     # Apps
     gnupg
