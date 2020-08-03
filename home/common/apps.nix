@@ -14,7 +14,6 @@
 
   home.packages = with pkgs; [
     # Apps
-    alacritty
     i3status-rust
     google-chrome-beta
 
@@ -82,4 +81,12 @@
     # Needed for GTK
     gnome3.dconf
   ];
+
+  programs.alacritty = {
+    enable = true;
+    settings = {
+      colors.primary.background = "#000000";
+      env.TERM = "xterm-256color"; # ssh'ing into old servers with TERM=alacritty is sad
+    };
+  };
 }
