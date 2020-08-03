@@ -43,6 +43,7 @@
   '';
 
   fonts.fonts = with pkgs; [
+    noto-fonts
     dejavu_fonts
     terminus
     nerdfonts  # Includes font-awesome, material-icons, powerline-fonts
