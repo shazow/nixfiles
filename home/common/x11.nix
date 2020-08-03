@@ -95,6 +95,7 @@
     enable = true;
     font = "DejaVu Sans Mono 14";
     theme = "Monokai";
+    package = pkgs.rofi.override { plugins = [ pkgs.rofi-emoji ]; };
     extraConfig = ''
       rofi.combi-mode: window,drun,calc
     '';

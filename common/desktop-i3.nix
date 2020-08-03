@@ -22,7 +22,6 @@
     i3status-rust
     networkmanagerapplet
     pcmanfm
-    rofi
     xclip
     xdotool
     xsel

@@ -71,7 +71,7 @@ bindsym --release $mod+Shift+Print exec maim -s | xclip -selection clipboard -t 
 bindsym --release Alt+Shift+4 exec maim -s | xclip -selection clipboard -t "image/png"
 
 # Emoji
-bindsym $mod+Mod1+space exec --no-startup-id rofimoji.py
+bindsym $mod+Mod1+space exec --no-startup-id rofi -show emoji -modi emoji
 
 # Scratchpath
 bindsym $mod+Shift+grave move scratchpad
