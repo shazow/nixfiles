@@ -64,6 +64,8 @@ bindsym $mod+Shift+i exec xrandr-invert-colors
 bindsym $mod+l exec $lockcmd
 bindsym Print+l exec $lockcmd
 bindsym XF86Launch2 exec $lockcmd
+bindsym $mod+minus exec $lockcmd
+bindsym $mod+Shift+minus exec systemctl suspend
 
 # Screenshot
 bindsym --release $mod+Print exec ss
