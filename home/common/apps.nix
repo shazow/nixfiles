@@ -3,14 +3,22 @@
 {
   nixpkgs.config.allowUnfree = true;
 
+  programs.home-manager.enable = true;
+  programs.git.delta.enable = true;
+  programs.alacritty = {
+    enable = true;
+    settings = {
+      colors.primary.background = "#000000";
+      env.TERM = "xterm-256color"; # ssh'ing into old servers with TERM=alacritty is sad
+    };
+  };
+
   home.file.".tmux.conf".source = ../config/tmux.conf;
 
   # Run `gpg-connect-agent reloadagent /bye` after changing to reload config
   home.file.".gnupg/gpg-agent.conf".text = ''
     pinentry-program ${pkgs.pinentry}/bin/pinentry
   '';
-
-  programs.git.delta.enable = true;
 
   home.packages = with pkgs; [
     # Apps
@@ -63,6 +71,8 @@
     srandrd # Daemon for detecting hotplug display changes, calls autorandr
 
     # TODO: Move these to system config?
+    bat
+    #delta
     file
     fzf
     gotop
@@ -81,12 +91,4 @@
     # Needed for GTK
     gnome3.dconf
   ];
-
-  programs.alacritty = {
-    enable = true;
-    settings = {
-      colors.primary.background = "#000000";
-      env.TERM = "xterm-256color"; # ssh'ing into old servers with TERM=alacritty is sad
-    };
-  };
 }
