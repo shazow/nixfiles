@@ -46,6 +46,10 @@
     };
   };
 
+  # Trying on a compisitor (optional) mainly to reduce tearing and possibly fix
+  # DRI3 freezing on intel
+  services.picom.enable = true;
+
   services.redshift = {
     enable = true;
     provider = "geoclue2";

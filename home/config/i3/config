@@ -26,11 +26,13 @@ hide_edge_borders both
 new_window pixel 1
 
 # On start
+xset --no-startup-id hsetroot -solid '#000000'
 exec --no-startup-id xrdb -merge $HOME/.Xresources # Fix urxvt and friends
 exec --no-startup-id xss-lock -- screenlock # Capture lock events
 exec --no-startup-id xset dpms 300 # Turn off screen after 5min (also locks)
 exec --no-startup-id $term
-exec --no-startup-id nm-applet # Network tracy icon
+exec --no-startup-id nm-applet # Network tray icon
+
 
 # Replaced with systemd service: exec --no-startup-id clipmenud # Clipboard
 # Replaced with services.dunst: exec --no-startup-id dunst # Notifications
