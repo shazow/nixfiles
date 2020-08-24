@@ -49,6 +49,7 @@
     nerdfonts  # Includes font-awesome, material-icons, powerline-fonts
     emojione
   ];
+  # TODO: Use fonts.enableDefaultFonts = true?
 
   i18n = {
     defaultLocale = "en_US.UTF-8";
