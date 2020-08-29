@@ -37,10 +37,14 @@ let hashedPassword = import ./.hashedPassword.nix; in  # Make with mkpasswd (see
   networking.interfaces.enp0s31f6.useDHCP = true;
   #networking.interfaces.wlp0s20f0u12.useDHCP = true;
 
-
   networking.firewall.allowedTCPPorts = [
     8010  # VLC Chromecast
   ];
+
+  # Wireguard
+  networking.wireguard.enable = true;
+  networking.iproute2.enable = true; # Needed for mullvad daemon
+  services.mullvad-vpn.enable = true;
 
   services.openssh = {
     enable = true;
@@ -62,10 +66,10 @@ let hashedPassword = import ./.hashedPassword.nix; in  # Make with mkpasswd (see
     maim
     openvpn
     pavucontrol
-    wireguard
 
     # Apps
     gnupg
+    mullvad-vpn
 
     # Other
     android-udev-rules
