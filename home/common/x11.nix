@@ -50,6 +50,8 @@
   # DRI3 freezing on intel
   services.picom.enable = true;
 
+  services.network-manager-applet.enable = true;
+
   services.redshift = {
     enable = true;
     provider = "geoclue2";
