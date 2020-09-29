@@ -76,6 +76,7 @@
 
     # TODO: Move these to system config?
     bat
+    mdcat
     #delta
     file
     fzf
