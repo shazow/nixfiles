@@ -7,7 +7,6 @@ in
   programs.autorandr = import ./config/autorandr.nix;
 
   home.packages = with pkgs; [
-    firefox-beta-bin
     blender
   ];
 
