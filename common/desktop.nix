@@ -75,7 +75,7 @@
   services.avahi.enable = true;
   services.avahi.nssmdns = true;
   services.printing.enable = true;
-  services.printing.drivers = [ pkgs.brgenml1lpr pkgs.brgenml1cupswrapper];
+  services.printing.drivers = [ pkgs.brlaser ];
 
   # Gaming and app wrapping (Steam)
   services.flatpak.enable = true;
