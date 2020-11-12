@@ -24,7 +24,9 @@
     inetutils
     lm_sensors
     mkpasswd
-    neovim
+    (neovim.override {
+      vimAlias = true;
+    })
     patchelf
     pciutils
     powertop
