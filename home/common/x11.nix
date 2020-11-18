@@ -40,9 +40,9 @@
     windowManager.command = "dbus-launch --exit-with-x11 i3";
 
     pointerCursor = {
-      name = "Vanilla-DMZ-AA";
-      package = pkgs.vanilla-dmz;
-      size = 32;
+      name = "capitaine-cursors";
+      package = pkgs.capitaine-cursors;
+      #size = 32;
     };
   };
 
