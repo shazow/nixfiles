@@ -54,10 +54,10 @@
 
   services.redshift = {
     enable = true;
-    provider = "geoclue2";
-    #provider = "manual";
-    #latitude = "43.65";
-    #longitude = "-79.38";
+    #provider = "geoclue2";
+    provider = "manual";
+    latitude = "43.65";
+    longitude = "-79.38";
     temperature.day = 5700;
     temperature.night = 3500;
     brightness.day = "1.0";

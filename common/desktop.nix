@@ -56,14 +56,12 @@
   i18n = {
     defaultLocale = "en_US.UTF-8";
   };
-  console = {
-    font = "${pkgs.terminus_font}/share/consolefonts/ter-u28n.psf.gz";
-    keyMap = "us";
-  };
+  hardware.video.hidpi.enable = true; # Larger fonts in console
 
   networking.networkmanager.enable = true;
   # networking.firewall.allowedTCPPorts = [];
   # networking.firewall.allowedUDPPorts = [];
+
 
   hardware.sane.enable = true;
   hardware.pulseaudio = {
