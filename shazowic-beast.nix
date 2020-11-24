@@ -8,7 +8,10 @@ let hashedPassword = import ./.hashedPassword.nix; in  # Make with mkpasswd (see
   boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "nvme" "usbhid" "sd_mod" ];
   boot.kernelModules = [ "kvm-intel" ];
-  boot.blacklistedKernelModules = [ "mei_me" ];
+  boot.blacklistedKernelModules = [
+    "mei_me"
+    "snd_hda_intel" # No motherboard audio, this device uses a USB DAC instead
+  ];
   boot.extraModprobeConfig = ''
       options hid_apple fnmode=2 swap_opt_cmd=1
   '';
