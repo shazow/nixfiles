@@ -27,9 +27,9 @@
 
     # Games
     (cataclysm-dda-git.override {
-      version = "2020-11-15";
-      rev = "cdda-jenkins-b11165";
-      sha256 = "03wf0b3hxc3kwh2hiyl6rs32lwr3h4bbfm9bkp47x8qxaqbsgjjd"; # Get from: nix-prefetch-url --unpack "https://github.com/CleverRaven/Cataclysm-DDA/archive/${REV}.tar.gz"
+      version = "2020-11-21";
+      rev = "cdda-jenkins-b11180";
+      sha256 = "17cbyc1zx7clylnpysfqmgar3bnd7r3zlngqkwiymb54pfhkwdnp"; # Get from: nix-prefetch-url --unpack "https://github.com/CleverRaven/Cataclysm-DDA/archive/${REV}.tar.gz"
     })
     (dwarf-fortress.override {
       enableTWBT = true;

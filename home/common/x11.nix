@@ -49,7 +49,8 @@
   # Using a compositor fixes tearing on Nvidia and DRI3 freezing on Intel
   services.picom = {
     enable = true;
-    vSync = true; # Helps reduce tearing on Nvidia
+    backend = "glx";
+    #vSync = true; # Probably don't want this unless you have tearing issues
   };
 
   services.network-manager-applet.enable = true;
