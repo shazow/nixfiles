@@ -92,6 +92,9 @@
   services.printing.enable = true;
   services.printing.drivers = [ pkgs.brlaser ];
 
+  # Wireguard mesh
+  services.tailscale.enable = true;
+
   # Gaming and app wrapping (Steam)
   services.flatpak.enable = true;
   services.accounts-daemon.enable = true; # Required for flatpak+xdg
