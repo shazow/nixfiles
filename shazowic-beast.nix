@@ -26,6 +26,11 @@ let hashedPassword = import ./.hashedPassword.nix; in  # Make with mkpasswd (see
   nix.maxJobs = lib.mkDefault 4;
   powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
 
+  # Reload usb webcam (ps3 eye toy) on suspend resume, otherwise mic randomly stops working
+  powerManagement.resumeCommands = ''
+    ${pkgs.kmod}/bin/lsmod | ${pkgs.gnugrep}/bin/grep -q "^gspca_ov534" && ${pkgs.kmod}/bin/modprobe -r gspca_ov534 && ${pkgs.kmod}/bin/modprobe gspca_ov534
+  '';
+
   imports = [
     ./common/boot.nix
     ./common/desktop-i3.nix
