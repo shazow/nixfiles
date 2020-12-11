@@ -52,7 +52,7 @@ let hashedPassword = import ./.hashedPassword.nix; in  # Make with mkpasswd (see
   # Wireguard
   networking.wireguard.enable = true;
   networking.iproute2.enable = true; # Needed for mullvad daemon
-  services.mullvad-vpn.enable = true;
+  #services.mullvad-vpn.enable = true;
 
   services.openssh = {
     enable = true;
@@ -77,7 +77,6 @@ let hashedPassword = import ./.hashedPassword.nix; in  # Make with mkpasswd (see
 
     # Apps
     gnupg
-    mullvad-vpn
 
     # Other
     android-udev-rules
