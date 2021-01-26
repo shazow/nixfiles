@@ -31,7 +31,7 @@ update: sync
 	sudo nixos-rebuild switch
 	nix-env -u '*'
 	home-manager switch
-	flatpak update --appstream && flatpak update
+	flatpak update --appstream && flatpak update && flatpak uninstall --unused
 
 outdated: sync
 	sudo nixos-rebuild dry-build --upgrade
