@@ -92,7 +92,10 @@
   services.printing.enable = true;
   services.printing.drivers = [ pkgs.brlaser ];
 
-  # Wireguard mesh
+  # Wireguard
+  networking.wireguard.enable = true;
+  networking.iproute2.enable = true; # Needed for mullvad daemon
+  services.mullvad-vpn.enable = true;
   services.tailscale.enable = true;
 
   # Gaming and app wrapping (Steam)

@@ -49,11 +49,6 @@ let hashedPassword = import ./.hashedPassword.nix; in  # Make with mkpasswd (see
     8010  # VLC Chromecast
   ];
 
-  # Wireguard
-  networking.wireguard.enable = true;
-  networking.iproute2.enable = true; # Needed for mullvad daemon
-  #services.mullvad-vpn.enable = true;
-
   services.openssh = {
     enable = true;
     startWhenNeeded = true;  # Don't start until socket request comes in to systemd
