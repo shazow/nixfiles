@@ -27,6 +27,7 @@
     (neovim.override {
       vimAlias = true;
     })
+    nfs-utils
     patchelf
     pciutils
     powertop
