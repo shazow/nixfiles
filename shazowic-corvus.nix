@@ -75,9 +75,6 @@ let hashedPassword = import ./.hashedPassword.nix; in  # Make with mkpasswd (see
     #'';
   };
 
-  services.dnsmasq.enable = true;
-  services.dnsmasq.servers = [ "1.1.1.1" "8.8.8.8" "2001:4860:4860::8844" "100.100.100.100" ];
-  #networking.networkmanager.appendNameservers = [ "1.1.1.1" "8.8.8.8" "2001:4860:4860::8844" ];
   networking.hostName = "shazowic-corvus";
   networking.search = [ "shazow.gmail.com.beta.tailscale.net" ];
   networking.resolvconf.dnsExtensionMechanism = false; # Remove edns0 option in resolv.conf: Breaks some public WiFi but it is required for DNSSEC.

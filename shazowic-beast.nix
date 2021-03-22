@@ -84,9 +84,6 @@ let hashedPassword = import ./.hashedPassword.nix; in  # Make with mkpasswd (see
     wireless-regdb
   ];
 
-  services.dnsmasq.enable = true;
-  services.dnsmasq.servers = [ "1.1.1.1" "8.8.8.8" "2001:4860:4860::8844" ];
-  #networking.networkmanager.appendNameservers = [ "1.1.1.1" "8.8.8.8" "2001:4860:4860::8844" ];
   networking.hostName = "shazowic-beast";
   networking.networkmanager.wifi.backend = "iwd";
   networking.networkmanager.wifi.macAddress = "permanent";  # One of "preserve", "random", "stable", "permanent", "00:11:22:33:44:55"

@@ -59,7 +59,11 @@
   };
   hardware.video.hidpi.enable = true; # Larger fonts in console
 
+  #services.dnsmasq.enable = true;
+  #services.dnsmasq.servers = [ "1.1.1.1" "8.8.8.8" "2001:4860:4860::8844" "100.100.100.100" ];
   networking.networkmanager.enable = true;
+  networking.networkmanager.dns = "dnsmasq";
+  networking.networkmanager.appendNameservers = [ "1.1.1.1" "8.8.8.8" "2001:4860:4860::8844" ];
   # networking.firewall.allowedTCPPorts = [];
   # networking.firewall.allowedUDPPorts = [];
 
