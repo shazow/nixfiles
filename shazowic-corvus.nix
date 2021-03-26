@@ -32,6 +32,7 @@ let hashedPassword = import ./.hashedPassword.nix; in  # Make with mkpasswd (see
 
   networking.firewall.allowedTCPPorts = [
     8010  # VLC Chromecast
+    2022  # SSH Chat debugging
   ];
 
   environment.systemPackages = with pkgs; [
