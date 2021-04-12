@@ -26,11 +26,6 @@
     google-chrome-beta
 
     # Games
-    (cataclysm-dda-git.override {
-      version = "2021-01-23";
-      rev = "cdda-jenkins-b11395";
-      sha256 = "1syirxs1fnscvf0smwjb47bnzmgpp4sjb9z7g9igs0bzwhvwnmx8"; # Get from: nix-prefetch-url --unpack "https://github.com/CleverRaven/Cataclysm-DDA/archive/${REV}.tar.gz"
-    })
     (dwarf-fortress.override {
       enableTWBT = true;
       enableTruetype = true;
