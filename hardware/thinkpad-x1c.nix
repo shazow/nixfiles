@@ -34,9 +34,11 @@
 
   services.xserver.libinput = {
     enable = true;
-    disableWhileTyping = true;
-    accelSpeed = "0.25";
-    clickMethod = "clickfinger";
+    touchpad = {
+      disableWhileTyping = true;
+      accelSpeed = "0.25";
+      clickMethod = "clickfinger";
+    };
   };
 
   services.tlp.enable = true;
