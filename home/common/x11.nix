@@ -63,8 +63,8 @@
     longitude = "-79.38";
     temperature.day = 5700;
     temperature.night = 3500;
-    brightness.day = "1.0";
-    brightness.night = "0.7";
+    brightness-day = "1.0";
+    brightness-night = "0.7";
   };
 
   services.dunst = {
