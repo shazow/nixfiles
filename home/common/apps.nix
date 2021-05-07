@@ -55,8 +55,8 @@
     ctags
     curlie
     python3
-    python37Packages.ipython
-    python37Packages.pynvim
+    python3Packages.ipython
+    python3Packages.pynvim
     gcc
     go
     nodejs-10_x
