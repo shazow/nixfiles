@@ -11,17 +11,22 @@
     [[block]]
     block = "net"
     device = "wlp2s0"
-    ssid = true
-    ip = true
+    format = "{ssid} {ip}"
     interval = 30
-    speed_up = false
-    speed_down = false
+    hide_inactive = true
+
+    [[block]]
+    block = "net"
+    device = "enp0s31f6"
+    format = "{ip}"
+    interval = 30
+    hide_inactive = true
 
     [[block]]
     block = "disk_space"
     path = "/"
-    alias = "/"
     info_type = "available"
+    format = "{icon} {used}/{total}"
     unit = "GB"
     interval = 120
     warning = 20.0
@@ -30,8 +35,8 @@
     [[block]]
     block = "memory"
     display_type = "memory"
-    format_mem = "{Mup}%"
-    format_swap = "{SUp}%"
+    format_mem = "{mem_total_used_percents}"
+    format_swap = "{swap_used_percents}"
     interval = 5
     clickable = true
     warning_mem = 80
@@ -42,13 +47,13 @@
     [[block]]
     block = "cpu"
     interval = 2
-    frequency = true
+    format = "{utilization} {frequency}"
 
     [[block]]
     block = "temperature"
     collapsed = false
     interval = 20
-    format = "{min}~{max}°"
+    format = "{min}~{max}"
     chip = "coretemp-*"
   '';
 
