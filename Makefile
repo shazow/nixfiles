@@ -27,10 +27,18 @@ initrd.keys.gz: ${KEYFILE}
 
 ## Management
 
-update: sync
+update: sync update-os update-env update-homemanager update-flatpak
+
+update-os:
 	sudo nixos-rebuild switch
+
+update-env:
 	nix-env -u '*'
+
+update-homemanager:
 	home-manager switch
+
+update-flatpak:
 	flatpak update --appstream && flatpak update && flatpak uninstall --unused
 
 outdated: sync
