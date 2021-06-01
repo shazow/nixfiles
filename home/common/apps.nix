@@ -12,6 +12,7 @@
       env.TERM = "xterm-256color"; # ssh'ing into old servers with TERM=alacritty is sad
     };
   };
+  programs.neovim.withPython3 = true;
 
   home.file.".tmux.conf".source = ../config/tmux.conf;
 
@@ -59,7 +60,7 @@
     python3Packages.pynvim
     gcc
     go
-    nodejs-10_x
+    nodejs_latest
     websocat # websocket netcat
     zeal
 
