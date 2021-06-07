@@ -35,7 +35,7 @@
     [[block]]
     block = "memory"
     display_type = "memory"
-    format_mem = "{mem_total_used_percents}"
+    format_mem = "{mem_used_percents}"
     format_swap = "{swap_used_percents}"
     interval = 5
     clickable = true
@@ -61,7 +61,7 @@
     [[block]]
     block = "battery"
     interval = 10
-    show = "both"
+    hide_missing = true
 
     [[block]]
     block = "backlight"
