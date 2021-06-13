@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, config, ... }:
 
 {
   nixpkgs.config.allowUnfree = true;
@@ -12,7 +12,19 @@
       env.TERM = "xterm-256color"; # ssh'ing into old servers with TERM=alacritty is sad
     };
   };
+
+  # Neovim
+  nixpkgs.overlays = [
+    (import (builtins.fetchTarball {
+      url = https://github.com/nix-community/neovim-nightly-overlay/archive/master.tar.gz;
+    }))
+  ];
   programs.neovim.withPython3 = true;
+  xdg.configFile."nvim" = { 
+    # TODO: Switch to source once stable, rather than symlink?
+    source = config.lib.file.mkOutOfStoreSymlink ../config/nvim;
+    recursive = true;
+  };
 
   home.file.".tmux.conf".source = ../config/tmux.conf;
 
@@ -20,12 +32,6 @@
   home.file.".gnupg/gpg-agent.conf".text = ''
     pinentry-program ${pkgs.pinentry}/bin/pinentry
   '';
-
-  nixpkgs.overlays = [
-    (import (builtins.fetchTarball {
-      url = https://github.com/nix-community/neovim-nightly-overlay/archive/master.tar.gz;
-    }))
-  ];
 
   home.packages = with pkgs; [
     # System override
@@ -57,7 +63,6 @@
     curlie
     python3
     python3Packages.ipython
-    python3Packages.pynvim
     gcc
     go
     nodejs_latest

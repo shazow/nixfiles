@@ -53,6 +53,11 @@
     #vSync = true; # Probably don't want this unless you have tearing issues
   };
 
+  services.xidlehook = {
+    enable = false; # TODO: Switch from i3 config of xss-lock to this
+    not-when-fullscreen = true;
+  };
+
   services.network-manager-applet.enable = true;
 
   services.redshift = {
