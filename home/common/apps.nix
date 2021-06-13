@@ -14,11 +14,6 @@
   };
 
   # Neovim
-  nixpkgs.overlays = [
-    (import (builtins.fetchTarball {
-      url = https://github.com/nix-community/neovim-nightly-overlay/archive/master.tar.gz;
-    }))
-  ];
   programs.neovim.withPython3 = true;
   xdg.configFile."nvim" = { 
     # TODO: Switch to source once stable, rather than symlink?
@@ -34,9 +29,6 @@
   '';
 
   home.packages = with pkgs; [
-    # System override
-    neovim-nightly
-
     # Apps
     i3status-rust
     google-chrome-beta
@@ -63,6 +55,7 @@
     curlie
     python3
     python3Packages.ipython
+    python3Packages.pynvim
     gcc
     go
     nodejs_latest

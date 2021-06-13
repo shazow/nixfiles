@@ -2,13 +2,14 @@
 {
   system.copySystemConfiguration = true;
 
+  nixpkgs.overlays = [
+    (import (builtins.fetchTarball {
+      url = https://github.com/nix-community/neovim-nightly-overlay/archive/master.tar.gz;
+    }))
+  ];
+
   nixpkgs.config = {
     allowUnfree = true;
-    packageOverrides = pkgs: {
-      neovim = pkgs.neovim.override {
-        vimAlias = true;
-      };
-    };
   };
 
   # Desktop environment agnostic packages.
@@ -25,6 +26,7 @@
     lm_sensors
     mkpasswd
     (neovim.override {
+      package = pkgs.neovim-nightly;
       vimAlias = true;
     })
     nfs-utils
