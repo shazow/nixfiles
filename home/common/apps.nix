@@ -14,11 +14,19 @@
   };
 
   # Neovim
-  programs.neovim.withPython3 = true;
-  xdg.configFile."nvim" = { 
-    # TODO: Switch to source once stable, rather than symlink?
-    source = config.lib.file.mkOutOfStoreSymlink ../config/nvim;
-    recursive = true;
+  nixpkgs.overlays = [
+    (import (builtins.fetchTarball {
+      url = https://github.com/nix-community/neovim-nightly-overlay/archive/master.tar.gz;
+    }))
+  ];
+  xdg.configFile = {
+    "nvim/init.lua".source = ../config/nvim/init.lua;
+    "nvim/lua" = {
+      source = config.lib.file.mkOutOfStoreSymlink ../config/nvim/lua;
+      recursive = true;
+    };
+    # Older vim stuff that still needs to be migrated to lua
+    "nvim/plugin/legacy.vim".source = config.lib.file.mkOutOfStoreSymlink ../config/nvim/plugin/legacy.vim;
   };
 
   home.file.".tmux.conf".source = ../config/tmux.conf;
@@ -30,8 +38,9 @@
 
   home.packages = with pkgs; [
     # Apps
-    i3status-rust
     google-chrome-beta
+    i3status-rust
+    neovim-nightly
 
     # Games
     (dwarf-fortress.override {
@@ -53,12 +62,17 @@
     # Progamming
     ctags
     curlie
-    python3
-    python3Packages.ipython
-    python3Packages.pynvim
+    (python38.withPackages(ps: with ps; [
+      ipython
+      pynvim # Must be included in withPackages for neovim to get access to it.
+      jedi
+      python-language-server
+    ]))
     gcc
     go
+    gopls
     nodejs_latest
+    tree-sitter
     websocat # websocket netcat
     zeal
 
@@ -87,14 +101,12 @@
     jq
     powerstat
     lsof
-    #tlp
     hsetroot # for setting bg in picom (xsetroot doesn't work)
     xrandr-invert-colors
     xcwd # cwd of the current x window, tiny C program
     xorg.xdpyinfo
     xorg.xev
     xorg.xkill
-    pasystray
     whois
 
     # Needed for GTK

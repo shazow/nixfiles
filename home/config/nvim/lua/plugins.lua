@@ -3,7 +3,7 @@
 -- https://github.com/wbthomason/dotfiles/blob/linux/neovim/.config/nvim/lua/plugins.lua
 -- https://github.com/noib3/dotfiles/tree/master/defaults/neovim
 
-return require('packer').startup(function()
+return require('packer').startup({function()
   -- Packer can manage itself
   use 'wbthomason/packer.nvim'
 
@@ -28,6 +28,7 @@ return require('packer').startup(function()
     --config = [[require('config.telescope')]],
     cmd = 'Telescope'
   }
+  use 'nvim-telescope/telescope-fzf-native.nvim'
 
   -- Undo
   use {
@@ -41,7 +42,11 @@ return require('packer').startup(function()
   use 'Pocco81/TrueZen.nvim'
 
   -- Colorize hex colours
-  use 'norcalli/nvim-colorizer.lua'
+  use {
+    'norcalli/nvim-colorizer.lua',
+    ft = {'css', 'javascript', 'vim', 'html'},
+    config = [[require('colorizer').setup{'css', 'javascript', 'vim', 'html'}]]
+  }
 
   -- Neomake
   use { 'neomake/neomake',
@@ -51,12 +56,45 @@ return require('packer').startup(function()
   -- GPG: Inline editing of gpg-encrypted files
   use 'jamessan/vim-gnupg'
 
+  -- Git
+  use {
+    'lewis6991/gitsigns.nvim',
+    requires = {
+      'nvim-lua/plenary.nvim'
+    },
+    config = function()
+      require('gitsigns').setup()
+    end
+  }
+
+  use 'tpope/vim-sleuth' -- Auto-detect buffer settings
+
+  use 'tomtom/tcomment_vim' -- Commenting
+
+
   -- which-key: Displays a popup with possible keybindings
-  use 'folke/which-key.nvim'
+  --use 'folke/which-key.nvim'
+
+  -- Status line
+  use 'itchyny/lightline.vim'
+
+  --[[ Status line candidate:
+  use {
+    'hoob3rt/lualine.nvim',
+    requires = {'kyazdani42/nvim-web-devicons', opt = true}
+    config = function()
+      require('lualine').setup(
+      options = { theme  = custom_gruvbox },
+      )
+    end
+  }
+  ]]--
 
   ---- Languages:
-  -- Go
-  use { 'fatih/vim-go', run = 'GoInstallBinaries', ft = {'go'} }
+  use { 'fatih/vim-go', run = 'GoInstallBinaries', ft = {'go'} } -- Go
+  use { 'LnL7/vim-nix', ft = {'nix'} } -- Nix
+  use { 'posva/vim-vue', ft = { 'vue' } } -- Vue
+  use { 'rust-lang/rust.vim', ft = { 'rust' } } -- Rust
 
   ---- Colorschemes:
   use { 'sainnhe/sonokai', config = [[
@@ -66,4 +104,9 @@ return require('packer').startup(function()
   use { 'glepnir/zephyr-nvim' }
   use { 'ishan9299/modus-theme-vim' }
 
-end)
+  vim.cmd [[colorscheme sonokai]]
+end,
+config = {
+  -- Put the generated packer file a bit out of the way
+  compile_path = require('packer.util').join_paths(vim.fn.stdpath('config'), 'packer', 'packer_compiled.vim')
+}})

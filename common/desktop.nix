@@ -2,12 +2,6 @@
 {
   system.copySystemConfiguration = true;
 
-  nixpkgs.overlays = [
-    (import (builtins.fetchTarball {
-      url = https://github.com/nix-community/neovim-nightly-overlay/archive/master.tar.gz;
-    }))
-  ];
-
   nixpkgs.config = {
     allowUnfree = true;
   };
@@ -26,7 +20,6 @@
     lm_sensors
     mkpasswd
     (neovim.override {
-      package = pkgs.neovim-nightly;
       vimAlias = true;
     })
     nfs-utils
