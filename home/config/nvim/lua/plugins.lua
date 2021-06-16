@@ -1,7 +1,8 @@
-
 ---- References:
 -- https://github.com/wbthomason/dotfiles/blob/linux/neovim/.config/nvim/lua/plugins.lua
 -- https://github.com/noib3/dotfiles/tree/master/defaults/neovim
+
+vim.cmd([[ autocmd BufWritePost plugins.lua PackerCompile ]])
 
 return require('packer').startup({function()
   -- Packer can manage itself
@@ -47,13 +48,19 @@ return require('packer').startup({function()
 
   -- Zen mode
   -- TODO: Enable limelight integration
-  use 'Pocco81/TrueZen.nvim'
+  use { 'Pocco81/TrueZen.nvim',
+    config = function()
+      require('true-zen').setup()
+    end
+  }
 
   -- Colorize hex colours
   use {
     'norcalli/nvim-colorizer.lua',
     ft = {'css', 'javascript', 'vim', 'html'},
-    config = [[require('colorizer').setup{'css', 'javascript', 'vim', 'html'}]]
+    config = function()
+      require('colorizer').setup{'css', 'javascript', 'vim', 'html'}
+    end
   }
 
   -- Neomake
@@ -96,6 +103,37 @@ return require('packer').startup({function()
       )
     end
   }
+  ]]--
+
+  -- Snippets
+  use { 'hrsh7th/nvim-compe' } -- Completion
+  use { 'hrsh7th/vim-vsnip',
+    config = function()
+      vim.api.nvim_set_keymap("i", "<C-j>", "<Plug>(vsnip-expand)", {expr = true})
+      vim.api.nvim_set_keymap("s", "<C-j>", "<Plug>(vsnip-expand)", {expr = true})
+    end
+  }
+  use { 'hrsh7th/vim-vsnip-integ', requires = { 'hrsh7th/vim-vsnip' } }
+  use { 'honza/vim-snippets' } -- Snippet collection
+  --use { 'rafamadriz/friendly-snippets' } -- Snippets collection
+
+  --[[ Alternative: Snippets
+  use { 'norcalli/snippets.nvim',
+    config = function()
+      require('snippets').use_suggested_mappings()
+      require('snippets').snippets = {
+         date = "${=os.date('%Y-%m-%d')}",
+         datetime = "${=os.date('%Y-%m-%d %r')}",
+      }
+    end
+  }
+  use { 'nvim-telescope/telescope-snippets.nvim',
+    requires = {'norcalli/snippets.nvim', 'nvim-telescope/telescope.nvim'},
+    config = function()
+      require('telescope').load_extension('snippets')
+    end
+  }
+  use { 'honza/vim-snippets' } -- Snippet collection
   ]]--
 
   ---- Languages:

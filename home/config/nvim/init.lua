@@ -2,6 +2,7 @@ require('settings')
 
 -- TODO: Port more configs, e.g:
 -- https://github.com/wbthomason/dotfiles/blob/linux/neovim/.config/nvim/init.lua
+-- https://oroques.dev/notes/neovim-init/
 
 -- Install Packer automatically:
 local execute = vim.api.nvim_command
@@ -14,5 +15,3 @@ if fn.empty(fn.glob(install_path)) > 0 then
 end
 
 require('plugins')
-
---autocmd BufWritePost plugins.lua PackerCompile

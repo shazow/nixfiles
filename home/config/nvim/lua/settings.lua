@@ -15,9 +15,10 @@ vim.opt.lazyredraw = true
 vim.opt.splitbelow = true
 vim.opt.splitright = true
 
-vim.go.autochdir = true -- Keep vim's directory context same as the current buffer
-vim.go.listchars = 'tab:> ,trail:.,extends:$,nbsp:_'
-vim.go.fillchars = 'fold:-'
+-- Global settings
+vim.opt.autochdir = true -- Keep vim's directory context same as the current buffer
+vim.opt.listchars = 'tab:> ,trail:.,extends:$,nbsp:_'
+vim.opt.fillchars = 'fold:-'
 
 -- Search
 vim.opt.hlsearch = true
@@ -25,15 +26,19 @@ vim.opt.incsearch = true
 vim.opt.ignorecase = true
 vim.opt.wildmode = 'list:longest' -- Autocomplete
 
-vim.bo.autoindent = true
-vim.bo.expandtab = true
-vim.bo.shiftwidth = 2
-vim.bo.softtabstop = 2
-vim.bo.tabstop = 2
-vim.bo.undofile = true
+-- Buffer settings
+vim.opt.autoindent = true
+vim.opt.expandtab = true
+vim.opt.shiftwidth = 2
+vim.opt.softtabstop = 2
+vim.opt.tabstop = 2
+vim.opt.undofile = true
 
-vim.wo.number = true
-vim.wo.colorcolumn = '80'
+vim.opt.number = true
+vim.opt.colorcolumn = '80'
+
+-- Required by nvim-compe
+vim.o.completeopt = "menuone,noselect"
 
 -- Bindings 
 vim.g.mapleader = [[\]]
@@ -41,4 +46,42 @@ vim.g.maplocalleader = [[\]]
 
 -- TODO: ...
 
-vim.cmd [[colorscheme sonokai]]
+local t = function(str)
+  return vim.api.nvim_replace_termcodes(str, true, true, true)
+end
+
+local check_back_space = function()
+    local col = vim.fn.col('.') - 1
+    if col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') then
+        return true
+    else
+        return false
+    end
+end
+
+_G.tab_complete = function()
+  if vim.fn.pumvisible() == 1 then
+    return t "<C-n>"
+  elseif vim.fn.call("vsnip#available", {1}) == 1 then
+    return t "<Plug>(vsnip-expand-or-jump)"
+  elseif check_back_space() then
+    return t "<Tab>"
+  else
+    return vim.fn['compe#complete']()
+  end
+end
+_G.s_tab_complete = function()
+  if vim.fn.pumvisible() == 1 then
+    return t "<C-p>"
+  elseif vim.fn.call("vsnip#jumpable", {-1}) == 1 then
+    return t "<Plug>(vsnip-jump-prev)"
+  else
+    -- If <S-Tab> is not working in your terminal, change it to <C-h>
+    return t "<S-Tab>"
+  end
+end
+
+vim.api.nvim_set_keymap("i", "<Tab>", "v:lua.tab_complete()", {expr = true})
+vim.api.nvim_set_keymap("s", "<Tab>", "v:lua.tab_complete()", {expr = true})
+vim.api.nvim_set_keymap("i", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
+vim.api.nvim_set_keymap("s", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
