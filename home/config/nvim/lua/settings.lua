@@ -36,8 +36,8 @@ vim.wo.number = true
 vim.wo.colorcolumn = '80'
 
 -- Bindings 
-g.mapleader = [[\]]
-g.maplocalleader = [[\]]
+vim.g.mapleader = [[\]]
+vim.g.maplocalleader = [[\]]
 
 -- TODO: ...
 
