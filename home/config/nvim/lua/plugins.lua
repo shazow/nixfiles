@@ -13,7 +13,12 @@ return require('packer').startup({function()
     requires = {
       'nvim-treesitter/nvim-treesitter-refactor', 'nvim-treesitter/nvim-treesitter-textobjects'
     },
-    --config = [[require('config.treesitter')]],
+    config = require('nvim-treesitter.configs').setup {
+      ensure_installed = 'maintained',
+      highlight = {enable = true, disable = {}},
+      indent = {enable = true},
+      refactor = {highlight_definitions = {enable = true}},
+    },
     run = ':TSUpdate'
   }
 
@@ -91,10 +96,10 @@ return require('packer').startup({function()
   ]]--
 
   ---- Languages:
-  use { 'fatih/vim-go', run = 'GoInstallBinaries', ft = {'go'} } -- Go
-  use { 'LnL7/vim-nix', ft = {'nix'} } -- Nix
-  use { 'posva/vim-vue', ft = { 'vue' } } -- Vue
-  use { 'rust-lang/rust.vim', ft = { 'rust' } } -- Rust
+  use { 'fatih/vim-go', run = 'GoInstallBinaries' } -- Go
+  use { 'LnL7/vim-nix' } -- Nix
+  use { 'posva/vim-vue' } -- Vue
+  use { 'rust-lang/rust.vim' } -- Rust
 
   ---- Colorschemes:
   use { 'sainnhe/sonokai', config = [[
@@ -103,8 +108,6 @@ return require('packer').startup({function()
   ]] }
   use { 'glepnir/zephyr-nvim' }
   use { 'ishan9299/modus-theme-vim' }
-
-  vim.cmd [[colorscheme sonokai]]
 end,
 config = {
   -- Put the generated packer file a bit out of the way

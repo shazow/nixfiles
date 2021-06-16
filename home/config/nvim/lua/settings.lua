@@ -36,4 +36,9 @@ vim.wo.number = true
 vim.wo.colorcolumn = '80'
 
 -- Bindings 
+g.mapleader = [[\]]
+g.maplocalleader = [[\]]
+
 -- TODO: ...
+
+vim.cmd [[colorscheme sonokai]]
