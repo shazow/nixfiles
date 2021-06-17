@@ -1,10 +1,22 @@
 ---- References:
 -- https://github.com/wbthomason/dotfiles/blob/linux/neovim/.config/nvim/lua/plugins.lua
 -- https://github.com/noib3/dotfiles/tree/master/defaults/neovim
+-- https://github.com/wbthomason/packer.nvim/issues/237
 
-vim.cmd([[ autocmd BufWritePost plugins.lua PackerCompile ]])
 
-return require('packer').startup({function()
+local packer = require('packer')
+local util = require('packer.util')
+
+-- Compile on save
+vim.cmd [[autocmd BufWritePost plugins.lua PackerCompile]]
+
+packer.init { 
+  -- Put the generated packer file a bit out of the way
+  -- FIXME: This fails to load, need to update the load path too
+  --compile_path = util.join_paths(vim.fn.stdpath('config'), 'packer', 'packer_compiled.vim')
+}
+
+packer.startup(function(use)
   -- Packer can manage itself
   use 'wbthomason/packer.nvim'
 
@@ -86,6 +98,9 @@ return require('packer').startup({function()
 
   use 'tomtom/tcomment_vim' -- Commenting
 
+  -- Completion:
+  -- use 'nvim-lua/completion-nvim'
+
 
   -- which-key: Displays a popup with possible keybindings
   --use 'folke/which-key.nvim'
@@ -143,14 +158,12 @@ return require('packer').startup({function()
   use { 'rust-lang/rust.vim' } -- Rust
 
   ---- Colorschemes:
-  use { 'sainnhe/sonokai', config = [[
+  use { 'sainnhe/sonokai', config = function()
     vim.g.sonokai_transparent_background = 1
     vim.g.sonokai_style = 'andromeda'
-  ]] }
+    vim.cmd [[colorscheme sonokai]]
+    vim.cmd [[hi Statement ctermfg=none guifg=none]]
+  end }
   use { 'glepnir/zephyr-nvim' }
   use { 'ishan9299/modus-theme-vim' }
-end,
-config = {
-  -- Put the generated packer file a bit out of the way
-  compile_path = require('packer.util').join_paths(vim.fn.stdpath('config'), 'packer', 'packer_compiled.vim')
-}})
+end)
