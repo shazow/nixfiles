@@ -1,7 +1,10 @@
+-- Plugins and related configs
+
 ---- References:
 -- https://github.com/wbthomason/dotfiles/blob/linux/neovim/.config/nvim/lua/plugins.lua
 -- https://github.com/noib3/dotfiles/tree/master/defaults/neovim
 -- https://github.com/wbthomason/packer.nvim/issues/237
+-- https://github.com/nanotee/nvim-lua-guide
 
 
 local packer = require('packer')

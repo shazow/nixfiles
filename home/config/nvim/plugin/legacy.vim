@@ -4,9 +4,6 @@
 nnoremap <leader>\ :noh<return> " Turn off highlighting
 nnoremap <silent><leader>w :call search('\u', 'W')<CR> " Jump TitleCase words
 
-vmap > >gv " Retain visual select when indenting
-vmap < <gv " Retain visual select when indenting
-
 nnoremap <expr> gp '`[' . strpart(getregtype(), 0, 1) . '`]' " Reselect paste.
 
 command! W write " Write on :W, too.

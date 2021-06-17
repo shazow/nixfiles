@@ -44,10 +44,11 @@ vim.o.completeopt = "menuone,noselect"
 vim.g.mapleader = [[\]]
 vim.g.maplocalleader = [[\]]
 
--- TODO: ...
+-- TODO: ... the rest of plugin/legacy.vim
 
-local t = function(str)
-  return vim.api.nvim_replace_termcodes(str, true, true, true)
+local map = vim.api.nvim_set_keymap;
+local function t(str) -- Convert termcodes for mapping
+    return vim.api.nvim_replace_termcodes(str, true, true, true)
 end
 
 local check_back_space = function()
@@ -85,3 +86,6 @@ vim.api.nvim_set_keymap("i", "<Tab>", "v:lua.tab_complete()", {expr = true})
 vim.api.nvim_set_keymap("s", "<Tab>", "v:lua.tab_complete()", {expr = true})
 vim.api.nvim_set_keymap("i", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
 vim.api.nvim_set_keymap("s", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
+
+map('v', '>', '>gv', {}) -- Retain visual select when indenting
+map('v', '<', '<gv', {}) -- Retain visual select when indenting
