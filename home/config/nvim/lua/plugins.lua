@@ -6,7 +6,6 @@
 -- https://github.com/wbthomason/packer.nvim/issues/237
 -- https://github.com/nanotee/nvim-lua-guide
 
-
 local packer = require('packer')
 local util = require('packer.util')
 
@@ -27,18 +26,44 @@ packer.startup(function(use)
   use {
     'nvim-treesitter/nvim-treesitter',
     requires = {
-      'nvim-treesitter/nvim-treesitter-refactor', 'nvim-treesitter/nvim-treesitter-textobjects'
+      'nvim-treesitter/nvim-treesitter-refactor',
+      'RRethy/nvim-treesitter-textsubjects' -- Replacement for 'nvim-treesitter/nvim-treesitter-textobjects'
     },
     config = require('nvim-treesitter.configs').setup {
       ensure_installed = 'maintained',
       highlight = {enable = true, disable = {}},
       indent = {enable = true},
       refactor = {highlight_definitions = {enable = true}},
+      textsubjects = {
+        enable = true,
+        keymaps = {
+          ['.'] = 'textsubjects-smart',
+        }
+      },
     },
     run = ':TSUpdate'
   }
 
-  use 'neovim/nvim-lspconfig'
+  use { 'neovim/nvim-lspconfig', -- Integrate with LSP
+    config = function()
+      require('config/nvim-lspconfig')
+    end
+  }
+
+  --[[ Doesn't seem particularly reliable on NixOS
+  use { 'kabouzeid/nvim-lspinstall',
+    config = function()
+      require('lspinstall').setup()
+
+      local servers = require('lspinstall').installed_servers()
+      for _, server in pairs(servers) do
+        require('lspconfig')[server].setup{}
+      end
+    end
+  }
+  --]]--
+
+  -- use RishabhRD/nvim-lsputils -- Improved LSP ux?
 
   -- Search
   use {
@@ -101,9 +126,6 @@ packer.startup(function(use)
 
   use 'tomtom/tcomment_vim' -- Commenting
 
-  -- Completion:
-  -- use 'nvim-lua/completion-nvim'
-
 
   -- which-key: Displays a popup with possible keybindings
   --use 'folke/which-key.nvim'
@@ -123,8 +145,11 @@ packer.startup(function(use)
   }
   ]]--
 
-  -- Snippets
-  use { 'hrsh7th/nvim-compe' } -- Completion
+  use { 'hrsh7th/nvim-compe', -- Completion
+    config = function()
+      require('config/nvim-compe')
+    end
+  }
   use { 'hrsh7th/vim-vsnip',
     config = function()
       vim.api.nvim_set_keymap("i", "<C-j>", "<Plug>(vsnip-expand)", {expr = true})
@@ -132,6 +157,7 @@ packer.startup(function(use)
     end
   }
   use { 'hrsh7th/vim-vsnip-integ', requires = { 'hrsh7th/vim-vsnip' } }
+  -- FIXME: These aren't working?
   use { 'honza/vim-snippets' } -- Snippet collection
   --use { 'rafamadriz/friendly-snippets' } -- Snippets collection
 
@@ -154,6 +180,24 @@ packer.startup(function(use)
   use { 'honza/vim-snippets' } -- Snippet collection
   ]]--
 
+  use { 'kyazdani42/nvim-web-devicons', -- Nerdfonts icon override
+    config = function()
+      require('nvim-web-devicons').setup { default = true; }
+    end
+  }
+  --[[
+  use { 'romgrk/barbar.nvim', -- Tabline
+    requires = { 'kyazdani42/nvim-web-devicons' },
+  }
+  ]]--
+
+  use { 'TimUntersberger/neogit', -- Git
+    requires = {
+      'nvim-lua/plenary.nvim',
+      'sindrets/diffview.nvim',
+    }
+  }
+
   ---- Languages:
   use { 'fatih/vim-go', run = 'GoInstallBinaries' } -- Go
   use { 'LnL7/vim-nix' } -- Nix
@@ -165,8 +209,9 @@ packer.startup(function(use)
     vim.g.sonokai_transparent_background = 1
     vim.g.sonokai_style = 'andromeda'
     vim.cmd [[colorscheme sonokai]]
-    vim.cmd [[hi Statement ctermfg=none guifg=none]]
+    --vim.cmd [[hi Statement ctermfg=none guifg=none]]
   end }
   use { 'glepnir/zephyr-nvim' }
   use { 'ishan9299/modus-theme-vim' }
+  --use { 'aicataldo/material.vim' }
 end)

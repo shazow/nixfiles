@@ -38,7 +38,8 @@
 
   home.packages = with pkgs; [
     # Apps
-    google-chrome-beta
+    #google-chrome-beta
+    google-chrome
     i3status-rust
     neovim-nightly
 
@@ -64,13 +65,16 @@
     curlie
     (python38.withPackages(ps: with ps; [
       ipython
+      pipx
       pynvim # Must be included in withPackages for neovim to get access to it.
-      jedi
       python-language-server
+      jedi
     ]))
     gcc
     go
     gopls
+    sumneko-lua-language-server # Lua lsp
+    rnix-lsp # Nix lsp
     nodejs_latest
     tree-sitter
     websocat # websocket netcat
