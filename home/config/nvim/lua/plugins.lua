@@ -49,6 +49,11 @@ packer.startup(function(use)
       require('config/nvim-lspconfig')
     end
   }
+  use { 'glepnir/lspsaga.nvim',
+    config = function()
+      require('lspsaga').init_lsp_saga()
+    end
+  }
 
   --[[ Doesn't seem particularly reliable on NixOS
   use { 'kabouzeid/nvim-lspinstall',
