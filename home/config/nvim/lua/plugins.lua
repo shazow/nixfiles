@@ -79,7 +79,7 @@ packer.startup(function(use)
       map('n', '<c-a>', [[<cmd>Telescope buffers show_all_buffers=true sort_lastused=true<cr>]], {silent = true})
       map('n', '<c-p>', [[<cmd>Telescope git_files<cr>]], {silent = true})
       map('n', '<c-d>', [[<cmd>Telescope find_files<cr>]], {silent = true})
-      map('n', '<c-g>', [[<cmd>Telescope live_grep<cr>]], {silent = true})
+      map('n', '<c-s>', [[<cmd>Telescope live_grep<cr>]], {silent = true})
     end,
   }
   use 'nvim-telescope/telescope-fzf-native.nvim'
