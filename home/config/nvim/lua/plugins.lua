@@ -7,15 +7,14 @@
 -- https://github.com/nanotee/nvim-lua-guide
 
 local packer = require('packer')
-local util = require('packer.util')
 
 -- Compile on save
 vim.cmd [[autocmd BufWritePost plugins.lua PackerCompile]]
 
-packer.init { 
+packer.init {
   -- Put the generated packer file a bit out of the way
   -- FIXME: This fails to load, need to update the load path too
-  --compile_path = util.join_paths(vim.fn.stdpath('config'), 'packer', 'packer_compiled.vim')
+  --compile_path = require('packer.util').join_paths(vim.fn.stdpath('config'), 'packer', 'packer_compiled.vim')
 }
 
 packer.startup(function(use)
@@ -49,9 +48,16 @@ packer.startup(function(use)
       require('config/nvim-lspconfig')
     end
   }
-  use { 'glepnir/lspsaga.nvim',
+  use { 'glepnir/lspsaga.nvim', -- LSP UI annotations
     config = function()
       require('lspsaga').init_lsp_saga()
+    end
+    -- TODO: Add bindings
+  }
+  use { "folke/trouble.nvim", -- LSP code diagnostics
+    config = function()
+      require("trouble").setup {
+      }
     end
   }
 
@@ -131,24 +137,23 @@ packer.startup(function(use)
 
   use 'tomtom/tcomment_vim' -- Commenting
 
+  use 'famiu/nvim-reload' -- :Reload config
 
   -- which-key: Displays a popup with possible keybindings
   --use 'folke/which-key.nvim'
 
   -- Status line
-  use 'itchyny/lightline.vim'
-
-  --[[ Status line candidate:
+  --use 'itchyny/lightline.vim'
   use {
     'hoob3rt/lualine.nvim',
-    requires = {'kyazdani42/nvim-web-devicons', opt = true}
     config = function()
-      require('lualine').setup(
-      options = { theme  = custom_gruvbox },
-      )
+      require('lualine').setup {
+        options = {
+          theme = 'tokyonight'
+        }
+      }
     end
   }
-  ]]--
 
   use { 'hrsh7th/nvim-compe', -- Completion
     config = function()
@@ -197,11 +202,15 @@ packer.startup(function(use)
   ]]--
 
   use { 'TimUntersberger/neogit', -- Git
+    opt = true,
+    cmd = { 'Neogit' },
     requires = {
       'nvim-lua/plenary.nvim',
       'sindrets/diffview.nvim',
     }
   }
+
+  use { 'dstein64/vim-startuptime' } -- startuptime visualizer
 
   ---- Languages:
   use { 'fatih/vim-go', run = 'GoInstallBinaries' } -- Go
@@ -211,12 +220,15 @@ packer.startup(function(use)
 
   ---- Colorschemes:
   use { 'sainnhe/sonokai', config = function()
-    vim.g.sonokai_transparent_background = 1
     vim.g.sonokai_style = 'andromeda'
-    vim.cmd [[colorscheme sonokai]]
+    --vim.g.sonokai_transparent_background = 1
     --vim.cmd [[hi Statement ctermfg=none guifg=none]]
   end }
   use { 'glepnir/zephyr-nvim' }
   use { 'ishan9299/modus-theme-vim' }
-  --use { 'aicataldo/material.vim' }
+  use { 'folke/tokyonight.nvim', config = function ()
+    vim.g.tokyonight_style = "night"
+    vim.cmd [[colorscheme tokyonight]]
+  end }
+
 end)

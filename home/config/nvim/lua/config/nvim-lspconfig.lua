@@ -48,4 +48,14 @@ for _, lsp in ipairs(servers) do
   nvim_lsp[lsp].setup { on_attach = on_attach }
 end
 
-nvim_lsp.sumneko_lua.setup { cmd = {"lua-language-server"}, on_attach = on_attach }
+nvim_lsp.sumneko_lua.setup {
+  cmd = {"lua-language-server"},
+  settings = {
+    Lua = {
+      diagnostics = {
+        globals = {'vim'} -- Ignore missing vim global which is injected
+      },
+    },
+  },
+  on_attach = on_attach,
+}
