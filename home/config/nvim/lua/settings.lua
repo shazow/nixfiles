@@ -40,9 +40,14 @@ vim.opt.colorcolumn = '80'
 -- Required by nvim-compe
 vim.o.completeopt = "menuone,noselect"
 
--- Bindings 
+-- Bindings
 vim.g.mapleader = [[\]]
 vim.g.maplocalleader = [[\]]
+
+-- Highlight yank
+vim.api.nvim_command([[
+  au TextYankPost * lua vim.highlight.on_yank {higroup="IncSearch", timeout=150, on_visual=true}
+]])
 
 -- TODO: ... the rest of plugin/legacy.vim
 

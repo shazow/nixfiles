@@ -7,6 +7,7 @@
 -- https://github.com/nanotee/nvim-lua-guide
 
 local packer = require('packer')
+local map = vim.api.nvim_set_keymap;
 
 -- Compile on save
 vim.cmd [[autocmd BufWritePost plugins.lua PackerCompile]]
@@ -51,9 +52,14 @@ packer.startup(function(use)
   use { 'glepnir/lspsaga.nvim', -- LSP UI annotations
     config = function()
       require('lspsaga').init_lsp_saga()
+
+      map('n', '<leader>ca', [[<cmd>lua require('lspsaga.codeaction').code_action()<CR>]], {silent = true})
+      map('n', 'gs', [[<cmd>lua require('lspsaga.signaturehelp').signature_help()<CR>]], {silent = true})
+      map('n', 'gre', [[<cmd>lua require('lspsaga.rename').rename()<CR>]], {silent = true})
+      map('n', 'gd', [[<cmd>lua require('lspsaga.provider').preview_definition()<CR>]], {silent = true})
     end
-    -- TODO: Add bindings
   }
+
   use { "folke/trouble.nvim", -- LSP code diagnostics
     config = function()
       require("trouble").setup {
@@ -81,11 +87,11 @@ packer.startup(function(use)
     'nvim-telescope/telescope.nvim',
     requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}},
     config = function()
-      local map = vim.api.nvim_set_keymap;
       map('n', '<c-a>', [[<cmd>Telescope buffers show_all_buffers=true sort_lastused=true<cr>]], {silent = true})
       map('n', '<c-p>', [[<cmd>Telescope git_files<cr>]], {silent = true})
       map('n', '<c-d>', [[<cmd>Telescope find_files<cr>]], {silent = true})
       map('n', '<c-s>', [[<cmd>Telescope live_grep<cr>]], {silent = true})
+      map('n', '<c-s>', [[<cmd>lua require('telescope.builtin').live_grep({ cwd = vim.fn.systemlist("git rev-parse --show-toplevel")[1]})<cr>]], {silent = true})
     end,
   }
   use 'nvim-telescope/telescope-fzf-native.nvim'
@@ -201,7 +207,8 @@ packer.startup(function(use)
   }
   ]]--
 
-  use { 'TimUntersberger/neogit', -- Git
+  --[[
+  use { 'TimUntersberger/neogit', -- Git UI
     opt = true,
     cmd = { 'Neogit' },
     requires = {
@@ -209,6 +216,7 @@ packer.startup(function(use)
       'sindrets/diffview.nvim',
     }
   }
+  ]]--
 
   use { 'dstein64/vim-startuptime' } -- startuptime visualizer
 
