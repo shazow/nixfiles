@@ -105,10 +105,19 @@ packer.startup(function(use)
   }
 
   -- Zen mode
-  -- TODO: Enable limelight integration
   use { 'Pocco81/TrueZen.nvim',
+    requires = { 'junegunn/limelight.vim' },
     config = function()
-      require('true-zen').setup()
+      require('true-zen').setup({
+        integrations = {
+          limelight = true,
+          lualine = true,
+        },
+      })
+
+      vim.cmd [[
+        nnoremap <leader>z <cmd>TZAtaraxis<cr>
+      ]]
     end
   }
 
@@ -226,6 +235,7 @@ packer.startup(function(use)
   use { 'LnL7/vim-nix' } -- Nix
   use { 'posva/vim-vue' } -- Vue
   use { 'rust-lang/rust.vim' } -- Rust
+  -- TODO: Add solidity
 
   ---- Colorschemes:
   use { 'sainnhe/sonokai', config = function()
