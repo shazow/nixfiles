@@ -7,7 +7,6 @@
 -- https://github.com/nanotee/nvim-lua-guide
 
 local packer = require('packer')
-local map = vim.api.nvim_set_keymap;
 
 -- Compile on save
 vim.cmd [[autocmd BufWritePost plugins.lua PackerCompile]]
@@ -53,6 +52,7 @@ packer.startup(function(use)
     config = function()
       require('lspsaga').init_lsp_saga()
 
+      local map = vim.api.nvim_set_keymap;
       map('n', '<leader>ca', [[<cmd>lua require('lspsaga.codeaction').code_action()<CR>]], {silent = true})
       map('n', 'gs', [[<cmd>lua require('lspsaga.signaturehelp').signature_help()<CR>]], {silent = true})
       map('n', 'gre', [[<cmd>lua require('lspsaga.rename').rename()<CR>]], {silent = true})
@@ -87,6 +87,7 @@ packer.startup(function(use)
     'nvim-telescope/telescope.nvim',
     requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}},
     config = function()
+      local map = vim.api.nvim_set_keymap;
       map('n', '<c-a>', [[<cmd>Telescope buffers show_all_buffers=true sort_lastused=true<cr>]], {silent = true})
       map('n', '<c-p>', [[<cmd>Telescope git_files<cr>]], {silent = true})
       map('n', '<c-d>', [[<cmd>Telescope find_files<cr>]], {silent = true})
