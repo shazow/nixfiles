@@ -5,7 +5,7 @@ let hashedPassword = import ./.hashedPassword.nix; in  # Make with mkpasswd (see
 {
   services.localtime.enable = true;
 
-  boot.kernelPackages = pkgs.linuxPackages_5_12; # TODO: Switch back to _latest once https://github.com/NixOS/nixpkgs/issues/129233 is resolved (nvidia incompat)
+  boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "nvme" "usbhid" "sd_mod" ];
   boot.kernelModules = [ "kvm-intel" ];
   boot.blacklistedKernelModules = [
