@@ -37,13 +37,14 @@ end
 -- Use a loop to conveniently call 'setup' on multiple servers and
 -- map buffer local keybindings when the language server attaches
 local servers = {
+  "denols", -- deno.land
   "gopls",
-  -- "pyright", -- Node implementation of a Python LSP with static checking
   "jedi_language_server", -- Python
   "rnix", -- nix
   "rust_analyzer",
   "tsserver", -- TypeScript and JavaScript
   "vuels",
+  -- "pyright", -- Node implementation of a Python LSP with static checking
 }
 for _, lsp in ipairs(servers) do
   nvim_lsp[lsp].setup { on_attach = on_attach }

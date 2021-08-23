@@ -235,7 +235,7 @@ packer.startup(function(use)
   use { 'LnL7/vim-nix' } -- Nix
   use { 'posva/vim-vue' } -- Vue
   use { 'rust-lang/rust.vim' } -- Rust
-  -- TODO: Add solidity
+  use { 'TovarishFin/vim-solidity' } -- Solidity
 
   ---- Colorschemes:
   use { 'sainnhe/sonokai', config = function()

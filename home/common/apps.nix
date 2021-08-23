@@ -38,6 +38,7 @@
 
   home.packages = with pkgs; [
     # Apps
+    bitwarden
     #google-chrome-beta
     google-chrome
     i3status-rust
@@ -75,6 +76,7 @@
     gopls
     sumneko-lua-language-server # Lua lsp
     rnix-lsp # Nix lsp
+    neovim # Redundant with root, but home sometimes gets a newer version
     nodejs_latest
     tree-sitter
     websocat # websocket netcat
