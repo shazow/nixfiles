@@ -45,6 +45,13 @@ let hashedPassword = import ./.hashedPassword.nix; in  # Make with mkpasswd (see
   networking.interfaces.enp0s31f6.useDHCP = true;
   #networking.interfaces.wlp0s20f0u12.useDHCP = true;
 
+  services.wakeonlan.interfaces = [
+    {
+      interface = "enp0s31f6";
+      method = "magicpacket";
+    }
+  ];
+
   networking.firewall.allowedTCPPorts = [
     8010  # VLC Chromecast
   ];
