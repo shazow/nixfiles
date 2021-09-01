@@ -95,6 +95,8 @@ let hashedPassword = import ./.hashedPassword.nix; in  # Make with mkpasswd (see
   networking.networkmanager.wifi.backend = "iwd";
   networking.networkmanager.wifi.macAddress = "permanent";  # One of "preserve", "random", "stable", "permanent", "00:11:22:33:44:55"
 
+  services.xserver.dpi = lib.mkForce null; # TODO: Remove this once https://github.com/NixOS/nixpkgs/issues/136224 is closed
+
   services.udev.extraRules = ''
     # KeepKey HID Firmware/Bootloader
     SUBSYSTEM=="usb", ATTR{idVendor}=="2b24", ATTR{idProduct}=="0001", MODE="0666", GROUP="plugdev", TAG+="uaccess", TAG+="udev-acl", SYMLINK+="keepkey%n"
