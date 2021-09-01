@@ -48,6 +48,8 @@ packer.startup(function(use)
       require('config/nvim-lspconfig')
     end
   }
+
+  -- TODO: Consider https://github.com/ray-x/lsp_signature.nvim
   use { 'glepnir/lspsaga.nvim', -- LSP UI annotations
     config = function()
       require('lspsaga').init_lsp_saga()
@@ -171,11 +173,13 @@ packer.startup(function(use)
     end
   }
 
+  -- TODO: Switch to https://github.com/hrsh7th/nvim-cmp (same author, pure lua)
   use { 'hrsh7th/nvim-compe', -- Completion
     config = function()
       require('config/nvim-compe')
     end
   }
+  -- TODO: Switch to https://github.com/L3MON4D3/LuaSnip?
   use { 'hrsh7th/vim-vsnip',
     config = function()
       vim.api.nvim_set_keymap("i", "<C-j>", "<Plug>(vsnip-expand)", {expr = true})
