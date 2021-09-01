@@ -137,8 +137,6 @@ let hashedPassword = import ./.hashedPassword.nix; in  # Make with mkpasswd (see
   # Android dev
   programs.adb.enable = true;
 
-  console.font = lib.mkForce "${pkgs.terminus_font}/share/consolefonts/ter-u16n.psf.gz";
-
   # This value determines the NixOS release with which your system is to be
   # compatible, in order to avoid breaking some software such as database
   # servers. You should change this only after NixOS release notes say you
