@@ -9,7 +9,6 @@
   hardware.enableRedistributableFirmware = true; # Might help wifi?
 
   services.xserver.dpi = 210; # 210 is the native DPI of the HDR screen
-  fonts.fontconfig.dpi = 140; # This is Xft.dpi in .Xresources, 140 = 210 / 1.5
 
   services.xserver.monitorSection = ''
     DisplaySize 310 174   # In millimeters
