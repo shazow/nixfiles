@@ -61,29 +61,7 @@
   # networking.firewall.allowedTCPPorts = [];
   # networking.firewall.allowedUDPPorts = [];
 
-
   hardware.sane.enable = true;
-  hardware.pulseaudio = {
-    enable = true;
-    support32Bit = true;
-
-    # Need full for bluetooth support
-    package = pkgs.pulseaudioFull;
-    extraModules = [ pkgs.pulseaudio-modules-bt ];
-
-    daemon.config = {
-      # Trying to fix crackling audio during gaming+mic
-      default-sample-rate = 48000;
-
-      # Other things to try:
-      #flat-volumes = "no";
-      #resample-method = "speex-float-10";
-      #default-sample-format = "s16le";
-      #default-fragments = 8;
-      #default-fragment-size-msec = 10;
-      #deferred-volume-safety-margin-usec = 1;
-    };
-  };
 
   programs.light.enable = true;
   services.avahi.enable = true;
@@ -104,5 +82,11 @@
   xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
   hardware.opengl.driSupport32Bit = true;
 
-  sound.enable = true;
+  security.rtkit.enable = true; # Real time scheduling support, useful for audio priority
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true; # Not sure if Steam still needs this
+    pulse.enable = true; # Pulse server emulation, useful for running pulseaudio GUIs
+  };
 }
