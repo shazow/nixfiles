@@ -23,6 +23,7 @@
       vimAlias = true;
     })
     nfs-utils
+    pamixer # pulseaudio mixer cli, usable with pipewire
     patchelf
     pciutils
     powertop

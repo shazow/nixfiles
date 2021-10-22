@@ -45,10 +45,10 @@ bindsym XF86MonBrightnessUp exec light -A 10
 bindsym XF86MonBrightnessDown exec light -U 10
 bindsym $mod+XF86MonBrightnessUp exec light -A 2
 bindsym $mod+XF86MonBrightnessDown exec light -U 2
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5%
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5%
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle
-bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle
+bindsym XF86AudioRaiseVolume exec --no-startup-id pamixer --increase 5
+bindsym XF86AudioLowerVolume exec --no-startup-id pamixer --decrease 5
+bindsym XF86AudioMute exec --no-startup-id pamixer --toggle-mute
+bindsym XF86AudioMicMute exec --no-startup-id pamixer --default-source --toggle-mute
 bindsym XF86AudioPlay exec playerctl play-pause
 bindsym XF86AudioPause exec playerctl pause
 bindsym XF86AudioNext exec playerctl next
