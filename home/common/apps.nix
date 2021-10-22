@@ -68,7 +68,7 @@
       ipython
       pipx
       pynvim # Must be included in withPackages for neovim to get access to it.
-      python-language-server
+      python-lsp-server
       jedi
     ]))
     gcc
