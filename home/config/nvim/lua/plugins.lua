@@ -50,7 +50,8 @@ packer.startup(function(use)
   }
 
   -- TODO: Consider https://github.com/ray-x/lsp_signature.nvim
-  use { 'glepnir/lspsaga.nvim', -- LSP UI annotations
+  -- FIXME: using a fork of glepnir/lspsaga.nvim because it's not maintained
+  use { 'tami5/lspsaga.nvim', -- LSP UI annotations
     config = function()
       require('lspsaga').init_lsp_saga()
 
