@@ -39,8 +39,7 @@
   home.packages = with pkgs; [
     # Apps
     bitwarden
-    #google-chrome-beta
-    google-chrome
+    google-chrome-beta
     i3status-rust
     neovim-nightly
 
@@ -74,6 +73,7 @@
     gcc
     go
     gopls
+    stylua # lua formatter
     sumneko-lua-language-server # Lua lsp
     rnix-lsp # Nix lsp
     neovim # Redundant with root, but home sometimes gets a newer version
