@@ -5,9 +5,8 @@ let
   inherit (nixpkgs.cataclysmDDA) attachPkgs git pkgs;
 
   myCDDA = attachPkgs pkgs (((git.tiles.override {
-    version = "2021-06-20";
-    rev = "cdda-experimental-2021-06-20-0737";
-    sha256 = "0c494ak71868qz589y9swfr8yj2kibpm3cznvy0msrjphi2fcfpk";
+    version = "2021-11-15-1625";
+    rev = "cdda-experimental-2021-11-15-1625";
   })).overrideAttrs (_: {
     enableParallelBuilding = true;
   }));
