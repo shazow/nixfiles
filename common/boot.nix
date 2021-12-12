@@ -32,8 +32,8 @@ in
   # LUKS
   boot.initrd.supportedFilesystems = [ "btrfs" "ntfs" ];
   boot.initrd.luks.devices = {
-    cryptroot = { device = disk.cryptroot; allowDiscards = true; };
-    cryptswap = { device = disk.cryptswap; allowDiscards = true; };
+    cryptroot = { device = disk.cryptroot; };
+    cryptswap = { device = disk.cryptswap; };
   };
 
   # Filesystems
