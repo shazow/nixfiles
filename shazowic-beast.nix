@@ -74,7 +74,6 @@ let hashedPassword = import ./.hashedPassword.nix; in  # Make with mkpasswd (see
     # Other
     android-udev-rules
     alsa-firmware
-    ledger-udev-rules
 
     # Wireless
     iw # wireless tooling
@@ -97,6 +96,10 @@ let hashedPassword = import ./.hashedPassword.nix; in  # Make with mkpasswd (see
     SUBSYSTEM=="usb", ATTR{idVendor}=="2b24", ATTR{idProduct}=="0002", MODE="0666", GROUP="plugdev", TAG+="uaccess", TAG+="udev-acl", SYMLINK+="keepkey%n"
     KERNEL=="hidraw*", ATTRS{idVendor}=="2b24", ATTRS{idProduct}=="0002",  MODE="0666", GROUP="plugdev", TAG+="uaccess", TAG+="udev-acl"
   '';
+
+  # Add Ledger hardware wallet support. Requires plugdev group to exist.
+  hardware.ledger.enable = true;
+  users.groups.plugdev = {};
 
   services.syncthing = {
     enable = true;
