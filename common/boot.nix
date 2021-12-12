@@ -32,28 +32,28 @@ in
   # LUKS
   boot.initrd.supportedFilesystems = [ "btrfs" "ntfs" ];
   boot.initrd.luks.devices = {
-    cryptroot = { device = disk.cryptroot; };
-    cryptswap = { device = disk.cryptswap; };
+    cryptroot = { device = disk.cryptroot; allowDiscards = true; };
+    cryptswap = { device = disk.cryptswap; allowDiscards = true; };
   };
 
   # Filesystems
   fileSystems."/" = {
     device = "/dev/mapper/cryptroot";
     fsType = "btrfs";
-    options = [ "noatime" "nodiratime" "compress=lzo" "autodefrag" "commit=100" "subvol=@rootnix" ];
+    options = [ "defaults" "noatime" "nodiratime" "compress=lzo" "autodefrag" "commit=100" "subvol=@rootnix" ];
   };
 
   fileSystems."/home" = {
     device = "/dev/mapper/cryptroot";
     fsType = "btrfs";
-    options = [ "noatime" "compress=lzo" "autodefrag" "subvol=@home" ];
+    options = [ "defaults" "noatime" "compress=lzo" "autodefrag" "subvol=@home" ];
   };
 
   fileSystems."/boot/efi" = {
     label = "uefi";
     device = disk.efi;
     fsType = "vfat";
-    options = [ ];
+    options = [ "discard" ];
   };
 
   swapDevices = [
