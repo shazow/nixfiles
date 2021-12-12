@@ -45,14 +45,12 @@ mount -o defaults,noatime,compress=lzo,autodefrag /dev/mapper/cryptroot /mnt
 
 # Create volumes on the btrfs root
 btrfs subvolume create /mnt/@rootnix
-btrfs subvolume create /mnt/@boot
 btrfs subvolume create /mnt/@home
 
 # Remount with new volumes
 umount /mnt
 mount -o compress=lzo,subvol=@rootnix /dev/mapper/cryptroot /mnt
 mkdir -p /mnt/boot /mnt/home
-mount -o compress=lzo,subvol=@boot /dev/mapper/cryptroot /mnt/boot
 mount -o compress=lzo,subvol=@home /dev/mapper/cryptroot /mnt/home
 mkdir /mnt/boot/efi
 mount /dev/sda1 /mnt/boot/efi
@@ -65,7 +63,6 @@ cryptsetup open /dev/sda2 cryptroot  # Enter password
 cryptsetup open /dev/sda3 cryptswap  # Enter password
 
 mount -o compress=lzo,subvol=@rootnix /dev/mapper/cryptroot /mnt
-mount -o compress=lzo,subvol=@boot /dev/mapper/cryptroot /mnt/boot
 mount -o compress=lzo,subvol=@home /dev/mapper/cryptroot /mnt/home
 mount /dev/sda1 /mnt/boot/efi
 ```
