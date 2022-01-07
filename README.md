@@ -14,10 +14,10 @@ Rough sketch of the expected disk layout with full-disk encryption.
 # Setup partition layout
 # Swap should be >RAM size if you're going to use hibernate
 parted /dev/sda -- mklabel gpt
-parted /dev/sda -- mkpart ESP fat32 1MiB 512MiB  # boot
+parted /dev/sda -- mkpart ESP fat32 1MB 512MB  # boot
 parted /dev/sda -- set 1 boot on
-parted /dev/sda -- mkpart primary 512MiB -1GiB  # root
-parted /dev/sda -- mkpart primary linux-swap -1GiB 100%  # swap
+parted /dev/sda -- mkpart primary 512MB -1GB  # root
+parted /dev/sda -- mkpart primary linux-swap -1GB 100%  # swap
 
 # Encrypt the partitions
 # Swap partition is also encrypted, so our hibernate state is encrypted.
