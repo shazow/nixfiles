@@ -8,6 +8,11 @@ Some of my .nix files
 
 Rough sketch of the expected disk layout with full-disk encryption.
 
+Some changes to the sketch for a more realistic scenario:
+
+- Swap partition should be at least as big as the machine's RAM to support hibernate-to-disk. Otherwise, it can be omitted altogether in place of a swapfile.
+- Boot partition can be made bigger to support an embedded recovery image (4-6 GB).
+
 **NOTE**: If trying in a VM, make sure to use a SCSI virtual disk (instead of HDA) and UEFI enabled.
 
 ```bash
