@@ -59,6 +59,9 @@ mkdir -p /mnt/boot /mnt/home
 mount -o compress=lzo,subvol=@home /dev/mapper/cryptroot /mnt/home
 mkdir /mnt/boot/efi
 mount /dev/sda1 /mnt/boot/efi
+
+# Enable swap if you're using nixos-generate-config to auto-detect mounts
+swapon /dev/mapper/cryptswap
 ```
 
 Resume an existing disk setup:
