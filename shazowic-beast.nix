@@ -27,6 +27,7 @@ let hashedPassword = import ./.hashedPassword.nix; in  # Make with mkpasswd (see
   powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
 
   imports = [
+    <nixos-hardware/common/cpu/amd>
     ./common/boot.nix
     ./common/desktop-i3.nix
   ];

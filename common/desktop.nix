@@ -67,6 +67,7 @@
   programs.light.enable = true;
   services.avahi.enable = true;
   services.avahi.nssmdns = true;
+  services.fstrim.enable = true; # for SSDs
   services.printing.enable = true;
   services.printing.drivers = [ pkgs.brlaser ];
 

@@ -14,11 +14,6 @@
   };
 
   # Neovim
-  nixpkgs.overlays = [
-    (import (builtins.fetchTarball {
-      url = https://github.com/nix-community/neovim-nightly-overlay/archive/master.tar.gz;
-    }))
-  ];
   xdg.configFile = {
     "nvim/init.lua".source = ../config/nvim/init.lua;
     "nvim/lua" = {
@@ -41,7 +36,7 @@
     bitwarden
     google-chrome-beta
     i3status-rust
-    neovim-nightly
+    neovim
 
     # Games
     (dwarf-fortress.override {

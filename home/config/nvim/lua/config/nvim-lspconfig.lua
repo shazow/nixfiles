@@ -39,7 +39,7 @@ end
 -- Use a loop to conveniently call 'setup' on multiple servers and
 -- map buffer local keybindings when the language server attaches
 local servers = {
-	"denols", -- deno.land
+	--"denols", -- deno.land
 	"gopls",
 	"jedi_language_server", -- Python
 	"rnix", -- nix

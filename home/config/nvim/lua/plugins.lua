@@ -33,6 +33,8 @@ packer.startup(function(use)
 			highlight = { enable = true, disable = {} },
 			indent = { enable = true },
 			refactor = { highlight_definitions = { enable = true } },
+			incremental_selection = { enable = true },
+			matchup = { enable = true },
 			textsubjects = {
 				enable = true,
 				keymaps = {
@@ -71,20 +73,6 @@ packer.startup(function(use)
 			require("trouble").setup({})
 		end,
 	})
-
-	--[[ Doesn't seem particularly reliable on NixOS
-  use { 'kabouzeid/nvim-lspinstall',
-    config = function()
-      require('lspinstall').setup()
-
-      local servers = require('lspinstall').installed_servers()
-      for _, server in pairs(servers) do
-        require('lspconfig')[server].setup{}
-      end
-    end
-  }
-  --]]
-	--
 
 	-- use RishabhRD/nvim-lsputils -- Improved LSP ux?
 
@@ -210,23 +198,23 @@ packer.startup(function(use)
 	--use { 'rafamadriz/friendly-snippets' } -- Snippets collection
 
 	--[[ Alternative: Snippets
-  use { 'norcalli/snippets.nvim',
-    config = function()
-      require('snippets').use_suggested_mappings()
-      require('snippets').snippets = {
-         date = "${=os.date('%Y-%m-%d')}",
-         datetime = "${=os.date('%Y-%m-%d %r')}",
-      }
-    end
-  }
-  use { 'nvim-telescope/telescope-snippets.nvim',
-    requires = {'norcalli/snippets.nvim', 'nvim-telescope/telescope.nvim'},
-    config = function()
-      require('telescope').load_extension('snippets')
-    end
-  }
-  use { 'honza/vim-snippets' } -- Snippet collection
-  ]]
+	use { 'norcalli/snippets.nvim',
+		config = function()
+			require('snippets').use_suggested_mappings()
+			require('snippets').snippets = {
+				 date = "${=os.date('%Y-%m-%d')}",
+				 datetime = "${=os.date('%Y-%m-%d %r')}",
+			}
+		end
+	}
+	use { 'nvim-telescope/telescope-snippets.nvim',
+		requires = {'norcalli/snippets.nvim', 'nvim-telescope/telescope.nvim'},
+		config = function()
+			require('telescope').load_extension('snippets')
+		end
+	}
+	use { 'honza/vim-snippets' } -- Snippet collection
+	]]
 	--
 
 	use({
@@ -235,26 +223,29 @@ packer.startup(function(use)
 			require("nvim-web-devicons").setup({ default = true })
 		end,
 	})
-	--[[
-  use { 'romgrk/barbar.nvim', -- Tabline
-    requires = { 'kyazdani42/nvim-web-devicons' },
-  }
-  ]]
-	--
 
-	--[[
-  use { 'TimUntersberger/neogit', -- Git UI
-    opt = true,
-    cmd = { 'Neogit' },
-    requires = {
-      'nvim-lua/plenary.nvim',
-      'sindrets/diffview.nvim',
-    }
-  }
-  ]]
+	--[[ It's cool but kinda slow
+	use { 'TimUntersberger/neogit', -- Git UI
+	  opt = true,
+	  cmd = { 'Neogit' },
+	  requires = {
+	    'nvim-lua/plenary.nvim',
+	    'sindrets/diffview.nvim',
+	  }
+	}
+	]]
 	--
 
 	use({ "dstein64/vim-startuptime" }) -- startuptime visualizer
+	use({ "rafcamlet/nvim-luapad",
+		config = function()
+			require('luapad').setup{
+				context = {
+					the_answer = 42,
+				},
+			}
+		end,
+	}) -- Scratchpad, great for calculations, replaces jbyuki/quickmath.nvim
 
 	---- Languages:
 	use({ "fatih/vim-go", run = "GoInstallBinaries" }) -- Go
