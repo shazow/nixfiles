@@ -6,6 +6,13 @@
     allowUnfree = true;
   };
 
+  nix = {
+    package = pkgs.nixUnstable;
+    extraOptions = ''
+      experimental-features = nix-command flakes
+    '';
+   };
+
   # Desktop environment agnostic packages.
   environment.systemPackages = with pkgs; [
     acpi
