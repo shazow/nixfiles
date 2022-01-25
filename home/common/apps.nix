@@ -111,6 +111,6 @@
     whois
 
     # Needed for GTK
-    gnome3.dconf
+    dconf
   ];
 }
