@@ -57,10 +57,16 @@
       }
     );
     in rec {
-      defaultApp = {
+      apps.cast = {
+        type = "app";
+        program = "${defaultPackage}/bin/cast";
+      };
+      apps.forge = {
         type = "app";
         program = "${defaultPackage}/bin/forge";
       };
+      defaultApp = apps.forge;
+
       defaultPackage = foundry;
       devShell = pkgs.mkShell {
         buildInputs = [
