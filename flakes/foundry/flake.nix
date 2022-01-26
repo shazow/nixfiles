@@ -52,6 +52,8 @@
         mkdir -p $out/bin
         mv forge cast $out/bin/
         '';
+
+        outputsToInstall = [ "forge" "cast" ];
       }
     );
     in rec {
@@ -68,3 +70,5 @@
     }
   );
 }
+
+# Also related: https://github.com/dapphub/dapptools/tree/master/nix
