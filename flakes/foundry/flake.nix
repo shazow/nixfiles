@@ -20,11 +20,11 @@
       };
       "x86_64-darwin" = {
         url = releasePrefix + "foundry_nightly_darwin_amd64.tar.gz";
-        sha256 = "TODO";
+        sha256 = ""; # TODO: ...
       };
       "aarch64-darwin" = {
         url = releasePrefix + "foundry_nightly_darwin_arm64.tar.gz";
-        sha256 = "TODO";
+        sha256 = ""; # TODO: ...
       };
 
       # TODO: "x86_64-cygwin" = "foundry_nightly_win32_amd64.zip";
@@ -56,7 +56,10 @@
         mv forge cast $out/bin/
         '';
 
-        outputsToInstall = [ "forge" "cast" ];
+        doInstallCheck = true;
+        installCheckPhase = ''
+        $out/bin/forge --version > /dev/null
+        '';
       }
     );
     in rec {
