@@ -23,6 +23,8 @@
 
         nativeBuildInputs = with pkgs; [
           autoPatchelfHook
+          pkg-config
+          openssl
         ];
 
         installPhase = ''
@@ -32,9 +34,9 @@
       }
     );
     in rec {
-      defaultApp = flake-utils.lib.mkApp {
-        # FIXME: This is broken, it assumes a `foundry` binary but we need to remap to two binaries
-        drv = defaultPackage;
+      defaultApp = {
+        type = "app";
+        program = "${defaultPackage}/bin/forge";
       };
       defaultPackage = foundry;
       devShell = pkgs.mkShell {
