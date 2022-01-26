@@ -6,6 +6,7 @@
     flake-utils.url = "github:numtide/flake-utils";
   };
 
+  # FIXME: We need separate outputs per-system that binary releases are supported for
   outputs = { nixpkgs, flake-utils, ... }: flake-utils.lib.eachDefaultSystem (system:
     let
       pkgs = import nixpkgs {
@@ -32,6 +33,7 @@
     );
     in rec {
       defaultApp = flake-utils.lib.mkApp {
+        # FIXME: This is broken, it assumes a `foundry` binary but we need to remap to two binaries
         drv = defaultPackage;
       };
       defaultPackage = foundry;
