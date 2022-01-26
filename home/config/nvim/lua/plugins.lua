@@ -82,15 +82,19 @@ packer.startup(function(use)
 		requires = { { "nvim-lua/popup.nvim" }, { "nvim-lua/plenary.nvim" } },
 		config = function()
 			local map = vim.api.nvim_set_keymap
+			map("n", "<c-p>", [[<cmd>Telescope git_files<cr>]], { silent = true })
+			map("n", "<c-d>", [[<cmd>Telescope find_files<cr>]], { silent = true })
+			map("n", "<c-s>", [[<cmd>Telescope live_grep<cr>]], { silent = true })
+			--map('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<cr>')
+			--map('n', 'gd', '<cmd>lua require("telescope.builtin").lsp_definitions()<cr>')
+			--map('n', 'gi', '<cmd>lua require("telescope.builtin").lsp_implementations()<cr>')
+			--map('n', 'gt', '<cmd>lua require("telescope.builtin").lsp_type_definitions()<cr>')
 			map(
 				"n",
 				"<c-a>",
 				[[<cmd>Telescope buffers show_all_buffers=true sort_lastused=true<cr>]],
 				{ silent = true }
 			)
-			map("n", "<c-p>", [[<cmd>Telescope git_files<cr>]], { silent = true })
-			map("n", "<c-d>", [[<cmd>Telescope find_files<cr>]], { silent = true })
-			map("n", "<c-s>", [[<cmd>Telescope live_grep<cr>]], { silent = true })
 			map(
 				"n",
 				"<c-s>",
