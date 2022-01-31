@@ -10,17 +10,19 @@
 
 # Default values, feel free to override here or via environment variables
 : "${NOTIFY_ID:=2593}"
-: "${NOTIFY_TIMEOUT:=500}"
+: "${NOTIFY_TIMEOUT:=1500}"
+: "${NOTIFY_ICON:notification-audio-volume-medium}"
+: "${NOTIFY_ICON_MUTED:notification-audio-volume-muted}"
+: "${NOTIFY_CATEGORY:audio}"
 
 notify() {
-	declare icon="$1" text="$2"
-	if [[ ! "$icon" ]]; then
-	# Default mode
-	icon="audio-volume-muted-blocking";
-	readonly n="$(( $(pamixer --get-volume) / 5 ))"
-	text="$(printf '─%.0s' $(seq 1 $n))"
-	fi
-	dunstify -i "${icon}" -t "${NOTIFY_TIMEOUT}" -r "${NOTIFY_ID}" -u normal "    ${text}"
+	declare icon="${1:-$NOTIFY_ICON}" body="${2:-"Volume"}"
+	notify-send \
+		--category="${NOTIFY_CATEGORY}" \
+		--expire-time="${NOTIFY_TIMEOUT}" \
+		--icon="${icon}" \
+		--hint="int:value:$(pamixer --get-volume)" \
+		"$body"
 }
 
 main() {
@@ -40,13 +42,11 @@ main() {
 		notify
 		;;
 	mute)
-		# Toggle mute
 		pamixer --toggle-mute
 		if $(pamixer --get-mute > /dev/null); then
-		notify "audio-volume-muted" "Mute"
-		notify
+			notify "${NOTIFY_ICON_MUTED}" "Mute"
 		else
-		notify
+			notify
 		fi
 		;;
 	esac
