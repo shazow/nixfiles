@@ -42,7 +42,7 @@
     pointerCursor = {
       name = "capitaine-cursors";
       package = pkgs.capitaine-cursors;
-      size = 32;
+      size = 48;
     };
   };
 
