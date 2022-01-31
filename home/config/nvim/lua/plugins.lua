@@ -52,18 +52,10 @@ packer.startup(function(use)
 		end,
 	})
 
-	-- TODO: Consider https://github.com/ray-x/lsp_signature.nvim
-	-- FIXME: using a fork of glepnir/lspsaga.nvim because it's not maintained
 	use({
-		"tami5/lspsaga.nvim", -- LSP UI annotations
+		'ray-x/lsp_signature.nvim', -- Replaces lspsaga
 		config = function()
-			require("lspsaga").init_lsp_saga()
-
-			local map = vim.api.nvim_set_keymap
-			map("n", "<leader>ca", [[<cmd>lua require('lspsaga.codeaction').code_action()<CR>]], { silent = true })
-			map("n", "gs", [[<cmd>lua require('lspsaga.signaturehelp').signature_help()<CR>]], { silent = true })
-			map("n", "gre", [[<cmd>lua require('lspsaga.rename').rename()<CR>]], { silent = true })
-			map("n", "gd", [[<cmd>lua require('lspsaga.provider').preview_definition()<CR>]], { silent = true })
+			require('lsp_signature').setup()
 		end,
 	})
 
