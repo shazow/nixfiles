@@ -17,23 +17,23 @@
 
 case $1 in
 	up)
-	pamixer --increase 5
-	pamixer -u # Force unmute
+		pamixer --increase 5
+		pamixer -u # Force unmute
 	;;
 	down)
-	pamixer --decrease 5
-	pamixer -u # Force unmute
+		pamixer --decrease 5
+		pamixer -u # Force unmute
 	;;
 	mute)
-	pamixer --toggle-mute
-	if $(pamixer --get-mute > /dev/null); then
-		notify-send \
-			--category="${NOTIFY_CATEGORY}" \
-			--expire-time="${NOTIFY_TIMEOUT}" \
-			--icon="${NOTIFY_ICON_MUTED}" \
-			"Mute"
-		exit 0
-	fi
+		pamixer --toggle-mute
+		if $(pamixer --get-mute > /dev/null); then
+			notify-send \
+				--category="${NOTIFY_CATEGORY}" \
+				--expire-time="${NOTIFY_TIMEOUT}" \
+				--icon="${NOTIFY_ICON_MUTED}" \
+				"Mute"
+			exit 0
+		fi
 	;;
 esac
 
