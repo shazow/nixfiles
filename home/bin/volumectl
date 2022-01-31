@@ -5,6 +5,7 @@
 # $ volumectl up
 # $ volumectl down
 # $ volumectl mute
+# $ NOTIFY_TIMEOUT=5000 volumectl  # Do nothing, just show notification for 5s
 #
 # Inspired by https://gist.github.com/sebastiencs/5d7227f388d93374cebdf72e783fbd6a
 
