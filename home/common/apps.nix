@@ -1,6 +1,13 @@
 { pkgs, config, ... }:
 
-{
+let 
+  # Package up local script binaries
+  localScripts = map (name: pkgs.substituteAll {
+      src = ../bin + "/${name}";
+      dir = "bin";
+      isExecutable = true;
+    }) (builtins.attrNames (builtins.readDir ../bin));
+in {
   nixpkgs.config.allowUnfree = true;
 
   programs.home-manager.enable = true;
@@ -31,7 +38,7 @@
     pinentry-program ${pkgs.pinentry}/bin/pinentry
   '';
 
-  home.packages = with pkgs; [
+  home.packages = (with pkgs; [
     # Apps
     bitwarden
     google-chrome-beta
@@ -112,5 +119,5 @@
 
     # Needed for GTK
     dconf
-  ];
+  ]) ++ localScripts; 
 }
