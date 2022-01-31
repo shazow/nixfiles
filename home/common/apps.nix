@@ -95,6 +95,7 @@ in {
     transmission-gtk # Torrents
 
     #mplayer  # TODO: Switch to mpc?
+    playerctl
     vlc
 
     srandrd # Daemon for detecting hotplug display changes, calls autorandr
