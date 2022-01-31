@@ -1,0 +1,55 @@
+#!/usr/bin/env bash
+# Dunst-aware pamixer volume control.
+#
+# Usage:
+# $ volumectl up
+# $ volumectl down
+# $ volumectl mute
+#
+# Inspired by https://gist.github.com/sebastiencs/5d7227f388d93374cebdf72e783fbd6a
+
+# Default values, feel free to override here or via environment variables
+: "${NOTIFY_ID:=2593}"
+: "${NOTIFY_TIMEOUT:=500}"
+
+notify() {
+	declare icon="$1" text="$2"
+	if [[ ! "$icon" ]]; then
+	# Default mode
+	icon="audio-volume-muted-blocking";
+	readonly n="$(( $(pamixer --get-volume) / 5 ))"
+	text="$(printf '─%.0s' $(seq 1 $n))"
+	fi
+	dunstify -i "${icon}" -t "${NOTIFY_TIMEOUT}" -r "${NOTIFY_ID}" -u normal "    ${text}"
+}
+
+main() {
+	set -eo pipefail; [[ "$TRACE" ]] && set -x
+
+	declare cmd="$1"
+
+	case ${cmd} in
+	up)
+		pamixer --increase 5
+		pamixer -u # Force unmute
+		notify
+		;;
+	down)
+		pamixer --decrease 5
+		pamixer -u # Force unmute
+		notify
+		;;
+	mute)
+		# Toggle mute
+		pamixer --toggle-mute
+		if $(pamixer --get-mute > /dev/null); then
+		notify "audio-volume-muted" "Mute"
+		notify
+		else
+		notify
+		fi
+		;;
+	esac
+}
+
+main "$@"
