@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Dunst-aware pamixer volume control.
+# notify-send aware pamixer volume control.
 #
 # Usage:
 # $ volumectl up
@@ -15,41 +15,31 @@
 : "${NOTIFY_ICON_MUTED:notification-audio-volume-muted}"
 : "${NOTIFY_CATEGORY:audio}"
 
-notify() {
-	declare icon="${1:-$NOTIFY_ICON}" body="${2:-"Volume"}"
-	notify-send \
-		--category="${NOTIFY_CATEGORY}" \
-		--expire-time="${NOTIFY_TIMEOUT}" \
-		--icon="${icon}" \
-		--hint="int:value:$(pamixer --get-volume)" \
-		"$body"
-}
-
-main() {
-	set -eo pipefail; [[ "$TRACE" ]] && set -x
-
-	declare cmd="$1"
-
-	case ${cmd} in
+case $1 in
 	up)
-		pamixer --increase 5
-		pamixer -u # Force unmute
-		notify
-		;;
+	pamixer --increase 5
+	pamixer -u # Force unmute
+	;;
 	down)
-		pamixer --decrease 5
-		pamixer -u # Force unmute
-		notify
-		;;
+	pamixer --decrease 5
+	pamixer -u # Force unmute
+	;;
 	mute)
-		pamixer --toggle-mute
-		if $(pamixer --get-mute > /dev/null); then
-			notify "${NOTIFY_ICON_MUTED}" "Mute"
-		else
-			notify
-		fi
-		;;
-	esac
-}
+	pamixer --toggle-mute
+	if $(pamixer --get-mute > /dev/null); then
+		notify-send \
+			--category="${NOTIFY_CATEGORY}" \
+			--expire-time="${NOTIFY_TIMEOUT}" \
+			--icon="${NOTIFY_ICON_MUTED}" \
+			"Mute"
+		exit 0
+	fi
+	;;
+esac
 
-main "$@"
+notify-send \
+	--category="${NOTIFY_CATEGORY}" \
+	--expire-time="${NOTIFY_TIMEOUT}" \
+	--icon="${NOTIFY_ICON}" \
+	--hint="int:value:$(pamixer --get-volume)" \
+	"Volume"
