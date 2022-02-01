@@ -1,5 +1,11 @@
 { pkgs, ... }:
 
+let
+  iconTheme = {
+    package = pkgs.gnome.adwaita-icon-theme;
+    name = "Adwaita";
+  };
+in
 {
   # This setup for console-based login and automatic startx works with:
   #   services.xserver.displayManager.startx.enable = true;
@@ -26,10 +32,7 @@
       package = pkgs.theme-vertex;
       name = "Vertex-Dark";
     };
-    iconTheme = {
-      package = pkgs.tango-icon-theme;
-      name = "Tango";
-    };
+    iconTheme = iconTheme;
   };
 
   xsession = {
@@ -42,7 +45,7 @@
     pointerCursor = {
       name = "capitaine-cursors";
       package = pkgs.capitaine-cursors;
-      size = 48;
+      size = 24;
     };
   };
 
@@ -74,25 +77,23 @@
 
   services.dunst = {
     enable = true;
+    iconTheme = iconTheme;
     settings = {
       global = {
-        geometry = "600x5-30+20";
+        transparency = 20; # 0-100; Requires a compositor (e.g. picom)
+        background = "#001933";
+        frame_color = "#000000AA";
+
+        geometry = "800x5-30+20";
         separator_height = 2;
-        padding = 8;
-        horizontal_padding = 8;
+        padding = 16;
+        horizontal_padding = 16;
         font = "DejaVu Sans Mono 10";
         format = "<b>%s</b>\n%b";
         icon_position = "left";
-        max_icon_size = 48;
-        indicate_hidden = "yes";
-        shrink = "no";
-        frame_color = "#aaaaaa";
+        max_icon_size = 24;
         markup = "full";
-        word_wrap = "yes";
         ignore_newline = "no";
-        stack_duplicates = true;
-        hide_duplicate_count = false;
-        show_indicators = "yes";
 
         dmenu = "rofi -dmenu -p Dunst";
         browser = "xdg-open";
