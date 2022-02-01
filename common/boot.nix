@@ -11,7 +11,15 @@
 # - Password reuse: https://github.com/NixOS/nixpkgs/pull/29441
 # - FDE example: https://github.com/Chiiruno/configuration/blob/master/etc/nixos/boot.nix
 #
-let disk = import ../disk.nix;
+let
+  disk = import ../disk.nix;
+
+  btrfsOptions = [
+    "defaults"
+    "noatime"
+    "compress=lzo"
+    "noautodefrag" # FIXME: Switch back to "autodefrag" once 5.16.5+ is out: https://www.reddit.com/r/selfhosted/comments/sgy96t/psa_linux_516_has_major_regression_in_btrfs/
+  ];
 in
 {
   boot.loader.systemd-boot = {
@@ -40,13 +48,13 @@ in
   fileSystems."/" = {
     device = "/dev/mapper/cryptroot";
     fsType = "btrfs";
-    options = [ "defaults" "noatime" "nodiratime" "compress=lzo" "autodefrag" "commit=100" "subvol=@rootnix" ];
+    options = btrfsOptions ++ [ "nodiratime" "commit=100" "subvol=@rootnix" ];
   };
 
   fileSystems."/home" = {
     device = "/dev/mapper/cryptroot";
     fsType = "btrfs";
-    options = [ "defaults" "noatime" "compress=lzo" "autodefrag" "subvol=@home" ];
+    options = btrfsOptions ++ [ "subvol=@home" ];
   };
 
   fileSystems."/boot/efi" = {
