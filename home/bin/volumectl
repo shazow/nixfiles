@@ -12,9 +12,9 @@
 # Default values, feel free to override here or via environment variables
 : "${NOTIFY_ID:=2593}"
 : "${NOTIFY_TIMEOUT:=1500}"
-: "${NOTIFY_ICON:notification-audio-volume-medium}"
-: "${NOTIFY_ICON_MUTED:notification-audio-volume-muted}"
-: "${NOTIFY_CATEGORY:audio}"
+: "${NOTIFY_ICON:="audio-volume-medium"}"
+: "${NOTIFY_ICON_MUTED:="audio-volume-muted"}"
+: "${NOTIFY_CATEGORY:="audio"}"
 
 case $1 in
 	up)
