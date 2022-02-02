@@ -1,0 +1,32 @@
+#!/usr/bin/env sh
+# i3 scratch space aware launcher.
+# Specific to my i3 config. The main goal is to make it easier to auto-restart
+# my dropdown terminal if it has been killed.
+# 
+# Terminal usage:
+# $ i3-scratchpad dropdown alacritty
+#
+# i3 config usage:
+#   for_window [instance="dropdown"] move scratchpad, border pixel 2, resize set 80 ppt 50 ppt, move absolute position 300 0
+#   bindsym $mod+grave exec --no-startup-id i3-scratchpad "dropdown" "alacritty"
+
+scratch_alacritty() {
+    declare class="$1"
+
+    # Do we need to init?
+    if ! xdotool search --classname "$class"; then
+        alacritty --class "$class" -o background_opacity=0.8 -e tmux new-session -A -s scratch &
+        sleep 0.2
+    fi
+
+    i3-msg "[instance=\"$class\"] scratchpad show"
+}
+
+main() {
+    declare class="${1:-dropdown}" cmd="${2:-alacritty}"
+
+    # TODO: Could add more things here
+    scratch_${cmd} "${class}"
+}
+
+main "$@"
