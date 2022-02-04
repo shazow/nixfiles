@@ -14,6 +14,7 @@
       "x86_64-darwin"
       "aarch64-darwin"
     ] (system: let
+      # FIXME: This doesn't feel idiomatic, but my nix-fu is weak
       pkgs = import nixpkgs { inherit system; };
       foundry-bin = import ./foundry-bin.nix { inherit pkgs; };
     in rec {
