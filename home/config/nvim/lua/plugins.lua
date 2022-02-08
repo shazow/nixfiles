@@ -157,6 +157,13 @@ packer.startup(function(use)
 
 	use("famiu/nvim-reload") -- :Reload config
 
+	use({
+		"akinsho/toggleterm.nvim", -- Terminal floaties
+		config = function()
+			require("toggleterm").setup{}
+		end,
+	})
+
 	-- which-key: Displays a popup with possible keybindings
 	--use 'folke/which-key.nvim'
 
