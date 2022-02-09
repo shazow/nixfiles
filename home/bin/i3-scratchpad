@@ -15,7 +15,7 @@ scratch_alacritty() {
 
     # Do we need to init?
     if ! xdotool search --classname "$class"; then
-        alacritty --class "$class" -o background_opacity=0.8 -e tmux new-session -A -s scratch &
+        alacritty --class "$class" -o window.opacity=0.8 -e tmux new-session -A -s scratch &
         sleep 0.2
     fi
 
