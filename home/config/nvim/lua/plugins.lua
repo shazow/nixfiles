@@ -21,28 +21,22 @@ packer.startup(function(use)
 	-- Packer can manage itself
 	use("wbthomason/packer.nvim")
 
-	-- Treesitter
-	use({
-		"nvim-treesitter/nvim-treesitter",
-		requires = {
-			"nvim-treesitter/nvim-treesitter-refactor",
-			"RRethy/nvim-treesitter-textsubjects", -- Replacement for 'nvim-treesitter/nvim-treesitter-textobjects'
-		},
-		config = require("nvim-treesitter.configs").setup({
-			ensure_installed = "maintained",
-			highlight = { enable = true, disable = {} },
-			indent = { enable = true },
-			refactor = { highlight_definitions = { enable = true } },
-			incremental_selection = { enable = true },
-			matchup = { enable = true },
-			textsubjects = {
-				enable = true,
-				keymaps = {
-					["."] = "textsubjects-smart",
-				},
+	-- Treesitter is managed by the package config, we just manage configs/deps here
+	use({ "nvim-treesitter/nvim-treesitter-refactor" })
+	use({ "RRethy/nvim-treesitter-textsubjects" })
+	require("nvim-treesitter.configs").setup({
+		--highlight = { enable = true, disable = {} }, -- This seems to bork on lua lately (and other languages?)
+		indent = { enable = true },
+		refactor = { highlight_definitions = { enable = true } },
+		incremental_selection = { enable = true },
+		matchup = { enable = true },
+		textsubjects = {
+			enable = true,
+			prev_selection = ',',
+			keymaps = {
+				["."] = "textsubjects-smart",
 			},
-		}),
-		run = ":TSUpdate",
+		},
 	})
 
 	use({
