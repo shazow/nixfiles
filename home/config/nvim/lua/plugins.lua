@@ -53,9 +53,9 @@ packer.startup(function(use)
 	})
 
 	use({
-		'ray-x/lsp_signature.nvim', -- Replaces lspsaga
+		"ray-x/lsp_signature.nvim", -- Replaces lspsaga
 		config = function()
-			require('lsp_signature').setup()
+			require("lsp_signature").setup()
 		end,
 	})
 
@@ -115,10 +115,9 @@ packer.startup(function(use)
 					lualine = true,
 				},
 			})
-
 			vim.cmd([[
-        nnoremap <leader>z <cmd>TZAtaraxis<cr>
-      ]])
+				nnoremap <leader>z <cmd>TZAtaraxis<cr>
+			]])
 		end,
 	})
 
@@ -160,7 +159,7 @@ packer.startup(function(use)
 	use({
 		"akinsho/toggleterm.nvim", -- Terminal floaties
 		config = function()
-			require("toggleterm").setup{}
+			require("toggleterm").setup({})
 		end,
 	})
 
@@ -239,14 +238,37 @@ packer.startup(function(use)
 	]]
 	--
 
-	use({ "dstein64/vim-startuptime" }) -- startuptime visualizer
-	use({ "rafcamlet/nvim-luapad",
+	use({
+		"jose-elias-alvarez/null-ls.nvim", -- Null language-server for formatting etc
 		config = function()
-			require('luapad').setup{
+			vim.cmd([[
+				nnoremap <silent><leader>f lua vim.lsp.buf.formatting_sync()
+			]])
+
+			require("null-ls").setup({
+				on_attach = function(client)
+					if client.resolved_capabilities.document_formatting then
+						vim.cmd([[
+							augroup LspFormatting
+							autocmd! * <buffer>
+							autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()
+							augroup END
+						]])
+					end
+				end,
+			})
+		end,
+	})
+
+	use({ "dstein64/vim-startuptime" }) -- startuptime visualizer
+	use({
+		"rafcamlet/nvim-luapad",
+		config = function()
+			require("luapad").setup({
 				context = {
 					the_answer = 42,
 				},
-			}
+			})
 		end,
 	}) -- Scratchpad, great for calculations, replaces jbyuki/quickmath.nvim
 
