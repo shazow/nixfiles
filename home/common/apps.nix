@@ -19,8 +19,15 @@ in {
       env.TERM = "xterm-256color"; # ssh'ing into old servers with TERM=alacritty is sad
     };
   };
+  programs.neovim = {
+    enable = true;
+    plugins = with pkgs.vimPlugins; [
+      # Inject tree-sitters, since they're annoying to maintain with sideloading
+      (nvim-treesitter.withPlugins (plugins: pkgs.tree-sitter.allGrammars))
+    ];
+  };
 
-  # Neovim
+  # Neovim configs semi-managed by home-manager (via symlinks)
   xdg.configFile = {
     "nvim/init.lua".source = ../config/nvim/init.lua;
     "nvim/lua" = {
@@ -43,7 +50,6 @@ in {
     bitwarden
     google-chrome-beta
     i3status-rust
-    neovim
 
     # Games
     (dwarf-fortress.override {
@@ -65,7 +71,8 @@ in {
     # Progamming
     ctags
     curlie
-    (python38.withPackages(ps: with ps; [
+    (python3.withPackages(ps: with ps; [
+      black
       ipython
       pipx
       pynvim # Must be included in withPackages for neovim to get access to it.
@@ -78,11 +85,15 @@ in {
     stylua # lua formatter
     sumneko-lua-language-server # Lua lsp
     rnix-lsp # Nix lsp
-    neovim # Redundant with root, but home sometimes gets a newer version
     nodejs_latest
     tree-sitter
     websocat # websocket netcat
     zeal
+
+    #(neovim.override {
+    #  configure.packages.myPlugins = [vimPlugins.nvim-treesitter.withPlugins (plugins: tree-sitter.allGrammars)];
+    #})
+    #(pkgs.vimPlugsin.nvim-treesitter.withPlugins (plugins: with tree-sitter-grammars; [c css dockerfile go gomod graphql html javascript json lua make markdown nix python rust toml typescript vim vue yaml ]))
 
     # Programming: Rust
     #latest.rustChannels.nightly.rust
