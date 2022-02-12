@@ -96,11 +96,6 @@ in {
     websocat # websocket netcat
     zeal
 
-    #(neovim.override {
-    #  configure.packages.myPlugins = [vimPlugins.nvim-treesitter.withPlugins (plugins: tree-sitter.allGrammars)];
-    #})
-    #(pkgs.vimPlugsin.nvim-treesitter.withPlugins (plugins: with tree-sitter-grammars; [c css dockerfile go gomod graphql html javascript json lua make markdown nix python rust toml typescript vim vue yaml ]))
-
     # Programming: Rust
     #latest.rustChannels.nightly.rust
     #latest.rustChannels.nightly.rust-src  # Needed for $RUST_SRC_PATH?
