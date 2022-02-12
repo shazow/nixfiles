@@ -25,11 +25,17 @@ in {
       # Inject tree-sitters, since they're annoying to maintain with sideloading
       (nvim-treesitter.withPlugins (plugins: pkgs.tree-sitter.allGrammars))
     ];
+    # We used to manage our own init.lua but now we want the home-manager
+    # managed init.vim to load our init.lua which makes this a little dirty.
+    extraConfig = ''
+    lua << EOF
+    ${builtins.readFile ../config/nvim/init.lua}
+    EOF
+    '';
   };
 
   # Neovim configs semi-managed by home-manager (via symlinks)
   xdg.configFile = {
-    "nvim/init.lua".source = ../config/nvim/init.lua;
     "nvim/lua" = {
       source = config.lib.file.mkOutOfStoreSymlink ../config/nvim/lua;
       recursive = true;
