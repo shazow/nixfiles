@@ -64,7 +64,7 @@ nvim_lsp.sumneko_lua.setup({
 	commands = {
 		Format = {
 			function()
-				require("stylua-nvim").format_file()
+				vim.lsp.buf.formatting_sync()
 			end,
 		},
 	},

@@ -277,7 +277,6 @@ packer.startup(function(use)
 	use({ "posva/vim-vue" }) -- Vue
 	use({ "rust-lang/rust.vim" }) -- Rust
 	use({ "TovarishFin/vim-solidity" }) -- Solidity
-	use({ "ckipp01/stylua-nvim" }) -- Lua formatter
 
 	---- Colorschemes:
 	use({
