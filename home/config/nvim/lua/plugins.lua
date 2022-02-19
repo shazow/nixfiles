@@ -32,7 +32,7 @@ packer.startup(function(use)
 		matchup = { enable = true },
 		textsubjects = {
 			enable = true,
-			prev_selection = ',',
+			prev_selection = ",",
 			keymaps = {
 				["."] = "textsubjects-smart",
 			},
@@ -235,12 +235,19 @@ packer.startup(function(use)
 	use({
 		"jose-elias-alvarez/null-ls.nvim", -- Null language-server for formatting etc
 		config = function()
-			vim.cmd([[
-				nnoremap <silent><leader>f lua vim.lsp.buf.formatting_sync()
-			]])
-
 			require("null-ls").setup({
-				on_attach = function(client)
+				sources = {
+					require("null-ls").builtins.formatting.stylua,
+				},
+				on_attach = function(client, bufnr)
+					vim.api.buf_set_keymap(
+						bufnr,
+						"n",
+						"<leader>f",
+						"<cmd>lua vim.lsp.buf.formatting_sync()<CR>",
+						{ noremap = true, silent = true }
+					)
+
 					if client.resolved_capabilities.document_formatting then
 						vim.cmd([[
 							augroup LspFormatting
