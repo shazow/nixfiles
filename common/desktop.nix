@@ -32,13 +32,14 @@
     nfs-utils
     pamixer # pulseaudio mixer cli, usable with pipewire
     patchelf
-    pciutils
+    pciutils # lspci
     powertop
     psmisc
     ripgrep
     sysstat
     tmux
     tree
+    usbutils # lsusb
     unzip
     wget
   ];
