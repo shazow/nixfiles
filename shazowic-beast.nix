@@ -1,4 +1,7 @@
-let hashedPassword = import ./.hashedPassword.nix; in  # Make with mkpasswd (see Makefile)
+let
+  # Make with mkpasswd (see Makefile)
+  hashedPassword = import ./.hashedPassword.nix;
+in
 
 { config, pkgs, lib, ... }:
 
@@ -13,7 +16,7 @@ let hashedPassword = import ./.hashedPassword.nix; in  # Make with mkpasswd (see
     "snd_hda_intel" # No motherboard audio, this device uses a USB DAC instead
   ];
   boot.extraModprobeConfig = ''
-      options hid_apple fnmode=2 swap_opt_cmd=1
+    options hid_apple fnmode=2 swap_opt_cmd=1
   '';
   hardware.opengl.extraPackages = with pkgs; [ vaapiIntel libvdpau-va-gl vaapiVdpau ];
 
@@ -40,17 +43,17 @@ let hashedPassword = import ./.hashedPassword.nix; in  # Make with mkpasswd (see
   services.fwupd.enable = true;
   networking.interfaces.enp0s31f6 = {
     useDHCP = true;
-    # FIXME: Enable this once new API is merged: wakeOnLan.enable = true;
+    wakeOnLan.enable = true;
   };
   #networking.interfaces.wlp0s20f0u12.useDHCP = true;
 
   networking.firewall.allowedTCPPorts = [
-    8010  # VLC Chromecast
+    8010 # VLC Chromecast
   ];
 
   services.openssh = {
     enable = true;
-    startWhenNeeded = true;  # Don't start until socket request comes in to systemd
+    startWhenNeeded = true; # Don't start until socket request comes in to systemd
     passwordAuthentication = false;
     challengeResponseAuthentication = false;
   };
@@ -84,9 +87,7 @@ let hashedPassword = import ./.hashedPassword.nix; in  # Make with mkpasswd (see
 
   networking.hostName = "shazowic-beast";
   networking.networkmanager.wifi.backend = "iwd";
-  networking.networkmanager.wifi.macAddress = "permanent";  # One of "preserve", "random", "stable", "permanent", "00:11:22:33:44:55"
-
-  services.xserver.dpi = lib.mkForce null; # TODO: Remove this once https://github.com/NixOS/nixpkgs/issues/136224 is closed
+  networking.networkmanager.wifi.macAddress = "permanent"; # One of "preserve", "random", "stable", "permanent", "00:11:22:33:44:55"
 
   services.udev.extraRules = ''
     # KeepKey HID Firmware/Bootloader
@@ -100,7 +101,7 @@ let hashedPassword = import ./.hashedPassword.nix; in  # Make with mkpasswd (see
 
   # Add Ledger hardware wallet support. Requires plugdev group to exist.
   hardware.ledger.enable = true;
-  users.groups.plugdev = {};
+  users.groups.plugdev = { };
 
   services.syncthing = {
     enable = true;
@@ -115,7 +116,7 @@ let hashedPassword = import ./.hashedPassword.nix; in  # Make with mkpasswd (see
     isNormalUser = true;
     home = "/home/shazow";
     description = "shazow";
-    extraGroups = [ "wheel" "sudoers" "audio" "video" "disk" "networkmanager" "plugdev" "adbusers" "docker"];
+    extraGroups = [ "wheel" "sudoers" "audio" "video" "disk" "networkmanager" "plugdev" "adbusers" "docker" ];
     uid = 1000;
     hashedPassword = hashedPassword;
   };
