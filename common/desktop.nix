@@ -11,7 +11,7 @@
     extraOptions = ''
       experimental-features = nix-command flakes
     '';
-   };
+  };
 
   # Desktop environment agnostic packages.
   environment.systemPackages = with pkgs; [
@@ -52,10 +52,10 @@
   fonts.fonts = with pkgs; [
     noto-fonts
     dejavu_fonts
-    nerdfonts  # Includes font-awesome, material-icons, powerline-fonts
+    nerdfonts # Includes font-awesome, material-icons, powerline-fonts
     emojione
   ];
-  # TODO: Use fonts.enableDefaultFonts = true?
+  fonts.enableDefaultFonts = true;
 
   i18n = {
     defaultLocale = "en_US.UTF-8";
