@@ -243,7 +243,7 @@ packer.startup(function(use)
 				sources = {
 					require("null-ls").builtins.formatting.stylua,
 					require("null-ls").builtins.formatting.black,
-					require("null-ls").builtins.formatting.nixfmt,
+					-- require("null-ls").builtins.formatting.nixfmt, -- Redundant with rnix?
 				},
 				on_attach = function(client)
 					if client.resolved_capabilities.document_formatting then
