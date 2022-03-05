@@ -26,7 +26,7 @@ in
   #hardware.bluetooth.enable = true;
   #hardware.bluetooth.powerOnBoot = false;
 
-  nix.maxJobs = lib.mkDefault 4;
+  nix.settings.max-jobs = lib.mkDefault 4;
   powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
 
   imports = [
@@ -55,7 +55,7 @@ in
     enable = true;
     startWhenNeeded = true; # Don't start until socket request comes in to systemd
     passwordAuthentication = false;
-    challengeResponseAuthentication = false;
+    kbdInteractiveAuthentication = false;
   };
 
   environment.systemPackages = with pkgs; [
