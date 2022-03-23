@@ -20,7 +20,7 @@ new_window pixel 1
 exec --no-startup-id hsetroot -solid '#000000'
 exec --no-startup-id xrdb -merge $HOME/.Xresources # Fix urxvt and friends
 exec --no-startup-id xss-lock -- screenlock # Capture lock events
-exec --no-startup-id xset dpms 300 # Turn off screen after 5min (also locks)
+exec --no-startup-id xset dpms 300 600 600 # Screen standby after 5min, off after 10 (also locks)
 exec --no-startup-id $term
 
 
