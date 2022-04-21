@@ -27,7 +27,7 @@ initrd.keys.gz: ${KEYFILE}
 
 ## Management
 
-update: sync update-os update-env update-homemanager update-flatpak
+update: sync update-os update-env update-homemanager update-flatpak flatpak-clean-nvidia
 
 update-os:
 	sudo nixos-rebuild switch
@@ -40,6 +40,10 @@ update-homemanager:
 
 update-flatpak:
 	flatpak update --appstream && flatpak update && flatpak uninstall --unused
+
+FLATPAK_LATEST_NVIDIA = $(shell flatpak list | grep "GL.nvidia" | cut -f2 | cut -d '.' -f5)
+flatpak-clean-nvidia:
+	flatpak list | grep org.freedesktop.Platform.GL32.nvidia- | cut -f2 | grep -v "$(FLATPAK_LATEST_NVIDIA)" | xargs -o flatpak uninstall
 
 outdated: sync
 	sudo nixos-rebuild dry-build --upgrade
