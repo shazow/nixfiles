@@ -25,7 +25,7 @@ packer.startup(function(use)
 	use({ "nvim-treesitter/nvim-treesitter-refactor" })
 	use({ "RRethy/nvim-treesitter-textsubjects" })
 	require("nvim-treesitter.configs").setup({
-		--highlight = { enable = true, disable = {} }, -- This seems to bork on lua lately (and other languages?)
+		highlight = { enable = true, disable = {} }, -- This seems to bork on lua lately (and other languages?)
 		indent = { enable = true },
 		refactor = { highlight_definitions = { enable = true } },
 		incremental_selection = { enable = true },
