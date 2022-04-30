@@ -86,7 +86,7 @@ in {
       jedi
     ]))
     gcc
-    go
+    go_1_18
     gopls
     stylua # lua formatter
     sumneko-lua-language-server # Lua lsp
@@ -103,7 +103,7 @@ in {
     #cargo-edit
 
     drive # google drive cli
-    obs-studio # Screen recording, stremaing
+    # obs-studio # Screen recording, streaming
     transmission-gtk # Torrents
 
     #mplayer  # TODO: Switch to mpc?
