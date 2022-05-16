@@ -6,6 +6,7 @@ local on_attach = function(client, bufnr)
 	local function buf_set_keymap(...)
 		vim.api.nvim_buf_set_keymap(bufnr, ...)
 	end
+
 	local function buf_set_option(...)
 		vim.api.nvim_buf_set_option(bufnr, ...)
 	end
@@ -36,22 +37,32 @@ local on_attach = function(client, bufnr)
 	buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
 end
 
--- Use a loop to conveniently call 'setup' on multiple servers and
--- map buffer local keybindings when the language server attaches
-local servers = {
-	--"denols", -- deno.land
-	"gopls",
-	"jedi_language_server", -- Python
-	"rnix", -- nix
-	"rust_analyzer",
-	"tsserver", -- TypeScript and JavaScript
-	"vuels",
-	-- "pyright", -- Node implementation of a Python LSP with static checking
-}
-for _, lsp in ipairs(servers) do
-	nvim_lsp[lsp].setup({ on_attach = on_attach })
+local function nixcmd(pkg)
+	-- Helper for producing the nix run command tuple.
+	-- TODO: Could detect if `nix run` exists, otherwise use `nix-shell -p $foo --run`
+	-- TODO: Could detect if there is no nix, and default to no-op
+	return { cmd = { "nix", "run", "nixpkgs#" .. pkg, "--" } }
 end
 
+-- Use a loop to conveniently call 'setup' on multiple servers and
+-- map buffer local keybindings when the language server attaches
+local servers = {}
+
+servers["gopls"] = nixcmd("gopls")
+servers["jedi_language_server"] = nixcmd("jedi") -- Python
+servers["rnix"] = nixcmd("rnix-lsp") -- nix
+servers["rust_analyzer"] = nixcmd("rust-analyzer")
+servers["tsserver"] = nixcmd("nodePackages.tsserver") -- TypeScript and JavaScript
+servers["vuels"] = nixcmd("nodePackages.vls")
+servers["zls"] = nixcmd("zls") -- zig
+
+for name, lsp_cfg in pairs(servers) do
+	-- Merge configs, this way config is optional (can pass {})
+	local cfg = vim.tbl_deep_extend("keep", lsp_cfg, { on_attach = on_attach })
+	nvim_lsp[name].setup(cfg)
+end
+
+-- Setup lua separately because we inject vim configs
 nvim_lsp.sumneko_lua.setup({
 	cmd = { "lua-language-server" },
 	settings = {
