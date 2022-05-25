@@ -49,7 +49,7 @@ end
 local servers = {}
 
 servers["gopls"] = nixcmd("gopls")
-servers["jedi_language_server"] = nixcmd("jedi") -- Python
+servers["jedi_language_server"] = nixcmd("python3Packages.jedi-language-server") -- Python
 servers["rnix"] = nixcmd("rnix-lsp") -- nix
 servers["rust_analyzer"] = nixcmd("rust-analyzer")
 servers["tsserver"] = nixcmd("nodePackages.tsserver") -- TypeScript and JavaScript
