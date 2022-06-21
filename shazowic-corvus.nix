@@ -3,7 +3,7 @@ let hashedPassword = import ./.hashedPassword.nix; in# Make with mkpasswd (see M
 { config, pkgs, lib, ... }:
 
 {
-  services.localtime.enable = true;
+  services.localtimed.enable = true;
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.initrd.availableKernelModules = [ "xhci_pci" "nvme" ];
