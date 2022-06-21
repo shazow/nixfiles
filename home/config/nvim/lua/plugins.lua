@@ -55,6 +55,7 @@ packer.startup(function(use)
 
 	use({
 		"folke/trouble.nvim", -- LSP code diagnostics
+		requires = "kyazdani42/nvim-web-devicons",
 		config = function()
 			require("trouble").setup({})
 		end,
