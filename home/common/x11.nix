@@ -26,6 +26,14 @@ in
     fi
   '';
 
+  home.pointerCursor = {
+    name = "capitaine-cursors";
+    package = pkgs.capitaine-cursors;
+    size = 24;
+
+    x11.enable = true;
+  };
+
   gtk = {
     enable = true;
     theme = {
@@ -41,12 +49,6 @@ in
     # dbus-launch manages cross-process communication (required for GTK systray icons, etc).
     # FIXME: Is dbus-launch necessary now that it's part of xsession?
     windowManager.command = "dbus-launch --exit-with-x11 i3";
-
-    pointerCursor = {
-      name = "capitaine-cursors";
-      package = pkgs.capitaine-cursors;
-      size = 24;
-    };
   };
 
   # Using a compositor fixes tearing on Nvidia and DRI3 freezing on Intel

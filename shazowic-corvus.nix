@@ -115,5 +115,5 @@ let hashedPassword = import ./.hashedPassword.nix; in# Make with mkpasswd (see M
   # compatible, in order to avoid breaking some software such as database
   # servers. You should change this only after NixOS release notes say you
   # should.
-  system.stateVersion = "20.03";
+  system.stateVersion = "22.05";
 }
