@@ -40,14 +40,14 @@
     };
   };
 
-  services.tlp.enable = true;
-  services.tlp.extraConfig = ''
-    START_CHARGE_THRESH_BAT0=75
-    STOP_CHARGE_THRESH_BAT0=90
-    DEVICES_TO_DISABLE_ON_STARTUP="bluetooth"
-    DEVICES_TO_DISABLE_ON_BAT_NOT_IN_USE="bluetooth"
-  '';
-  services.tlp.settings.cpuFreqGovernor = "powersave";
+  services.tlp.settings = {
+    cpuFreqGovernor = "powersave";
+
+    START_CHARGE_THRESH_BAT0 = 75;
+    STOP_CHARGE_THRESH_BAT0 = 90;
+    DEVICES_TO_DISABLE_ON_STARTUP = "bluetooth";
+    DEVICES_TO_DISABLE_ON_BAT_NOT_IN_USE = "bluetooth";
+  };
 
   # Firmware updating
   services.fwupd.enable = true;
