@@ -86,8 +86,6 @@ in {
       jedi
     ]))
     gcc
-    go_1_18
-    gopls
     stylua # lua formatter
     sumneko-lua-language-server # Lua lsp
     rnix-lsp # Nix lsp
@@ -101,9 +99,11 @@ in {
     #latest.rustChannels.nightly.rust-src  # Needed for $RUST_SRC_PATH?
     #rustracer
     #cargo-edit
+    go
 
     drive # google drive cli
     # obs-studio # Screen recording, streaming
+    flameshot  # Screenshots
     transmission-gtk # Torrents
 
     #mplayer  # TODO: Switch to mpc?
@@ -120,6 +120,7 @@ in {
     fzf
     gotop
     jq
+    ncdu_2 # disk space analyzer
     powerstat
     lsof
     hsetroot # for setting bg in picom (xsetroot doesn't work)
