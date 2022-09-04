@@ -59,3 +59,6 @@ clean:
 wireguard: /etc/nixos/.wireguard.key
 	wg genkey > "$@"
 	chmod 400 "$@"
+
+sup: # What's new?
+	nix-shell -p nvd --run 'nvd diff $$(ls -dv /nix/var/nix/profiles/system-*-link | tail -2)'
