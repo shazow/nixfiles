@@ -105,6 +105,7 @@ in {
     # obs-studio # Screen recording, streaming
     flameshot  # Screenshots
     transmission-gtk # Torrents
+    mullvad-vpn # Frontend
 
     #mplayer  # TODO: Switch to mpc?
     playerctl

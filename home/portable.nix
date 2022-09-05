@@ -21,4 +21,10 @@ in
     ${i3statusCfg.laptop}
     ${i3statusCfg.tail}
   '';
+
+  # FIXME: Don't love hardcoding this, I want my home config to be user-agnostic
+  home.username = "shazow";
+  home.homeDirectory = "/home/shazow";
+
+  home.stateVersion = "22.05";
 }
