@@ -85,7 +85,8 @@ packer.startup(function(use)
 			map(
 				"n",
 				"<c-s>",
-				[[<cmd>lua require('telescope.builtin').live_grep({ cwd = vim.fn.systemlist("git rev-parse --show-toplevel")[1]})<cr>]],
+				[[<cmd>lua require('telescope.builtin').live_grep({ cwd = vim.fn.systemlist("git rev-parse --show-toplevel")[1]})<cr>]]
+				,
 				{ silent = true }
 			)
 		end,
@@ -165,10 +166,14 @@ packer.startup(function(use)
 	--use 'itchyny/lightline.vim'
 	use({
 		"hoob3rt/lualine.nvim",
+		requires = { 'arkav/lualine-lsp-progress', opt = true },
 		config = function()
 			require("lualine").setup({
 				options = {
 					theme = "tokyonight",
+				},
+				sections = {
+					lualine_c = { 'filename', 'lsp_progress' },
 				},
 			})
 		end,
