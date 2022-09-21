@@ -37,11 +37,11 @@ local on_attach = function(client, bufnr)
 	buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
 end
 
-local function nixcmd(pkg)
+local function nixcmd(pkg, flag)
 	-- Helper for producing the nix run command tuple.
 	-- TODO: Could detect if `nix run` exists, otherwise use `nix-shell -p $foo --run`
 	-- TODO: Could detect if there is no nix, and default to no-op
-	return { cmd = { "nix", "run", "nixpkgs#" .. pkg, "--" } }
+	return { cmd = { "nix", "run", "nixpkgs#" .. pkg, "--", flag } }
 end
 
 -- Use a loop to conveniently call 'setup' on multiple servers and
@@ -52,7 +52,7 @@ servers["gopls"] = nixcmd("gopls")
 servers["jedi_language_server"] = nixcmd("python3Packages.jedi-language-server") -- Python
 servers["rnix"] = nixcmd("rnix-lsp") -- nix
 servers["rust_analyzer"] = nixcmd("rust-analyzer")
-servers["tsserver"] = nixcmd("nodePackages.tsserver") -- TypeScript and JavaScript
+servers["tsserver"] = nixcmd("nodePackages.typescript-language-server", '--stdio') -- TypeScript and JavaScript
 servers["vuels"] = nixcmd("nodePackages.vls")
 servers["zls"] = nixcmd("zls") -- zig
 
