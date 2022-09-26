@@ -42,7 +42,7 @@ let hashedPassword = import ./.hashedPassword.nix; in# Make with mkpasswd (see M
     home-manager
 
     # Desktop
-    alsaTools
+    alsa-tools
     arandr
     colord
     dunst
