@@ -6,21 +6,10 @@
 -- https://github.com/wbthomason/packer.nvim/issues/237
 -- https://github.com/nanotee/nvim-lua-guide
 
-local packer = require("packer")
-
 -- Compile on save
 vim.cmd([[autocmd BufWritePost plugins.lua PackerCompile]])
 
-packer.init({
-	-- Put the generated packer file a bit out of the way
-	-- FIXME: This fails to load, need to update the load path too
-	--compile_path = require('packer.util').join_paths(vim.fn.stdpath('config'), 'packer', 'packer_compiled.vim')
-})
-
-packer.startup(function(use)
-	-- Packer can manage itself
-	use("wbthomason/packer.nvim")
-
+return function(use)
 	-- Treesitter is managed by the package config, we just manage configs/deps here
 	use({ "nvim-treesitter/nvim-treesitter-refactor" })
 	use({ "RRethy/nvim-treesitter-textsubjects" })
@@ -297,4 +286,4 @@ packer.startup(function(use)
 			vim.cmd([[colorscheme tokyonight]])
 		end,
 	})
-end)
+end
