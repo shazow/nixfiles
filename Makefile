@@ -27,7 +27,7 @@ initrd.keys.gz: ${KEYFILE}
 
 ## Management
 
-update: sync update-os update-env update-homemanager update-flatpak flatpak-clean-nvidia
+update: sync update-os update-env update-homemanager update-flatpak flatpak-clean-nvidia update-neovim
 
 update-os:
 	sudo nixos-rebuild switch
@@ -40,6 +40,9 @@ update-homemanager:
 
 update-flatpak:
 	flatpak update --appstream && flatpak update && flatpak uninstall --unused
+
+update-neovim:
+	nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
 
 FLATPAK_LATEST_NVIDIA = $(shell flatpak list | grep "GL.nvidia" | cut -f2 | cut -d '.' -f5)
 flatpak-clean-nvidia:
