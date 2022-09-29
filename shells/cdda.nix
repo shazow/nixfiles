@@ -4,11 +4,13 @@ let
 
   inherit (nixpkgs.cataclysmDDA) attachPkgs git pkgs;
 
+  version = "2022-09-22-2024";
   myCDDA = attachPkgs pkgs (((git.tiles.override {
-    version = "2022-05-01-0629";
-    rev = "cdda-experimental-2022-05-01-0629";
+      version = version;
+      rev = "cdda-experimental-${version}";
   })).overrideAttrs (_: {
     enableParallelBuilding = true;
+    postPatch = "";
   }));
 in
   with nixpkgs;
