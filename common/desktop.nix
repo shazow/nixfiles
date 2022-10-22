@@ -67,12 +67,14 @@
   networking.networkmanager.enable = true;
   networking.networkmanager.dns = "dnsmasq";
   networking.networkmanager.appendNameservers = [ "1.1.1.1" "8.8.8.8" "2001:4860:4860::8844" ];
+
+  networking.firewall.checkReversePath = "loose"; # Workaround for tailscale? https://github.com/tailscale/tailscale/issues/4432
   # networking.firewall.allowedTCPPorts = [];
   # networking.firewall.allowedUDPPorts = [];
 
   hardware.sane.enable = true;
 
-  programs.nix-ld.enable = true; # Run unpatched dynamic libraries
+  # programs.nix-ld.enable = true; # Run unpatched dynamic libraries
   programs.light.enable = true;
   services.avahi.enable = true;
   services.avahi.nssmdns = true;
