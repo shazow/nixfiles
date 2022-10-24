@@ -38,6 +38,9 @@ local on_attach = function(client, bufnr)
 end
 
 require('lazy-lsp').setup {
+	excluded_servers = {
+		"denols",
+	},
 	default_config = {
 		on_attach = on_attach,
 	},
