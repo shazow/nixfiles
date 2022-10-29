@@ -3,11 +3,6 @@ let hashedPassword = import ./.hashedPassword.nix; in# Make with mkpasswd (see M
 { config, pkgs, lib, ... }:
 
 {
-  # services.localtimed.enable = true; # Broken: https://github.com/NixOS/nixpkgs/issues/177792
-
-  # TODO: Try this to fix blank screen on resume
-  #boot.kernelParams = [ "i915.enable_psr=0" ];  # See: https://gitlab.freedesktop.org/drm/intel/-/issues/4704
-
   boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.initrd.availableKernelModules = [ "xhci_pci" "nvme" ];
   boot.blacklistedKernelModules = [ "mei_me" ];

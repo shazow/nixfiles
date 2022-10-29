@@ -6,8 +6,6 @@ in
 { config, pkgs, lib, ... }:
 
 {
-  services.localtimed.enable = true;
-
   boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "nvme" "usbhid" "sd_mod" ];
   boot.kernelModules = [ "kvm-intel" ];

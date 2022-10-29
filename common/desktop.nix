@@ -83,6 +83,8 @@
   services.printing.drivers = [ pkgs.brlaser ];
 
   systemd.services.NetworkManager-wait-online.enable = false; # FIXME: Workaround for systemd/dbus related issue? https://github.com/NixOS/nixpkgs/issues/180175
+  # services.localtimed.enable = true; # Broken: https://github.com/NixOS/nixpkgs/issues/177792
+
 
   # Wireguard
   networking.wireguard.enable = true;
