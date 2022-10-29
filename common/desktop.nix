@@ -82,6 +82,8 @@
   services.printing.enable = true;
   services.printing.drivers = [ pkgs.brlaser ];
 
+  systemd.services.NetworkManager-wait-online.enable = false; # FIXME: Workaround for systemd/dbus related issue? https://github.com/NixOS/nixpkgs/issues/180175
+
   # Wireguard
   networking.wireguard.enable = true;
   networking.iproute2.enable = true; # Needed for mullvad daemon
