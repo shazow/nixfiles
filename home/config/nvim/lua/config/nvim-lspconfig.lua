@@ -40,6 +40,9 @@ end
 require('lazy-lsp').setup {
 	excluded_servers = {
 		"denols",
+		"efm", -- not using it?
+		"diagnosticls",
+		"zk",
 	},
 	default_config = {
 		on_attach = on_attach,

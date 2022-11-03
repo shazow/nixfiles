@@ -95,12 +95,12 @@ return function(use)
 
 	-- Zen mode
 	use({
-		"Pocco81/TrueZen.nvim",
-		requires = { "junegunn/limelight.vim" },
+		"Pocco81/true-zen.nvim",
+		requires = { "folke/twilight.nvim" },
 		config = function()
 			require("true-zen").setup({
 				integrations = {
-					limelight = true,
+					twilight = true,
 					lualine = true,
 				},
 			})
