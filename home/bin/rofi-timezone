@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+TZ="$(timedatectl list-timezones | rofi -dmenu -i)"
+if [[ "$TZ" ]]; then
+     timedatectl set-timezone "$TZ"
+fi
