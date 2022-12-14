@@ -14,7 +14,7 @@ return function(use)
 	use({ "nvim-treesitter/nvim-treesitter-refactor" })
 	use({ "RRethy/nvim-treesitter-textsubjects" })
 	require("nvim-treesitter.configs").setup({
-		highlight = { enable = true, disable = {} },
+		highlight = { enable = true, disable = { "lua" } },
 		indent = { enable = true },
 		refactor = { highlight_definitions = { enable = true } },
 		incremental_selection = { enable = true },
