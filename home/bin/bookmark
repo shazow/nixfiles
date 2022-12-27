@@ -1,0 +1,93 @@
+#! /usr/bin/env nix-shell
+#! nix-shell -i bash -p curl htmlq html2text xclip
+
+# Bookmark URL as a markdown file.
+#
+# Note that the logging messages are sent to sterr, but the final path is sent
+# as stdout.
+#
+# Usage:
+# $ export BOOKMARK_DIR="$HOME/Documents/Bookmarks"
+# $ bookmark "https://shazow.net"
+# Saved:
+# ~/Documents/Bookmarks/shazow_net.md
+#
+# $ bookmark
+# Loaded from clipboard: https://shazow.net
+# Saved:
+# ~/Documents/Bookmarks/shazow_net.md
+#
+# $ nvim $(bookmark "https://shazow.net")
+# ...
+
+: "${BOOKMARK_DIR:=}"
+
+prefix() {
+    declare token="${1}"
+    while read line; do
+        echo "${token}${line}"
+    done
+}
+
+extract() {
+    declare url="${1}"
+
+    # TODO: Normalize URL
+
+    readonly content=$(curl --silent "$url")
+    if [[ ! $? ]]; then
+        err "Invalid URL: $url"
+        exit 2
+    fi
+    readonly description=$(echo $content | htmlq --attribute content meta[name=description])
+
+    echo "# $(echo $content | htmlq --text title)"
+    echo ""
+    echo "Link: $url"
+    echo "Bookmarked: $(date -Iseconds)"
+    echo ""
+    if [[ "$description" ]]; then
+        echo "Description:"
+        echo "$description" | prefix "> "
+        echo ""
+    fi
+    echo "Snippet:"
+    echo "$content" | html2text | grep --text "\S" | head -c 500 | prefix "> "
+    echo ""
+    echo ""
+    echo "Tags: "
+}
+
+urlencode() {
+    curl -s -w "%{url_effective}" --get --data-urlencode "@-" "example.com" | cut -d '?' -f2-
+}
+
+err() {
+    echo "$@" 1>&2;
+}
+
+main() {
+    declare url="${1}"
+
+    if [[ ! "$url" ]]; then
+        url=$(xclip -o)
+    fi
+
+    # Do we want to save or echo?
+    if [[ "$BOOKMARK_DIR" ]]; then
+        readonly path="$BOOKMARK_DIR/$(echo $url | urlencode)"
+        if [[ -f "$path" ]]; then
+            err "Bookmark already exists"
+            echo $path
+            exit 1
+        fi
+        readonly out=$(extract "$url") # Separate line so it can exit without writing
+        echo "$out" > $path
+        err "Saved:"
+        echo $path
+    else
+        extract "$url"
+    fi
+}
+
+main "$@"
