@@ -1,5 +1,5 @@
-#! /usr/bin/env nix-shell
-#! nix-shell -i bash -p curl htmlq html2text xclip
+#!/usr/bin/env nix-shell
+#!nix-shell -i bash -p curl htmlq html2text xclip
 
 # Bookmark URL as a markdown file.
 #
