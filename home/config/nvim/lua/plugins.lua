@@ -28,6 +28,10 @@ return function(use)
 		},
 	})
 
+	-- TODO: Investigate treesitter-based semantic search/replace plugins:
+	-- https://github.com/cshuaimin/ssr.nvim
+	-- https://github.com/vigoux/architext.nvim
+
 	use({
 		"neovim/nvim-lspconfig", -- Integrate with LSP
 		config = function()
@@ -85,6 +89,7 @@ return function(use)
 		end,
 	})
 	use("nvim-telescope/telescope-fzf-native.nvim")
+	use("stevearc/dressing.nvim") -- vim.ui.select(...) hooks for enhancing with telescope
 
 	-- Undo
 	use({
@@ -152,11 +157,16 @@ return function(use)
 		end,
 	})
 
-	-- which-key: Displays a popup with possible keybindings
-	--use 'folke/which-key.nvim'
+	use({ 'folke/which-key.nvim' }) -- Displays a popup with possible keybindings
+	use({ 'mrjones2014/legendary.nvim', -- Search for key bindings
+		config = function()
+			require("legendary").setup({
+				which_key = { auto_register = true }
+			})
+		end,
+	})
 
 	-- Status line
-	--use 'itchyny/lightline.vim'
 	use({
 		"hoob3rt/lualine.nvim",
 		requires = { 'arkav/lualine-lsp-progress', opt = true },
