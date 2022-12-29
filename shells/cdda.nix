@@ -1,5 +1,5 @@
 let
-  nixpkgs-cdda-mods = import (builtins.fetchTarball https://github.com/mnacamura/nixpkgs-cdda-mods/archive/master.tar.gz);
+ nixpkgs-cdda-mods = import (builtins.fetchTarball "https://github.com/mnacamura/nixpkgs-cdda-mods/archive/master.tar.gz");
   nixpkgs = import <nixpkgs> { overlays = [ nixpkgs-cdda-mods ]; };
 
   inherit (nixpkgs.cataclysmDDA) attachPkgs git pkgs;
