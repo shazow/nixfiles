@@ -45,17 +45,15 @@ extract() {
     echo ""
     echo "Link: $url"
     echo "Bookmarked: $(date -Iseconds)"
+    echo "Tags: "
     echo ""
     if [[ "$description" ]]; then
-        echo "Description:"
+        echo "## Description"
         echo "$description" | prefix "> "
         echo ""
     fi
-    echo "Snippet:"
+    echo "## Snippet"
     echo "$content" | html2text | grep --text "\S" | head -c 500 | prefix "> "
-    echo ""
-    echo ""
-    echo "Tags: "
 }
 
 urlencode() {
