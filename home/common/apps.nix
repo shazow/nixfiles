@@ -57,14 +57,6 @@ in {
     google-chrome-beta
     i3status-rust
 
-    # Games
-    (dwarf-fortress.override {
-      enableTWBT = true;
-      enableTruetype = true;
-      theme = "phoebus";
-    })
-    wesnoth
-
     # PDF, image mainpulation
     ghostscript
     gimp

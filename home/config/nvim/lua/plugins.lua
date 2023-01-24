@@ -144,6 +144,14 @@ return function(use)
 		end,
 	})
 
+	-- Edit filesystem like a buffer
+	use({
+		"stevearc/oil.nvim",
+		config = function()
+			require("oil").setup()
+		end,
+	})
+
 	use("tpope/vim-sleuth") -- Auto-detect buffer settings
 
 	use("tomtom/tcomment_vim") -- Commenting
@@ -223,7 +231,7 @@ return function(use)
 	--
 
 	use({
-		"kyazdani42/nvim-web-devicons", -- Nerdfonts icon override
+		"nvim-tree/nvim-web-devicons", -- Nerdfonts icon override
 		config = function()
 			require("nvim-web-devicons").setup({ default = true })
 		end,
