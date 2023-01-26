@@ -52,8 +52,10 @@ in
   services.openssh = {
     enable = true;
     startWhenNeeded = true; # Don't start until socket request comes in to systemd
-    passwordAuthentication = false;
-    kbdInteractiveAuthentication = false;
+    settings = {
+      passwordAuthentication = false;
+      kbdInteractiveAuthentication = false;
+    };
   };
 
   environment.systemPackages = with pkgs; [
