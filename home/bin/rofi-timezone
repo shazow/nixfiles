@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 TZ="$(timedatectl list-timezones | rofi -dmenu -i)"
 if [[ "$TZ" ]]; then
      timedatectl set-timezone "$TZ"

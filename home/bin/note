@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+# Open preferred note-taking software for a given path, file must exist
+if [[ -f $1 ]]; then
+    xdg-open obsidian://open?path=$1
+else
+    echo "Path does not exist: $1"
+fi
