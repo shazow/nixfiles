@@ -1,9 +1,13 @@
-{ pkgs, ... }:
+{ pkgs, config, ... }:
 
 let
   iconTheme = {
     package = pkgs.gnome.adwaita-icon-theme;
     name = "Adwaita";
+  };
+  sessionVars = {
+    # For my fancy bookmark script: home/bin/bookmark
+    BOOKMARK_DIR = "${config.home.homeDirectory}/remote/bookmarks";
   };
 in
 {
@@ -43,12 +47,15 @@ in
     iconTheme = iconTheme;
   };
 
+  home.sessionVariables = sessionVars;
+
   xsession = {
     enable = true;
 
     # dbus-launch manages cross-process communication (required for GTK systray icons, etc).
     # FIXME: Is dbus-launch necessary now that it's part of xsession?
     windowManager.command = "dbus-launch --exit-with-x11 i3";
+    importedVariables = builtins.attrNames sessionVars;
   };
 
   # Using a compositor fixes tearing on Nvidia and DRI3 freezing on Intel
