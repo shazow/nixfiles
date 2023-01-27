@@ -19,6 +19,11 @@
 #
 # $ nvim $(bookmark "https://shazow.net")
 # ...
+#
+# $ xdg-open obsidian://open/?path=$(./bookmark "https://shazow.net/")
+# ...
+
+set -eu
 
 : "${BOOKMARK_DIR:=}"
 
@@ -53,7 +58,12 @@ extract() {
         echo ""
     fi
     echo "## Snippet"
-    echo "$content" | html2text | grep --text "\S" | head -c 500 | prefix "> "
+    echo "$content" | html2text -nobs | grep --text "\S" | head -c 500 | prefix "> "
+}
+
+urlnormalize() {
+    # Strip scheme and trailing slash
+    sed -e 's|^\w*://||g' | sed -e 's|/$||g'
 }
 
 urlencode() {
@@ -73,7 +83,7 @@ main() {
 
     # Do we want to save or echo?
     if [[ "$BOOKMARK_DIR" ]]; then
-        readonly path="$BOOKMARK_DIR/$(echo $url | urlencode)"
+        readonly path="$BOOKMARK_DIR/$(echo -n $url | urlnormalize | urlencode).md"
         if [[ -f "$path" ]]; then
             err "Bookmark already exists"
             echo $path
