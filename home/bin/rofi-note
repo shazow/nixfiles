@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+: "${NOTE_DIR:=$HOME/remote/obsidian/inbox}"
+cd $NOTE_DIR && (ls *.md | rofi -dmenu | xargs -I '{}' xdg-open obsidian://open?path=$PWD/{})
