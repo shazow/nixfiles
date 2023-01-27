@@ -10,6 +10,10 @@ let
 in {
   nixpkgs.config.allowUnfree = true;
 
+  programs.sessionVariables = {
+    BOOKMARK_DIR = "$HOME${/remote/bookmarks}";
+  };
+
   programs.home-manager.enable = true;
   programs.git.delta.enable = true;
   programs.alacritty = {
