@@ -37,6 +37,7 @@ in
   hardware.cpu.intel.updateMicrocode = true;
   hardware.enableRedistributableFirmware = true;
   hardware.steam-hardware.enable = true; # VR
+  hardware.nvidia.modesetting.enable = true; # Nvidia, needed for vaapi
   services.xserver.videoDrivers = [ "nvidia" ];
   services.fwupd.enable = true;
   networking.interfaces.enp0s31f6 = {
