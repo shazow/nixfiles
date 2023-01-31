@@ -49,7 +49,7 @@ extract() {
     echo "# $(echo $content | htmlq --text title)"
     echo ""
     echo "Link: $url"
-    echo "Bookmarked: $(date -Iseconds)"
+    echo "Timestamp: $(date -Iseconds)"
     echo "Tags: "
     echo ""
     if [[ "$description" ]]; then
