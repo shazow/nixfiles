@@ -7,6 +7,12 @@ let
       dir = "bin";
       isExecutable = true;
     }) (builtins.attrNames (builtins.readDir ../bin));
+
+
+  vimMacroHandler = pkgs.writeScript "vim-macro-handler" ''
+    #!/usr/bin/env bash
+    echo "TODO: Implement the rest of the owl: $@"
+  '';
 in {
   nixpkgs.config.allowUnfree = true;
 
@@ -32,6 +38,17 @@ in {
     ${builtins.readFile ../config/nvim/init.lua}
     EOF
     '';
+  };
+
+  # Helper for linking to vim macros
+  xdg.desktopEntries = {
+    vim-macro = {
+      type = "Application";
+      name = "Vim Macro Handler";
+      terminal = false;
+      exec = "${vimMacroHandler} %u";
+      mimeType = [ "x-scheme-handler/vim-macro" ];
+    };
   };
 
   # Neovim configs semi-managed by home-manager (via symlinks)
