@@ -283,12 +283,15 @@ return function(use)
 		end,
 	}) -- Scratchpad, great for calculations, replaces jbyuki/quickmath.nvim
 
+	use({ "github/copilot.vim" })
+
 	---- Languages:
 	use({ "fatih/vim-go", run = "GoInstallBinaries" }) -- Go
 	use({ "LnL7/vim-nix" }) -- Nix
 	use({ "posva/vim-vue" }) -- Vue
 	use({ "rust-lang/rust.vim" }) -- Rust
 	use({ "TovarishFin/vim-solidity" }) -- Solidity
+	use({ "iden3/vim-circom-syntax" }) -- Circom
 
 	---- Colorschemes:
 	use({
