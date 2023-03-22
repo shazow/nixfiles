@@ -61,7 +61,7 @@
   i18n = {
     defaultLocale = "en_US.UTF-8";
   };
-  hardware.video.hidpi.enable = true; # Larger fonts in console
+  fonts.optimizeForVeryHighDPI = true; # Larger fonts in console
 
   #services.dnsmasq.enable = true;
   #services.dnsmasq.servers = [ "1.1.1.1" "8.8.8.8" "2001:4860:4860::8844" "100.100.100.100" ];
