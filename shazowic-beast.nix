@@ -39,7 +39,7 @@ in
   hardware.steam-hardware.enable = true; # VR
   hardware.nvidia.modesetting.enable = true; # Nvidia, needed for vaapi? https://github.com/NixOS/nixpkgs/issues/169245
   services.xserver.videoDrivers = [ "nvidia" ];
-  services.xserver.dpi = 162;
+  services.xserver.dpi = 163; # 3840x2160 over 27"
   services.fwupd.enable = true;
   networking.interfaces.enp0s31f6 = {
     useDHCP = true;

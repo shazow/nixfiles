@@ -61,7 +61,8 @@
   i18n = {
     defaultLocale = "en_US.UTF-8";
   };
-  fonts.optimizeForVeryHighDPI = true; # Larger fonts in console
+  # FIXME: Do we need this?
+  # fonts.optimizeForVeryHighDPI = true; # Larger fonts in console
 
   #services.dnsmasq.enable = true;
   #services.dnsmasq.servers = [ "1.1.1.1" "8.8.8.8" "2001:4860:4860::8844" "100.100.100.100" ];
