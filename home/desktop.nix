@@ -1,7 +1,5 @@
 { pkgs, ... }:
 
-let i3statusCfg = import ./common/i3status-rust.nix;
-in
 {
   # External monitor management
   programs.autorandr = import ./config/autorandr.nix;
@@ -21,10 +19,7 @@ in
   };
 
   home.file.".config/i3/config".source = ./config/i3/config;
-  home.file.".config/i3/status.toml".text = ''
-    ${i3statusCfg.head}
-    ${i3statusCfg.tail}
-  '';
+  home.file.".config/i3/status.toml".source = ./config/i3/status.toml;
 
   # FIXME: Don't love hardcoding this, I want my home config to be user-agnostic
   home.username = "shazow";
