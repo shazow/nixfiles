@@ -13,14 +13,14 @@
     device = "wlp2s0"
     format = "{ssid} {ip}"
     interval = 30
-    hide_inactive = true
+    missing_format = ""
 
     [[block]]
     block = "net"
     device = "enp0s31f6"
     format = "{ip}"
     interval = 30
-    hide_inactive = true
+    missing_format = ""
 
     [[block]]
     block = "disk_space"
