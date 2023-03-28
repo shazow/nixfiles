@@ -118,7 +118,7 @@ in
     isNormalUser = true;
     home = "/home/shazow";
     description = "shazow";
-    extraGroups = [ "wheel" "sudoers" "audio" "video" "disk" "networkmanager" "plugdev" "adbusers" "docker" ];
+    extraGroups = [ "wheel" "sudoers" "audio" "video" "disk" "networkmanager" "plugdev" "dialout" "adbusers" "docker" ];
     uid = 1000;
     hashedPassword = hashedPassword;
   };
