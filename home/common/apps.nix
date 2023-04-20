@@ -12,6 +12,10 @@ let
   vimMacroHandler = pkgs.writeScript "vim-macro-handler" ''
     #!/usr/bin/env bash
     echo "TODO: Implement the rest of the owl: $@"
+    path=""
+    macro=""
+
+    nvim --headless --noplugin -c "lua vim.api.nvim_exec(\"normal $macro\", true)" -c ":%p" -c "qa!" "$path"
   '';
 in {
   nixpkgs.config.allowUnfree = true;

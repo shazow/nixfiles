@@ -94,3 +94,14 @@ vim.api.nvim_set_keymap("s", "<S-Tab>", "v:lua.s_tab_complete()", { expr = true 
 
 map("v", ">", ">gv", {}) -- Retain visual select when indenting
 map("v", "<", "<gv", {}) -- Retain visual select when indenting
+
+
+-- WIP: Macro plugin helpers
+function RunMacro(reg)
+  vim.api.nvim_exec('normal @' .. reg, true)
+end
+
+function InsertMacro(reg)
+  local macro = vim.json.encode(vim.fn.getreg(reg))
+  vim.api.nvim_put({macro}, '', false, true)
+end
