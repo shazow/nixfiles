@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+readonly query=${@#"vim-macro://"}
+readonly path="$(echo $query | jq -r '.path')"
+readonly macro="$(echo $query | jq -r '.macro')"
+
+if [[ ! "$path" ]]; then
+    echo "Missing: path"
+    exit 1
+fi
+
+if [[ ! "$macro" ]]; then
+    echo "Missing: macro"
+    exit 1
+fi
+
+readonly cmd='lua vim.api.nvim_exec("normal '"$macro"'", true)'
+
+nvim --headless --noplugin -c "$cmd" -c ":%p" -c "qa!" "$path"

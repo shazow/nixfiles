@@ -9,14 +9,10 @@ let
     }) (builtins.attrNames (builtins.readDir ../bin));
 
 
-  vimMacroHandler = pkgs.writeScript "vim-macro-handler" ''
-    #!/usr/bin/env bash
-    echo "TODO: Implement the rest of the owl: $@"
-    path=""
-    macro=""
-
-    nvim --headless --noplugin -c "lua vim.api.nvim_exec(\"normal $macro\", true)" -c ":%p" -c "qa!" "$path"
-  '';
+  # TODO: Define inline rather than from localScripts?
+  # vimMacroHandler = pkgs.writeScript "vim-macro-handler" ''
+  # ''
+  vimMacroHandler = config.lib.file.mkOutOfStoreSymlink ../bin/vim-macro-handler;
 in {
   nixpkgs.config.allowUnfree = true;
 

@@ -95,13 +95,28 @@ vim.api.nvim_set_keymap("s", "<S-Tab>", "v:lua.s_tab_complete()", { expr = true 
 map("v", ">", ">gv", {}) -- Retain visual select when indenting
 map("v", "<", "<gv", {}) -- Retain visual select when indenting
 
+_G.get_selection = function()
+	local start_line = vim.fn.line("'<")
+	local start_col = vim.fn.col("'<")
+	local end_line = vim.fn.line("'>")
+	local end_col = vim.fn.col("'>")
 
--- WIP: Macro plugin helpers
+	-- We only care about the first line
+	local lines = vim.api.nvim_buf_get_lines(0, start_line - 1, end_line, false)
+	return string.sub(lines[1], start_col, end_col)
+end
+
 function RunMacro(reg)
-  vim.api.nvim_exec('normal @' .. reg, true)
+	vim.api.nvim_exec('normal @' .. reg, true)
+end
+
+function LoadMacro(reg)
+	-- Load current selection into register
+	local macro = _G.get_selection()
+	vim.fn.setreg(reg, vim.api.nvim_replace_termcodes(vim.json.decode(macro), true, true, true))
 end
 
 function InsertMacro(reg)
-  local macro = vim.json.encode(vim.fn.getreg(reg))
-  vim.api.nvim_put({macro}, '', false, true)
+	local macro = vim.json.encode(vim.fn.keytrans(vim.fn.getreg(reg)))
+	vim.api.nvim_put({macro}, '', false, true)
 end
