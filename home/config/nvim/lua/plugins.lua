@@ -152,11 +152,9 @@ return function(use)
 		end,
 	})
 
-	use("tpope/vim-sleuth") -- Auto-detect buffer settings
+	--use("tpope/vim-sleuth") -- Auto-detect buffer settings
 
 	use("tomtom/tcomment_vim") -- Commenting
-
-	use("famiu/nvim-reload") -- :Reload config
 
 	use({
 		"akinsho/toggleterm.nvim", -- Terminal floaties
@@ -250,6 +248,10 @@ return function(use)
 	}
 	]]
 	--
+
+	use({ "akinsho/git-conflict.nvim", tag = "*", config = function()
+		require('git-conflict').setup()
+	end}) -- Resolve git conflicts
 
 	use({
 		"jose-elias-alvarez/null-ls.nvim", -- Null language-server for formatting etc
