@@ -176,7 +176,7 @@ return function(use)
 
 	-- Status line
 	use({
-		"hoob3rt/lualine.nvim",
+		"nvim-lualine/lualine.nvim",
 		requires = { 'arkav/lualine-lsp-progress', opt = true },
 		config = function()
 			require("lualine").setup({
@@ -189,6 +189,8 @@ return function(use)
 			})
 		end,
 	})
+
+	use({ "rcarriga/nvim-notify" })
 
 	-- TODO: Switch to https://github.com/hrsh7th/nvim-cmp (same author, pure lua)
 	use({
