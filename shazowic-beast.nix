@@ -38,6 +38,7 @@ in
   hardware.enableRedistributableFirmware = true;
   hardware.steam-hardware.enable = true; # VR
   hardware.nvidia.modesetting.enable = true; # Nvidia, needed for vaapi? https://github.com/NixOS/nixpkgs/issues/169245
+  hardware.i2c.enable = true; # For controlling displays with ddcutil
   services.xserver.videoDrivers = [ "nvidia" ];
   services.xserver.dpi = 163; # 3840x2160 over 27"
   services.fwupd.enable = true;
@@ -118,7 +119,7 @@ in
     isNormalUser = true;
     home = "/home/shazow";
     description = "shazow";
-    extraGroups = [ "wheel" "sudoers" "audio" "video" "disk" "networkmanager" "plugdev" "dialout" "adbusers" "docker" ];
+    extraGroups = [ "wheel" "sudoers" "audio" "video" "disk" "networkmanager" "plugdev" "dialout" "adbusers" "docker" "i2c" ];
     uid = 1000;
     hashedPassword = hashedPassword;
   };

@@ -109,6 +109,7 @@ in {
     bat
     mdcat
     #delta
+    ddcutil
     file
     fzf
     gotop
