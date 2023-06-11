@@ -1,4 +1,4 @@
-{ ... }:
+{ username ? "shazow", ... }:
 
 {
   imports = [
@@ -17,8 +17,8 @@
   home.file.".config/i3/status.toml".source = ./config/i3/status.toml;
 
   # FIXME: Don't love hardcoding this, I want my home config to be user-agnostic
-  home.username = "shazow";
-  home.homeDirectory = "/home/shazow";
+  home.username = username;
+  home.homeDirectory = "/home/${username}";
 
   home.stateVersion = "23.05";
 }
