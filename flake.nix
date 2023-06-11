@@ -38,8 +38,8 @@
     homeConfigurations."shazow" = home-manager.lib.homeManagerConfiguration {
       pkgs = nixpkgs.legacyPackages.x86_64-linux;
       modules = [
-        # TODO: Parameterize to desktop.nix when on shazowic-beast
-        ./home/portable.nix
+        # TODO: Parameterize between portable.nix and desktop.nix, right now it's a symlink
+        ./home/home.nix
       ];
     };
   };
