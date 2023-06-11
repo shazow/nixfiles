@@ -1,5 +1,9 @@
-{ username ? "shazow", ... }:
+{ ... }:
 
+let
+  # TODO: Unhardcode this
+  username = "shazow";
+in
 {
   imports = [
     ./common/apps.nix
@@ -16,7 +20,6 @@
   home.file.".config/i3/config".source = ./config/i3/config;
   home.file.".config/i3/status.toml".source = ./config/i3/status.toml;
 
-  # FIXME: Don't love hardcoding this, I want my home config to be user-agnostic
   home.username = username;
   home.homeDirectory = "/home/${username}";
 

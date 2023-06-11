@@ -39,7 +39,7 @@
       pkgs = nixpkgs.legacyPackages.x86_64-linux;
       modules = [
         # TODO: Parameterize between portable.nix and desktop.nix, right now it's a symlink
-        ./home/home.nix
+        ./home/portable.nix
       ];
     };
   };
