@@ -35,14 +35,11 @@
 
     # Homes
 
-    homeConfigurations."shazowic-corvus" = home-manager.lib.homeManagerConfiguration {
+    homeConfigurations."shazow" = home-manager.lib.homeManagerConfiguration {
+      pkgs = nixpkgs.legacyPackages.x86_64-linux;
       modules = [
+        # TODO: Parameterize to desktop.nix when on shazowic-beast
         ./home/portable.nix
-      ];
-    };
-    homeConfigurations."shazowic-beast" = home-manager.lib.homeManagerConfiguration {
-      modules = [
-        ./home/desktop.nix
       ];
     };
   };
