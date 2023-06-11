@@ -38,6 +38,11 @@
     homeConfigurations."shazow" = home-manager.lib.homeManagerConfiguration {
       pkgs = nixpkgs.legacyPackages.x86_64-linux;
       modules = [
+        # FIXME: Workaround. Remove when fixed:
+        # - https://github.com/nix-community/home-manager/issues/2942
+        # - https://github.com/NixOS/nixpkgs/issues/171810
+        { nixpkgs.config.allowUnfreePredicate = (pkg: true); }
+
         # TODO: Parameterize between portable.nix and desktop.nix, right now it's a symlink
         ./home/portable.nix
       ];
