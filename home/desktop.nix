@@ -25,5 +25,5 @@
   home.username = "shazow";
   home.homeDirectory = "/home/shazow";
 
-  home.stateVersion = "22.05";
+  home.stateVersion = "23.05";
 }
