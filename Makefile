@@ -36,7 +36,7 @@ update-env:
 	nix-env -u '*'
 
 update-homemanager:
-	home-manager switch
+	home-manager switch --flake .
 
 update-flatpak:
 	flatpak update --appstream && flatpak update && flatpak uninstall --unused
