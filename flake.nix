@@ -13,12 +13,12 @@
 
   outputs = { nixpkgs, home-manager, ... }: {
 
-    devices = import ./devices;
+    devices = import ./devices.nix;
 
     mkSystemConfigurations = {
       devices,
       hashedPassword ? "", # Used for passwd
-    }: builtins.mapAttrs (name: device: {
+    }: builtins.mapAttrs (name: device: nixpkgs.lib.nixosSystem {
       inherit (device) system modules;
       specialArgs = {
         inherit hashedPassword;
