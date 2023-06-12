@@ -17,7 +17,7 @@
 
     mkSystemConfigurations = {
       devices,
-      hashedPassword ? "", # Used for passwd
+      hashedPassword, # Used for passwd
     }: builtins.mapAttrs (name: device: nixpkgs.lib.nixosSystem {
       inherit (device) system modules;
       specialArgs = {
