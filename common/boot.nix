@@ -11,9 +11,11 @@
 # - Password reuse: https://github.com/NixOS/nixpkgs/pull/29441
 # - FDE example: https://github.com/Chiiruno/configuration/blob/master/etc/nixos/boot.nix
 #
+{
+  disk ? import ../disk.nix,
+  ...
+}:
 let
-  disk = import ../disk.nix;
-
   btrfsOptions = [
     "defaults"
     "noatime"

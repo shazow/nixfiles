@@ -1,7 +1,8 @@
-let hashedPassword = import ./.hashedPassword.nix; in# Make with mkpasswd (see Makefile)
-
-{ config, pkgs, lib, ... }:
-
+{
+  config, pkgs, lib,
+  hashedPassword,
+  ...
+}:
 {
   boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.initrd.availableKernelModules = [ "xhci_pci" "nvme" ];
