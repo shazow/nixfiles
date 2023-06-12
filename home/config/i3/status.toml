@@ -59,7 +59,7 @@ if_command = "ls /sys/class/power_supply/BAT0"
 
 [[block]]
 block = "backlight"
-format = " $icon $brightness% "
+format = " $icon $brightness "
 if_command = "ls /sys/class/backlight/*"
 #missing_format = ""  # FIXME: This is missing
 
