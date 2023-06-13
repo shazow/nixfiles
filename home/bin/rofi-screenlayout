@@ -1,0 +1,2 @@
+#!/usr/bin/env sh
+rofi -modes "Screens:ls $HOME/.screenlayout/" -show 'Screens' | xargs -r -t sh -c
