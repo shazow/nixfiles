@@ -19,7 +19,15 @@
       devices,
       hashedPassword, # Used for passwd
     }: builtins.mapAttrs (name: device: nixpkgs.lib.nixosSystem {
-      inherit (device) system modules;
+      system = device.system;
+      modules = device.modules ++ [
+        home-manager.nixosModules.home-manager
+        {
+          # https://nix-community.github.io/home-manager/index.html#sec-install-nixos-module
+          home-manager.useUserPackages = true;
+          home-manager.useGlobalPkgs = true;
+        }
+      ];
       specialArgs = {
         inherit hashedPassword;
       };
@@ -34,7 +42,6 @@
         # - https://github.com/nix-community/home-manager/issues/2942
         # - https://github.com/NixOS/nixpkgs/issues/171810
         { nixpkgs.config.allowUnfreePredicate = (pkg: true); }
-
 
         # TODO: Parameterize between portable.nix and desktop.nix, right now it's a symlink
         ./home/portable.nix
