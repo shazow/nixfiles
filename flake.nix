@@ -45,7 +45,7 @@
       name = "shazow@${name}";
       value = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.${device.system};
-        modules = device.home + [
+        modules = device.home ++ [
           # FIXME: Workaround. Remove when fixed:
           # - https://github.com/nix-community/home-manager/issues/2942
           # - https://github.com/NixOS/nixpkgs/issues/171810
