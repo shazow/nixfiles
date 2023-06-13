@@ -11,9 +11,14 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { nixpkgs, home-manager, ... }: {
-
+  outputs = { nixpkgs, home-manager, ... }: let
     devices = import ./devices.nix;
+  in {
+
+    inherit devices;
+
+    # NixOS System Configuration generator
+    # Called by a device flake, can be generated from templates/nixos-device
 
     mkSystemConfigurations = {
       devices,
@@ -33,19 +38,21 @@
       };
     }) devices;
 
-    # Homes
+    # Homes:
+    # We generate a "username@hostname" combo per device
 
-    homeConfigurations."shazow" = home-manager.lib.homeManagerConfiguration {
-      pkgs = nixpkgs.legacyPackages.x86_64-linux;
-      modules = [
-        # FIXME: Workaround. Remove when fixed:
-        # - https://github.com/nix-community/home-manager/issues/2942
-        # - https://github.com/NixOS/nixpkgs/issues/171810
-        { nixpkgs.config.allowUnfreePredicate = (pkg: true); }
+    homeConfigurations = nixpkgs.lib.attrsets.mapAttrs' (name: device: {
+      name = "shazow@${name}";
+      value = home-manager.lib.homeManagerConfiguration {
+        pkgs = nixpkgs.legacyPackages.${device.system};
+        modules = device.home + [
+          # FIXME: Workaround. Remove when fixed:
+          # - https://github.com/nix-community/home-manager/issues/2942
+          # - https://github.com/NixOS/nixpkgs/issues/171810
+          { nixpkgs.config.allowUnfreePredicate = (pkg: true); }
+        ];
+      };
+    }) devices;
 
-        # TODO: Parameterize between portable.nix and desktop.nix, right now it's a symlink
-        ./home/portable.nix
-      ];
-    };
   };
 }
