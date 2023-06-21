@@ -52,8 +52,7 @@ outdated: sync
 	sudo nixos-rebuild dry-build --upgrade
 
 sync:
-	sudo nix-channel --update
-	nix-channel --update
+	nix flake update
 
 clean:
 	sudo nix-collect-garbage --delete-older-than 7d

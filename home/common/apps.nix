@@ -27,11 +27,7 @@ in {
     ];
     # We used to manage our own init.lua but now we want the home-manager
     # managed init.vim to load our init.lua which makes this a little dirty.
-    extraConfig = ''
-    lua << EOF
-    ${builtins.readFile ../config/nvim/init.lua}
-    EOF
-    '';
+    extraLuaConfig = builtins.readFile ../config/nvim/init.lua;
   };
 
   # Neovim configs semi-managed by home-manager (via symlinks)

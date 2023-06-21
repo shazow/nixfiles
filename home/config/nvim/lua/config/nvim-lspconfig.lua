@@ -43,6 +43,7 @@ require('lazy-lsp').setup {
 		"efm", -- not using it?
 		"diagnosticls",
 		"zk",
+        "sqls",
 	},
 	default_config = {
 		on_attach = on_attach,
