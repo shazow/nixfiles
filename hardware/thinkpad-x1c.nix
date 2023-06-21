@@ -1,10 +1,6 @@
 { pkgs, lib, ... }:
 
 {
-  imports = [
-    <nixos-hardware/lenovo/thinkpad/x1/6th-gen>
-  ];
-
   hardware.cpu.intel.updateMicrocode = true;
   hardware.enableRedistributableFirmware = true; # Might help wifi?
 

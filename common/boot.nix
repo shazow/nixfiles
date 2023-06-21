@@ -12,7 +12,7 @@
 # - FDE example: https://github.com/Chiiruno/configuration/blob/master/etc/nixos/boot.nix
 #
 {
-  disk ? import ../disk.nix,
+  disk,
   ...
 }:
 let

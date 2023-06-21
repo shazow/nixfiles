@@ -4,15 +4,14 @@
 # - https://github.com/srid/nixos-config/blob/master/flake.nix
 {
   inputs = {
-    #nixpkgs.url = "github:NixOS/nixpkgs/nixos-${stateVersion}";
-    nixpkgs.url = "https://github.com/NixOS/nixpkgs/archive/af21c31b2a1ec5d361ed8050edd0303c31306397.tar.gz";
-    nixos-hardware.url = "github:nixos/nixos-hardware";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.05";
+    nixos-hardware.url = "github:NixOS/nixos-hardware";
     home-manager.url = "github:nix-community/home-manager/release-23.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { nixpkgs, home-manager, ... }: let
-    devices = import ./devices.nix;
+  outputs = inputs@{ nixpkgs, home-manager, ... }: let
+    devices = import ./devices.nix { inherit inputs; };
   in {
 
     inherit devices;
@@ -23,6 +22,7 @@
     mkSystemConfigurations = {
       devices,
       hashedPassword, # Used for passwd
+      disk ? import ./disk.nix, # Used for FDE
     }: builtins.mapAttrs (name: device: nixpkgs.lib.nixosSystem {
       system = device.system;
       modules = device.modules ++ [
@@ -34,7 +34,7 @@
         }
       ];
       specialArgs = {
-        inherit hashedPassword;
+        inherit hashedPassword disk;
       };
     }) devices;
 

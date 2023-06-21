@@ -1,6 +1,7 @@
 {
   config, pkgs, lib,
   hashedPassword,
+  disk,
   ...
 }:
 {
@@ -25,7 +26,9 @@
 
   imports = [
     ./hardware/thinkpad-x1c.nix
-    ./common/boot.nix
+    (import ./common/boot.nix {
+    	inherit disk;
+    })
     ./common/desktop-i3.nix
   ];
 

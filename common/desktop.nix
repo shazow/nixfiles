@@ -1,7 +1,5 @@
 { pkgs, ... }:
 {
-  system.copySystemConfiguration = true;
-
   nixpkgs.config = {
     allowUnfree = true;
   };
