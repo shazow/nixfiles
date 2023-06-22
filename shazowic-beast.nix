@@ -1,6 +1,6 @@
 {
   config, pkgs, lib,
-  hashedPassword,
+  initialHashedPassword,
   disk,
   ...
 }:
@@ -121,7 +121,7 @@
     description = "shazow";
     extraGroups = [ "wheel" "sudoers" "audio" "video" "disk" "networkmanager" "plugdev" "dialout" "adbusers" "docker" "i2c" ];
     uid = 1000;
-    hashedPassword = hashedPassword;
+    initialHashedPassword = initialHashedPassword;
   };
 
   users.users.andrey = {
@@ -129,7 +129,7 @@
     home = "/home/andrey";
     description = "andrey";
     uid = 1100;
-    hashedPassword = hashedPassword;
+    initialHashedPassword = initialHashedPassword;
   };
 
   # Agent daemon required for pinentry

@@ -27,7 +27,7 @@
 
     mkSystemConfigurations = {
       devices,
-      hashedPassword, # Used for passwd
+      initialHashedPassword, # Used for passwd
       disk ? defaultDisk, # Used for FDE
     }: builtins.mapAttrs (name: device: nixpkgs.lib.nixosSystem {
       system = device.system;
@@ -40,7 +40,7 @@
         }
       ];
       specialArgs = {
-        inherit hashedPassword disk;
+        inherit initialHashedPassword disk;
       };
     }) devices;
 

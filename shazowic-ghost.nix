@@ -1,4 +1,7 @@
-{ config, lib, ... }:
+{ config, lib,
+  initialHashedPassword,
+  ...
+}:
 {
   boot.blacklistedKernelModules = [ "mei_me" ];
   boot.initrd.availableKernelModules = [ "ata_piix" "ohci_pci" "ahci" "sd_mod" "sr_mod" ];
@@ -17,12 +20,8 @@
     description = "shazow";
     extraGroups = [ "wheel" "sudoers" "audio" "video" "disk" "networkmanager"];
     uid = 1000;
-    hashedPassword = let hashedPassword = import ./.hashedPassword.nix; in hashedPassword; # Make with mkpasswd
+    initialHashedPassword = initialHashedPassword;
   };
 
-  # This value determines the NixOS release with which your system is to be
-  # compatible, in order to avoid breaking some software such as database
-  # servers. You should change this only after NixOS release notes say you
-  # should.
-  system.stateVersion = "19.03"; # Did you read the comment?
+  system.stateVersion = "23.05";
 }
