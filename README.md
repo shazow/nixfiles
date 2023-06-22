@@ -2,7 +2,22 @@
 
 Some of my .nix files
 
-## Installing
+## Installing: Flake Edition
+
+The configurations have been adapted to use flakes now, so some of the call
+flows have been abstracted and reversed to allow for the
+stateless/reproduceability requirements of flakes.
+
+In order to maintain some sensitive data outside the repo, the NixOS flake
+is designed to be called into by another minimal flake. For convenience, there
+is a template for this flake in this repo:
+
+```console
+$ nix flake init -t $NIXFILES_PATH/templates#nixos-device
+```
+
+
+## Installing: Old Pre-flake Edition
 
 ### Disk Setup
 

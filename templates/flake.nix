@@ -7,8 +7,10 @@
       welcomeText = ''
         # shazowic nixos device
 
-        ## Replace
-        - [ ] hashedPassword in flake.nix
+        ## Checklist
+        - [ ] Update input path to nixfiles
+        - [ ] Replace hashedPassword and other sensitive data in flake.nix
+        - [ ] Confirm desirable chmod permissions on flake (read-only by root?)
       '';
     };
 
