@@ -15,6 +15,8 @@
   "shazowic-beast" = {
     system = "x86_64-linux";
     modules = [
+      inputs.nixos-hardware.nixosModules.common-cpu-amd
+
       ./shazowic-beast.nix
     ];
     home = [

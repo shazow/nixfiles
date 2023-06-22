@@ -12,6 +12,12 @@
 
   outputs = inputs@{ nixpkgs, home-manager, ... }: let
     devices = import ./devices.nix { inherit inputs; };
+    defaultDisk = {
+      # TODO: Generalize this somehow? Or remove to force overriding?
+      efi = "/dev/nvme0n1p1";
+      cryptswap = "/dev/nvme0n1p2";
+      cryptroot = "/dev/nvme0n1p3";
+    };
   in {
 
     inherit devices;
@@ -22,7 +28,7 @@
     mkSystemConfigurations = {
       devices,
       hashedPassword, # Used for passwd
-      disk ? import ./disk.nix, # Used for FDE
+      disk ? defaultDisk, # Used for FDE
     }: builtins.mapAttrs (name: device: nixpkgs.lib.nixosSystem {
       system = device.system;
       modules = device.modules ++ [

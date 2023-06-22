@@ -1,10 +1,9 @@
-let
-  # Make with mkpasswd (see Makefile)
-  hashedPassword = import ./.hashedPassword.nix;
-in
-
-{ config, pkgs, lib, ... }:
-
+{
+  config, pkgs, lib,
+  hashedPassword,
+  disk,
+  ...
+}:
 {
   boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "nvme" "usbhid" "sd_mod" ];
@@ -28,8 +27,9 @@ in
   powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
 
   imports = [
-    <nixos-hardware/common/cpu/amd>
-    ./common/boot.nix
+    (import ./common/boot.nix {
+    	inherit disk;
+    })
     ./common/desktop-i3.nix
   ];
 
@@ -56,8 +56,8 @@ in
     enable = true;
     startWhenNeeded = true; # Don't start until socket request comes in to systemd
     settings = {
-      passwordAuthentication = false;
-      kbdInteractiveAuthentication = false;
+      PasswordAuthentication = false;
+      KbdInteractiveAuthentication = false;
     };
   };
 
