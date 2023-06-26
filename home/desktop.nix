@@ -1,4 +1,4 @@
-{ pkgs, username ? "shazow", ... }:
+{ pkgs, username, ... }:
 
 {
   # External monitor management

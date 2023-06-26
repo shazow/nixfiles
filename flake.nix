@@ -1,3 +1,11 @@
+# This flake is a shim for migrating my old non-flake NixOS config to a
+# reproduceable flake. A lot of it involves inverting the call flow to allow
+# for passing in all variable state from a root flake rather than sneaking them
+# into the middle of the config stack.
+#
+# This file might look a bit scary but really it's just some over-generalized
+# transformers. (:
+#
 # References:
 # - https://gitlab.com/rprospero/dotfiles/-/blob/master/flake.nix
 # - https://github.com/dwf/dotfiles/blob/master/flake.nix
@@ -11,6 +19,7 @@
   };
 
   outputs = inputs@{ nixpkgs, home-manager, ... }: let
+    username = "shazow";
     devices = import ./devices.nix { inherit inputs; };
     defaultDisk = {
       # TODO: Generalize this somehow? Or remove to force overriding?
@@ -47,9 +56,12 @@
     # Homes:
     # We generate a "username@hostname" combo per device
 
-    homeConfigurations = nixpkgs.lib.attrsets.mapAttrs' (name: device: {
-      name = "shazow@${name}";
+    homeConfigurations = nixpkgs.lib.attrsets.mapAttrs' (hostname: device: {
+      name = "${username}@${hostname}";
       value = home-manager.lib.homeManagerConfiguration {
+        extraSpecialArgs = {
+          inherit username hostname;
+        };
         pkgs = nixpkgs.legacyPackages.${device.system};
         modules = device.home ++ [
           # FIXME: Workaround. Remove when fixed:

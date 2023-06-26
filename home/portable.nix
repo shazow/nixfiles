@@ -1,9 +1,5 @@
-{ ... }:
+{ username, ... }:
 
-let
-  # TODO: Unhardcode this
-  username = "shazow";
-in
 {
   imports = [
     ./common/apps.nix
