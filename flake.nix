@@ -23,9 +23,13 @@
     devices = import ./devices.nix { inherit inputs; };
     defaultDisk = {
       # TODO: Generalize this somehow? Or remove to force overriding?
-      efi = "/dev/nvme0n1p1";
-      cryptswap = "/dev/nvme0n1p2";
-      cryptroot = "/dev/nvme0n1p3";
+      efi = { device = "/dev/nvme0n1p1"; };
+      luksDevices = {
+        cryptswap = { device = "/dev/nvme0n1p2"; };
+        cryptroot = { device = "/dev/nvme0n1p3"; };
+      };
+      extraFileSystems = {
+      };
     };
   in {
 

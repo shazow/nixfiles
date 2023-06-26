@@ -20,8 +20,8 @@ let
     "defaults"
     "noatime"
     "compress=lzo"
-    "noautodefrag" # FIXME: Switch back to "autodefrag" once 5.16.5+ is out: https://www.reddit.com/r/selfhosted/comments/sgy96t/psa_linux_516_has_major_regression_in_btrfs/
   ];
+  swapDevice = "/dev/mapper/cryptswap";
 in
 {
   boot.loader.systemd-boot = {
@@ -37,36 +37,35 @@ in
   boot.loader.efi.efiSysMountPoint = "/boot/efi";
 
   # Resume
-  boot.resumeDevice = "/dev/mapper/cryptswap";
+  boot.resumeDevice = swapDevice;
 
   # LUKS
   boot.initrd.supportedFilesystems = [ "btrfs" "ntfs" ];
-  boot.initrd.luks.devices = {
-    cryptroot = { device = disk.cryptroot; };
-    cryptswap = { device = disk.cryptswap; };
-  };
+  boot.initrd.luks.devices = disk.luksDevices;
 
   # Filesystems
-  fileSystems."/" = {
-    device = "/dev/mapper/cryptroot";
-    fsType = "btrfs";
-    options = btrfsOptions ++ [ "nodiratime" "commit=100" "subvol=@rootnix" ];
-  };
+  fileSystems = {
+    "/" = {
+      device = "/dev/mapper/cryptroot";
+      fsType = "btrfs";
+      options = btrfsOptions ++ [ "nodiratime" "commit=100" "subvol=@rootnix" ];
+    };
 
-  fileSystems."/home" = {
-    device = "/dev/mapper/cryptroot";
-    fsType = "btrfs";
-    options = btrfsOptions ++ [ "subvol=@home" ];
-  };
+    "/home" = {
+      device = "/dev/mapper/cryptroot";
+      fsType = "btrfs";
+      options = btrfsOptions ++ [ "subvol=@home" ];
+    };
 
-  fileSystems."/boot/efi" = {
-    label = "uefi";
-    device = disk.efi;
-    fsType = "vfat";
-    options = [ "discard" ];
-  };
+    "/boot/efi" = {
+      label = "uefi";
+      device = disk.efi.device;
+      fsType = "vfat";
+      options = [ "discard" ];
+    };
+  } // disk.extraFileSystems;
 
   swapDevices = [
-    { device = "/dev/mapper/cryptswap"; }
+    { device = swapDevice; }
   ];
 }
