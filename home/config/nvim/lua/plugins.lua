@@ -14,7 +14,7 @@ return function(use)
 	use({ "nvim-treesitter/nvim-treesitter-refactor" })
 	use({ "RRethy/nvim-treesitter-textsubjects" })
 	require("nvim-treesitter.configs").setup({
-		highlight = { enable = false, disable = { "lua" } },
+		highlight = { enable = true, disable = { "lua" } },
 		indent = { enable = true },
 		refactor = { highlight_definitions = { enable = true } },
 		incremental_selection = { enable = true },
@@ -296,6 +296,7 @@ return function(use)
 	use({ "rust-lang/rust.vim" }) -- Rust
 	use({ "TovarishFin/vim-solidity" }) -- Solidity
 	use({ "iden3/vim-circom-syntax" }) -- Circom
+    --use({ "evanleck/vim-svelte" }) -- Svelte... shouldn't need this but /shrug
 
 	---- Colorschemes:
 	use({
