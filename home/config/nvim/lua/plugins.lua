@@ -34,13 +34,13 @@ return function(use)
 
 	use({
 		"neovim/nvim-lspconfig", -- Integrate with LSP
-		config = function()
-			require("config/nvim-lspconfig")
-		end,
 	})
 
 	use({
 		"dundalek/lazy-lsp.nvim",
+		config = function()
+			require("config/nvim-lspconfig")
+		end,
 	})
 
 	use({
@@ -299,6 +299,7 @@ return function(use)
     --use({ "evanleck/vim-svelte" }) -- Svelte... shouldn't need this but /shrug
 
 	---- Colorschemes:
+    use({ "zaldih/themery.nvim" }) -- Colorscheme Manager
 	use({
 		"sainnhe/sonokai",
 		config = function()
@@ -316,4 +317,5 @@ return function(use)
 			vim.cmd([[colorscheme tokyonight]])
 		end,
 	})
+    use({ "theacodes/witchhazel" })
 end

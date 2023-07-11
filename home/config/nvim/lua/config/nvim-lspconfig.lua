@@ -43,14 +43,24 @@ require('lazy-lsp').setup {
 		"efm", -- not using it?
 		"diagnosticls",
 		"zk",
-        "sqls",
+		"sqls",
 	},
 	default_config = {
 		on_attach = on_attach,
 	},
 	-- Override config for specific servers that will passed down to lspconfig setup.
 	configs = {
-		sumneko_lua = {
+		lua_ls = {
+			settings = {
+				Lua = {
+					diagnostics = {
+						-- Get the language server to recognize the `vim` global
+						globals = { "vim" },
+					},
+				},
+			},
+		},
+		sumneko_lua = { -- FIXME: Not using sumneko anymore? Can remove
 			cmd = {"lua-language-server"},
 			settings = {
 				Lua = {
@@ -67,54 +77,6 @@ require('lazy-lsp').setup {
 				},
 			},
 			on_attach = on_attach,
-    },
+	},
   },
 }
-
--- TODO: Delete the following if w're happy with "dundalek/lazy-lsp.nvim
-
-local function nixcmd(pkg, flag)
-	-- Helper for producing the nix run command tuple.
-	-- TODO: Could detect if `nix run` exists, otherwise use `nix-shell -p $foo --run`
-	-- TODO: Could detect if there is no nix, and default to no-op
-	return { cmd = { "nix", "run", "nixpkgs#" .. pkg, "--", flag } }
-end
-local function addservers(nvim_lsp)
-	-- Use a loop to conveniently call 'setup' on multiple servers and
-	-- map buffer local keybindings when the language server attaches
-	local servers = {}
-
-	servers["gopls"] = nixcmd("gopls")
-	servers["jedi_language_server"] = nixcmd("python3Packages.jedi-language-server") -- Python
-	servers["rnix"] = nixcmd("rnix-lsp") -- nix
-	servers["rust_analyzer"] = nixcmd("rust-analyzer")
-	servers["tsserver"] = nixcmd("nodePackages.typescript-language-server", '--stdio') -- TypeScript and JavaScript
-	servers["vuels"] = nixcmd("nodePackages.vls")
-	servers["zls"] = nixcmd("zls") -- zig
-
-	for name, lsp_cfg in pairs(servers) do
-		-- Merge configs, this way config is optional (can pass {})
-		local cfg = vim.tbl_deep_extend("keep", lsp_cfg, { on_attach = on_attach })
-		nvim_lsp[name].setup(cfg)
-	end
-
-	-- Setup lua separately because we inject vim configs
-	nvim_lsp.sumneko_lua.setup({
-		cmd = { "lua-language-server" },
-		settings = {
-			Lua = {
-				diagnostics = {
-					globals = { "vim" }, -- Ignore missing vim global which is injected
-				},
-			},
-		},
-		commands = {
-			Format = {
-				function()
-					vim.lsp.buf.formatting_sync()
-				end,
-			},
-		},
-		on_attach = on_attach,
-	})
-end
