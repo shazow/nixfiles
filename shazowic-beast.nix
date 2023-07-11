@@ -19,9 +19,9 @@
 
 
   # Bluetooth
-  #services.blueman.enable = true;
-  #hardware.bluetooth.enable = true;
-  #hardware.bluetooth.powerOnBoot = false;
+  services.blueman.enable = true;
+  hardware.bluetooth.enable = true;
+  hardware.bluetooth.powerOnBoot = false;
 
   nix.settings.max-jobs = lib.mkDefault 4;
   powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
@@ -86,6 +86,9 @@
     iw # wireless tooling
     crda # wireless regulatory agent
     wireless-regdb
+
+    # Bluetooth
+    bluez
   ];
 
   networking.hostName = "shazowic-beast";
