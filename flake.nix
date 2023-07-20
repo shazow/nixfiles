@@ -12,10 +12,10 @@
 # - https://github.com/srid/nixos-config/blob/master/flake.nix
 {
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.05";
-    nixos-hardware.url = "github:NixOS/nixos-hardware";
-    home-manager.url = "github:nix-community/home-manager/release-23.05";
-    home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    # Flake registry defaults omitted:
+    # - nixpkgs
+    # - nixos-hardware
+    # - home-manager
   };
 
   outputs = inputs@{ nixpkgs, home-manager, ... }: let
