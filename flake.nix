@@ -18,7 +18,7 @@
     # - home-manager
   };
 
-  outputs = inputs@{ nixpkgs, home-manager, ... }: let
+  outputs = inputs@{ nixpkgs, home-manager, nixos-hardware, ... }: let
     username = "shazow";
     devices = import ./devices.nix { inherit inputs; };
     defaultDisk = {
