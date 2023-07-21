@@ -164,7 +164,8 @@ return function(use)
 	})
 
 	use({ 'folke/which-key.nvim' }) -- Displays a popup with possible keybindings
-	use({ 'mrjones2014/legendary.nvim', -- Search for key bindings
+	use({
+		'mrjones2014/legendary.nvim', -- Search for key bindings
 		config = function()
 			require("legendary").setup({
 				which_key = { auto_register = true }
@@ -249,31 +250,13 @@ return function(use)
 	]]
 	--
 
-	use({ "akinsho/git-conflict.nvim", tag = "*", config = function()
-		require('git-conflict').setup()
-	end}) -- Resolve git conflicts
-
 	use({
-		"jose-elias-alvarez/null-ls.nvim", -- Null language-server for formatting etc
+		"akinsho/git-conflict.nvim",
+		tag = "*",
 		config = function()
-			vim.cmd([[
-				nnoremap <silent><leader>f <cmd>lua vim.lsp.buf.formatting_sync()<CR>
-			]])
-
-			--require("null-ls").setup({
-			--	on_attach = function(client)
-			--		if client.resolved_capabilities.document_formatting then
-			--			vim.cmd([[
-			--				augroup LspFormatting
-			--				autocmd! * <buffer>
-			--				autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()
-			--				augroup END
-			--			]])
-			--		end
-			--	end,
-			--})
-		end,
-	})
+			require('git-conflict').setup()
+		end
+	})                               -- Resolve git conflicts
 
 	use({ "dstein64/vim-startuptime" }) -- startuptime visualizer
 	use({
@@ -289,17 +272,31 @@ return function(use)
 
 	use({ "github/copilot.vim" })
 
+	use({
+		"NMAC427/guess-indent.nvim",
+		config = function()
+			require('guess-indent').setup({})
+		end,
+	}) -- Guess indent settings
+
 	---- Languages:
 	use({ "fatih/vim-go", run = "GoInstallBinaries" }) -- Go
-	use({ "LnL7/vim-nix" }) -- Nix
-	use({ "posva/vim-vue" }) -- Vue
-	use({ "rust-lang/rust.vim" }) -- Rust
-	use({ "TovarishFin/vim-solidity" }) -- Solidity
-	use({ "iden3/vim-circom-syntax" }) -- Circom
-    --use({ "evanleck/vim-svelte" }) -- Svelte... shouldn't need this but /shrug
+	use({ "LnL7/vim-nix" })                         -- Nix
+	use({ "posva/vim-vue" })                        -- Vue
+	use({ "rust-lang/rust.vim" })                   -- Rust
+	use({ "TovarishFin/vim-solidity" })             -- Solidity
+	use({ "iden3/vim-circom-syntax" })              -- Circom
+	--use({ "evanleck/vim-svelte" }) -- Svelte... shouldn't need this but /shrug
 
 	---- Colorschemes:
-    use({ "zaldih/themery.nvim" }) -- Colorscheme Manager
+	use({ "zaldih/themery.nvim",
+		config = function()
+			require("themery").setup({
+				themes = {"sonokai", "zephyr", "modus", "tokyonight", "witchhazel"},
+			})
+		end,
+	}) -- Colorscheme Manager
+
 	use({
 		"sainnhe/sonokai",
 		config = function()
@@ -317,5 +314,5 @@ return function(use)
 			vim.cmd([[colorscheme tokyonight]])
 		end,
 	})
-    use({ "theacodes/witchhazel" })
+	use({ "theacodes/witchhazel" })
 end
