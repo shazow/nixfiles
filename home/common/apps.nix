@@ -23,7 +23,7 @@ in {
     enable = true;
     plugins = with pkgs.vimPlugins; [
       # Inject tree-sitters, since they're annoying to maintain with sideloading
-      (nvim-treesitter.withPlugins (plugins: pkgs.tree-sitter.allGrammars))
+      nvim-treesitter.withAllGrammars
     ];
     # We used to manage our own init.lua but now we want the home-manager
     # managed init.vim to load our init.lua which makes this a little dirty.
