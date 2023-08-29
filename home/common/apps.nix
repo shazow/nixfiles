@@ -82,6 +82,10 @@ in {
     websocat # websocket netcat
     zeal
 
+    # Gaming
+    lutris
+    wine
+
     # Programming: Rust
     #latest.rustChannels.nightly.rust
     #latest.rustChannels.nightly.rust-src  # Needed for $RUST_SRC_PATH?

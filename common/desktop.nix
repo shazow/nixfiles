@@ -22,7 +22,6 @@
     gnumake
     htop
     inetutils
-    lutris # Gaming
     lm_sensors
     mkpasswd
     (neovim.override {
