@@ -42,7 +42,7 @@ update-flatpak:
 	flatpak update --appstream && flatpak update && flatpak uninstall --unused
 
 update-neovim:
-	nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
+	nvim --headless "+Lazy! sync" +qa
 
 FLATPAK_LATEST_NVIDIA = $(shell flatpak list | grep "GL.nvidia" | cut -f2 | cut -d '.' -f5)
 flatpak-clean-nvidia:
