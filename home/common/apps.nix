@@ -7,6 +7,10 @@ let
       dir = "bin";
       isExecutable = true;
     }) (builtins.attrNames (builtins.readDir ../bin));
+  vimPlugins = [
+    # Inject tree-sitters, since they're annoying to maintain with sideloading
+    pkgs.vimPlugins.nvim-treesitter.withAllGrammars
+  ];
 in {
   nixpkgs.config.allowUnfree = true;
 
@@ -21,10 +25,7 @@ in {
   };
   programs.neovim = {
     enable = true;
-    plugins = with pkgs.vimPlugins; [
-      # Inject tree-sitters, since they're annoying to maintain with sideloading
-      nvim-treesitter.withAllGrammars
-    ];
+    plugins = vimPlugins;
     # We used to manage our own init.lua but now we want the home-manager
     # managed init.vim to load our init.lua which makes this a little dirty.
     extraLuaConfig = builtins.readFile ../config/nvim/init.lua;
