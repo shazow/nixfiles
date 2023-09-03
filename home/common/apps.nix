@@ -33,10 +33,27 @@ in {
 
   # Neovim configs semi-managed by home-manager (via symlinks)
   xdg.configFile = {
-    "nvim/lua" = {
-      source = config.lib.file.mkOutOfStoreSymlink ../config/nvim/lua;
+    "nvim/lua/config" = {
+      source = config.lib.file.mkOutOfStoreSymlink ../config/nvim/lua/config;
       recursive = true;
     };
+    "nvim/lua/plugins/all.lua".source = config.lib.file.mkOutOfStoreSymlink ../config/nvim/lua/plugins/all.lua;
+
+    # Render nix-managed plugins as lazy.nvim-compatible setup tables:
+    "nvim/lua/plugins/managed.lua".text = let
+      vimLazyPlugins = map (plugin: {
+        name = "${plugin.src.owner}/${plugin.src.repo}";
+        dir = "${plugin.out}";
+      }) vimPlugins;
+      renderedPlugins = builtins.map
+      (p: ''{ "${p.name}", dir = "${p.dir}"}'')
+      vimLazyPlugins;
+    in ''
+    return {
+      ${builtins.concatStringsSep ",\n  " renderedPlugins}
+    }
+    '';
+
     # Older vim stuff that still needs to be migrated to lua
     "nvim/plugin/legacy.vim".source = config.lib.file.mkOutOfStoreSymlink ../config/nvim/plugin/legacy.vim;
   };
