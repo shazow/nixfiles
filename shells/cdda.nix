@@ -1,8 +1,10 @@
 let
   nixpkgs = import <nixpkgs> {};
 in
-  nixpkgs.cataclysm-dda-git.override {
-    version = "2023-06-12";
-    rev = "f424b9cabf635d26bbf88462c27e6f40dc905495";
-    sha256 = "10hfaqcm9ghk2g5fxcxsmpsp8dr1cn787j3fj8fbv54f31a748n5";
-  }
+  (nixpkgs.cataclysm-dda-git.override {
+    version = "2023-09-08";
+    rev = "e0694d002ca10f5329132a8bd9d91ed0aca1d5bf";
+    sha256 = "sha256-3LucRsggKJCX/TdtNjIy5271FtLvzf4+RoPmsBbvtT0=";
+  }).overrideAttrs (finalAttrs: previousAttrs: {
+    patches = [];
+  })
