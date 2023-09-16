@@ -14,4 +14,11 @@ if not vim.loop.fs_stat(lazypath) then
 end
 
 vim.opt.rtp:prepend(lazypath)
-require("lazy").setup("plugins")
+
+--require("lazy").setup("plugins")
+-- FIXME: All the TS plugins get injected in the packpaths, we need to find another way to bundle them maybe
+require("lazy").setup("plugins", {
+   performance = {
+     reset_packpath = false,
+   },
+ })

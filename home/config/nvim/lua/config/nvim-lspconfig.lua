@@ -44,6 +44,7 @@ require('lazy-lsp').setup {
 		"diagnosticls",
 		"zk",
 		"sqls",
+		"tailwindcss",
 	},
 	default_config = {
 		on_attach = on_attach,
