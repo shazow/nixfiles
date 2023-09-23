@@ -3,6 +3,7 @@
 return {
     -- Treesitter is managed by the package config, we just manage configs/deps here
     { "RRethy/nvim-treesitter-textsubjects",
+        event = "BufReadPre",
         config = function()
             require('config/nvim-treesitter')
         end
@@ -18,6 +19,7 @@ return {
 
     {
         "dundalek/lazy-lsp.nvim",
+        event = "BufReadPost",
         config = function()
             require("config/nvim-lspconfig")
         end,
@@ -29,6 +31,14 @@ return {
             require("lsp_signature").setup()
         end,
     },
+
+    {
+        "simrat39/symbols-outline.nvim",
+        keys = { { "<leader>cs", "<cmd>SymbolsOutline<cr>", desc = "Symbols Outline" } },
+        cmd = "SymbolsOutline",
+        opts = {},
+    },
+
 
     {
         "folke/trouble.nvim", -- LSP code diagnostics
@@ -83,6 +93,7 @@ return {
     {
         "Pocco81/true-zen.nvim",
         dependencies = { "folke/twilight.nvim" },
+        cmd = "TZAtaraxis",
         config = function()
             require("true-zen").setup({
                 integrations = {
@@ -242,6 +253,7 @@ return {
     { "dstein64/vim-startuptime" }, -- startuptime visualizer
     {
         "rafcamlet/nvim-luapad",
+        cmd = "Luapad",
         config = function()
             require("luapad").setup({
                 context = {
