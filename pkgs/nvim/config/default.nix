@@ -1,4 +1,4 @@
-{pkgs, ...}:
+{pkgs, extraConfigLua, extraConfigVim, ...}:
 let
   pluginModule = {pkg, cfg}: {...}: {
     extraPlugins = [pkg];
@@ -6,6 +6,10 @@ let
   };
 in
 {
+  # TODO: Migrate this internally
+  # TODO: Maybe this should be a module option...
+  inherit extraConfigVim extraConfigLua;
+
   imports = [
     (pluginModule {
       pkg = pkgs.vimPlugins.lazy-lsp-nvim;
@@ -110,9 +114,5 @@ in
   };
 
   globals.mapleader = "\\"; # Set the leader key to the spacebar
-
-  # TODO: Migrate to lua
-  extraConfigVim = builtins.readFile ../../../home/config/nvim/plugin/legacy.vim;
-  extraConfigLua = builtins.readFile ../../../home/config/nvim/lua/config/settings.lua;
 }
 

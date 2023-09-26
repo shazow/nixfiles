@@ -1,17 +1,13 @@
-{ pkgs, config, ... }:
-
-let 
+{ pkgs, config, extrapkgs, ... }:
+let
   # Package up local script binaries
   localScripts = map (name: pkgs.substituteAll {
       src = ../bin + "/${name}";
       dir = "bin";
       isExecutable = true;
     }) (builtins.attrNames (builtins.readDir ../bin));
-  vimPlugins = [
-    # Inject tree-sitters, since they're annoying to maintain with sideloading
-    pkgs.vimPlugins.nvim-treesitter.withAllGrammars
-  ];
-in {
+in
+{
   nixpkgs.config.allowUnfree = true;
 
   programs.home-manager.enable = true;
@@ -23,40 +19,6 @@ in {
       env.TERM = "xterm-256color"; # ssh'ing into old servers with TERM=alacritty is sad
     };
   };
-  programs.neovim = {
-    enable = true;
-    plugins = vimPlugins;
-    # We used to manage our own init.lua but now we want the home-manager
-    # managed init.vim to load our init.lua which makes this a little dirty.
-    extraLuaConfig = builtins.readFile ../config/nvim/init.lua;
-  };
-
-  # Neovim configs semi-managed by home-manager (via symlinks)
-  xdg.configFile = {
-    "nvim/lua/config" = {
-      source = config.lib.file.mkOutOfStoreSymlink ../config/nvim/lua/config;
-      recursive = true;
-    };
-    "nvim/lua/plugins/all.lua".source = config.lib.file.mkOutOfStoreSymlink ../config/nvim/lua/plugins/all.lua;
-
-    # Render nix-managed plugins as lazy.nvim-compatible setup tables:
-    "nvim/lua/plugins/managed.lua".text = let
-      vimLazyPlugins = map (plugin: {
-        name = "${plugin.src.owner}/${plugin.src.repo}";
-        dir = "${plugin.out}";
-      }) vimPlugins;
-      renderedPlugins = builtins.map
-      (p: ''{ "${p.name}", dir = "${p.dir}"}'')
-      vimLazyPlugins;
-    in ''
-    return {
-      ${builtins.concatStringsSep ",\n  " renderedPlugins}
-    }
-    '';
-
-    # Older vim stuff that still needs to be migrated to lua
-    "nvim/plugin/legacy.vim".source = config.lib.file.mkOutOfStoreSymlink ../config/nvim/plugin/legacy.vim;
-  };
 
   home.file.".tmux.conf".source = ../config/tmux.conf;
 
@@ -66,6 +28,8 @@ in {
   '';
 
   home.packages = (with pkgs; [
+    extrapkgs.nvim.default
+
     # Apps
     bitwarden
     google-chrome-beta
