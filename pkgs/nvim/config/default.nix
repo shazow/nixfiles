@@ -1,32 +1,11 @@
-{pkgs, extraConfigLua, extraConfigVim, ...}:
-let
-  pluginModule = {pkg, cfg}: {...}: {
-    extraPlugins = [pkg];
-    extraConfigLua = cfg;
-  };
-in
+{pkgs, ...}:
 {
   # TODO: Migrate this internally
   # TODO: Maybe this should be a module option...
-  inherit extraConfigVim extraConfigLua;
+  extraConfigVim = builtins.readFile ./legacy.vim;
+  extraConfigLua = builtins.readFile ./settings.lua;
 
-  imports = [
-    (pluginModule {
-      pkg = pkgs.vimPlugins.lazy-lsp-nvim;
-      cfg = ''
-        require('lazy-lsp').setup({
-          excluded_servers = {
-            "denols",
-            "efm", -- not using it?
-            "diagnosticls",
-            "zk",
-            "sqls",
-            "tailwindcss",
-          },
-        })
-      '';
-    })
-  ];
+  globals.mapleader = "\\"; # Set the leader key to the spacebar
 
   colorscheme = "tokyonight";
 
@@ -113,6 +92,26 @@ in
     };
   };
 
-  globals.mapleader = "\\"; # Set the leader key to the spacebar
+  imports = [
+    ../modules/plugins.nix
+  ];
+
+  pluginsWithConfig = with pkgs.vimPlugins; [
+    {
+      plugin = lazy-lsp-nvim;
+      config = ''
+        require('lazy-lsp').setup({
+          excluded_servers = {
+            "denols",
+            "efm", -- not using it?
+            "diagnosticls",
+            "zk",
+            "sqls",
+            "tailwindcss",
+          },
+        })
+      '';
+    }
+  ];
 }
 
