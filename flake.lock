@@ -24,32 +24,6 @@
         "type": "github"
       }
     },
-    "extraConfigLua": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1,
-        "narHash": "sha256-UMFaAvEX744zkvMkwGJlf6IUujjMuoPPvYRhz5bsTX0=",
-        "path": "../../home/config/nvim/lua/config/settings.lua",
-        "type": "path"
-      },
-      "original": {
-        "path": "../../home/config/nvim/lua/config/settings.lua",
-        "type": "path"
-      }
-    },
-    "extraConfigVim": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1,
-        "narHash": "sha256-mbygW+V2iCKZdulFBnIiOkJi6PbzJHwsSCMkqSunusE=",
-        "path": "../../home/config/nvim/plugin/legacy.vim",
-        "type": "path"
-      },
-      "original": {
-        "path": "../../home/config/nvim/plugin/legacy.vim",
-        "type": "path"
-      }
-    },
     "flake-compat": {
       "flake": false,
       "locked": {
@@ -258,8 +232,6 @@
     },
     "nvim": {
       "inputs": {
-        "extraConfigLua": "extraConfigLua",
-        "extraConfigVim": "extraConfigVim",
         "flake-utils": "flake-utils",
         "nixpkgs": [
           "nixpkgs"
@@ -268,7 +240,7 @@
       },
       "locked": {
         "lastModified": 1,
-        "narHash": "sha256-NgeQuWuKycI+/fd4TLQ4eSLmUZNsQ+6iBtdnPh1Gqic=",
+        "narHash": "sha256-X568HH7kP2uRAZqNcSkYNHjwLZ55E9tF/1Xv6I9ID88=",
         "path": "pkgs/nvim",
         "type": "path"
       },
