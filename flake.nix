@@ -16,9 +16,11 @@
     # - nixpkgs
     # - nixos-hardware
     # - home-manager
+    nvim.url = "path:pkgs/nvim";
+    nvim.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = inputs@{ nixpkgs, home-manager, nixos-hardware, ... }: let
+  outputs = inputs@{ nixpkgs, home-manager, nixos-hardware, nvim, ... }: let
     username = "shazow";
     devices = import ./devices.nix { inherit inputs; };
     defaultDisk = {
@@ -65,6 +67,9 @@
       value = home-manager.lib.homeManagerConfiguration {
         extraSpecialArgs = {
           inherit username hostname;
+          extrapkgs = {
+            nvim = nvim.packages.${device.system};
+          };
         };
         pkgs = nixpkgs.legacyPackages.${device.system};
         modules = device.home ++ [
