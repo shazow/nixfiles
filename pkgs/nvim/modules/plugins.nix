@@ -18,10 +18,16 @@ in {
             default = null;
           };
 
-          setup = mkOption {
+          require = mkOption {
             type = nullOr str;
-            description = "Lua module to require('...').setup() by default.";
+            description = "Lua module to require('...').setup({}) by default.";
             default = null;
+          };
+
+          setup = mkOption {
+            type = str;
+            description = "Lua code to pass into setup({...}).";
+            default = "{}";
           };
 
           keymaps = mkOption {
@@ -42,8 +48,8 @@ in {
     map (p:
       if p.config != null
       then p.config
-      else if p.setup != null
-      then "require('${p.setup}').setup()"
+      else if p.require != null
+      then "require('${p.require}').setup(${p.setup})"
       else ""
     ) cfg
   );

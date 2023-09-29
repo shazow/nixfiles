@@ -78,7 +78,7 @@ function! MakeUp()
         silent exe "NeomakeSh make -C " . fnamemodify(makefile, ':p:h')
     endif
 endfunc
-autocmd BufWritePost *.scss call MakeUp()
+" Example: autocmd BufWritePost *.scss call MakeUp()
 
 
 " Open the current pane in a tab and close the pane

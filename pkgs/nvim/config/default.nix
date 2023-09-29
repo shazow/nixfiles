@@ -52,7 +52,6 @@
     surround.enable = true;
     toggleterm.enable = true; # Terminal floaties
     neo-tree.enable = true; # Explore FS
-    nvim-cmp.enable = true; # Completion
     nvim-bqf.enable = true; # Quickfix Window
     notify.enable = true;
     treesitter.enable = true;
@@ -64,6 +63,13 @@
       enable = true;
       sections.lualine_c = [ "filename" "lsp_progress" ];
     };
+
+    # Completion
+    nvim-cmp = {
+      enable = true;
+      mappingPresets = [ "insert" "cmdline" ];
+    };
+
     luasnip.enable = true;
     cmp_luasnip.enable = true;
     cmp-treesitter.enable = true;
@@ -72,10 +78,6 @@
     cmp-calc.enable = true;
     cmp-cmdline.enable = true;
     cmp-nvim-lsp-document-symbol.enable = true;
-
-
-    copilot-lua.enable = true;
-    # copilot-vim.enable = true;
 
     # Telescope:
     # "nvim-telescope/telescope.nvim"
@@ -113,7 +115,9 @@
         })
       '';
     }
-    { plugin = guess-indent-nvim; setup ="guess-indent"; }
+    { plugin = guess-indent-nvim; require = "guess-indent"; }
+    { plugin = copilot-lua; require = "copilot"; } # Third party version of copilot.vim
+
   ];
 }
 
