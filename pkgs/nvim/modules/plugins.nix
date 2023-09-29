@@ -7,15 +7,30 @@ in {
     pluginsWithConfig = mkOption {
       type = with types; listOf (submodule {
         options = {
+          plugin = mkOption {
+            type = package;
+            description = "Vim plugin.";
+          };
+
           config = mkOption {
-            type = types.nullOr types.lines;
-            description = "Lua configuration for plugin.";
+            type = nullOr lines;
+            description = "Lua configuration for plugin. Overrides setup.";
             default = null;
           };
 
-          plugin = mkOption {
-            type = types.package;
-            description = "vim plugin";
+          setup = mkOption {
+            type = nullOr str;
+            description = "Lua module to require('...').setup() by default.";
+            default = null;
+          };
+
+          keymaps = mkOption {
+            type = attrsOf (either str attrs);
+            description = "Keymaps for plugin.";
+            default = {};
+            example = {
+              "<leader>fg" = "require('telescope.builtin').live_grep";
+            };
           };
         };
       });
@@ -23,5 +38,34 @@ in {
   };
 
   config.extraPlugins = map (p: p.plugin) cfg;
-  config.extraConfigLua = concatStringsSep "\n\n" (map (p: p.config) cfg);
+  config.extraConfigLua =  concatStringsSep "\n\n" (
+    map (p:
+      if p.config != null
+      then p.config
+      else if p.setup != null
+      then "require('${p.setup}').setup()"
+      else ""
+    ) cfg
+  );
+
+  # Borrowed from https://github.com/nix-community/nixvim/blob/3fa81dd06341ad9958b2b51b9e71448f693917f9/plugins/telescope/default.nix
+  config.maps.normal =
+    attrsets.mergeAttrsList (map (p: mapAttrs (
+      key: action: let
+        actionStr =
+          if isString action
+          then action
+          else action.action;
+        actionProps =
+          if isString action
+          then {}
+          else filterAttrs (n: v: n != "action") action;
+      in
+      {
+        silent = cfg.keymapsSilent;
+        action = actionStr;
+        lua = true;
+      }
+      // actionProps) p.keymaps
+    ) cfg);
 }

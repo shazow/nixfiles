@@ -29,7 +29,7 @@
     vim-gnupg
     nvim-web-devicons
     nvim-luapad
-    guess-indent-nvim
+    trouble-nvim
 
     # Zen mode
     true-zen-nvim
@@ -109,9 +109,11 @@
             "sqls",
             "tailwindcss",
           },
+          configs = { lua_ls = { settings = { Lua = { diagnostics = { globals = { "vim" }}}}}},
         })
       '';
     }
+    { plugin = guess-indent-nvim; setup ="guess-indent"; }
   ];
 }
 
