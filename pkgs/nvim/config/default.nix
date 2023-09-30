@@ -29,7 +29,6 @@
     vim-gnupg
     nvim-web-devicons
     nvim-luapad
-    trouble-nvim
 
     # Zen mode
     true-zen-nvim
@@ -98,7 +97,8 @@
     ../modules/plugins.nix
   ];
 
-  pluginsWithConfig = with pkgs.vimPlugins; [
+  pluginsWithConfig.enable = true;
+  pluginsWithConfig.plugins = with pkgs.vimPlugins; [
     {
       plugin = lazy-lsp-nvim;
       config = ''
@@ -116,8 +116,13 @@
       '';
     }
     { plugin = guess-indent-nvim; require = "guess-indent"; }
-    { plugin = copilot-lua; require = "copilot"; } # Third party version of copilot.vim
-
+    #{ plugin = copilot-lua; require = "copilot"; } # Third party version of copilot.vim
+    { 
+      plugin = trouble-nvim;
+      keymaps = {
+        "<c-t>" = { action = "require('trouble.providers.telescope').open_with_trouble"; };
+      };
+    }
   ];
 }
 

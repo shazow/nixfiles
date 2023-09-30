@@ -146,6 +146,9 @@ autocmd BufNewFile,BufRead *.ract set filetype=mustache
 
 "" .make files for Makefiles
 autocmd BufNewFile,BufRead *.make set filetype=Makefile
+"
+"" .nixt files for Nix tests
+autocmd BufNewFile,BufRead *.nixt set filetype=nix
 
 "" Move the quickfix window to the very bottom.
 autocmd FileType qf wincmd J
