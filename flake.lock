@@ -217,11 +217,11 @@
         "pre-commit-hooks": "pre-commit-hooks"
       },
       "locked": {
-        "lastModified": 1695711035,
-        "narHash": "sha256-zMpaY4rOdjtYRxtrzFM/Ulo10thVWHD/fxq0eecWEPQ=",
+        "lastModified": 1695992447,
+        "narHash": "sha256-Vmg5Xvx3RR8zxWiIkJko1K9MT9Z0HSVj7GTZigveFCs=",
         "owner": "nix-community",
         "repo": "nixvim",
-        "rev": "70b5f969ca5e235ff47c989f4a244eba5c0b8f3b",
+        "rev": "3fa81dd06341ad9958b2b51b9e71448f693917f9",
         "type": "github"
       },
       "original": {
@@ -240,7 +240,7 @@
       },
       "locked": {
         "lastModified": 1,
-        "narHash": "sha256-E4pjKFV/clKBcrX94P6UhT3eAqPOWNREr2W5H4EjxwM=",
+        "narHash": "sha256-GrQGi726Ps3Nr+af6kvYoGJrOjvAh6C0vTxkG71mGfE=",
         "path": "pkgs/nvim",
         "type": "path"
       },
