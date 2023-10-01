@@ -1,5 +1,17 @@
 {pkgs, ...}:
 {
+
+  imports = [
+    # morePlugins helpers
+    ../modules/plugins.nix
+  ];
+
+  # Nuke runtimepath to isolate nvim to our config
+  #extraConfigLuaPre = ''
+  #  vim.api.nvim_command('set runtimepath=')
+  #  # set runtimepath-=...
+  #'';
+
   # TODO: Migrate this internally
   # TODO: Maybe this should be a module option...
   extraConfigVim = builtins.readFile ./legacy.vim;
@@ -11,6 +23,54 @@
 
   colorschemes = {
     tokyonight.enable = true;
+  };
+
+  plugins = {
+    comment-nvim.enable = true;
+    diffview.enable = true;
+    gitsigns.enable = true;
+    surround.enable = true;
+    toggleterm.enable = true; # Terminal floaties
+    neo-tree.enable = true; # Explore FS
+    nvim-bqf.enable = true; # Quickfix Window
+    notify.enable = true;
+    treesitter.enable = true;
+    undotree.enable = true;
+
+    lsp.enable = true;
+    lualine = {
+      enable = true;
+      sections.lualine_c = [ "filename" "lsp_progress" ];
+    };
+
+    # Completion
+    nvim-cmp = {
+      enable = true;
+      mappingPresets = [ "insert" "cmdline" ];
+    };
+
+    luasnip.enable = true;
+    #cmp_luasnip.enable = true;
+    #cmp-treesitter.enable = true;
+    #cmp-buffer.enable = true;
+    cmp-nvim-lsp.enable = true;
+    #cmp-calc.enable = true;
+    #cmp-cmdline.enable = true;
+    cmp-nvim-lsp-document-symbol.enable = true;
+
+    # Telescope:
+    # "nvim-telescope/telescope.nvim"
+    # "nvim-telescope/telescope-fzf-native.nvim"
+    telescope = {
+      enable = true;
+      extensions.fzf-native.enable = true;
+      keymaps = {
+        "<c-p>" = { action = "git_files"; desc = "Telescope Git Files"; };
+        "<c-d>" = { action = "find_files"; desc = "Telescope Find Files"; };
+        "<c-s>" = { action = "live_grep"; desc = "Telescope Live Grep"; };
+        "<c-a>" = { action = "buffers"; desc = "Telescope Buffers"; };
+      };
+    };
   };
 
   extraPlugins = with pkgs.vimPlugins; [
@@ -43,62 +103,8 @@
     rust-vim
   ];
 
-  plugins = {
-    comment-nvim.enable = true;
-    diffview.enable = true;
-    gitsigns.enable = true;
-    oil.enable = true; # Edit FS
-    surround.enable = true;
-    toggleterm.enable = true; # Terminal floaties
-    neo-tree.enable = true; # Explore FS
-    nvim-bqf.enable = true; # Quickfix Window
-    notify.enable = true;
-    treesitter.enable = true;
-    undotree.enable = true;
-    wilder-nvim.enable = true;
-
-    lsp.enable = true;
-    lualine = {
-      enable = true;
-      sections.lualine_c = [ "filename" "lsp_progress" ];
-    };
-
-    # Completion
-    nvim-cmp = {
-      enable = true;
-      mappingPresets = [ "insert" "cmdline" ];
-    };
-
-    luasnip.enable = true;
-    cmp_luasnip.enable = true;
-    cmp-treesitter.enable = true;
-    cmp-buffer.enable = true;
-    cmp-nvim-lsp.enable = true;
-    cmp-calc.enable = true;
-    cmp-cmdline.enable = true;
-    cmp-nvim-lsp-document-symbol.enable = true;
-
-    # Telescope:
-    # "nvim-telescope/telescope.nvim"
-    # "nvim-telescope/telescope-fzf-native.nvim"
-    telescope = {
-      enable = true;
-      extensions.fzf-native.enable = true;
-      keymaps = {
-        "<c-p>" = { action = "git_files"; desc = "Telescope Git Files"; };
-        "<c-d>" = { action = "find_files"; desc = "Telescope Find Files"; };
-        "<c-s>" = { action = "live_grep"; desc = "Telescope Live Grep"; };
-        "<c-a>" = { action = "buffers"; desc = "Telescope Buffers"; };
-      };
-    };
-  };
-
-  imports = [
-    ../modules/plugins.nix
-  ];
-
-  pluginsWithConfig.enable = true;
-  pluginsWithConfig.plugins = with pkgs.vimPlugins; [
+  morePlugins.enable = true;
+  morePlugins.plugins = with pkgs.vimPlugins; [
     {
       plugin = lazy-lsp-nvim;
       config = ''
@@ -119,8 +125,9 @@
     #{ plugin = copilot-lua; require = "copilot"; } # Third party version of copilot.vim
     { 
       plugin = trouble-nvim;
+      require = "trouble";
       keymaps = {
-        "<c-t>" = { action = "require('trouble.providers.telescope').open_with_trouble"; };
+        "<leader>t" = { action = "require('trouble').open()"; };
       };
     }
   ];

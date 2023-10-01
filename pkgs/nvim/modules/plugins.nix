@@ -1,11 +1,11 @@
 {config, lib, ...}:
 with lib;
 let
-  cfg = config.pluginsWithConfig;
+  cfg = config.morePlugins;
   mergeAttrsets = a: lib.foldl' (acc: s: acc // s) {} a;
 in {
-  options.pluginsWithConfig = {
-    enable = mkEnableOption "Enable plugins with configs helper module.";
+  options.morePlugins = {
+    enable = mkEnableOption "Enable plugins with even more helpers.";
 
     plugins = mkOption {
       default = [];
@@ -49,7 +49,7 @@ in {
 
   config = mkIf cfg.enable {
     extraPlugins = map (p: p.plugin) cfg.plugins;
-    extraConfigLua = concatStringsSep "\n\n" (
+    extraConfigLua = "\n-- {{{ morePlugins\n" + concatStringsSep "\n\n" (
       map (p:
         if p.config != null
         then p.config
@@ -57,7 +57,7 @@ in {
         then "require('${p.require}').setup(${p.setup})"
         else ""
       ) cfg.plugins
-    );
+    ) + "\n-- }}}\n";
 
     ### Borrowed from https://github.com/nix-community/nixvim/blob/3fa81dd06341ad9958b2b51b9e71448f693917f9/plugins/telescope/default.nix
     maps.normal = mergeAttrsets (map (p: mapAttrs (
