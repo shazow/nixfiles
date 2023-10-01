@@ -6,12 +6,6 @@
     ../modules/plugins.nix
   ];
 
-  # Nuke runtimepath to isolate nvim to our config
-  #extraConfigLuaPre = ''
-  #  vim.api.nvim_command('set runtimepath=')
-  #  # set runtimepath-=...
-  #'';
-
   # TODO: Migrate this internally
   # TODO: Maybe this should be a module option...
   extraConfigVim = builtins.readFile ./legacy.vim;
@@ -37,7 +31,23 @@
     treesitter.enable = true;
     undotree.enable = true;
 
-    lsp.enable = true;
+    lsp = {
+      enable = true;
+      keymaps = {
+        lspBuf = {
+          "K" = "hover";
+          "<C-k>" = "signature_help";
+          "gr" = "references";
+          "gD" = "declaration";
+          "gd" = "definition";
+          "gi" = "implementation";
+          "gt" = "type_definition";
+          "<leader>ca" = "code_action";
+          "<leader>re" = "rename";
+          "<leader>f" = "format";
+        };
+      };
+    };
     lualine = {
       enable = true;
       sections.lualine_c = [ "filename" "lsp_progress" ];
@@ -46,21 +56,45 @@
     # Completion
     nvim-cmp = {
       enable = true;
-      mappingPresets = [ "insert" "cmdline" ];
+      snippet.expand = "luasnip";
+      sources = [
+        { name = "nvim_lsp"; }
+        { name = "luasnip"; }
+        { name = "path"; }
+        { name = "buffer"; }
+      ];
+      mappingPresets = [ "insert" ];
+      mapping = {
+        "<CR>" = "cmp.mapping.confirm({ select = true })";
+        "<Tab>" = {
+          action = ''
+            function(fallback)
+              if cmp.visible() then
+                cmp.select_next_item()
+              elseif require("luasnip").expand_or_jumpable() then
+                require("luasnip").expand_or_jump()
+              else
+                fallback()
+              end
+            end
+          '';
+          modes = [ "i" "s" ];
+        };
+        "<C-Space>" = "cmp.mapping.complete()";
+      };
     };
 
     luasnip.enable = true;
-    #cmp_luasnip.enable = true;
-    #cmp-treesitter.enable = true;
-    #cmp-buffer.enable = true;
+    cmp_luasnip.enable = true;
+    cmp-treesitter.enable = true;
+    cmp-buffer.enable = true;
     cmp-nvim-lsp.enable = true;
-    #cmp-calc.enable = true;
-    #cmp-cmdline.enable = true;
+    cmp-calc.enable = true;
+    cmp-cmdline.enable = true;
     cmp-nvim-lsp-document-symbol.enable = true;
+    cmp-nvim-lsp-signature-help.enable = true;
 
     # Telescope:
-    # "nvim-telescope/telescope.nvim"
-    # "nvim-telescope/telescope-fzf-native.nvim"
     telescope = {
       enable = true;
       extensions.fzf-native.enable = true;
@@ -82,6 +116,7 @@
 
     nvim-treesitter-textobjects
 
+    copilot-vim
     dressing-nvim
     lsp_signature-nvim
     lualine-lsp-progress
@@ -122,8 +157,7 @@
       '';
     }
     { plugin = guess-indent-nvim; require = "guess-indent"; }
-    #{ plugin = copilot-lua; require = "copilot"; } # Third party version of copilot.vim
-    { 
+    {
       plugin = trouble-nvim;
       require = "trouble";
       keymaps = {

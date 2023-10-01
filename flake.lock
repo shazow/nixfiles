@@ -240,7 +240,7 @@
       },
       "locked": {
         "lastModified": 1,
-        "narHash": "sha256-X568HH7kP2uRAZqNcSkYNHjwLZ55E9tF/1Xv6I9ID88=",
+        "narHash": "sha256-E4pjKFV/clKBcrX94P6UhT3eAqPOWNREr2W5H4EjxwM=",
         "path": "pkgs/nvim",
         "type": "path"
       },
