@@ -34,6 +34,7 @@
             examplePackage = pkgs.vimPlugins.vim-nix;
           };
         in
+          # Could avoid this boilerplate using https://github.com/antifuchs/nix-flake-tests
           if results == []
           then pkgs.runCommand "lib-tests-success" {} "touch $out"
           else pkgs.runCommand "lib-tests-failure" {
