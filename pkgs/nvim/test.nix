@@ -1,76 +1,77 @@
 # Run with:
-# nix eval --impure --expr 'import ./test.nix { pkgs = import <nixpkgs>; }'
-{
-  stdenv,
-  lib,
-  examplePackage,
-  plugins ? import ./modules/plugins.nix,
-  ...
+# nix eval --impure --expr 'import ./test.nix { inherit (import <nixpkgs> {}) lib stdenv; }'
+{ stdenv
+, lib
+, examplePackage ? derivation { name = "examplePackage"; builder = "true"; system = "testin"; }
+, plugins ? import ./modules/plugins.nix
+, ...
 }:
 let
-  mockBaseModule = {...}: with lib; {
+  mockBaseModule = { ... }: with lib; {
     options = {
       extraPlugins = mkOption { type = with types; listOf (package); };
       extraConfigLua = mkOption { type = types.lines; default = ""; };
-      maps = mkOption {};
+      maps = mkOption { };
     };
   };
-  renderPlugins = cfg: (lib.evalModules({
+  renderPlugins = config: (lib.evalModules ({
     modules = [
       mockBaseModule
       plugins
+      config
     ];
-    specialArgs = {
-      config.pluginsWithConfig = cfg;
-    };
   })).config;
-in
-  lib.runTests {
-    testEmpty = {
-      expr = renderPlugins {
-        enable = true;
-        plugins = [];
-      };
-      expected = {
-        pluginsWithConfig = {
+  mkPluginTest = { plugins, wantConfig }:
+    let
+      config = {
+        morePlugins = {
           enable = true;
-          plugins = [];
-        };
-        extraPlugins = [];
-        extraConfigLua = "";
-      };
-    };
-    testKeymaps = {
-      expr = renderPlugins{
-        enable = true;
-        plugins = [
-          {
-            plugin = examplePackage;
-            keymaps = { "<foo>" = "bar"; };
-            config = null;
-            require = null;
-          }
-        ];
-      };
-      expected = {
-        extraPlugins = [ examplePackage ];
-        extraConfigLua = "";
-        maps.normal = {
-          "<foo>" = { silent = true; action = "bar"; lua = true; };
+          plugins = plugins;
         };
       };
+    in
+    {
+      # Remove input config from our comparison results
+      expr = removeAttrs (renderPlugins config) (builtins.attrNames config);
+      expected = wantConfig;
     };
-    testExtraPlugins = {
-      expr = renderPlugins{
-        enable = true;
-        plugins = [
-          { plugin = examplePackage; config = "foo"; }
-        ];
-      };
-      expected = {
-        extraConfigLua = "foo";
-        maps.normal = {};
-        extraPlugins = [ examplePackage ];
+in
+lib.runTests {
+  testEmpty = mkPluginTest {
+    plugins = [];
+    wantConfig = {
+      extraPlugins = [];
+      extraConfigLua = "";
+      maps.normal = {};
+    };
+  };
+  testKeymaps = mkPluginTest {
+    plugins = [
+      {
+        plugin = examplePackage;
+        keymaps = { "<foo>" = "bar"; };
+      }
+    ];
+    wantConfig = {
+      extraPlugins = [ examplePackage ];
+      extraConfigLua = "";
+      maps.normal = {
+        "<foo>" = { silent = true; action = "bar"; lua = true; };
       };
     };
-  }
+  };
+  testExtraPlugins = mkPluginTest {
+    plugins = [
+      { plugin = examplePackage; config = "foo"; }
+    ];
+    wantConfig = {
+      extraConfigLua = ''
+        -- {{{ morePlugins
+        foo
+        -- }}}
+      '';
+      maps.normal = { };
+      extraPlugins = [ examplePackage ];
+    };
+  };
+}

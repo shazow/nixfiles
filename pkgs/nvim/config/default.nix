@@ -61,7 +61,11 @@
         { name = "nvim_lsp"; }
         { name = "luasnip"; }
         { name = "path"; }
+        { name = "treesitter"; }
+        { name = "calc"; }
+
         { name = "buffer"; }
+        { name = "cmdline"; }
       ];
       mappingPresets = [ "insert" ];
       mapping = {
@@ -87,10 +91,9 @@
     luasnip.enable = true;
     cmp_luasnip.enable = true;
     cmp-treesitter.enable = true;
-    cmp-buffer.enable = true;
-    cmp-nvim-lsp.enable = true;
     cmp-calc.enable = true;
     cmp-cmdline.enable = true;
+    cmp-nvim-lsp.enable = true;
     cmp-nvim-lsp-document-symbol.enable = true;
     cmp-nvim-lsp-signature-help.enable = true;
 

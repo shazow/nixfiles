@@ -24,10 +24,10 @@
     in {
       checks = {
         # Run `nix flake check .` to verify that your config is not broken
-        #default = nixvimLib.check.mkTestDerivationFromNvim {
-        #  inherit nvim;
-        #  name = "A nixvim configuration";
-        #};
+        default = nixvimLib.check.mkTestDerivationFromNvim {
+          inherit nvim;
+          name = "A nixvim configuration";
+        };
         tests = let
           results = import ./test.nix {
             inherit (pkgs) lib stdenv;
