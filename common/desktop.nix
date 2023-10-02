@@ -47,13 +47,13 @@
     export VISUAL=nvim
   '';
 
-  fonts.fonts = with pkgs; [
+  fonts.packages = with pkgs; [
     noto-fonts
     dejavu_fonts
     nerdfonts # Includes font-awesome, material-icons, powerline-fonts
     emojione
   ];
-  fonts.enableDefaultFonts = true;
+  fonts.enableDefaultPackages = true;
 
   i18n = {
     defaultLocale = "en_US.UTF-8";
