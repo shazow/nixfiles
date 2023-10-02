@@ -1,5 +1,5 @@
 # Run with:
-# nix eval --impure --expr 'import ./test.nix { inherit (import <nixpkgs> {}) lib stdenv; }'
+# nix eval --impure --expr 'import ./tests.nix { inherit (import <nixpkgs> {}) lib stdenv; }'
 { stdenv
 , lib
 , examplePackage ? derivation { name = "examplePackage"; builder = "true"; system = "testin"; }

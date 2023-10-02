@@ -29,7 +29,7 @@
           name = "A nixvim configuration";
         };
         tests = let
-          results = import ./test.nix {
+          results = import ./tests.nix {
             inherit (pkgs) lib stdenv;
             examplePackage = pkgs.vimPlugins.vim-nix;
           };
