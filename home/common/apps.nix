@@ -95,6 +95,7 @@ in
     file
     fzf
     gotop
+    glib # for gsettings
     jq
     ncdu_2 # disk space analyzer
     powerstat
