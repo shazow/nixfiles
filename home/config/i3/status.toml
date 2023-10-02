@@ -67,8 +67,8 @@ if_command = "ls /sys/class/backlight/*"
 block = "toggle"
 format = " $icon R "
 command_state = "systemctl --user -q is-active redshift && echo on"
-command_on = "systemctl --user start redshift"
-command_off = "systemctl --user stop redshift"
+command_on = "systemctl --user start redshift" # TODO: && gsettings set org.gnome.desktop.interface color-scheme prefer-dark
+command_off = "systemctl --user stop redshift" # TODO: && gsettings set org.gnome.desktop.interface color-scheme prefer-light
 interval = 60
 
 [[block]]

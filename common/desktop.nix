@@ -74,6 +74,7 @@
   hardware.sane.enable = true;
 
   # programs.nix-ld.enable = true; # Run unpatched dynamic libraries
+  programs.dconf.enable = true; # Needed for GTK
   programs.light.enable = true;
   services.avahi.enable = true;
   services.avahi.nssmdns = true;

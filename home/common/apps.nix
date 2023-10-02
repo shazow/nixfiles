@@ -106,8 +106,5 @@ in
     xorg.xev
     xorg.xkill
     whois
-
-    # Needed for GTK
-    dconf
   ]) ++ localScripts; 
 }
