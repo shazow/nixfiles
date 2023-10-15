@@ -16,6 +16,7 @@
   ...
 }:
 let
+  # TODO: Migrate to module-style options/config
   btrfsOptions = [
     "defaults"
     "noatime"
