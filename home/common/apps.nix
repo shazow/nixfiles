@@ -33,6 +33,7 @@ in
     # Apps
     bitwarden
     google-chrome-beta
+    signal-desktop
     i3status-rust
 
     # PDF, image mainpulation
@@ -65,6 +66,7 @@ in
     zeal
 
     # Gaming
+    steam
     lutris
     wine
 
