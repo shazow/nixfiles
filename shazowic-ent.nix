@@ -31,6 +31,8 @@
   services.xserver.videoDrivers = [ "amdgpu" ];
   services.xserver.dpi = 163; # 3840x2160 over 27"
   services.fwupd.enable = true;
+  services.blueman.enable = true;
+  hardware.bluetooth.enable = true;
 
   services.openssh = {
     enable = true;
