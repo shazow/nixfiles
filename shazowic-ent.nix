@@ -7,6 +7,11 @@
 {
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
+  # $ nixos-generate-config --show-hardware-config
+  boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "nvme" "usbhid" "usb_storage" "sd_mod" ];
+  boot.kernelModules = [ "kvm-amd" ];
+
+
   powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
 
   imports = [

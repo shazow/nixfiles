@@ -30,7 +30,7 @@
       inputs.nixos-hardware.nixosModules.common-cpu-amd
       inputs.nixos-hardware.nixosModules.common-gpu-amd
 
-      ./shazowic-beast.nix
+      ./shazowic-ent.nix
     ];
     home = [
       ./home/desktop.nix

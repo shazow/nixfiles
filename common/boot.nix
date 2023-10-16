@@ -20,25 +20,33 @@ let
   btrfsOptions = [
     "defaults"
     "noatime"
-    "compress=lzo"
+    "compress=zstd"
   ];
-  swapDevice = "/dev/mapper/cryptswap";
 in
 {
+  ## systemd-boot
   boot.loader.systemd-boot = {
     enable = true;
     configurationLimit = 8;
     editor = false; # Disable bypassing init
   };
-
+  
   boot.loader.grub.enable = false; # Use systemd-boot instead
+
+  ## grub
+  #boot.loader.grub = {
+  #  enable = true;
+  #  efiSupport = true;
+  #  device = "nodev";
+  #  enableCryptodisk = true;
+  #};
 
   # EFI
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.efi.efiSysMountPoint = "/boot/efi";
 
   # Resume
-  boot.resumeDevice = swapDevice;
+  boot.resumeDevice = disk.swapDevice;
 
   # LUKS
   boot.initrd.supportedFilesystems = [ "btrfs" "ntfs" ];
@@ -66,7 +74,7 @@ in
     };
   } // disk.extraFileSystems;
 
-  swapDevices = [
-    { device = swapDevice; }
-  ];
+  swapDevices = if disk.swapDevice != "" then [
+    { device = disk.swapDevice; }
+  ] else [];
 }
