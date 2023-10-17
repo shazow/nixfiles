@@ -48,7 +48,7 @@ format = " $icon $utilization $frequency "
 block = "temperature"
 interval = 20
 format = " $icon $min~$max "
-chip = "coretemp-*"
+#chip = "*"
 
 [[block]]
 block = "battery"
@@ -70,6 +70,10 @@ command_state = "systemctl --user -q is-active redshift && echo on"
 command_on = "systemctl --user start redshift" # TODO: && gsettings set org.gnome.desktop.interface color-scheme prefer-dark
 command_off = "systemctl --user stop redshift" # TODO: && gsettings set org.gnome.desktop.interface color-scheme prefer-light
 interval = 60
+# TODO: Switch to 
+#[[block]]
+#block = "hueshift"
+#hue_shifter = "redshift"
 
 [[block]]
 block = "sound"

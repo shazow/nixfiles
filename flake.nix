@@ -18,9 +18,13 @@
     # - home-manager
     nvim.url = "path:pkgs/nvim";
     nvim.inputs.nixpkgs.follows = "nixpkgs";
+    dotfiles = {
+      url = "github:shazow/dotfiles";
+      flake = false;
+    };
   };
 
-  outputs = inputs@{ nixpkgs, home-manager, nixos-hardware, nvim, ... }: let
+  outputs = inputs@{ nixpkgs, home-manager, nixos-hardware, nvim, dotfiles, ... }: let
     username = "shazow";
     devices = import ./devices.nix { inherit inputs; };
     defaultDisk = {
@@ -66,7 +70,7 @@
       name = "${username}@${hostname}";
       value = home-manager.lib.homeManagerConfiguration {
         extraSpecialArgs = {
-          inherit username hostname;
+          inherit inputs username hostname;
           extrapkgs = {
             nvim = nvim.packages.${device.system};
           };
