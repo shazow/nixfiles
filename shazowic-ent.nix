@@ -27,6 +27,8 @@
   hardware.cpu.amd.updateMicrocode = true;
   hardware.enableRedistributableFirmware = true;
   hardware.steam-hardware.enable = true; # VR
+  hardware.opengl.extraPackages = [ pkgs.amdvlk ];
+  hardware.opengl.extraPackages32 = [ pkgs.driversi686Linux.amdvlk ];
   hardware.i2c.enable = true; # For controlling displays with ddcutil
   services.xserver.videoDrivers = [ "amdgpu" ];
   services.xserver.dpi = 163; # 3840x2160 over 27"
