@@ -30,6 +30,7 @@ initrd.keys.gz: ${KEYFILE}
 update: sync update-os update-env update-homemanager update-flatpak flatpak-clean-nvidia update-neovim
 
 update-os:
+	sudo -i sh -c 'cd nixfiles && git pull'
 	sudo -i sh -c 'cd nixos && make'
 
 update-env:
