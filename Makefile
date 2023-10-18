@@ -1,4 +1,43 @@
+all: update
+
+## Management
+
+update: sync update-os update-env update-homemanager update-flatpak
+
+update-os:
+	sudo -i sh -c 'cd nixfiles && git pull'
+	sudo -i sh -c 'cd nixos && make'
+
+update-env:
+	nix-env -u '*'
+
+update-homemanager:
+	home-manager switch --flake .
+
+update-flatpak:
+	flatpak update --appstream && flatpak update && flatpak uninstall --unused
+
+outdated: sync
+	# TODO: sudo nixos-rebuild dry-build --upgrade
+	echo "Not implemented for flake"
+
+sync:
+	nix flake update
+
+clean:
+	sudo nix-collect-garbage --delete-older-than 7d
+	home-manager expire-generations "-7 days"
+
+wireguard: /etc/nixos/.wireguard.key
+	wg genkey > "$@"
+	chmod 400 "$@"
+
+sup: # What's new?
+	nix-shell -p nvd --run 'nvd diff $$(ls -dv /nix/var/nix/profiles/system-*-link | tail -2)'
+
+
 ## Setup
+# Note: This is for old pre-flake stuff
 
 HOST ?= example
 KEYFILE ?= cryptroot.key
@@ -25,44 +64,3 @@ initrd.keys.gz: ${KEYFILE}
 	chmod 400 "$@"
 
 
-## Management
-
-update: sync update-os update-env update-homemanager update-flatpak flatpak-clean-nvidia update-neovim
-
-update-os:
-	sudo -i sh -c 'cd nixfiles && git pull'
-	sudo -i sh -c 'cd nixos && make'
-
-update-env:
-	nix-env -u '*'
-
-update-homemanager:
-	home-manager switch --flake .
-
-update-flatpak:
-	flatpak update --appstream && flatpak update && flatpak uninstall --unused
-
-update-neovim:
-	nvim --headless "+Lazy! sync" +qa
-
-FLATPAK_LATEST_NVIDIA = $(shell flatpak list | grep "GL.nvidia" | cut -f2 | cut -d '.' -f5)
-flatpak-clean-nvidia:
-	flatpak list | grep org.freedesktop.Platform.GL32.nvidia- | cut -f2 | grep -v "$(FLATPAK_LATEST_NVIDIA)" | xargs -o flatpak uninstall
-
-outdated: sync
-	# TODO: sudo nixos-rebuild dry-build --upgrade
-	echo "Not implemented for flake"
-
-sync:
-	nix flake update
-
-clean:
-	sudo nix-collect-garbage --delete-older-than 7d
-	home-manager expire-generations "-7 days"
-
-wireguard: /etc/nixos/.wireguard.key
-	wg genkey > "$@"
-	chmod 400 "$@"
-
-sup: # What's new?
-	nix-shell -p nvd --run 'nvd diff $$(ls -dv /nix/var/nix/profiles/system-*-link | tail -2)'
