@@ -25,7 +25,7 @@
     gitsigns.enable = true;
     surround.enable = true;
     toggleterm.enable = true; # Terminal floaties
-    nvimtree.enable = true; # Explore FS  # Note: neotree was buggy?
+    nvim-tree.enable = true; # Explore FS  # Note: neotree was buggy?
     nvim-bqf.enable = true; # Quickfix Window
     notify.enable = true;
     treesitter.enable = true;
