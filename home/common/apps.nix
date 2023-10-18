@@ -41,10 +41,12 @@ in
     };
   };
 
-  programs.bash = {
+  programs.bash = let
+    bashHelpers = builtins.readFile "${inputs.dotfiles.outPath}/helpers.bash";
+    bashProfile = builtins.readFile "${inputs.dotfiles.outPath}/.bash_profile";
+  in {
     enable = true;
-    initExtra = builtins.readFile "${inputs.dotfiles.outPath}/helpers.bash";
-    profileExtra = builtins.readFile "${inputs.dotfiles.outPath}/.bash_profile";
+    initExtra = bashHelpers + "\n\n" + bashProfile; # Included for interactive shells
     shellAliases = {
       vincognito=''vim --noplugin -u NONE -U NONE -i NONE --cmd "set noswapfile" --cmd "set nobackup"'';
       ssh-unsafe=''ssh -o "UserKnownHostsFile /dev/null" -o StrictHostKeyChecking=no'';
