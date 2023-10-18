@@ -21,10 +21,7 @@ in
     . ~/.xsession
   '';
 
-  home.file.".bash_profile".text = ''
-    if [[ -f ~/.bashrc ]] ; then
-      . ~/.bashrc
-    fi
+  programs.bash.profileExtra = ''
     if [[ ! $DISPLAY && $XDG_VTNR -eq 1 ]]; then
       exec ssh-agent startx
     fi
