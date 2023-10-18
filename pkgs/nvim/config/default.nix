@@ -25,7 +25,7 @@
     gitsigns.enable = true;
     surround.enable = true;
     toggleterm.enable = true; # Terminal floaties
-    neo-tree.enable = true; # Explore FS
+    nvimtree.enable = true; # Explore FS  # Note: neotree was buggy?
     nvim-bqf.enable = true; # Quickfix Window
     notify.enable = true;
     treesitter.enable = true;
@@ -67,6 +67,7 @@
         { name = "buffer"; }
         { name = "cmdline"; }
       ];
+      preselect = "None"; # Don't preselect to avoid tabs completing things prematurely
       mappingPresets = [ "insert" ];
       mapping = {
         "<CR>" = "cmp.mapping.confirm({ select = true })";
