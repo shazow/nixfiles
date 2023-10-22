@@ -30,6 +30,7 @@
     notify.enable = true;
     treesitter.enable = true;
     undotree.enable = true;
+    dap.enable = true;
 
     lsp = {
       enable = true;
@@ -63,7 +64,7 @@
         { name = "path"; }
         { name = "treesitter"; }
         { name = "calc"; }
-
+        { name = "dap"; }
         { name = "buffer"; }
         { name = "cmdline"; }
       ];
@@ -97,6 +98,7 @@
     cmp-nvim-lsp.enable = true;
     cmp-nvim-lsp-document-symbol.enable = true;
     cmp-nvim-lsp-signature-help.enable = true;
+    cmp-dap.enable = true;
 
     # Telescope:
     telescope = {
