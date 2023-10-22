@@ -2,7 +2,7 @@ all: update
 
 ## Management
 
-update: sync update-os update-env update-homemanager update-flatpak
+update: sync-pkgs sync update-os update-env update-homemanager update-flatpak
 
 update-os:
 	sudo -i sh -c 'cd nixfiles && git pull'
@@ -23,6 +23,9 @@ outdated: sync
 
 sync:
 	nix flake update
+
+sync-pkgs:
+	cd pkgs/nvim && nix flake update
 
 clean:
 	sudo nix-collect-garbage --delete-older-than 7d
