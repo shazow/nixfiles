@@ -66,7 +66,7 @@ in
 
     # Apps
     bitwarden
-    google-chrome-beta
+    google-chrome
     signal-desktop
     i3status-rust
 
