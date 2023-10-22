@@ -24,6 +24,7 @@ in
 
   programs.git = {
     enable = true;
+    lfs.enable = true;
     delta.enable = true;
     userName = "Andrey Petrov";
     userEmail = "andrey.petrov@shazow.net";
@@ -53,12 +54,12 @@ in
     };
   };
 
-  home.file.".tmux.conf".source = ../config/tmux.conf;
+  services.gpg-agent = {
+    # Run `gpg-connect-agent reloadagent /bye` after changing to reload config
+    enable = true;
+  };
 
-  # Run `gpg-connect-agent reloadagent /bye` after changing to reload config
-  home.file.".gnupg/gpg-agent.conf".text = ''
-    pinentry-program ${pkgs.pinentry}/bin/pinentry
-  '';
+  home.file.".tmux.conf".source = ../config/tmux.conf;
 
   home.packages = (with pkgs; [
     extrapkgs.nvim.default
@@ -110,7 +111,7 @@ in
     #cargo-edit
     go
 
-    drive # google drive cli
+    rclone
     # obs-studio # Screen recording, streaming
     flameshot  # Screenshots
     transmission-gtk # Torrents
