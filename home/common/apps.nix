@@ -25,7 +25,7 @@ in
   programs.git = {
     enable = true;
     lfs.enable = true;
-    delta.enable = true;
+    difftastic.enable = true;
     userName = "Andrey Petrov";
     userEmail = "andrey.petrov@shazow.net";
     aliases = {
@@ -39,6 +39,11 @@ in
       deploy = "!merge(){ git checkout $2 && git merge $1 && git push $2 && git checkout \${1#refs/heads/}; }; merge $(git symbolic-ref HEAD) $1";
       blast = ''for-each-ref --sort=-committerdate refs/heads/ --format="%(committerdate:relative)%09%(refname:short)'';
       pr = "!pr(){ git fetch origin pull/$1/head:pr-$1; git checkout pr-$1; }; pr";
+    };
+    extraConfig = {
+      push = {
+        autoSetupRemote = true;
+      };
     };
   };
 
