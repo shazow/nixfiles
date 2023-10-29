@@ -27,7 +27,11 @@
   hardware.cpu.amd.updateMicrocode = true;
   hardware.enableRedistributableFirmware = true;
   hardware.steam-hardware.enable = true; # VR
-  hardware.opengl.extraPackages = [ pkgs.rocmPackages.clr.icd ];
+  hardware.opengl.extraPackages = [
+    pkgs.rocmPackages.clr.icd
+    # Encoding/decoding acceleration
+    pkgs.libvdpau-va-gl pkgs.vaapiVdpau
+  ];
   hardware.opengl.extraPackages32 = [ ];
   hardware.i2c.enable = true; # For controlling displays with ddcutil
   services.xserver.videoDrivers = [ "amdgpu" ];
