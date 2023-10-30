@@ -21,6 +21,7 @@
     ./common/desktop-i3.nix
     ./common/crypto.nix
     ./common/guest.nix
+    ./common/tracy.nix
   ];
 
   # Hardware specific
