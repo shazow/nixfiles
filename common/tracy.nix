@@ -12,6 +12,7 @@
 
     services.picom.enable = true;
 
+    programs.bash.enable = true;
     programs.bash.profileExtra = ''
       if [[ ! $DISPLAY && $XDG_VTNR -eq 1 ]]; then
         exec steam -bigpicture
