@@ -12,12 +12,19 @@
 
     services.picom.enable = true;
 
-    programs.bash.enable = true;
-    programs.bash.profileExtra = ''
-      if [[ ! $DISPLAY && $XDG_VTNR -eq 1 ]]; then
-        exec steam -bigpicture
-        systemctl suspend
-      fi
-    '';
+    xsession = {
+      enable = true;
+      windowManager.command = "dbus-launch --exit-with-x11 steam -bigpicture";
+    };
+
+    programs.bash = {
+      enable = true;
+      profileExtra = ''
+        if [[ ! $DISPLAY && $XDG_VTNR -eq 1 ]]; then
+          exec startx
+          systemctl suspend
+        fi
+      '';
+    };
   };
 }
