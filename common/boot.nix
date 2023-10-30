@@ -46,7 +46,7 @@ in
   boot.loader.efi.efiSysMountPoint = "/boot/efi";
 
   # Resume
-  boot.resumeDevice = disk.swapDevice;
+  boot.resumeDevice = disk.resumeDevice;
 
   # LUKS
   boot.initrd.supportedFilesystems = [ "btrfs" "ntfs" ];
@@ -74,7 +74,5 @@ in
     };
   } // disk.extraFileSystems;
 
-  swapDevices = if disk.swapDevice != "" then [
-    { device = disk.swapDevice; }
-  ] else [];
+  swapDevices = disk.swapDevices;
 }
