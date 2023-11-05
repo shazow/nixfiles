@@ -5,9 +5,7 @@
   };
 
   nix = {
-    package = pkgs.nixVersions.nix_2_17;
-    # FIXME: Uncomment once https://github.com/NixOS/nix/issues/9052 is fixed
-    # package = pkgs.nixUnstable;
+    package = pkgs.nixUnstable;
     extraOptions = ''
       experimental-features = nix-command flakes
     '';
