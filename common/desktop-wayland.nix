@@ -1,19 +1,47 @@
 { config, lib, pkgs, ... }:
-let
-  url = "https://github.com/colemickens/nixpkgs-wayland/archive/master.tar.gz";
-  waylandOverlay = (import (builtins.fetchTarball url));
-in
 {
   imports = [
     ./desktop.nix
   ];
 
-  nixpkgs.overlays = [ waylandOverlay ];
+  wayland.windowManager.sway = {
+    enable = true;
+    config = {
+      modifier = "Mod4";
+      # Use kitty as default terminal
+      terminal = "kitty"; 
+      startup = [
+        # Launch Firefox on start
+        {command = "firefox";}
+      ];
+    };
+  };
+
+
+  services.greetd = {
+    enable = true;
+    default_session = {
+      command = "${pkgs.greetd.gtkgreet}/bin/gtkgreet -l";
+    };
+  };
 
   programs.sway = {
     enable = true;
 
     extraPackages = with pkgs; [
+
+      dbus-sway-environment
+      configure-gtk
+      wayland
+      swaylock
+      swayidle
+
+      wl-clipboard # wl-copy and wl-paste for copy/paste from stdin / stdout
+      bemenu # wayland clone of dmenu
+      mako # notification system developed by swaywm maintainer
+      wdisplays # tool to configure displays
+
+
       bemenu           # dmenu for sway
       j4-dmenu-desktop # enhances bemenu
 
