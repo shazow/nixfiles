@@ -100,6 +100,7 @@
   xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
   hardware.opengl.driSupport32Bit = true;
 
+  security.polkit.enable = true;
   security.rtkit.enable = true; # Real time scheduling support, useful for audio priority
   services.pipewire = {
     enable = true;
