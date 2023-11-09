@@ -132,7 +132,7 @@
     nvim-luapad
 
     # Zen mode
-    true-zen-nvim
+    zen-mode-nvim # Replaced true-zen-nvim
     twilight-nvim
 
     # Languages
