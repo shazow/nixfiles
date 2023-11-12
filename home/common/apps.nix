@@ -66,6 +66,17 @@ in
 
   home.file.".tmux.conf".source = ../config/tmux.conf;
 
+  services.flatpak = {
+    enable = true;
+    update.onActivation = true;
+    packages = [
+      # I like to keep electron-y things in flatpak 🙃
+      "com.discordapp.Discord"
+      "md.obsidian.Obsidian"
+      "us.zoom.Zoom"
+    ];
+  };
+
   home.packages = (with pkgs; [
     extrapkgs.nvim.default
 

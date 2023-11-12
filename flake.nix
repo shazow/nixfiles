@@ -18,13 +18,14 @@
     # - home-manager
     nvim.url = "path:pkgs/nvim";
     nvim.inputs.nixpkgs.follows = "nixpkgs";
+    flatpaks.url = "github:GermanBread/declarative-flatpak/stable";
     dotfiles = {
       url = "github:shazow/dotfiles";
       flake = false;
     };
   };
 
-  outputs = inputs@{ nixpkgs, home-manager, nixos-hardware, nvim, dotfiles, ... }: let
+  outputs = inputs@{ nixpkgs, home-manager, nixos-hardware, flatpaks, nvim, dotfiles, ... }: let
     username = "shazow";
     devices = import ./devices.nix { inherit inputs; };
     defaultDisk = {
@@ -50,14 +51,18 @@
       disk ? defaultDisk, # Used for FDE
     }: builtins.mapAttrs (name: device: nixpkgs.lib.nixosSystem {
       system = device.system;
-      modules = device.modules ++ [
+      modules = [
         home-manager.nixosModules.home-manager
         {
           # https://nix-community.github.io/home-manager/index.html#sec-install-nixos-module
           home-manager.useUserPackages = true;
           home-manager.useGlobalPkgs = true;
+          home-manager.extraSpecialArgs = {
+            # Needed for declarative flatpaks and anything additional
+            flake-inputs = inputs;
+          };
         }
-      ];
+      ] ++ device.modules;
       specialArgs = {
         inherit initialHashedPassword disk;
       };
@@ -76,12 +81,14 @@
           };
         };
         pkgs = nixpkgs.legacyPackages.${device.system};
-        modules = device.home ++ [
+        modules = [
+          flatpaks.homeManagerModules.default
+
           # FIXME: Workaround. Remove when fixed:
           # - https://github.com/nix-community/home-manager/issues/2942
           # - https://github.com/NixOS/nixpkgs/issues/171810
           { nixpkgs.config.allowUnfreePredicate = (pkg: true); }
-        ];
+        ] ++ device.home;
       };
     }) devices;
 
