@@ -37,6 +37,18 @@
     ];
   };
 
+  "shazowic-fae" = {
+    system = "x86_64-linux";
+    modules = [
+      inputs.nixos-hardware.nixosModules.framework-13-7040-amd
+
+      ./shazowic-fae.nix
+    ];
+    home = [
+      ./home/portable.nix
+    ];
+  };
+
   "shazowic-ghost" = {
     system = "x86_64-linux";
     modules = [

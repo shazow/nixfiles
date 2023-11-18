@@ -16,6 +16,7 @@
     # - nixpkgs
     # - nixos-hardware
     # - home-manager
+    nixpkgs.url = "nixpkgs/nixos-unstable";
     nvim.url = "path:pkgs/nvim";
     nvim.inputs.nixpkgs.follows = "nixpkgs";
     dotfiles = {
