@@ -55,7 +55,7 @@ block = "battery"
 interval = 10
 format = " $icon $percentage {$time |} "
 missing_format = ""
-if_command = "ls /sys/class/power_supply/BAT0"
+if_command = "ls /sys/class/power_supply/BAT*"
 
 [[block]]
 block = "backlight"

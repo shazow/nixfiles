@@ -34,6 +34,7 @@
   services.xserver.videoDrivers = [ "amdgpu" ];
   services.fwupd.enable = true;
   services.blueman.enable = true;
+  services.fprintd.enable = true;
   hardware.bluetooth.enable = true;
   hardware.bluetooth.powerOnBoot = false;
 
