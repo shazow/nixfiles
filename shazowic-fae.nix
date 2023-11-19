@@ -35,6 +35,7 @@
   hardware.bluetooth.powerOnBoot = false;
   services.xserver.videoDrivers = [ "amdgpu" ];
   services.fwupd.enable = true;
+  services.fwupd.extraRemotes = [ "lvfs-testing" ]; # Some framework firmware is still in testing
   services.blueman.enable = true;
   services.fprintd.enable = true;
   services.tlp.settings = {
