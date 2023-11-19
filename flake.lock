@@ -256,7 +256,11 @@
       },
       "locked": {
         "lastModified": 1,
+<<<<<<< Updated upstream
         "narHash": "sha256-f/YhgkZznY/pU41lLqPqS388pQLsP2FfL0pApgZihuA=",
+=======
+        "narHash": "sha256-XLMpy9e1WkFb4MrDb94hX8T8b4gq9oae34ezFUr7n98=",
+>>>>>>> Stashed changes
         "path": "pkgs/nvim",
         "type": "path"
       },

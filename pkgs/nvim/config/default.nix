@@ -16,7 +16,10 @@
   colorscheme = "tokyonight";
 
   colorschemes = {
-    tokyonight.enable = true;
+    tokyonight = {
+      enable = true;
+      style = "night";
+    };
   };
 
   plugins = {
