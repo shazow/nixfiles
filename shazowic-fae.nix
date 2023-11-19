@@ -31,12 +31,20 @@
     pkgs.libvdpau-va-gl pkgs.vaapiVdpau
   ];
   hardware.opengl.extraPackages32 = [ ];
+  hardware.bluetooth.enable = true;
+  hardware.bluetooth.powerOnBoot = false;
   services.xserver.videoDrivers = [ "amdgpu" ];
   services.fwupd.enable = true;
   services.blueman.enable = true;
   services.fprintd.enable = true;
-  hardware.bluetooth.enable = true;
-  hardware.bluetooth.powerOnBoot = false;
+  services.tlp.settings = {
+    cpuFreqGovernor = "powersave";
+
+    PCIE_ASPM_ON_BAT = "superpowersave";
+    START_CHARGE_THRESH_BAT0 = 75;
+    STOP_CHARGE_THRESH_BAT0 = 90;
+  };
+
 
   environment.systemPackages = with pkgs; [
     home-manager
