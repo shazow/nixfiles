@@ -11,7 +11,9 @@
   boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "thunderbolt" "usb_storage" "sd_mod" ];
   boot.kernelModules = [ "kvm-amd" ];
 
+  # TODO: Investigate: services.auto-cpufreq.enable = true;
   powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
+  powerManagement.powertop.enable = true; # Run powertop on boot
 
   imports = [
     (import ./common/boot.nix {
@@ -27,6 +29,7 @@
   hardware.enableRedistributableFirmware = true;
   hardware.opengl.extraPackages = [
     pkgs.rocmPackages.clr.icd
+    pkgs.amdvlk
     # Encoding/decoding acceleration
     pkgs.libvdpau-va-gl pkgs.vaapiVdpau
   ];
@@ -47,7 +50,6 @@
     START_CHARGE_THRESH_BAT1 = 75;
     STOP_CHARGE_THRESH_BAT1 = 90;
   };
-
 
   environment.systemPackages = with pkgs; [
     home-manager
