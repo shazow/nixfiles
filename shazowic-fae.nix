@@ -41,15 +41,7 @@
   services.fwupd.extraRemotes = [ "lvfs-testing" ]; # Some framework firmware is still in testing
   services.blueman.enable = true;
   services.fprintd.enable = true;
-  services.tlp.settings = {
-    PCIE_ASPM_ON_BAT = "superpowersave";
-
-    # Framework detects the internal battery in slot 1?
-    START_CHARGE_THRESH_BAT0 = 75;
-    STOP_CHARGE_THRESH_BAT0 = 90;
-    START_CHARGE_THRESH_BAT1 = 75;
-    STOP_CHARGE_THRESH_BAT1 = 90;
-  };
+  services.power-profiles-daemon.enable = true;
 
   environment.systemPackages = with pkgs; [
     home-manager
