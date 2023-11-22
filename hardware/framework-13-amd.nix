@@ -4,7 +4,7 @@
   # https://community.frame.work/t/tracking-ppd-v-tlp-for-amd-ryzen-7040/39423/27
   boot.kernelParams = [
     "amd_pstate=active"
-    "amdgpu.ppfeaturemask=0xffffffff"
+    # Removed: "amdgpu.ppfeaturemask=0xffffffff"
     "amdgpu.sg_display=0"
     "cpufreq.default_governor=powersave"
     "initcall_blacklist=cpufreq_gov_userspace_init,cpufreq_gov_performance_init"
