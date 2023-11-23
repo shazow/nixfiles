@@ -40,6 +40,26 @@
         "type": "github"
       }
     },
+    "ectool": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1700653687,
+        "narHash": "sha256-B6v9CjYfEVdaiyRCMXzQzfF/bT9KuicnS4yCDB9f6sI=",
+        "owner": "tlvince",
+        "repo": "ectool.nix",
+        "rev": "fe769ee497514f5848f410f7d07732eaa7a5b844",
+        "type": "github"
+      },
+      "original": {
+        "owner": "tlvince",
+        "repo": "ectool.nix",
+        "type": "github"
+      }
+    },
     "flake-compat": {
       "flake": false,
       "locked": {
@@ -256,7 +276,7 @@
       },
       "locked": {
         "lastModified": 1,
-        "narHash": "sha256-O02IAZlj16Mf7Fz81XM/A39ajYgvbfcgoK5MgtXCdNA=",
+        "narHash": "sha256-Wm8peAfhb9RVa0p4j5BpGqqE6LgTx88YUO6u+FX4nrA=",
         "path": "pkgs/nvim",
         "type": "path"
       },
@@ -323,6 +343,7 @@
     "root": {
       "inputs": {
         "dotfiles": "dotfiles",
+        "ectool": "ectool",
         "home-manager": "home-manager",
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs_2",

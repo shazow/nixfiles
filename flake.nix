@@ -16,15 +16,23 @@
     # - nixpkgs
     # - nixos-hardware
     # - home-manager
+
+    # My nvim config as a standalone nvim distribution
     nvim.url = "path:pkgs/nvim";
     nvim.inputs.nixpkgs.follows = "nixpkgs";
+
+    # Framework embedded controller tool
+    ectool.url = "github:tlvince/ectool.nix";
+    ectool.inputs.nixpkgs.follows = "nixpkgs";
+
+    # My old dotfiles
     dotfiles = {
       url = "github:shazow/dotfiles";
       flake = false;
     };
   };
 
-  outputs = inputs@{ nixpkgs, home-manager, nixos-hardware, nvim, dotfiles, ... }: let
+  outputs = inputs@{ nixpkgs, home-manager, nixos-hardware, nvim, ectool, dotfiles, ... }: let
     username = "shazow";
     devices = import ./devices.nix { inherit inputs; };
     defaultDisk = {
@@ -72,7 +80,8 @@
         extraSpecialArgs = {
           inherit inputs username hostname;
           extrapkgs = {
-            nvim = nvim.packages.${device.system};
+            nvim = nvim.defaultPackage.${device.system};
+            ectool = ectool.defaultPackage.${device.system};
           };
         };
         pkgs = nixpkgs.legacyPackages.${device.system};

@@ -67,7 +67,8 @@ in
   home.file.".tmux.conf".source = ../config/tmux.conf;
 
   home.packages = (with pkgs; [
-    extrapkgs.nvim.default
+    extrapkgs.nvim
+    extrapkgs.ectool
 
     # Apps
     bitwarden

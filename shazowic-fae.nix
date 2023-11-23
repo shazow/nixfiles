@@ -37,9 +37,6 @@
     android-udev-rules
     alsa-firmware
 
-    # Framework
-    fw-ectool
-
     # Wireless
     iw # wireless tooling
     crda # wireless regulatory agent
