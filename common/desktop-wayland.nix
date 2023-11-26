@@ -1,22 +1,8 @@
-{ config, lib, pkgs, ... }:
+{ pkgs, ... }:
 {
   imports = [
     ./desktop.nix
   ];
-
-  wayland.windowManager.sway = {
-    enable = true;
-    config = {
-      modifier = "Mod4";
-      # Use kitty as default terminal
-      terminal = "kitty"; 
-      startup = [
-        # Launch Firefox on start
-        {command = "firefox";}
-      ];
-    };
-  };
-
 
   services.greetd = {
     enable = true;
@@ -25,8 +11,12 @@
     };
   };
 
+  security.pam.services.swaylock = {};
+
+  # TODO: programs.hyprland.enable = true;
   programs.sway = {
     enable = true;
+    wrapperFeatures.gtk = true;
 
     extraPackages = with pkgs; [
 
@@ -38,32 +28,17 @@
 
       wl-clipboard # wl-copy and wl-paste for copy/paste from stdin / stdout
       bemenu # wayland clone of dmenu
+      j4-dmenu-desktop # enhances bemenu
       mako # notification system developed by swaywm maintainer
       wdisplays # tool to configure displays
 
-
-      bemenu           # dmenu for sway
-      j4-dmenu-desktop # enhances bemenu
-
-      grim             # screen image capture
       mako             # notification daemon
-      redshift-wayland # patched to work with wayland gamma protocol
-      slurp            # screen area selection tool
+      redshift-wayland # patched to work with wayland gamma protocol # TODO: Replace with gammastep?
 
-      swaybg   # required by sway for controlling desktop wallpaper
-      swayidle # used for controlling idle timeouts and triggers (screen locking, etc)
-      swaylock # used for locking Wayland sessions
-
-      wf-recorder            # wayland screenrecorder
-      wl-clipboard           # clipboard CLI utilities
       wtype                  # xdotool, but for wayland
       xdg-desktop-portal-wlr # xdg-desktop-portal backend for wlroots
 
       xwayland
     ];
-
-    extraSessionCommands = ''
-      export GDK_BACKEND=wayland
-    '';
   };
 }
