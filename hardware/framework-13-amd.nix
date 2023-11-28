@@ -40,6 +40,7 @@
   services.blueman.enable = true;
   services.fprintd.enable = true;
   services.power-profiles-daemon.enable = true;
+  services.thermald.enable = true
 
   services.fwupd.enable = true;
   services.fwupd.extraRemotes = [ "lvfs-testing" ]; # Some framework firmware is still in testing
