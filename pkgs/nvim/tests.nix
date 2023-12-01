@@ -9,9 +9,9 @@
 let
   mockBaseModule = { ... }: with lib; {
     options = {
-      extraPlugins = mkOption { type = with types; listOf (package); };
+      extraPlugins = mkOption { type = types.listOf (types.package); };
       extraConfigLua = mkOption { type = types.lines; default = ""; };
-      maps = mkOption { };
+      keymaps = mkOption { type = types.listOf types.attrs; default = []; };
     };
   };
   renderPlugins = config: (lib.evalModules ({
@@ -42,22 +42,24 @@ lib.runTests {
     wantConfig = {
       extraPlugins = [];
       extraConfigLua = "";
-      maps.normal = {};
+      keymaps = [];
     };
   };
   testKeymaps = mkPluginTest {
     plugins = [
       {
         plugin = examplePackage;
-        keymaps = { "<foo>" = "bar"; };
+        keymaps = [
+          { key = "<foo>"; action = "bar"; }
+        ];
       }
     ];
     wantConfig = {
       extraPlugins = [ examplePackage ];
       extraConfigLua = "";
-      maps.normal = {
-        "<foo>" = { silent = true; action = "bar"; lua = true; };
-      };
+      keymaps = [
+        { key = "<foo>"; action = "bar"; }
+      ];
     };
   };
   testExtraPlugins = mkPluginTest {
@@ -70,8 +72,8 @@ lib.runTests {
         foo
         -- }}}
       '';
-      maps.normal = { };
       extraPlugins = [ examplePackage ];
+      keymaps = [];
     };
   };
 }

@@ -19,6 +19,9 @@
       nixvim' = nixvim.legacyPackages.${system};
       nvim = nixvim'.makeNixvimWithModule {
         inherit pkgs;
+        extraSpecialArgs = {
+          nixvimHelpers = nixvim.lib.helpers;
+        };
         module = config;
       };
     in {

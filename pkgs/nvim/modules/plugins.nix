@@ -1,7 +1,6 @@
 {config, lib, ...}:
 with lib;
 let
-  mergeAttrsets = a: lib.foldl' (acc: s: acc // s) {} a;
   cfg = config.morePlugins;
 in {
   options.morePlugins = {
@@ -34,13 +33,10 @@ in {
             default = "{}";
           };
 
+          # TODO: keymaps = nixvimHelpers.keymaps;
           keymaps = mkOption {
-            type = attrsOf (either str attrs);
-            description = "Keymaps for plugin.";
-            default = {};
-            example = {
-              "<leader>fg" = "require('telescope.builtin').live_grep";
-            };
+            type = listOf attrs;
+            default = [];
           };
         };
       });
@@ -64,24 +60,6 @@ in {
       -- }}}
     '';
 
-    ### Borrowed from https://github.com/nix-community/nixvim/blob/3fa81dd06341ad9958b2b51b9e71448f693917f9/plugins/telescope/default.nix
-    maps.normal = mergeAttrsets (map (p: mapAttrs (
-       key: action: let
-         actionStr =
-           if isString action
-           then action
-           else action.action;
-         actionProps =
-           if isString action
-           then {}
-           else filterAttrs (n: v: n != "action") action;
-       in
-       {
-         silent = true;
-         action = actionStr;
-         lua = true;
-       }
-       // actionProps) p.keymaps
-     ) (filter (p: p.keymaps != {}) cfg.plugins));
+    keymaps = builtins.concatLists (map (p: p.keymaps) cfg.plugins);
   };
 }
