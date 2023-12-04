@@ -16,6 +16,9 @@
     ./common/guest.nix
   ];
 
+  # Palm rejection during typing for x11
+  services.xserver.libinput.touchpad.disableWhileTyping = true;
+
   environment.systemPackages = with pkgs; [
     home-manager
 
