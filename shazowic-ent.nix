@@ -28,14 +28,23 @@
   hardware.cpu.amd.updateMicrocode = true;
   hardware.enableRedistributableFirmware = true;
   hardware.steam-hardware.enable = true; # VR
-  hardware.opengl.extraPackages = [
-    pkgs.rocmPackages.clr.icd
-    # Encoding/decoding acceleration
-    pkgs.libvdpau-va-gl pkgs.vaapiVdpau
-  ];
-  hardware.opengl.extraPackages32 = [ ];
+  hardware.opengl = {
+    enable = true;
+    driSupport = true;
+    driSupport32Bit = true;
+    extraPackages = [
+      pkgs.rocmPackages.clr.icd
+      pkgs.amdvlk
+      # Encoding/decoding acceleration
+      pkgs.libvdpau-va-gl
+      pkgs.vaapiVdpau
+    ];
+    extraPackages32 = [
+      pkgs.driversi686Linux.amdvlk
+    ];
+  };
   hardware.i2c.enable = true; # For controlling displays with ddcutil
-  services.xserver.videoDrivers = [ "amdgpu" ];
+  # Not needed, use mesa driver by default: services.xserver.videoDrivers = [ "amdgpu" ];
   services.xserver.dpi = 163; # 3840x2160 over 27"
   services.fwupd.enable = true;
   services.blueman.enable = true;

@@ -23,12 +23,21 @@
 
   hardware.cpu.amd.updateMicrocode = true;
   hardware.enableRedistributableFirmware = true;
-  hardware.opengl.extraPackages = [
-    pkgs.rocmPackages.clr.icd
-    pkgs.amdvlk
-    # Encoding/decoding acceleration
-    pkgs.libvdpau-va-gl pkgs.vaapiVdpau
-  ];
+  hardware.opengl = {
+    enable = true;
+    driSupport = true;
+    driSupport32Bit = true;
+    extraPackages = [
+      pkgs.rocmPackages.clr.icd
+      pkgs.amdvlk
+      # Encoding/decoding acceleration
+      pkgs.libvdpau-va-gl
+      pkgs.vaapiVdpau
+    ];
+    extraPackages32 = [
+      pkgs.driversi686Linux.amdvlk
+    ];
+  };
 
   powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
   powerManagement.powertop.enable = true; # Run powertop on boot
@@ -36,11 +45,11 @@
   hardware.bluetooth.enable = true;
   hardware.bluetooth.powerOnBoot = false;
 
-  services.xserver.videoDrivers = [ "amdgpu" ];
+  # Not needed, use mesa driver by default: services.xserver.videoDrivers = [ "amdgpu" ];
   services.blueman.enable = true;
   services.fprintd.enable = true;
   services.power-profiles-daemon.enable = true;
-  services.thermald.enable = true
+  services.thermald.enable = true;
 
   services.fwupd.enable = true;
   services.fwupd.extraRemotes = [ "lvfs-testing" ]; # Some framework firmware is still in testing
