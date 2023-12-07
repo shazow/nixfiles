@@ -26,13 +26,13 @@
     ectool.inputs.nixpkgs.follows = "nixpkgs";
 
     # My old dotfiles
-    dotfiles = {
-      url = "github:shazow/dotfiles";
-      flake = false;
-    };
+    dotfiles = { url = "github:shazow/dotfiles"; flake = false; };
+
+    # Audio profiles for Framework 13 speakers
+    framework-audio-presets = { url = "github:ceiphr/ee-framework-presets"; flake = false; };
   };
 
-  outputs = inputs@{ nixpkgs, home-manager, nixos-hardware, nvim, ectool, dotfiles, ... }: let
+  outputs = inputs@{ nixpkgs, home-manager, nixos-hardware, nvim, ectool, dotfiles, framework-audio-presets, ... }: let
     username = "shazow";
     devices = import ./devices.nix { inherit inputs; };
     defaultDisk = {

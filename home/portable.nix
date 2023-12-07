@@ -1,4 +1,4 @@
-{ username, ... }:
+{ username, inputs, ... }:
 
 {
   imports = [
@@ -12,6 +12,10 @@
 
   # External monitor management
   programs.autorandr = import ./config/autorandr.nix;
+
+  # Speaker calibration
+  services.easyeffects.enable = true;
+  services.easyeffects.preset = "${inputs.framework-audio-presets.outPath}/kieran_levin.json";
 
   home.file.".config/i3/config".source = ./config/i3/config;
   home.file.".config/i3/status.toml".source = ./config/i3/status.toml;
