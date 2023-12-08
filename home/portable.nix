@@ -15,7 +15,8 @@
 
   # Speaker calibration
   services.easyeffects.enable = true;
-  services.easyeffects.preset = "${inputs.framework-audio-presets.outPath}/kieran_levin.json";
+  services.easyeffects.preset = "kieran_levin"; # keys from easyeffects/output/*.json
+  xdg.configFile."easyeffects/output".source = inputs.framework-audio-presets.outPath;
 
   home.file.".config/i3/config".source = ./config/i3/config;
   home.file.".config/i3/status.toml".source = ./config/i3/status.toml;
