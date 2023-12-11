@@ -129,6 +129,22 @@
         "type": "github"
       }
     },
+    "framework-audio-presets": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1666496289,
+        "narHash": "sha256-z2WmozMDMUkiAd+BEc/5+DHgFXDbw3FdsvBwgIj0JmI=",
+        "owner": "ceiphr",
+        "repo": "ee-framework-presets",
+        "rev": "27885fe00c97da7c441358c7ece7846722fd12fa",
+        "type": "github"
+      },
+      "original": {
+        "owner": "ceiphr",
+        "repo": "ee-framework-presets",
+        "type": "github"
+      }
+    },
     "gitignore": {
       "inputs": {
         "nixpkgs": [
@@ -276,12 +292,12 @@
       },
       "locked": {
         "lastModified": 1,
-        "narHash": "sha256-LMpAX9NIJG/51eRtuePJZzrYz+Cw+bwZj2v1+7fNLlU=",
-        "path": "pkgs/nvim",
+        "narHash": "sha256-hYEKb04ajYYn/JR5rdNM5ovtrGqnrcamJW+naU4xGUQ=",
+        "path": "/nix/store/ksq5aj6l11l6frr3dhnfd9d5p4maymj8-source/pkgs/nvim",
         "type": "path"
       },
       "original": {
-        "path": "pkgs/nvim",
+        "path": "/nix/store/ksq5aj6l11l6frr3dhnfd9d5p4maymj8-source/pkgs/nvim",
         "type": "path"
       }
     },
@@ -344,6 +360,7 @@
       "inputs": {
         "dotfiles": "dotfiles",
         "ectool": "ectool",
+        "framework-audio-presets": "framework-audio-presets",
         "home-manager": "home-manager",
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs_2",

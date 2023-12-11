@@ -18,7 +18,7 @@
     # - home-manager
 
     # My nvim config as a standalone nvim distribution
-    nvim.url = "path:pkgs/nvim";
+    nvim.url = "./pkgs/nvim";
     nvim.inputs.nixpkgs.follows = "nixpkgs";
 
     # Framework embedded controller tool
