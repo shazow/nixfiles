@@ -32,11 +32,20 @@
     framework-audio-presets = { url = "github:ceiphr/ee-framework-presets"; flake = false; };
   };
 
-  outputs = inputs@{ nixpkgs, home-manager, nixos-hardware, nvim, ectool, dotfiles, framework-audio-presets, ... }: let
+  outputs = inputs@{ nixpkgs, home-manager, nixos-hardware, ectool, nvim, dotfiles, framework-audio-presets, ... }: let
     username = "shazow";
-    hosts = builtins.mapAttrs (name: type: import ./hosts/${name}) (builtins.readDir ./hosts);
+
+    # Mappings from hostname to device configurations are derived from ./hosts/*.nix
+    hosts = with nixpkgs.lib;
+      mapAttrs' (
+        name: value: {
+          name = strings.removeSuffix ".nix" name;
+          value = import ./hosts/${name} { inherit inputs; };
+        }
+      ) (builtins.readDir ./hosts);
+
+    # TODO: Generalize this somehow? Or remove to force overriding?
     defaultDisk = {
-      # TODO: Generalize this somehow? Or remove to force overriding?
       efi = { device = "/dev/nvme0n1p1"; };
       luksDevices = {
         cryptswap = { device = "/dev/nvme0n1p2"; };
@@ -51,11 +60,13 @@
     # Called by a device flake, can be generated from templates/nixos-device
 
     mkSystemConfigurations = {
+      primaryUsername ? username,
       initialHashedPassword, # Used for passwd
       disk ? defaultDisk, # Used for FDE
     }: builtins.mapAttrs (name: host: nixpkgs.lib.nixosSystem {
       system = host.system;
       modules = host.modules ++ [
+        host.root
         home-manager.nixosModules.home-manager
         {
           # https://nix-community.github.io/home-manager/index.html#sec-install-nixos-module
@@ -64,7 +75,7 @@
         }
       ];
       specialArgs = {
-        inherit inputs initialHashedPassword disk;
+        inherit inputs primaryUsername initialHashedPassword disk;
       };
     }) hosts;
 
