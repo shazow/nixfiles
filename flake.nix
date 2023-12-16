@@ -34,7 +34,7 @@
 
   outputs = inputs@{ nixpkgs, home-manager, nixos-hardware, nvim, ectool, dotfiles, framework-audio-presets, ... }: let
     username = "shazow";
-    devices = import ./devices.nix { inherit inputs; };
+    hosts = builtins.mapAttrs (name: type: import ./hosts/${name}) (builtins.readDir ./hosts);
     defaultDisk = {
       # TODO: Generalize this somehow? Or remove to force overriding?
       efi = { device = "/dev/nvme0n1p1"; };
@@ -47,18 +47,15 @@
     };
   in {
 
-    inherit devices;
-
     # NixOS System Configuration generator
     # Called by a device flake, can be generated from templates/nixos-device
 
     mkSystemConfigurations = {
-      devices,
       initialHashedPassword, # Used for passwd
       disk ? defaultDisk, # Used for FDE
-    }: builtins.mapAttrs (name: device: nixpkgs.lib.nixosSystem {
-      system = device.system;
-      modules = device.modules ++ [
+    }: builtins.mapAttrs (name: host: nixpkgs.lib.nixosSystem {
+      system = host.system;
+      modules = host.modules ++ [
         home-manager.nixosModules.home-manager
         {
           # https://nix-community.github.io/home-manager/index.html#sec-install-nixos-module
@@ -67,32 +64,32 @@
         }
       ];
       specialArgs = {
-        inherit initialHashedPassword disk;
+        inherit inputs initialHashedPassword disk;
       };
-    }) devices;
+    }) hosts;
 
     # Homes:
     # We generate a "username@hostname" combo per device
 
-    homeConfigurations = nixpkgs.lib.attrsets.mapAttrs' (hostname: device: {
+    homeConfigurations = nixpkgs.lib.attrsets.mapAttrs' (hostname: host: {
       name = "${username}@${hostname}";
       value = home-manager.lib.homeManagerConfiguration {
         extraSpecialArgs = {
           inherit inputs username hostname;
           extrapkgs = {
-            nvim = nvim.defaultPackage.${device.system};
-            ectool = ectool.defaultPackage.${device.system};
+            nvim = nvim.defaultPackage.${host.system};
+            ectool = ectool.defaultPackage.${host.system};
           };
         };
-        pkgs = nixpkgs.legacyPackages.${device.system};
-        modules = device.home ++ [
+        pkgs = nixpkgs.legacyPackages.${host.system};
+        modules = host.home ++ [
           # FIXME: Workaround. Remove when fixed:
           # - https://github.com/nix-community/home-manager/issues/2942
           # - https://github.com/NixOS/nixpkgs/issues/171810
           { nixpkgs.config.allowUnfreePredicate = (pkg: true); }
         ];
       };
-    }) devices;
+    }) hosts;
 
   };
 }
