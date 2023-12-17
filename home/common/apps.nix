@@ -108,7 +108,6 @@ in
     nix-doc
 
     # Gaming
-    steam
     lutris
     wine
 

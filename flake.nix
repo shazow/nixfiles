@@ -32,7 +32,7 @@
     framework-audio-presets = { url = "github:ceiphr/ee-framework-presets"; flake = false; };
   };
 
-  outputs = inputs@{ nixpkgs, home-manager, nixos-hardware, ectool, nvim, dotfiles, framework-audio-presets, ... }: let
+  outputs = inputs@{ nixpkgs, home-manager, nixos-hardware, ... }: let
     username = "shazow";
 
     # Mappings from hostname to device configurations are derived from ./hosts/*.nix
@@ -88,8 +88,8 @@
         extraSpecialArgs = {
           inherit inputs username hostname;
           extrapkgs = {
-            nvim = nvim.defaultPackage.${host.system};
-            ectool = ectool.defaultPackage.${host.system};
+            nvim = inputs.nvim.defaultPackage.${host.system};
+            ectool = inputs.ectool.defaultPackage.${host.system};
           };
         };
         pkgs = nixpkgs.legacyPackages.${host.system};
