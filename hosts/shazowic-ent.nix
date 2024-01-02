@@ -5,6 +5,8 @@
   modules = [
     inputs.nixos-hardware.nixosModules.common-cpu-amd
     inputs.nixos-hardware.nixosModules.common-gpu-amd
+
+    ../modules/bootlayout.nix
   ];
 
   home = [
@@ -18,9 +20,10 @@
     inputs,
     primaryUsername,
     initialHashedPassword,
-    disk,
     ...
   }: {
+    boot.layout.enable = true;
+
     boot.kernelPackages = pkgs.linuxPackages_latest;
 
     # $ sudo nixos-generate-config --show-hardware-config | grep -i kernel
@@ -30,9 +33,6 @@
     powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
 
     imports = [
-      (import ../common/boot.nix {
-        inherit disk;
-      })
       ../common/desktop-i3.nix
       ../common/crypto.nix
       ../common/guest.nix

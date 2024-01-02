@@ -43,19 +43,6 @@
           value = import ./hosts/${name} { inherit inputs; };
         }
       ) (builtins.readDir ./hosts);
-
-    # TODO: Generalize this somehow? Or remove to force overriding?
-    defaultDisk = {
-      efi = { device = "/dev/nvme0n1p1"; };
-      luksDevices = {
-        cryptswap = { device = "/dev/nvme0n1p2"; };
-        cryptroot = { device = "/dev/nvme0n1p3"; };
-      };
-      extraFileSystems = {
-      };
-      swapDevices = [];
-      resumeDevice = "";
-    };
   in {
 
     # NixOS System Configuration generator
@@ -64,7 +51,6 @@
     mkSystemConfigurations = {
       primaryUsername ? username,
       initialHashedPassword, # Used for passwd
-      disk ? defaultDisk, # Used for FDE
     }: builtins.mapAttrs (name: host: nixpkgs.lib.nixosSystem {
       system = host.system;
       modules = host.modules ++ [
@@ -77,7 +63,7 @@
         }
       ];
       specialArgs = {
-        inherit inputs primaryUsername initialHashedPassword disk;
+        inherit inputs primaryUsername initialHashedPassword;
       };
     }) hosts;
 
