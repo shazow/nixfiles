@@ -17,6 +17,10 @@
     # - nixos-hardware
     # - home-manager
 
+    # Wayland
+    nixpkgs-wayland.url = "github:nix-community/nixpkgs-wayland";
+    nixpkgs-wayland.inputs.nixpkgs.follows = "nixpkgs";
+
     # My nvim config as a standalone nvim distribution
     nvim.url = "path:pkgs/nvim";
     nvim.inputs.nixpkgs.follows = "nixpkgs";
@@ -67,7 +71,7 @@
         }
       ];
       specialArgs = {
-        inherit initialHashedPassword disk;
+        inherit initialHashedPassword disk inputs;
       };
     }) devices;
 
