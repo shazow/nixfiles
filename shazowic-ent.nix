@@ -18,10 +18,9 @@
     (import ./common/boot.nix {
       inherit disk;
     })
-    ./common/desktop-i3.nix
+    ./common/desktop-wayland.nix
     ./common/crypto.nix
     ./common/guest.nix
-    ./common/tracy.nix
   ];
 
   # Hardware specific
@@ -59,6 +58,8 @@
     };
   };
 
+  programs.steam.enable = true;
+
   environment.systemPackages = with pkgs; [
     home-manager
 
@@ -66,10 +67,8 @@
     alsa-tools
     arandr
     colord
-    dunst
     feh
     libnotify
-    maim
     openvpn
     pavucontrol
 
