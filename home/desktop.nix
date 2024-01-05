@@ -15,7 +15,8 @@
 
   xresources.properties = {
     # Doesn't seem like most things need this, but flatpak electron apps do.
-    "Xft.dpi" = 163; # 3840x2160 over 27"
+    # "Xft.dpi" = 163; # 3840x2160 over 27"
+    "Xft.dpi" = 110; # 3440x1440 over 34"
   };
 
   home.file.".config/i3/config".source = ./config/i3/config;
