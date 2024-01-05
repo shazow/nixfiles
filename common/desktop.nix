@@ -79,7 +79,8 @@
   services.geoclue2.enable = true;
   services.fwupd.enable = true;
   services.avahi.enable = true;
-  services.avahi.nssmdns = true;
+  services.avahi.nssmdns4 = true;
+  services.avahi.openFirewall = true;
   services.fstrim.enable = true; # for SSDs
   services.printing.enable = true;
   services.printing.drivers = [ pkgs.brlaser ];
