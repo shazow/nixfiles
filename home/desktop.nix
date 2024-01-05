@@ -9,7 +9,7 @@
   ];
 
   imports = [
-    ./common/x11.nix
+    ./common/wayland.nix
     ./common/apps.nix
   ];
 
