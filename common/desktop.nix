@@ -63,7 +63,6 @@
 
   #services.dnsmasq.enable = true;
   #services.dnsmasq.servers = [ "1.1.1.1" "8.8.8.8" "2001:4860:4860::8844" "100.100.100.100" ];
-  services.fwupd.enable = true;
   networking.networkmanager.enable = true;
   networking.networkmanager.dns = "dnsmasq";
   networking.networkmanager.appendNameservers = [ "1.1.1.1" "8.8.8.8" "2001:4860:4860::8844" ];
@@ -77,6 +76,8 @@
   # programs.nix-ld.enable = true; # Run unpatched dynamic libraries
   programs.dconf.enable = true; # Needed for GTK
   programs.light.enable = true;
+  services.geoclue2.enable = true;
+  services.fwupd.enable = true;
   services.avahi.enable = true;
   services.avahi.nssmdns = true;
   services.fstrim.enable = true; # for SSDs
@@ -85,7 +86,7 @@
 
   systemd.services.NetworkManager-wait-online.enable = false; # FIXME: Workaround for systemd/dbus related issue? https://github.com/NixOS/nixpkgs/issues/180175
   # services.localtimed.enable = true; # Broken: https://github.com/NixOS/nixpkgs/issues/177792
-
+  services.automatic-timezoned.enable = true; # Substitute for localtimed
 
   # Wireguard
   networking.wireguard.enable = true;
