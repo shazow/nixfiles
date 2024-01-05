@@ -45,4 +45,32 @@ in
       combi-mode = "window,drun,calc";
     };
   };
+
+  programs.swaylock = {
+    enable = true;
+    settings = {
+      color = "000000";
+      font-size = 24;
+      indicator-idle-visible = false;
+      indicator-radius = 100;
+      show-failed-attempts = true;
+    };
+  };
+
+  services.cliphist.enable = true;
+  services.network-manager-applet.enable = true;
+
+  services.swayidle = {
+    enable = true;
+    events = [
+      { event = "before-sleep"; command = "${pkgs.swaylock}/bin/swaylock -fF"; }
+      { event = "lock"; command = "lock"; }
+    ];
+    timeouts = [
+      { timeout = 60 * 3; command = "${pkgs.swaylock}/bin/swaylock -fF"; }
+      # { timeout = 90; command = "${pkgs.systemd}/bin/systemctl suspend"; }
+    ];
+  };
+
+  services.swayosd.enable = true;
 }
