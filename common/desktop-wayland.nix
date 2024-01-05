@@ -1,44 +1,73 @@
-{ pkgs, ... }:
+{ pkgs, inputs, ... }:
 {
+  nix.settings = {
+    # Wayland binary caches
+    trusted-public-keys = [
+      "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+      "nixpkgs-wayland.cachix.org-1:3lwxaILxMRkVhehr5StQprHdEo4IrE8sRho9R9HOLYA="
+    ];
+    substituters = [
+      "https://cache.nixos.org"
+      "https://nixpkgs-wayland.cachix.org"
+    ];
+  };
+
+  nixpkgs.overlays = [ inputs.nixpkgs-wayland.overlay ];
+
   imports = [
     ./desktop.nix
   ];
 
   services.greetd = {
     enable = true;
-    default_session = {
-      command = "${pkgs.greetd.gtkgreet}/bin/gtkgreet -l";
+    settings = {
+      default_session = {
+        command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd ${pkgs.sway}/bin/sway";
+        user = "greeter";
+      };
     };
   };
 
-  security.pam.services.swaylock = {};
+  # Reduce tuigreet console spam? (Not sure if this is necessary anymore)
+  # https://www.reddit.com/r/NixOS/comments/u0cdpi/tuigreet_with_xmonad_how/
+  systemd.services.greetd.serviceConfig = {
+    Type = "idle";
+    StandardInput = "tty";
+    StandardOutput = "tty";
+    StandardError = "journal"; # Without this errors will spam on screen
+    # Without these bootlogs will spam on screen
+    TTYReset = true;
+    TTYVHangup = true;
+    TTYVTDisallocate = true;
+  };
 
-  # TODO: programs.hyprland.enable = true;
-  programs.sway = {
+  environment.systemPackages = with pkgs; [
+    wayland
+    wl-clipboard # wl-copy and wl-paste for copy/paste from stdin / stdout
+
+    wtype                  # xdotool, but for wayland
+    xwayland
+  ];
+
+  xdg.portal.extraPortals = [
+    # pkgs.xdg-desktop-portal-gtk
+    pkgs.xdg-desktop-portal-wlr # Backend for wayland roots
+  ];
+
+  security.pam.services.swaylock = {};
+  security.pam.loginLimits = [
+    # Allow userland to request real-time priority, probably useful for VR?
+    { domain = "@users"; item = "rtprio"; type = "-"; value = 1; }
+  ];
+
+  programs.sway = { # Swap with hyprland
     enable = true;
     wrapperFeatures.gtk = true;
 
     extraPackages = with pkgs; [
-
-      dbus-sway-environment
-      configure-gtk
-      wayland
       swaylock
       swayidle
-
-      wl-clipboard # wl-copy and wl-paste for copy/paste from stdin / stdout
-      bemenu # wayland clone of dmenu
-      j4-dmenu-desktop # enhances bemenu
-      mako # notification system developed by swaywm maintainer
-      wdisplays # tool to configure displays
-
-      mako             # notification daemon
-      redshift-wayland # patched to work with wayland gamma protocol # TODO: Replace with gammastep?
-
-      wtype                  # xdotool, but for wayland
-      xdg-desktop-portal-wlr # xdg-desktop-portal backend for wlroots
-
-      xwayland
+      mako # Notification daemon (by swaywm creator)
     ];
   };
 }

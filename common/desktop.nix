@@ -75,8 +75,6 @@
     defaultLocale = "en_US.UTF-8";
   };
 
-  services.fwupd.enable = true;
-
   # dnsmasq
   #services.dnsmasq.enable = true;
   #services.dnsmasq.servers = [ "1.1.1.1" "8.8.8.8" "2001:4860:4860::8844" "100.100.100.100" ];
@@ -117,6 +115,8 @@
   programs.light.enable = true;
   programs.gnupg.agent.enable = true; # GPG Daemon needed for pinentry
   programs.adb.enable = true; # Android dev
+  services.geoclue2.enable = true;
+  services.fwupd.enable = true;
   services.avahi.enable = true;
   services.avahi.nssmdns4 = true;
   services.avahi.openFirewall = true;
@@ -126,7 +126,7 @@
 
   systemd.services.NetworkManager-wait-online.enable = false; # FIXME: Workaround for systemd/dbus related issue? https://github.com/NixOS/nixpkgs/issues/180175
   # services.localtimed.enable = true; # Broken: https://github.com/NixOS/nixpkgs/issues/177792
-
+  services.automatic-timezoned.enable = true; # Substitute for localtimed
 
   # Wireguard
   networking.wireguard.enable = true;
