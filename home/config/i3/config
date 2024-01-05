@@ -14,7 +14,7 @@ set $WS3 work
 
 # Look tweaks
 hide_edge_borders both
-new_window pixel 1
+default_border pixel 1
 
 # On start
 exec --no-startup-id hsetroot -solid '#000000'
