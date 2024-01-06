@@ -55,7 +55,7 @@ in
 
   # Technically don't think we need this, since greeter launches sway, but
   # maybe other modules rely on it?
-  wayland.windowManager.sway.enable = true;
+  #wayland.windowManager.sway.enable = true;
 
   programs.swaylock = {
     enable = true;
@@ -78,8 +78,17 @@ in
       { event = "lock"; command = "lock"; }
     ];
     timeouts = [
-      { timeout = 60 * 3; command = "${pkgs.swaylock}/bin/swaylock -fF"; }
-      # { timeout = 90; command = "${pkgs.systemd}/bin/systemctl suspend"; }
+      # Turn off screen (just before locking)
+      {
+        timeout = 170;
+        command = "${pkgs.sway}/bin/swaymsg \"output * dpms off\"";
+        resumeCommand = "${pkgs.sway}/bin/swaymsg \"output * dpms on\"";
+      }
+      # Lock computer
+      {
+        timeout = 180;
+        command = "${pkgs.swaylock}/bin/swaylock -fF";
+      }
     ];
   };
 
