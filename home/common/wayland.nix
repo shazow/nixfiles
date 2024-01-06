@@ -8,6 +8,13 @@ let
   sessionVars = {
     # For my fancy bookmark script: home/bin/bookmark
     BOOKMARK_DIR = "${config.home.homeDirectory}/remote/bookmarks";
+
+    # Sway/Wayland env
+    XDG_SESSION_TYPE = "wayland";
+    XDG_SESSION_DESKTOP = "sway";
+    XDG_CURRENT_DESKTOP = "sway";
+    SDL_VIDEODRIVER = "wayland";
+    QT_QPA_PLATFORM = "wayland";
   };
 in
 {
@@ -45,6 +52,10 @@ in
       combi-mode = "window,drun,calc";
     };
   };
+
+  # Technically don't think we need this, since greeter launches sway, but
+  # maybe other modules rely on it?
+  wayland.windowManager.sway.enable = true;
 
   programs.swaylock = {
     enable = true;

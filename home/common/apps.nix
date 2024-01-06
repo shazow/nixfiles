@@ -119,6 +119,7 @@ in
 
     rclone
     # obs-studio # Screen recording, streaming
+    grim # Wayland screenshot backend?
     flameshot  # Screenshots
     transmission-gtk # Torrents
     mullvad-vpn # Frontend
