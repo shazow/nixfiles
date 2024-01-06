@@ -67,6 +67,7 @@
   programs.sway = { # Swap with hyprland
     enable = true;
     wrapperFeatures.gtk = true;
+    programs.sway.package = null; # We use home-manager sway
 
     extraPackages = with pkgs; [
       swaylock

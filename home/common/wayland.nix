@@ -1,5 +1,5 @@
 # Wayland alternative to x11.nix
-{ pkgs, config, inputs, ... }:
+{ pkgs, config, lib, inputs, ... }:
 let
   iconTheme = {
     package = pkgs.gnome.adwaita-icon-theme;
@@ -9,13 +9,15 @@ let
     # For my fancy bookmark script: home/bin/bookmark
     BOOKMARK_DIR = "${config.home.homeDirectory}/remote/bookmarks";
 
-    # Sway/Wayland env
-    XDG_SESSION_TYPE = "wayland";
-    XDG_SESSION_DESKTOP = "sway";
-    XDG_CURRENT_DESKTOP = "sway";
-    SDL_VIDEODRIVER = "wayland";
-    QT_QPA_PLATFORM = "wayland";
+    # FIXME: Remove this, don't think we need it anymore
+    ## Sway/Wayland env
+    #XDG_SESSION_TYPE = "wayland";
+    #XDG_SESSION_DESKTOP = "sway";
+    #XDG_CURRENT_DESKTOP = "sway";
+    #SDL_VIDEODRIVER = "wayland";
+    #QT_QPA_PLATFORM = "wayland";
   };
+  lockcmd = "${pkgs.swaylock}/bin/swaylock -fF";
 in
 {
   home.pointerCursor = {
@@ -53,10 +55,6 @@ in
     };
   };
 
-  # Technically don't think we need this, since greeter launches sway, but
-  # maybe other modules rely on it?
-  #wayland.windowManager.sway.enable = true;
-
   programs.swaylock = {
     enable = true;
     settings = {
@@ -68,13 +66,16 @@ in
     };
   };
 
+  # The home-assistant services below won't work unless we're also using
+  # home-manager's sway module.
+
   services.cliphist.enable = true;
   services.network-manager-applet.enable = true;
 
   services.swayidle = {
     enable = true;
     events = [
-      { event = "before-sleep"; command = "${pkgs.swaylock}/bin/swaylock -fF"; }
+      { event = "before-sleep"; command = lockcmd; }
       { event = "lock"; command = "lock"; }
     ];
     timeouts = [
@@ -87,10 +88,104 @@ in
       # Lock computer
       {
         timeout = 180;
-        command = "${pkgs.swaylock}/bin/swaylock -fF";
+        command = lockcmd;
       }
     ];
   };
 
   services.swayosd.enable = true;
+
+  # Note: We can also use program.sway but home-manager integrates systemd
+  # graphical target units properly so that swayidle and friends all load
+  # correctly together. It also handles injecting the correct XDG_* variables.
+  wayland.windowManager.sway = {
+    enable = true;
+
+    config = let
+      mod = "Mod4";
+      term = "alacritty";
+    in {
+      modifier = mod;
+      terminal = term;
+      window.border = 1;
+      window.hideEdgeBorders = "both";
+      colors.background = "000000";
+      fonts = {
+        names = [ "DejaVu Sans Mono" "FontAwesome" ];
+        style = "Bold Semi-Condensed";
+        size = 10.0;
+      };
+      keybindings = lib.mkOptionDefault {
+        # Special keys
+        "XF86MonBrightnessUp" = "exec light -A 10";
+        "XF86MonBrightnessDown" = "exec light -U 10";
+        "${mod}+XF86MonBrightnessUp" = "exec light -A 2";
+        "${mod}+XF86MonBrightnessDown" = "exec light -U 2";
+        "XF86AudioRaiseVolume" = "exec --no-startup-id volumectl up";
+        "XF86AudioLowerVolume" = "exec --no-startup-id volumectl down";
+        "XF86AudioMute" = "exec --no-startup-id volumectl mute";
+        "XF86AudioMicMute" = "exec --no-startup-id pamixer --default-source --toggle-mute";
+        "XF86AudioPlay" = "exec playerctl play-pause";
+        "XF86AudioPause" = "exec playerctl pause";
+        "XF86AudioNext" = "exec playerctl next";
+        "XF86AudioPrev" = "exec playerctl previous";
+        "XF86Display" = "exec rofi-screenlayout";
+        "${mod}+b" = "exec xclip -o | rofi -dmenu | xargs bookmark | xargs -I '{}' xdg-open obsidian://open/?path={}";
+        "${mod}+XF86Display" = "exec xrandr --auto";  # Reset screen
+        "${mod}+slash" = "exec xdotool key XF86AudioPlay"; # FIXME: Port to wayland
+        "${mod}+bracketright" = "exec xdotool key XF86AudioNext"; # FIXME: Port to wayland
+        "${mod}+bracketleft" = "exec xdotool key XF86AudioPrev"; # FIXME: Port to wayland
+        "${mod}+Shift+i" = "exec xrandr-invert-colors"; # FIXME: Port to wayland
+
+        # Lock
+        "${mod}+l" = "exec ${lockcmd}";
+        "Print+l" = "exec ${lockcmd}";
+        "XF86Launch2" = "exec ${lockcmd}";
+        "${mod}+minus" = "exec ${lockcmd}";
+        "${mod}+Shift+minus" = "exec systemctl suspend";
+
+        # Emoji
+        "${mod}+Mod1+space" = "exec --no-startup-id rofi -show emoji -modi emoji";
+
+        # Screenshot
+        "--release ${mod}+Print" = "exec ss"; # FIXME: Port to wayland
+        "--release ${mod}+Shift+Print" = "exec maim -s | xclip -selection clipboard -t \"image/png\""; # FIXME: Port to wayland
+        "--release Alt+Shift+4" = "exec maim -s | xclip -selection clipboard -t \"image/png\""; # FIXME: Port to wayland
+
+        # Scratchpath
+        "${mod}+Shift+grave" = "move scratchpad";
+        #for_window [instance="dropdown"] move scratchpad, border pixel 2, resize set 80 ppt 50 ppt, move absolute position 300 0
+        "${mod}+grave" = "exec --no-startup-id i3-scratchpad \"dropdown\"";
+
+        # start a terminal
+        "${mod}+Return" = "exec ${term}";
+        "${mod}+Shift+Return" = "exec ${term} --working-directory \"$(xcwd)\""; # FIXME: Port to wayland
+
+        # Workspaces
+        "${mod}+Mod1+Right" = "workspace next";
+        "${mod}+Mod1+Left" = "workspace prev";
+        "${mod}+Control+Left" = "move workspace to output left";
+        "${mod}+Control+Right" = "move workspace to output right";
+      };
+      bars = [
+        {
+          colors.background = "222222";
+          colors.separator = "666666";
+          colors.statusline = "dddddd";
+          fonts = {
+            names = [ "DejaVu Sans Mono" "FontAwesome" ];
+            size = 12.0;
+          };
+          statusCommand = "i3status-rs $HOME/.config/i3/status.toml"; # TODO: Refer within repo
+        }
+      ];
+      window.commands = [
+        {
+          criteria = { app_id = "dropdown"; };
+          command = "move scratchpad, border pixel 2, resize set 80 ppt 50 ppt, move absolute position 300 0";
+        }
+      ];
+    };
+  };
+
 }
