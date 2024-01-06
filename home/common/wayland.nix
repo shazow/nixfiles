@@ -5,6 +5,7 @@ let
     package = pkgs.gnome.adwaita-icon-theme;
     name = "Adwaita";
   };
+
   sessionVars = {
     # For my fancy bookmark script: home/bin/bookmark
     BOOKMARK_DIR = "${config.home.homeDirectory}/remote/bookmarks";
@@ -17,7 +18,16 @@ let
     #SDL_VIDEODRIVER = "wayland";
     #QT_QPA_PLATFORM = "wayland";
   };
+
   lockcmd = "${pkgs.swaylock}/bin/swaylock -fF";
+
+  # sway port of xcwd
+  # via: https://www.reddit.com/r/swaywm/comments/ayedi1/opening_terminals_at_the_same_directory/ei7i1dl/?context=1
+  windowcwd = pkgs.writeScript "windowcwd" ''
+    pid=$(swaymsg -t get_tree | jq '.. | select(.type?) | select(.type=="con") | select(.focused==true).pid')
+    ppid=$(pgrep --newest --parent $pid)
+    readlink /proc/$ppid/cwd || echo $HOME
+  '';
 in
 {
   home.pointerCursor = {
@@ -159,13 +169,16 @@ in
 
         # start a terminal
         "${mod}+Return" = "exec ${term}";
-        "${mod}+Shift+Return" = "exec ${term} --working-directory \"$(xcwd)\""; # FIXME: Port to wayland
+        "${mod}+Shift+Return" = "exec ${term} --working-directory \"$(${windowcwd})\""; # FIXME: Port to wayland
 
         # Workspaces
         "${mod}+Mod1+Right" = "workspace next";
         "${mod}+Mod1+Left" = "workspace prev";
         "${mod}+Control+Left" = "move workspace to output left";
         "${mod}+Control+Right" = "move workspace to output right";
+
+        # TODO: Port to wayland
+        # "${mod}+Control+Delete" = "exec "i3-nagbar -t warning -m 'Quit xinit?' -b 'Yes' 'i3-msg exit'"";
       };
       bars = [
         {
