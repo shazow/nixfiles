@@ -122,7 +122,8 @@ in
     go
 
     rclone
-    obs-studio # Screen recording, streaming
+    # obs-studio # Screen recording, streaming
+    grim # Wayland screenshot backend?
     flameshot  # Screenshots
     transmission-gtk # Torrents
     mullvad-vpn # Frontend
