@@ -9,12 +9,14 @@
 # i3 config usage:
 #   for_window [instance="dropdown"] move scratchpad, border pixel 2, resize set 80 ppt 50 ppt, move absolute position 300 0
 #   bindsym $mod+grave exec --no-startup-id i3-scratchpad "dropdown" "alacritty"
+#
 
-msg() {
+toggle() {
+    declare class="$1"
     if command -v i3-msg > /dev/null; then
-        i3-msg $*
+        i3-msg "[instance=\"$class\"] scratchpad show"
     elif command -v swaymsg > /dev/null; then
-        swaymsg $*
+        swaymsg "[app_id=\"$class\"] scratchpad show, resize set 80 ppt 50 ppt, move absolute position 300 0"
     else
         echo "need i3-msg or swaymsg"
         exit 1
@@ -45,7 +47,7 @@ scratch_alacritty() {
         sleep 0.2
     fi
 
-    msg "[instance=\"$class\"] scratchpad show"
+    toggle "$class"
 }
 
 main() {
