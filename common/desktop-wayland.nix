@@ -22,7 +22,7 @@
     enable = true;
     settings = {
       default_session = {
-        command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd \"dbus-run-session sway\"";
+        command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd sway";
         user = "greeter";
       };
     };
@@ -63,16 +63,4 @@
     # Allow userland to request real-time priority, probably useful for VR?
     { domain = "@users"; item = "rtprio"; type = "-"; value = 1; }
   ];
-
-  programs.sway = { # Swap with hyprland
-    enable = true;
-    wrapperFeatures.gtk = true;
-    package = null; # We use home-manager sway
-
-    extraPackages = with pkgs; [
-      swaylock
-      swayidle
-      mako # Notification daemon (by swaywm creator)
-    ];
-  };
 }

@@ -10,13 +10,13 @@ let
     # For my fancy bookmark script: home/bin/bookmark
     BOOKMARK_DIR = "${config.home.homeDirectory}/remote/bookmarks";
 
-    # FIXME: Remove this, don't think we need it anymore
-    ## Sway/Wayland env
-    #XDG_SESSION_TYPE = "wayland";
-    #XDG_SESSION_DESKTOP = "sway";
-    #XDG_CURRENT_DESKTOP = "sway";
-    #SDL_VIDEODRIVER = "wayland";
-    #QT_QPA_PLATFORM = "wayland";
+    # Sway/Wayland env
+    GDK_BACKEND = "wayland";
+    XDG_SESSION_TYPE = "wayland";
+    XDG_SESSION_DESKTOP = "sway";
+    XDG_CURRENT_DESKTOP = "sway";
+    SDL_VIDEODRIVER = "wayland";
+    QT_QPA_PLATFORM = "wayland";
   };
 
   lockcmd = "${pkgs.swaylock}/bin/swaylock -fF";
@@ -51,7 +51,7 @@ in
 
   services.gammastep = {
     enable = true;
-    tray = true;
+    #tray = true;
     provider = "geoclue2";
     temperature.day = 5700;
     temperature.night = 3500;
@@ -81,6 +81,7 @@ in
   # The home-assistant services below won't work unless we're also using
   # home-manager's sway module.
 
+  services.mako.enable = true;
   services.cliphist.enable = true;
   services.network-manager-applet.enable = true;
 
@@ -196,7 +197,7 @@ in
         "${mod}+Control+Right" = "move workspace to output right";
 
         # TODO: Port to wayland
-        # "${mod}+Control+Delete" = "exec "i3-nagbar -t warning -m 'Quit xinit?' -b 'Yes' 'i3-msg exit'"";
+        "${mod}+Control+Delete" = "exec swaynag -t warning -m 'Quit wayland?' -b 'Yes' 'swaymsg exit'";
       };
       bars = [
         {
