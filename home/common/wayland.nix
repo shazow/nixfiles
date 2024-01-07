@@ -58,7 +58,7 @@ in
 
   programs.rofi = {
     enable = true;
-    font = "DejaVu Sans Mono 14";
+    font = "DejaVu Sans Mono 12";
     theme = "Monokai";
     package = pkgs.rofi.override { plugins = [ pkgs.rofi-emoji ]; };
     extraConfig = {
@@ -181,7 +181,7 @@ in
           "--release ${mod}+Shift+Print" = "exec flameshot full";
           "--release Alt+Shift+4" = "exec flameshot gui";
 
-          # Scratchpath
+          # Scratchpad
           "${mod}+Shift+grave" = "move scratchpad";
           #for_window [instance="dropdown"] move scratchpad, border pixel 2, resize set 80 ppt 50 ppt, move absolute position 300 0
           "${mod}+grave" = "exec --no-startup-id i3-scratchpad \"dropdown\"";
@@ -240,7 +240,7 @@ in
         window.commands = [
           {
             criteria = { app_id = "dropdown"; };
-            command = "move scratchpad, borderhpixel 2, resize set 80 ppt 50 ppt, move absolute position 300 0";
+            command = "move scratchpad";
           }
         ];
       };
