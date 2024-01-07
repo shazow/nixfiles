@@ -44,8 +44,9 @@
   environment.systemPackages = with pkgs; [
     wayland
     wl-clipboard # wl-copy and wl-paste for copy/paste from stdin / stdout
+    qt5.qtwayland # for qt
 
-    wtype                  # xdotool, but for wayland
+    wtype # xdotool, but for wayland
     xwayland
   ];
 
@@ -56,6 +57,7 @@
       pkgs.xdg-desktop-portal-gtk
       pkgs.xdg-desktop-portal-wlr # Backend for wayland roots
     ];
+    config.common.default = "*";
   };
 
   security.pam.services.swaylock = {};

@@ -131,7 +131,7 @@ in
         size = 10.0;
       };
       startup = [
-        { command = "${pkgs.swaybg}/bin/swaybg --color #000000"; always = true; }
+        { command = "${pkgs.swaybg}/bin/swaybg --color #000000"; }
       ];
       keybindings = lib.mkOptionDefault {
         # Special keys
