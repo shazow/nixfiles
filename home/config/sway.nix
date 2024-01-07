@@ -18,6 +18,7 @@ let
     readlink /proc/$ppid/cwd || echo $HOME
   '';
 
+  # FIXME: This doesn't actually work, but sounds like a good idea in theory lol
   darkmode = pkgs.writeScript "darkmode" ''
     export XDG_DATA_DIRS=${pkgs.gsettings-desktop-schemas}/share/gsettings-schemas/${pkgs.gsettings-desktop-schemas.name}:$XDG_DATA_DIRS
     gsettings set org.gnome.desktop.interface gtk-theme 'Adwaita-dark'
