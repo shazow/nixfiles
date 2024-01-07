@@ -30,6 +30,8 @@ let
   '';
 in
 {
+  nixpkgs.overlays = [ inputs.nixpkgs-wayland.overlay ];
+
   home.pointerCursor = {
     name = "capitaine-cursors";
     package = pkgs.capitaine-cursors;
@@ -105,6 +107,8 @@ in
 
   services.swayosd.enable = true;
 
+  wayland.windowManager.sway.swaynag.enable = true;
+
   # Note: We can also use program.sway but home-manager integrates systemd
   # graphical target units properly so that swayidle and friends all load
   # correctly together. It also handles injecting the correct XDG_* variables.
@@ -119,12 +123,15 @@ in
       terminal = term;
       window.border = 1;
       window.hideEdgeBorders = "both";
-      colors.background = "000000";
+      colors.background = "#000000";
       fonts = {
         names = [ "DejaVu Sans Mono" "FontAwesome" ];
         style = "Bold Semi-Condensed";
         size = 10.0;
       };
+      startup = [
+        { command = "${pkgs.swaybg}/bin/swaybg --color #000000"; always = true; }
+      ];
       keybindings = lib.mkOptionDefault {
         # Special keys
         "XF86MonBrightnessUp" = "exec light -A 10";
@@ -146,6 +153,17 @@ in
         "${mod}+bracketright" = "exec xdotool key XF86AudioNext"; # FIXME: Port to wayland
         "${mod}+bracketleft" = "exec xdotool key XF86AudioPrev"; # FIXME: Port to wayland
         "${mod}+Shift+i" = "exec xrandr-invert-colors"; # FIXME: Port to wayland
+
+        # Kill focused window
+        "${mod}+Shift+q" = "kill";
+
+        # Jump to urgent
+        "${mod}+x" = "[urgent=latest] focus";
+
+        # Rofi
+        "${mod}+space" = "exec rofi -show run -p '$ '";
+        "${mod}+Shift+Tab" = "exec rofi -show window -p '[window] '";
+        "${mod}+Shift+v" = "exec clipmenu";
 
         # Lock
         "${mod}+l" = "exec ${lockcmd}";
@@ -169,7 +187,7 @@ in
 
         # start a terminal
         "${mod}+Return" = "exec ${term}";
-        "${mod}+Shift+Return" = "exec ${term} --working-directory \"$(${windowcwd})\""; # FIXME: Port to wayland
+        "${mod}+Shift+Return" = "exec ${term} --working-directory \"$(${windowcwd})\"";
 
         # Workspaces
         "${mod}+Mod1+Right" = "workspace next";
@@ -182,9 +200,9 @@ in
       };
       bars = [
         {
-          colors.background = "222222";
-          colors.separator = "666666";
-          colors.statusline = "dddddd";
+          colors.background = "#222222";
+          colors.separator = "#666666";
+          colors.statusline = "#dddddd";
           fonts = {
             names = [ "DejaVu Sans Mono" "FontAwesome" ];
             size = 12.0;
@@ -192,10 +210,36 @@ in
           statusCommand = "i3status-rs $HOME/.config/i3/status.toml"; # TODO: Refer within repo
         }
       ];
+      modes = {
+        resize = {
+          "Left" = "resize shrink width 10 px or 10 ppt";
+          "Down" = "resize grow height 10 px or 10 ppt";
+          "Up" = "resize shrink height 10 px or 10 ppt";
+          "Right" = "resize grow width 10 px or 10 ppt";
+          "${mod}+Left" = "resize shrink width 5 px or 5 ppt";
+          "${mod}+Down" = "resize grow height 5 px or 5 ppt";
+          "${mod}+Up" = "resize shrink height 5 px or 5 ppt";
+          "${mod}+Right" = "resize grow width 5 px or 5 ppt";
+          "Escape" = "mode default";
+          "Return" = "mode default";
+          "${mod}+r" = "mode default";
+
+          # Picture-in-picture helpers
+          "${mod}+s" = "sticky toggle, mode default";
+          "${mod}+p" = "resize set 30 ppt 40 ppt, move absolute position 1800 0, mode default, sticky toggle";
+          "${mod}+m" = "resize set 80 ppt 50 ppt, move absolute position 300 0, mode default";
+        };
+        nag = {
+          "Escape" = "exec swaynagmode --exit";
+          "Return" = "exec swaynagmode --confirm";
+          "Left" = "exec swaynagmode --select next";
+          "Right" = "exec swaynagmode --select prev";
+        };
+      };
       window.commands = [
         {
           criteria = { app_id = "dropdown"; };
-          command = "move scratchpad, border pixel 2, resize set 80 ppt 50 ppt, move absolute position 300 0";
+          command = "move scratchpad, borderhpixel 2, resize set 80 ppt 50 ppt, move absolute position 300 0";
         }
       ];
     };
