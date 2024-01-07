@@ -50,7 +50,7 @@ in
 
   services.gammastep = {
     enable = true;
-    #tray = true;
+    #tray = true; # Broken?
     provider = "geoclue2";
     temperature.day = 5700;
     temperature.night = 3500;
@@ -138,7 +138,7 @@ in
         ];
         keybindings = lib.mkOptionDefault {
           # Special keys
-          "XF86MonBrightnessUp" = "exec light -A 10";
+          "XF86MonBrightnessUp" = "exec light -A 10"; # TODO: Port wrapper using `ddcutil setvcp 10 + 5` on desktop?
           "XF86MonBrightnessDown" = "exec light -U 10";
           "${mod}+XF86MonBrightnessUp" = "exec light -A 2";
           "${mod}+XF86MonBrightnessDown" = "exec light -U 2";
@@ -153,10 +153,6 @@ in
           "XF86Display" = "exec rofi-screenlayout";
           "${mod}+b" = "exec xclip -o | rofi -dmenu | xargs bookmark | xargs -I '{}' xdg-open obsidian://open/?path={}";
           "${mod}+XF86Display" = "exec xrandr --auto"; # Reset screen
-          "${mod}+slash" = "exec wtype -k XF86AudioPlay";
-          "${mod}+bracketright" = "exec wtype -k XF86AudioNext";
-          "${mod}+bracketleft" = "exec wtype -k XF86AudioPrev";
-          "${mod}+Shift+i" = "exec xrandr-invert-colors"; # FIXME: Port to wayland
 
           # Kill focused window
           "${mod}+Shift+q" = "kill";
@@ -181,9 +177,9 @@ in
           "${mod}+Mod1+space" = "exec --no-startup-id rofi -show emoji -modi emoji | wl-paste";
 
           # Screenshot
-          "--release ${mod}+Print" = "exec ss"; # FIXME: Port to wayland
-          "--release ${mod}+Shift+Print" = "exec maim -s | xclip -selection clipboard -t \"image/png\""; # FIXME: Port to wayland
-          "--release Alt+Shift+4" = "exec maim -s | xclip -selection clipboard -t \"image/png\""; # FIXME: Port to wayland
+          "--release ${mod}+Print" = "exec flameshot launcher";
+          "--release ${mod}+Shift+Print" = "exec flameshot full";
+          "--release Alt+Shift+4" = "exec flameshot gui";
 
           # Scratchpath
           "${mod}+Shift+grave" = "move scratchpad";
