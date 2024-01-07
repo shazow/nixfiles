@@ -77,15 +77,11 @@ in
     };
   };
 
-  home.packages = with pkgs; [
-    swaybg
-    gnome3.adwaita-icon-theme
-  ];
-
   # The home-assistant services below won't work unless we're also using
   # home-manager's sway module.
 
   services.mako.enable = true;
+  services.mako.defaultTimeout = 3000;
   services.cliphist.enable = true;
   services.network-manager-applet.enable = true;
 
@@ -138,7 +134,7 @@ in
           size = 10.0;
         };
         startup = [
-          { command = "${pkgs.swaybg}/bin/swaybg --color #000000"; }
+          { command = "${pkgs.swaybg}/bin/swaybg --color \"#000000\""; }
         ];
         keybindings = lib.mkOptionDefault {
           # Special keys
@@ -157,9 +153,9 @@ in
           "XF86Display" = "exec rofi-screenlayout";
           "${mod}+b" = "exec xclip -o | rofi -dmenu | xargs bookmark | xargs -I '{}' xdg-open obsidian://open/?path={}";
           "${mod}+XF86Display" = "exec xrandr --auto"; # Reset screen
-          "${mod}+slash" = "exec xdotool key XF86AudioPlay"; # FIXME: Port to wayland
-          "${mod}+bracketright" = "exec xdotool key XF86AudioNext"; # FIXME: Port to wayland
-          "${mod}+bracketleft" = "exec xdotool key XF86AudioPrev"; # FIXME: Port to wayland
+          "${mod}+slash" = "exec wtype -k XF86AudioPlay";
+          "${mod}+bracketright" = "exec wtype -k XF86AudioNext";
+          "${mod}+bracketleft" = "exec wtype -k XF86AudioPrev";
           "${mod}+Shift+i" = "exec xrandr-invert-colors"; # FIXME: Port to wayland
 
           # Kill focused window
@@ -171,7 +167,8 @@ in
           # Rofi
           "${mod}+space" = "exec rofi -show run -p '$ '";
           "${mod}+Shift+Tab" = "exec rofi -show window -p '[window] '";
-          "${mod}+Shift+v" = "exec clipmenu";
+          "${mod}+Shift+v" = "exec cliphist list | rofi -dmenu | cliphist decode | wl-copy";
+          "${mod}+Shift+d" = "exec cliphist list | dmenu | cliphist delete && notify-send \"Deleted clipboard item\"";
 
           # Lock
           "${mod}+l" = "exec ${lockcmd}";
@@ -181,7 +178,7 @@ in
           "${mod}+Shift+minus" = "exec systemctl suspend";
 
           # Emoji
-          "${mod}+Mod1+space" = "exec --no-startup-id rofi -show emoji -modi emoji";
+          "${mod}+Mod1+space" = "exec --no-startup-id rofi -show emoji -modi emoji | wl-paste";
 
           # Screenshot
           "--release ${mod}+Print" = "exec ss"; # FIXME: Port to wayland
