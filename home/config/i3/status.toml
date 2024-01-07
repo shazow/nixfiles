@@ -2,7 +2,7 @@
 theme = "solarized-dark"
 
 [icons]
-icons = "awesome5"
+icons = "awesome6"
 
 [[block]]
 block = "focused_window"
@@ -64,16 +64,9 @@ if_command = "ls /sys/class/backlight/*"
 #missing_format = ""  # FIXME: This is missing
 
 [[block]]
-block = "toggle"
-format = " $icon R "
-command_state = "systemctl --user -q is-active redshift && echo on"
-command_on = "systemctl --user start redshift" # TODO: && gsettings set org.gnome.desktop.interface color-scheme prefer-dark
-command_off = "systemctl --user stop redshift" # TODO: && gsettings set org.gnome.desktop.interface color-scheme prefer-light
-interval = 60
-# TODO: Switch to 
-#[[block]]
-#block = "hueshift"
-#hue_shifter = "redshift"
+block = "hueshift"
+format = " 😎 $temperature "
+# hue_shifter = "gammastep"
 
 [[block]]
 block = "sound"
