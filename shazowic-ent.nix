@@ -48,7 +48,7 @@
   services.fwupd.enable = true;
   services.blueman.enable = true;
   hardware.bluetooth.enable = true;
-
+  services.ddccontrol.enable = true; # Control external monitor ddc
   services.openssh = {
     enable = true;
     startWhenNeeded = true; # Don't start until socket request comes in to systemd
