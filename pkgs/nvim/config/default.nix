@@ -146,7 +146,8 @@
 
     # Languages
     # TODO: "iden3/vim-circom-syntax" -- Circom
-    vim-go
+
+    # vim-go # FIXME: Disabled until it removes dependency on archived gocode package
     vim-nix
     vim-vue
     vim-solidity
