@@ -17,6 +17,16 @@
 : "${NOTIFY_ICON_MUTED:="audio-volume-muted"}"
 : "${NOTIFY_CATEGORY:="audio"}"
 
+notify() {
+	notify-send \
+		--category="${NOTIFY_CATEGORY}" \
+		--expire-time="${NOTIFY_TIMEOUT}" \
+		--icon="${NOTIFY_ICON}" \
+		--replace-id="${NOTIFY_ID:=0}" \
+		--print-id \
+		$* > ${NOTIFY_ID_PATH}
+}
+
 case $1 in
 	up)
 		pamixer --increase 5
@@ -28,22 +38,11 @@ case $1 in
 	;;
 	mute)
 		pamixer --toggle-mute
-		if $(pamixer --get-mute > /dev/null); then
-			notify-send \
-				--category="${NOTIFY_CATEGORY}" \
-				--expire-time="${NOTIFY_TIMEOUT}" \
-				--icon="${NOTIFY_ICON_MUTED}" \
-				"Mute"
+		if [[ "$(pamixer --get-mute)" == "true" ]]; then
+			notify "Muted"
 			exit 0
 		fi
 	;;
 esac
 
-notify-send \
-	--category="${NOTIFY_CATEGORY}" \
-	--expire-time="${NOTIFY_TIMEOUT}" \
-	--icon="${NOTIFY_ICON}" \
-	--replace-id="${NOTIFY_ID:=0}" \
-	--print-id \
-	--hint="int:value:$(pamixer --get-volume)" \
-	"Volume" > ${NOTIFY_ID_PATH}
+notify --hint="int:value:$(pamixer --get-volume)" "Volume"
