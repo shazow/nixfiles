@@ -10,7 +10,8 @@
 # Inspired by https://gist.github.com/sebastiencs/5d7227f388d93374cebdf72e783fbd6a
 
 # Default values, feel free to override here or via environment variables
-: "${NOTIFY_ID:=2593}"
+: "${NOTIFY_ID_PATH:=${TMPDIR:=/tmp}/volumectl.$USER}"
+: "${NOTIFY_ID:=$(cat $NOTIFY_ID_PATH)}"
 : "${NOTIFY_TIMEOUT:=1500}"
 : "${NOTIFY_ICON:="audio-volume-medium"}"
 : "${NOTIFY_ICON_MUTED:="audio-volume-muted"}"
@@ -42,5 +43,7 @@ notify-send \
 	--category="${NOTIFY_CATEGORY}" \
 	--expire-time="${NOTIFY_TIMEOUT}" \
 	--icon="${NOTIFY_ICON}" \
+	--replace-id="${NOTIFY_ID:=0}" \
+	--print-id \
 	--hint="int:value:$(pamixer --get-volume)" \
-	"Volume"
+	"Volume" > ${NOTIFY_ID_PATH}
