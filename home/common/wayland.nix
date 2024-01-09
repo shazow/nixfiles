@@ -9,7 +9,8 @@ let
     # (Should this be in wayland.windowManager.sway.config.extraSessionCommands?)
     GDK_BACKEND = "wayland"; # GTK
     XDG_SESSION_TYPE = "wayland"; # Electron
-    SDL_VIDEODRIVER = "wayland"; # SDL
+    # Removed: SDL_VIDEODRIVER = "wayland"; # SDL
+    # ^ This breaks some games, maybe proton related? - https://www.reddit.com/r/linux_gaming/comments/17lbqdv/baldurs_gate_iii_sound_but_no_display/
     QT_QPA_PLATFORM = "wayland"; # QT
     XDG_SESSION_DESKTOP = "sway";
     XDG_CURRENT_DESKTOP = "sway";
