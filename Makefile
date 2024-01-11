@@ -8,7 +8,7 @@ update-os:
 	sudo -i sh -c 'cd nixfiles && git pull'
 	sudo -i sh -c 'cd nixos && make'
 
-update-home: sync-pkgs sync update-env update-home-manager update-flatpak
+update-home: sync-pkgs sync update-env update-homemanager update-flatpak
 
 update-env:
 	nix-env -u '*'
