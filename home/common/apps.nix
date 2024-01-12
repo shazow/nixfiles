@@ -104,6 +104,7 @@ in
     tree-sitter
     websocat # websocket netcat
     zeal
+    nix-doc
 
     # Gaming
     steam
@@ -138,6 +139,7 @@ in
     fzf
     gotop
     glib # for gsettings
+    gsettings-desktop-schemas
     jq
     ncdu_2 # disk space analyzer
     powerstat
