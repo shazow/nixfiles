@@ -75,6 +75,7 @@ in
     google-chrome
     signal-desktop
     i3status-rust
+    captive-portal
 
     # PDF, image mainpulation
     ghostscript
