@@ -38,9 +38,9 @@
     # Mappings from hostname to device configurations are derived from ./hosts/*.nix
     hosts = with nixpkgs.lib;
       mapAttrs' (
-        name: value: {
-          name = strings.removeSuffix ".nix" name;
-          value = import ./hosts/${name} { inherit inputs; };
+        hostname: value: {
+          hostname = strings.removeSuffix ".nix" hostname;
+          value = import ./hosts/${hostname} { inherit inputs; };
         }
       ) (builtins.readDir ./hosts);
   in {
@@ -51,7 +51,7 @@
     mkSystemConfigurations = {
       primaryUsername ? username,
       initialHashedPassword, # Used for passwd
-    }: builtins.mapAttrs (name: host: nixpkgs.lib.nixosSystem {
+    }: builtins.mapAttrs (hostname: host: nixpkgs.lib.nixosSystem {
       system = host.system;
       modules = host.modules ++ [
         host.root
@@ -63,7 +63,7 @@
         }
       ];
       specialArgs = {
-        inherit inputs primaryUsername initialHashedPassword;
+        inherit inputs hostname primaryUsername initialHashedPassword;
       };
     }) hosts;
 

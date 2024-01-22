@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, hostname, ... }:
 {
   nixpkgs.config = {
     allowUnfree = true;
@@ -13,6 +13,8 @@
 
   # Desktop environment agnostic packages.
   environment.systemPackages = with pkgs; [
+    home-manager
+
     acpi
     bind # nslookup etc
     binutils-unwrapped
@@ -40,6 +42,20 @@
     usbutils # lsusb
     unzip
     wget
+
+    # Desktop
+    alsa-firmware
+    alsa-tools
+    android-udev-rules
+    arandr
+    colord
+    dunst
+    feh
+    gnupg
+    libnotify
+    maim
+    openvpn
+    pavucontrol
   ];
 
   environment.shellInit = ''
@@ -58,15 +74,33 @@
   i18n = {
     defaultLocale = "en_US.UTF-8";
   };
-  # FIXME: Do we need this?
-  # fonts.optimizeForVeryHighDPI = true; # Larger fonts in console
 
   #services.dnsmasq.enable = true;
   #services.dnsmasq.servers = [ "1.1.1.1" "8.8.8.8" "2001:4860:4860::8844" "100.100.100.100" ];
   services.fwupd.enable = true;
   networking.networkmanager.enable = true;
-  networking.networkmanager.dns = "dnsmasq";
+  networking.networkmanager.dns = "dnsmasq"; # FIXME: Remove?
   networking.networkmanager.appendNameservers = [ "1.1.1.1" "8.8.8.8" "2001:4860:4860::8844" ];
+
+  networking.hostName = hostname;
+  networking.search = [ "shazow.gmail.com.beta.tailscale.net" ];
+  #networking.resolvconf.dnsExtensionMechanism = false; # Remove edns0 option in resolv.conf: Breaks some public WiFi but it is required for DNSSEC.
+  networking.networkmanager.wifi.backend = "iwd"; # "wpa_supplicant" is default
+  networking.networkmanager.wifi.macAddress = "stable"; # One of "preserve", "random", "stable", "permanent", "00:11:22:33:44:55"
+  networking.networkmanager.wifi.powersave = true;
+
+  virtualisation.docker = {
+    enable = true;
+    enableOnBoot = false; # Started on-demand by docker.socket
+  };
+
+  users.users.${primaryUsername} = {
+    isNormalUser = true;
+    home = "/home/${primaryUsername}";
+    extraGroups = [ "wheel" "sudoers" "audio" "video" "disk" "networkmanager" "plugdev" "dialout" "adbusers" "docker" "i2c" ];
+    uid = 1000;
+    initialHashedPassword = initialHashedPassword;
+  };
 
   networking.firewall.checkReversePath = "loose"; # Workaround for tailscale? https://github.com/tailscale/tailscale/issues/4432
   # networking.firewall.allowedTCPPorts = [];
@@ -78,6 +112,8 @@
   programs.steam.enable = true;
   programs.dconf.enable = true; # Needed for GTK
   programs.light.enable = true;
+  programs.gnupg.agent.enable = true; # GPG Daemon needed for pinentry
+  programs.adb.enable = true; # Android dev
   services.avahi.enable = true;
   services.avahi.nssmdns4 = true;
   services.avahi.openFirewall = true;

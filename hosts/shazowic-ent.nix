@@ -13,7 +13,7 @@
     ../home/desktop.nix
   ];
 
-  # NixOS root configuraiton, this can live in a separate file if you prefer:
+  # NixOS root configuration, this can live in a separate file if you prefer:
   # root = import ./configuration.nix;
   root = {
     pkgs, lib,
@@ -104,7 +104,6 @@
     networking.hostName = "shazowic-ent";
     networking.networkmanager.wifi.backend = "iwd";
     networking.networkmanager.wifi.macAddress = "permanent"; # One of "preserve", "random", "stable", "permanent", "00:11:22:33:44:55"
-
 
     virtualisation.docker = {
       enable = true;

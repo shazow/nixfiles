@@ -1,5 +1,7 @@
 {...}:
 {
+  # TODO: Port to a gamekiosk module
+
   users.users.tracy = {
     isNormalUser = true;
     home = "/home/tracy";
