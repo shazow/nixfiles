@@ -75,7 +75,7 @@ in
     google-chrome
     signal-desktop
     i3status-rust
-    captive-portal
+    captive-browser
 
     # PDF, image mainpulation
     ghostscript
@@ -110,6 +110,7 @@ in
     # Gaming
     lutris
     wine
+    minecraft
 
     # Programming: Rust
     #latest.rustChannels.nightly.rust
