@@ -38,9 +38,9 @@
     # Mappings from hostname to device configurations are derived from ./hosts/*.nix
     hosts = with nixpkgs.lib;
       mapAttrs' (
-        hostname: value: {
-          hostname = strings.removeSuffix ".nix" hostname;
-          value = import ./hosts/${hostname} { inherit inputs; };
+        name: value: {
+          name = strings.removeSuffix ".nix" name;
+          value = import ./hosts/${name} { inherit inputs; };
         }
       ) (builtins.readDir ./hosts);
   in {
