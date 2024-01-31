@@ -1,4 +1,4 @@
-{ pkgs, hostname, ... }:
+{ pkgs, hostname, primaryUsername, initialHashedPassword, ... }:
 {
   nixpkgs.config = {
     allowUnfree = true;
@@ -102,7 +102,7 @@
     initialHashedPassword = initialHashedPassword;
   };
 
-  networking.firewall.checkReversePath = "loose"; # Workaround for tailscale? https://github.com/tailscale/tailscale/issues/4432
+  networking.firewall.checkReversePath = "loose"; # Workaround for tailscale? https://github.com/tailscale/tailscale/issues/3310
   # networking.firewall.allowedTCPPorts = [];
   # networking.firewall.allowedUDPPorts = [];
 
