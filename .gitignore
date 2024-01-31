@@ -1,8 +1,8 @@
 /.*
 /nix
 /home/home.nix
-configuration.nix
-hardware-configuration.nix
-disk.nix
+/configuration.nix
+/hardware-configuration.nix
+/disk.nix
 *.gz
 *.key
