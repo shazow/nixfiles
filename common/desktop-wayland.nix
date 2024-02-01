@@ -48,6 +48,7 @@
 
     wtype # xdotool, but for wayland
     xwayland
+    xwaylandvideobridge # Portal for screen sharing
   ];
 
   xdg.portal = {
