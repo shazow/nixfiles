@@ -15,6 +15,9 @@ let
     XDG_SESSION_DESKTOP = "sway";
     XDG_CURRENT_DESKTOP = "sway";
     GDK_PIXBUF_MODULE_FILE = "$(ls ${pkgs.librsvg.out}/lib/gdk-pixbuf-*/*/loaders.cache)"; # SVG GTK icons fix? Not sure
+
+    # Electron apps should use Ozone/wayland
+    NIXOS_OZONE_WL = "1";
   };
 
   lockcmd = "${pkgs.swaylock}/bin/swaylock -fF";
