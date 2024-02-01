@@ -36,6 +36,9 @@ in
     style = "Bold Semi-Condensed";
     size = 10.0;
   };
+  output = {
+    "*" = { scale = "1.4"; };
+  };
   startup = [
     { command = "${pkgs.swaybg}/bin/swaybg --color \"#000000\""; }
     { command = "${darkmode}"; }
