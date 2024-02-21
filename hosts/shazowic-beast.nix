@@ -84,7 +84,6 @@
 
     # Wireless
     iw # wireless tooling
-    crda # wireless regulatory agent
     wireless-regdb
   ];
 
