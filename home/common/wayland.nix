@@ -123,6 +123,7 @@ in
   wayland.windowManager.sway = {
     enable = true;
     config = import ../config/sway.nix { inherit pkgs lib lockcmd; };
+    extraOptions = [ "-Dlegacy-wl-drm" ];
   };
 
 }
