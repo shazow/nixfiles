@@ -90,5 +90,11 @@
       };
     }) hosts;
 
+    checks = {
+      # Ensure all hosts have a `system` attribute
+      system = builtins.all (builtins.attrValues hosts) (host: host.system != null);
+    };
+
+
   };
 }
