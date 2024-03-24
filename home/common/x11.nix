@@ -49,10 +49,7 @@ in
 
   xsession = {
     enable = true;
-
-    # dbus-launch manages cross-process communication (required for GTK systray icons, etc).
-    # FIXME: Is dbus-launch necessary now that it's part of xsession?
-    windowManager.command = "dbus-launch --exit-with-x11 i3";
+    windowManager.command = "i3";
     importedVariables = builtins.attrNames sessionVars;
   };
 

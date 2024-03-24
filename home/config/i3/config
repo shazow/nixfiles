@@ -36,6 +36,7 @@ bindsym XF86MonBrightnessUp exec light -A 10
 bindsym XF86MonBrightnessDown exec light -U 10
 bindsym $mod+XF86MonBrightnessUp exec light -A 2
 bindsym $mod+XF86MonBrightnessDown exec light -U 2
+# TODO: Turn off screen button? xrandr --output eDP-1 --brightness 0
 bindsym XF86AudioRaiseVolume exec --no-startup-id volumectl up
 bindsym XF86AudioLowerVolume exec --no-startup-id volumectl down
 bindsym XF86AudioMute exec --no-startup-id volumectl mute
@@ -45,6 +46,7 @@ bindsym XF86AudioPause exec playerctl pause
 bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
 bindsym XF86Display exec rofi-screenlayout
+# TODO:  bindsym XF86RFKill exec ...
 bindsym $mod+b exec xclip -o | rofi -dmenu | xargs bookmark | xargs -I '{}' xdg-open obsidian://open/?path={}
 bindsym $mod+XF86Display exec xrandr --auto  # Reset screen
 

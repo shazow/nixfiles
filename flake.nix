@@ -18,7 +18,7 @@
     # - home-manager
 
     # My nvim config as a standalone nvim distribution
-    nvim.url = "./pkgs/nvim";
+    nvim.url = "path:./pkgs/nvim";
     nvim.inputs.nixpkgs.follows = "nixpkgs";
 
     # Framework embedded controller tool
@@ -32,33 +32,29 @@
     framework-audio-presets = { url = "github:ceiphr/ee-framework-presets"; flake = false; };
   };
 
-  outputs = inputs@{ nixpkgs, home-manager, nixos-hardware, nvim, ectool, dotfiles, framework-audio-presets, ... }: let
+  outputs = inputs@{ nixpkgs, home-manager, nixos-hardware, ... }: let
     username = "shazow";
-    devices = import ./devices.nix { inherit inputs; };
-    defaultDisk = {
-      # TODO: Generalize this somehow? Or remove to force overriding?
-      efi = { device = "/dev/nvme0n1p1"; };
-      luksDevices = {
-        cryptswap = { device = "/dev/nvme0n1p2"; };
-        cryptroot = { device = "/dev/nvme0n1p3"; };
-      };
-      extraFileSystems = {
-      };
-    };
-  in {
 
-    inherit devices;
+    # Mappings from hostname to device configurations are derived from ./hosts/*.nix
+    hosts = with nixpkgs.lib;
+      mapAttrs' (
+        name: value: {
+          name = strings.removeSuffix ".nix" name;
+          value = import ./hosts/${name} { inherit inputs; };
+        }
+      ) (builtins.readDir ./hosts);
+  in {
 
     # NixOS System Configuration generator
     # Called by a device flake, can be generated from templates/nixos-device
 
     mkSystemConfigurations = {
-      devices,
+      primaryUsername ? username,
       initialHashedPassword, # Used for passwd
-      disk ? defaultDisk, # Used for FDE
-    }: builtins.mapAttrs (name: device: nixpkgs.lib.nixosSystem {
-      system = device.system;
-      modules = device.modules ++ [
+    }: builtins.mapAttrs (hostname: host: nixpkgs.lib.nixosSystem {
+      system = host.system;
+      modules = host.modules ++ [
+        host.root
         home-manager.nixosModules.home-manager
         {
           # https://nix-community.github.io/home-manager/index.html#sec-install-nixos-module
@@ -67,32 +63,38 @@
         }
       ];
       specialArgs = {
-        inherit initialHashedPassword disk;
+        inherit inputs hostname primaryUsername initialHashedPassword;
       };
-    }) devices;
+    }) hosts;
 
     # Homes:
     # We generate a "username@hostname" combo per device
 
-    homeConfigurations = nixpkgs.lib.attrsets.mapAttrs' (hostname: device: {
+    homeConfigurations = nixpkgs.lib.attrsets.mapAttrs' (hostname: host: {
       name = "${username}@${hostname}";
       value = home-manager.lib.homeManagerConfiguration {
         extraSpecialArgs = {
           inherit inputs username hostname;
           extrapkgs = {
-            nvim = nvim.defaultPackage.${device.system};
-            ectool = ectool.defaultPackage.${device.system};
+            nvim = inputs.nvim.defaultPackage.${host.system};
+            ectool = inputs.ectool.defaultPackage.${host.system};
           };
         };
-        pkgs = nixpkgs.legacyPackages.${device.system};
-        modules = device.home ++ [
+        pkgs = nixpkgs.legacyPackages.${host.system};
+        modules = host.home ++ [
           # FIXME: Workaround. Remove when fixed:
           # - https://github.com/nix-community/home-manager/issues/2942
           # - https://github.com/NixOS/nixpkgs/issues/171810
           { nixpkgs.config.allowUnfreePredicate = (pkg: true); }
         ];
       };
-    }) devices;
+    }) hosts;
+
+    checks = {
+      # Ensure all hosts have a `system` attribute
+      system = builtins.all (builtins.attrValues hosts) (host: host.system != null);
+    };
+
 
   };
 }

@@ -70,41 +70,28 @@
       sections.lualine_c = [ "filename" "lsp_progress" ];
     };
 
-    # Completion
-    nvim-cmp = {
-      enable = true;
-      snippet.expand = "luasnip";
-      sources = [
-        { name = "copilot"; }
-        { name = "nvim_lsp"; }
-        { name = "luasnip"; }
-        { name = "path"; }
-        { name = "treesitter"; }
-        { name = "calc"; }
-        { name = "dap"; }
-        { name = "buffer"; }
-        { name = "cmdline"; }
-      ];
-      preselect = "None"; # Don't preselect to avoid tabs completing things prematurely
-      mappingPresets = [ "insert" ];
+    cmp.enable = true;
+    cmp.settings = {
+      snippet.expand = ''
+        function(args)
+          require('luasnip').lsp_expand(args.body)
+        end
+      '';
       mapping = {
         "<CR>" = "cmp.mapping.confirm({ select = true })";
-        "<Tab>" = {
-          action = ''
-            vim.schedule_wrap(function(fallback)
-              if cmp.visible() and has_words_before() then
-                cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
-              elseif require("luasnip").expandable() then
-                require("luasnip").expand()
-              elseif require("luasnip").expand_or_jumpable() then
-                require("luasnip").expand_or_jump()
-              else
-                fallback()
-              end
-            end)
-          '';
-          modes = [ "i" "s" ];
-        };
+        "<Tab>" = ''
+          vim.schedule_wrap(function(fallback)
+            if cmp.visible() and has_words_before() then
+              cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
+            elseif require("luasnip").expandable() then
+              require("luasnip").expand()
+            elseif require("luasnip").expand_or_jumpable() then
+              require("luasnip").expand_or_jump()
+            else
+              fallback()
+            end
+          end)
+        '';
         "<C-Space>" = "cmp.mapping.complete()";
       };
     };
