@@ -106,11 +106,12 @@ in
     websocat # websocket netcat
     zeal
     nix-doc
+    nix-output-monitor
 
     # Gaming
     lutris
     wine
-    minecraft
+    prismlauncher # minecraft launcher
 
     # Programming: Rust
     #latest.rustChannels.nightly.rust
@@ -120,7 +121,7 @@ in
     go
 
     rclone
-    # obs-studio # Screen recording, streaming
+    obs-studio # Screen recording, streaming
     flameshot  # Screenshots
     transmission-gtk # Torrents
     mullvad-vpn # Frontend
