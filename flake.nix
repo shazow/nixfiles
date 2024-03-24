@@ -32,7 +32,7 @@
     framework-audio-presets = { url = "github:ceiphr/ee-framework-presets"; flake = false; };
   };
 
-  outputs = inputs@{ nixpkgs, home-manager, nixos-hardware, ... }: let
+  outputs = inputs@{ nixpkgs, home-manager, nixos-hardware, flake-utils, ... }: let
     username = "shazow";
 
     # Mappings from hostname to device configurations are derived from ./hosts/*.nix
@@ -95,6 +95,9 @@
       system = builtins.all (builtins.attrValues hosts) (host: host.system != null);
     };
 
-
-  };
+  } // flake-utils.lib.eachDefaultSystem (system:
+    {
+      packages.nvim = inputs.nvim.defaultPackage.${system};
+    }
+  );
 }
