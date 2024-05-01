@@ -1,17 +1,5 @@
 { pkgs, lib, ... }:
 {
-  # TODO: Not sure if this is necessary, but trying it out
-  # https://community.frame.work/t/tracking-ppd-v-tlp-for-amd-ryzen-7040/39423/27
-  boot.kernelParams = [
-    "amd_pstate=active"
-    # Removed: "amdgpu.ppfeaturemask=0xffffffff"
-    "amdgpu.sg_display=0"
-    "cpufreq.default_governor=powersave"
-    "initcall_blacklist=cpufreq_gov_userspace_init,cpufreq_gov_performance_init"
-    "pcie_aspm=force"
-    "pc"
-    "ie_aspm.policy=powersupersave"
-  ];
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
   # $ nixos-generate-config --show-hardware-config
@@ -45,10 +33,8 @@
     ${pkgs.ectool}/bin/ectool fwchargelimit 85
   '';
 
-  hardware.bluetooth.enable = true;
-  hardware.bluetooth.powerOnBoot = false;
-
   # Not needed, use mesa driver by default: services.xserver.videoDrivers = [ "amdgpu" ];
+  hardware.bluetooth.enable = true;
   services.blueman.enable = true;
   services.fprintd.enable = true;
   services.power-profiles-daemon.enable = true;

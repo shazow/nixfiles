@@ -25,7 +25,14 @@
 
     # Wireless
     iw # wireless tooling
-    crda # wireless regulatory agent
     wireless-regdb
   ];
+
+  networking.firewall.allowedTCPPorts = [
+    8010 # VLC Chromecast
+    2022 # SSH Chat debugging
+  ];
+
+  # Boot with bluetooth powered off?
+  #hardware.bluetooth.powerOnBoot = false;
 }
