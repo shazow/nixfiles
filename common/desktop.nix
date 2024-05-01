@@ -75,11 +75,14 @@
     defaultLocale = "en_US.UTF-8";
   };
 
+  services.fwupd.enable = true;
+
+  # dnsmasq
   #services.dnsmasq.enable = true;
   #services.dnsmasq.servers = [ "1.1.1.1" "8.8.8.8" "2001:4860:4860::8844" "100.100.100.100" ];
-  services.fwupd.enable = true;
+  #networking.networkmanager.dns = "dnsmasq";
+
   networking.networkmanager.enable = true;
-  networking.networkmanager.dns = "dnsmasq"; # FIXME: Remove?
   networking.networkmanager.appendNameservers = [ "1.1.1.1" "8.8.8.8" "2001:4860:4860::8844" ];
 
   networking.hostName = hostname;
