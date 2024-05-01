@@ -12,10 +12,10 @@
 # - https://github.com/srid/nixos-config/blob/master/flake.nix
 {
   inputs = {
-    # Flake registry defaults omitted:
-    # - nixpkgs
-    # - nixos-hardware
-    # - home-manager
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.11";
+    home-manager.url = "github:nix-community/home-manager/release-23.11";
+    home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    nixos-hardware.url = "github:nixos/nixos-hardware";
 
     # My nvim config as a standalone nvim distribution
     nvim.url = "path:./pkgs/nvim";
@@ -44,6 +44,14 @@
         }
       ) (builtins.readDir ./hosts);
   in {
+
+    # Extra packages we want to inject:
+    nixpkgs.overlays = [
+      (final: prev: {
+        nvim = inputs.nvim.defaultPackage.${prev.system};
+        ectool = inputs.ectool.defaultPackage.${prev.system};
+      })
+    ];
 
     # NixOS System Configuration generator
     # Called by a device flake, can be generated from templates/nixos-device
@@ -75,10 +83,6 @@
       value = home-manager.lib.homeManagerConfiguration {
         extraSpecialArgs = {
           inherit inputs username hostname;
-          extrapkgs = {
-            nvim = inputs.nvim.defaultPackage.${host.system};
-            ectool = inputs.ectool.defaultPackage.${host.system};
-          };
         };
         pkgs = nixpkgs.legacyPackages.${host.system};
         modules = host.home ++ [
