@@ -32,76 +32,85 @@
     framework-audio-presets = { url = "github:ceiphr/ee-framework-presets"; flake = false; };
   };
 
-  outputs = inputs@{ nixpkgs, home-manager, nixos-hardware, flake-utils, ... }: let
-    username = "shazow";
+  outputs = inputs@{ nixpkgs, home-manager, nixos-hardware, flake-utils, ... }:
+    let
+      username = "shazow";
 
-    # Mappings from hostname to device configurations are derived from ./hosts/*.nix
-    hosts = with nixpkgs.lib;
-      mapAttrs' (
-        name: value: {
-          name = strings.removeSuffix ".nix" name;
-          value = import ./hosts/${name} { inherit inputs; };
-        }
-      ) (builtins.readDir ./hosts);
-  in {
+      # Mappings from hostname to device configurations are derived from ./hosts/*.nix
+      hosts = with nixpkgs.lib;
+        mapAttrs'
+          (
+            name: value: {
+              name = strings.removeSuffix ".nix" name;
+              value = import ./hosts/${name} { inherit inputs; };
+            }
+          )
+          (builtins.readDir ./hosts);
 
-    # Extra packages we want to inject:
-    nixpkgs.overlays = [
-      (final: prev: {
-        nvim = inputs.nvim.defaultPackage.${prev.system};
-        ectool = inputs.ectool.defaultPackage.${prev.system};
-      })
-    ];
-
-    # NixOS System Configuration generator
-    # Called by a device flake, can be generated from templates/nixos-device
-
-    mkSystemConfigurations = {
-      primaryUsername ? username,
-      initialHashedPassword, # Used for passwd
-    }: builtins.mapAttrs (hostname: host: nixpkgs.lib.nixosSystem {
-      system = host.system;
-      modules = host.modules ++ [
-        host.root
-        home-manager.nixosModules.home-manager
-        {
-          # https://nix-community.github.io/home-manager/index.html#sec-install-nixos-module
-          home-manager.useUserPackages = true;
-          home-manager.useGlobalPkgs = true;
-        }
-      ];
-      specialArgs = {
-        inherit inputs hostname primaryUsername initialHashedPassword;
-      };
-    }) hosts;
-
-    # Homes:
-    # We generate a "username@hostname" combo per device
-
-    homeConfigurations = nixpkgs.lib.attrsets.mapAttrs' (hostname: host: {
-      name = "${username}@${hostname}";
-      value = home-manager.lib.homeManagerConfiguration {
-        extraSpecialArgs = {
-          inherit inputs username hostname;
-        };
-        pkgs = nixpkgs.legacyPackages.${host.system};
-        modules = host.home ++ [
-          # FIXME: Workaround. Remove when fixed:
-          # - https://github.com/nix-community/home-manager/issues/2942
-          # - https://github.com/NixOS/nixpkgs/issues/171810
-          { nixpkgs.config.allowUnfreePredicate = (pkg: true); }
+      pkgsOverlayModule = {
+        nixpkgs.overlays = [
+          # Extra packages we're injecting from inputs
+          (final: prev: {
+            nvim = inputs.nvim.defaultPackage.${prev.system};
+            ectool = inputs.ectool.defaultPackage.${prev.system};
+          })
         ];
       };
-    }) hosts;
-
-    checks = {
-      # Ensure all hosts have a `system` attribute
-      system = builtins.all (builtins.attrValues hosts) (host: host.system != null);
-    };
-
-  } // flake-utils.lib.eachDefaultSystem (system:
+    in
     {
-      packages.nvim = inputs.nvim.defaultPackage.${system};
-    }
-  );
+
+      # NixOS System Configuration generator
+      # Called by a device flake, can be generated from templates/nixos-device
+
+      mkSystemConfigurations =
+        { primaryUsername ? username
+        , initialHashedPassword
+        , # Used for passwd
+        }: builtins.mapAttrs
+          (hostname: host: nixpkgs.lib.nixosSystem {
+            system = host.system;
+            modules = host.modules ++ [
+              host.root
+              pkgsOverlayModule
+              home-manager.nixosModules.home-manager
+              {
+                # https://nix-community.github.io/home-manager/index.html#sec-install-nixos-module
+                home-manager.useUserPackages = true;
+                home-manager.useGlobalPkgs = true;
+              }
+            ];
+            specialArgs = {
+              inherit inputs hostname primaryUsername initialHashedPassword;
+            };
+          })
+          hosts;
+
+      # Homes:
+      # We generate a "username@hostname" combo per device
+
+      homeConfigurations = nixpkgs.lib.attrsets.mapAttrs'
+        (hostname: host: {
+          name = "${username}@${hostname}";
+          value = home-manager.lib.homeManagerConfiguration {
+            extraSpecialArgs = {
+              inherit inputs username hostname;
+            };
+            pkgs = nixpkgs.legacyPackages.${host.system};
+            modules = host.home ++ [
+              pkgsOverlayModule
+            ];
+          };
+        })
+        hosts;
+
+      checks = {
+        # Ensure all hosts have a `system` attribute
+        system = builtins.all (builtins.attrValues hosts) (host: host.system != null);
+      };
+
+    } // flake-utils.lib.eachDefaultSystem (system:
+      {
+        packages.nvim = inputs.nvim.defaultPackage.${system};
+      }
+    );
 }
