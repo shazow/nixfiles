@@ -21,6 +21,8 @@
   systemd.services.tailscaled.wantedBy = lib.mkForce [ ];
 
   environment.systemPackages = with pkgs; [
+    ectool # Embedded controller tool (battery charge limit, etc.)
+
     # Wireless
     iw # wireless tooling
     crda # wireless regulatory agent

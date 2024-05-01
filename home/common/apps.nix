@@ -67,8 +67,9 @@ in
   home.file.".tmux.conf".source = ../config/tmux.conf;
 
   home.packages = (with pkgs; [
+    # Some extrapkgs are duplicated from system packages for more frequent
+    # updates in userland
     extrapkgs.nvim
-    extrapkgs.ectool
 
     # Apps
     bitwarden

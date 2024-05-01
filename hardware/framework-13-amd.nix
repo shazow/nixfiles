@@ -41,6 +41,9 @@
 
   powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
   powerManagement.powertop.enable = true; # Run powertop on boot
+  systemd.services.battery-limit.postStart = ''
+    ${pkgs.ectool}/bin/ectool fwchargelimit 85
+  '';
 
   hardware.bluetooth.enable = true;
   hardware.bluetooth.powerOnBoot = false;
