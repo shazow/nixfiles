@@ -99,9 +99,6 @@ in
       jedi
     ]))
     gcc
-    stylua # lua formatter
-    sumneko-lua-language-server # Lua lsp
-    rnix-lsp # Nix lsp
     nodejs_latest
     tree-sitter
     websocat # websocket netcat
