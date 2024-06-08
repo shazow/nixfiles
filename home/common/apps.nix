@@ -1,4 +1,4 @@
-{ pkgs, extrapkgs, inputs, ... }:
+{ pkgs, inputs, ... }:
 let
   # Package up local script binaries
   packageScripts = dir: map (name: pkgs.substituteAll {
@@ -69,7 +69,7 @@ in
   home.packages = (with pkgs; [
     # Some extrapkgs are duplicated from system packages for more frequent
     # updates in userland
-    extrapkgs.nvim
+    nvim
 
     # Apps
     bitwarden
