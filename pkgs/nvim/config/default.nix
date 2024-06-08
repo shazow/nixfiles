@@ -27,18 +27,21 @@
   colorschemes = {
     tokyonight = {
       enable = true;
-      style = "night";
+      settings.style = "night";
     };
   };
 
   plugins = {
-    comment-nvim.enable = true;
+    comment.enable = true;
     diffview.enable = true;
     gitsigns.enable = true;
+    indent-blankline.enable = true;
     surround.enable = true;
     toggleterm.enable = true; # Terminal floaties
     nvim-tree.enable = true; # Explore FS  # Note: neotree was buggy?
     nvim-bqf.enable = true; # Quickfix Window
+    neogen.enable = true;
+    neogen.keymaps.generate = "<leader>gen";
     notify.enable = true;
     treesitter.enable = true;
     undotree.enable = true;
@@ -111,10 +114,10 @@
       enable = true;
       extensions.fzf-native.enable = true;
       keymaps = {
-        "<c-p>" = { action = "git_files"; desc = "Telescope Git Files"; };
-        "<c-d>" = { action = "find_files"; desc = "Telescope Find Files"; };
-        "<c-s>" = { action = "live_grep"; desc = "Telescope Live Grep"; };
-        "<c-a>" = { action = "buffers"; desc = "Telescope Buffers"; };
+        "<c-p>" = { action = "git_files"; options.desc = "Telescope Git Files"; };
+        "<c-d>" = { action = "find_files"; options.desc = "Telescope Find Files"; };
+        "<c-s>" = { action = "live_grep"; options.desc = "Telescope Live Grep"; };
+        "<c-a>" = { action = "buffers"; options.desc = "Telescope Buffers"; };
       };
     };
   };
