@@ -22,7 +22,7 @@ in {
     '';
 
     loader = mkOption {
-      type = enum [ "systemd-boot" "grub" ];
+      type = types.enum [ "systemd-boot" "grub" ];
       default = "systemd-boot";
     };
 
@@ -41,7 +41,8 @@ in {
     swapDevices = toplevel.options.swapDevices;
 
     resumeDevice = mkOption {
-      type = nullOr types.str;
+      type = types.nullOr types.str;
+      default = null;
     };
 
     volumes = mkOption {
@@ -91,7 +92,7 @@ in {
         device = "nodev";
         enableCryptodisk = true;
       };
-    }) ++ {
+    }) // {
       # EFI
       efi.canTouchEfiVariables = true;
       efi.efiSysMountPoint = "/boot/efi";
@@ -102,7 +103,7 @@ in {
     boot.initrd.luks.devices = cfg.luksDevices;
 
     swapDevices = cfg.swapDevices;
-    resumeDevice = cfg.resumeDevice;
+    boot.resumeDevice = cfg.resumeDevice;
 
     fileSystems = {
       "/boot/efi" = {

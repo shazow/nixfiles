@@ -69,7 +69,8 @@
       mkSystemConfigurations =
         { primaryUsername ? username
         , initialHashedPassword
-        , # Used for passwd
+        , modules ? []
+        ,
         }: builtins.mapAttrs
           (hostname: host: nixpkgs.lib.nixosSystem {
             system = host.system;
@@ -82,7 +83,7 @@
                 home-manager.useUserPackages = true;
                 home-manager.useGlobalPkgs = true;
               }
-            ];
+            ] ++ modules;
             specialArgs = {
               inherit inputs hostname primaryUsername initialHashedPassword;
             };

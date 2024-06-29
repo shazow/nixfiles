@@ -16,10 +16,9 @@
   powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
 
   imports = [
-    ../common/desktop-i3.nix
-    ../common/crypto.nix
-    ../common/guest.nix
-    ../common/tracy.nix
+    ../../common/desktop-wayland.nix
+    ../../common/crypto.nix
+    ../../common/tracy.nix
   ];
 
   # Hardware specific
