@@ -1,11 +1,11 @@
 { pkgs
 , lib
-, inputs
 , primaryUsername
 , initialHashedPassword
+, disk
 , ...
 }: {
-  boot.layout.enable = true;
+  # XXX: boot.layout.enable = true;
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
@@ -18,7 +18,10 @@
   imports = [
     ../../common/desktop-wayland.nix
     ../../common/crypto.nix
-    ../../common/tracy.nix
+    # ../../common/tracy.nix
+    (import ../../common/boot.nix {
+        inherit disk;
+    })
   ];
 
   # Hardware specific

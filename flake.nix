@@ -12,8 +12,8 @@
 # - https://github.com/srid/nixos-config/blob/master/flake.nix
 {
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
-    home-manager.url = "github:nix-community/home-manager/release-24.05";
+    #nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
+    #home-manager.url = "github:nix-community/home-manager/release-24.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     nixos-hardware.url = "github:nixos/nixos-hardware";
 
@@ -70,6 +70,7 @@
         { primaryUsername ? username
         , initialHashedPassword
         , modules ? []
+        , extraArgs ? {}
         ,
         }: builtins.mapAttrs
           (hostname: host: nixpkgs.lib.nixosSystem {
@@ -86,7 +87,7 @@
             ] ++ modules;
             specialArgs = {
               inherit inputs hostname primaryUsername initialHashedPassword;
-            };
+            } // extraArgs;
           })
           hosts;
 

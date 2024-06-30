@@ -10,7 +10,7 @@
 
   home-manager.users.tracy = { pkgs, ... }: {
     home.packages = [ pkgs.steam ];
-    home.stateVersion = "23.05";
+    home.stateVersion = "24.05";
 
     services.picom.enable = true;
 

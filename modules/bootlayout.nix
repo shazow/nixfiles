@@ -79,22 +79,15 @@ in {
 
   config = mkIf cfg.enable {
 
-    boot.loader = (mkIfElse (cfg.loader == "systemd-boot") {
+    # TODO: Add grub option?
+    boot.loader = {
       grub.enable = false;
       systemd-boot = {
         enable = true;
-        configurationLimit = 8;
+        configurationLimit = 10;
         editor = false; # Disable bypassing init
       };
-    } {
-      systemd-boot.enable = false;
-      grub = {
-        enable = true;
-        efiSupport = true;
-        device = "nodev";
-        enableCryptodisk = true;
-      };
-    }) // {
+    } // {
       # EFI
       efi.canTouchEfiVariables = true;
       efi.efiSysMountPoint = "/boot/efi";
@@ -110,7 +103,7 @@ in {
     fileSystems = {
       "/boot/efi" = {
         label = "uefi";
-        device = cfg.rootDevice;
+        device = cfg.efiDevice;
         fsType = "vfat";
         options = [ "discard" ];
       };
