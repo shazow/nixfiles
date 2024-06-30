@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, helpers, ... }:
 {
 
   imports = [
@@ -131,7 +131,7 @@
 
     nvim-treesitter-textobjects
 
-    copilot-vim
+    #copilot-vim # FIXME: nonfree?
     dressing-nvim
     lsp_signature-nvim
     lualine-lsp-progress
