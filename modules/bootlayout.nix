@@ -39,7 +39,7 @@ in {
     };
 
     swapDevices = mkOption {
-      type = types.attrs;
+      type = types.listOf types.attrs;
     };
 
     resumeDevice = mkOption {
