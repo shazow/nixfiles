@@ -41,8 +41,8 @@ in {
     swapDevices = toplevel.options.swapDevices;
 
     resumeDevice = mkOption {
-      type = types.nullOr types.str;
-      default = null;
+      type = types.str;
+      default = "";
     };
 
     volumes = mkOption {
@@ -63,7 +63,7 @@ in {
     };
 
     extraFileSystems = mkOption {
-      type = toplevel.options.boot.fileSystems.type;
+      type = toplevel.options.fileSystems.type;
       default = {};
       example = {
         "/mnt/diskstation" = {
@@ -114,11 +114,9 @@ in {
       };
     } // (
       builtins.mapAttrs (mount: volume: {
-        mount = {
-          device = cfg.rootDevice;
-          fsType = "btrfs";
-          options = volume.options;
-        };
+        device = cfg.rootDevice;
+        fsType = "btrfs";
+        options = volume.options;
       }) (cfg.volumes // cfg.extraVolumes)
     ) // cfg.extraFileSystems;
 
