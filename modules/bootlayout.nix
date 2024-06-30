@@ -38,7 +38,9 @@ in {
       default = "/dev/mapper/cryptroot";
     };
 
-    swapDevices = toplevel.options.swapDevices;
+    swapDevices = mkOption {
+      type = types.attrs;
+    };
 
     resumeDevice = mkOption {
       type = types.str;
