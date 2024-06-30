@@ -79,7 +79,6 @@
 
     # Wireless
     iw # wireless tooling
-    crda # wireless regulatory agent
     wireless-regdb
   ];
 
@@ -105,4 +104,7 @@
 
   # Android dev
   programs.adb.enable = true;
+
+  # https://nixos.org/manual/nixos/stable/options.html#opt-system.stateVersion
+  system.stateVersion = "24.05";
 }
