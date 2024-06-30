@@ -48,8 +48,8 @@ in {
     volumes = mkOption {
       type = types.attrs;
       default = {
-        "/" = { options = btrfsOptions + [ "subvol=@root" "nodiratime" "commit=100" ]; };
-        "/home" = { options = btrfsOptions + [ "subvol=@home" ]; };
+        "/" = { options = btrfsOptions ++ [ "subvol=@root" "nodiratime" "commit=100" ]; };
+        "/home" = { options = btrfsOptions ++ [ "subvol=@home" ]; };
       };
     };
 
@@ -58,7 +58,7 @@ in {
       type = types.attrs;
       default = {};
       example = {
-        "/nix" = { options = btrfsOptions + [ "subvol=@nix" "nodiratime" ]; };
+        "/nix" = { options = btrfsOptions ++ [ "subvol=@nix" "nodiratime" ]; };
       };
     };
 
