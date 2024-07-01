@@ -10,14 +10,18 @@
 
   home-manager.users.tracy = { pkgs, ... }: {
     home.packages = [ pkgs.steam ];
-    home.stateVersion = "23.05";
+    home.stateVersion = "24.05";
 
     services.picom.enable = true;
 
     xsession = {
       enable = true;
-      windowManager.command = "dbus-launch --exit-with-x11 steam -bigpicture";
+      windowManager.command = "steam -bigpicture";
     };
+
+    home.file.".xinitrc".text = ''
+      xrandr --output DisplayPort-0 --primary --mode 3840x2160 --pos 0x0 --rotate normal
+    '';
 
     programs.bash = {
       enable = true;

@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, helpers, ... }:
 {
 
   imports = [
@@ -131,7 +131,7 @@
 
     nvim-treesitter-textobjects
 
-    copilot-vim
+    #copilot-vim # FIXME: nonfree?
     dressing-nvim
     lsp_signature-nvim
     lualine-lsp-progress
@@ -146,7 +146,8 @@
 
     # Languages
     # TODO: "iden3/vim-circom-syntax" -- Circom
-    vim-go
+
+    # vim-go # FIXME: Disabled until it removes dependency on archived gocode package
     vim-nix
     vim-vue
     vim-solidity
@@ -176,7 +177,7 @@
       plugin = trouble-nvim;
       require = "trouble";
       keymaps = [
-        { key = "<leader>t"; action = "require('trouble').open"; lua = true; }
+        { key = "<leader>t"; action = helpers.mkRaw "require('trouble').open"; }
       ];
     }
   ];

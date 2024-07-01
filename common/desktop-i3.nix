@@ -1,3 +1,4 @@
+# TODO: Look into https://github.com/nix-community/nixpkgs-wayland
 { config, pkgs, lib, ... }:
 
 {

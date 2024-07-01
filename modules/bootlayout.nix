@@ -22,7 +22,7 @@ in {
     '';
 
     loader = mkOption {
-      type = enum [ "systemd-boot" "grub" ];
+      type = types.enum [ "systemd-boot" "grub" ];
       default = "systemd-boot";
     };
 
@@ -38,17 +38,20 @@ in {
       default = "/dev/mapper/cryptroot";
     };
 
-    swapDevices = toplevel.options.swapDevices;
+    swapDevices = mkOption {
+      type = types.listOf types.attrs;
+    };
 
     resumeDevice = mkOption {
-      type = nullOr types.str;
+      type = types.str;
+      default = "";
     };
 
     volumes = mkOption {
       type = types.attrs;
       default = {
-        "/" = { options = btrfsOptions + [ "subvol=@root" "nodiratime" "commit=100" ]; };
-        "/home" = { options = btrfsOptions + [ "subvol=@home" ]; };
+        "/" = { options = btrfsOptions ++ [ "subvol=@root" "nodiratime" "commit=100" ]; };
+        "/home" = { options = btrfsOptions ++ [ "subvol=@home" ]; };
       };
     };
 
@@ -57,12 +60,12 @@ in {
       type = types.attrs;
       default = {};
       example = {
-        "/nix" = { options = btrfsOptions + [ "subvol=@nix" "nodiratime" ]; };
+        "/nix" = { options = btrfsOptions ++ [ "subvol=@nix" "nodiratime" ]; };
       };
     };
 
     extraFileSystems = mkOption {
-      type = toplevel.options.boot.fileSystems.type;
+      type = toplevel.options.fileSystems.type;
       default = {};
       example = {
         "/mnt/diskstation" = {
@@ -76,22 +79,15 @@ in {
 
   config = mkIf cfg.enable {
 
-    boot.loader = (mkIfElse (cfg.loader == "systemd-boot") {
+    # TODO: Add grub option?
+    boot.loader = {
       grub.enable = false;
       systemd-boot = {
         enable = true;
-        configurationLimit = 8;
+        configurationLimit = 10;
         editor = false; # Disable bypassing init
       };
-    } {
-      systemd-boot.enable = false;
-      grub = {
-        enable = true;
-        efiSupport = true;
-        device = "nodev";
-        enableCryptodisk = true;
-      };
-    }) ++ {
+    } // {
       # EFI
       efi.canTouchEfiVariables = true;
       efi.efiSysMountPoint = "/boot/efi";
@@ -102,22 +98,20 @@ in {
     boot.initrd.luks.devices = cfg.luksDevices;
 
     swapDevices = cfg.swapDevices;
-    resumeDevice = cfg.resumeDevice;
+    boot.resumeDevice = cfg.resumeDevice;
 
     fileSystems = {
       "/boot/efi" = {
         label = "uefi";
-        device = cfg.rootDevice;
+        device = cfg.efiDevice;
         fsType = "vfat";
         options = [ "discard" ];
       };
     } // (
       builtins.mapAttrs (mount: volume: {
-        mount = {
-          device = cfg.rootDevice;
-          fsType = "btrfs";
-          options = volume.options;
-        };
+        device = cfg.rootDevice;
+        fsType = "btrfs";
+        options = volume.options;
       }) (cfg.volumes // cfg.extraVolumes)
     ) // cfg.extraFileSystems;
 

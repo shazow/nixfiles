@@ -1,11 +1,11 @@
-{ pkgs, hostname, primaryUsername, initialHashedPassword, ... }:
+{ pkgs, lib, hostname, primaryUsername, initialHashedPassword, ... }:
 {
   nixpkgs.config = {
     allowUnfree = true;
   };
 
   nix = {
-    package = pkgs.nixUnstable;
+    package = pkgs.nixVersions.latest;
     extraOptions = ''
       experimental-features = nix-command flakes
     '';
@@ -75,8 +75,6 @@
     defaultLocale = "en_US.UTF-8";
   };
 
-  services.fwupd.enable = true;
-
   # dnsmasq
   #services.dnsmasq.enable = true;
   #services.dnsmasq.servers = [ "1.1.1.1" "8.8.8.8" "2001:4860:4860::8844" "100.100.100.100" ];
@@ -89,7 +87,7 @@
   networking.search = [ "shazow.gmail.com.beta.tailscale.net" ];
   #networking.resolvconf.dnsExtensionMechanism = false; # Remove edns0 option in resolv.conf: Breaks some public WiFi but it is required for DNSSEC.
   networking.networkmanager.wifi.backend = "iwd"; # "wpa_supplicant" is default
-  networking.networkmanager.wifi.macAddress = "stable"; # One of "preserve", "random", "stable", "permanent", "00:11:22:33:44:55"
+  networking.networkmanager.wifi.macAddress = lib.mkDefault "stable"; # One of "preserve", "random", "stable", "permanent", "00:11:22:33:44:55"
   networking.networkmanager.wifi.powersave = true;
 
   virtualisation.docker = {
@@ -117,6 +115,8 @@
   programs.light.enable = true;
   programs.gnupg.agent.enable = true; # GPG Daemon needed for pinentry
   programs.adb.enable = true; # Android dev
+  services.geoclue2.enable = true;
+  services.fwupd.enable = true;
   services.avahi.enable = true;
   services.avahi.nssmdns4 = true;
   services.avahi.openFirewall = true;
@@ -126,7 +126,7 @@
 
   systemd.services.NetworkManager-wait-online.enable = false; # FIXME: Workaround for systemd/dbus related issue? https://github.com/NixOS/nixpkgs/issues/180175
   # services.localtimed.enable = true; # Broken: https://github.com/NixOS/nixpkgs/issues/177792
-
+  services.automatic-timezoned.enable = true; # Substitute for localtimed
 
   # Wireguard
   networking.wireguard.enable = true;
@@ -142,6 +142,7 @@
   xdg.portal.config.common.default = "*";
   hardware.opengl.driSupport32Bit = true;
 
+  security.polkit.enable = true;
   security.rtkit.enable = true; # Real time scheduling support, useful for audio priority
   services.pipewire = {
     enable = true;

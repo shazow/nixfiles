@@ -24,6 +24,9 @@ let
   ];
 in
 {
+  # Turn off screen after 60s even in console
+  boot.kernelParams = [ "consoleblank=60" ];
+
   ## systemd-boot
   boot.loader.systemd-boot = {
     enable = true;

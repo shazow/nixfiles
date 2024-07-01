@@ -12,10 +12,14 @@
 # - https://github.com/srid/nixos-config/blob/master/flake.nix
 {
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.11";
-    home-manager.url = "github:nix-community/home-manager/release-23.11";
+    #nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
+    #home-manager.url = "github:nix-community/home-manager/release-24.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     nixos-hardware.url = "github:nixos/nixos-hardware";
+
+    # Wayland (newer community-managed packages)
+    nixpkgs-wayland.url = "github:nix-community/nixpkgs-wayland";
+    nixpkgs-wayland.inputs.nixpkgs.follows = "nixpkgs";
 
     # My nvim config as a standalone nvim distribution
     nvim.url = "path:./pkgs/nvim";
@@ -65,7 +69,9 @@
       mkSystemConfigurations =
         { primaryUsername ? username
         , initialHashedPassword
-        , # Used for passwd
+        , modules ? []
+        , extraArgs ? {}
+        ,
         }: builtins.mapAttrs
           (hostname: host: nixpkgs.lib.nixosSystem {
             system = host.system;
@@ -78,10 +84,10 @@
                 home-manager.useUserPackages = true;
                 home-manager.useGlobalPkgs = true;
               }
-            ];
+            ] ++ modules;
             specialArgs = {
               inherit inputs hostname primaryUsername initialHashedPassword;
-            };
+            } // extraArgs;
           })
           hosts;
 

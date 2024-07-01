@@ -1,4 +1,4 @@
-{ pkgs, extrapkgs, inputs, ... }:
+{ pkgs, inputs, ... }:
 let
   # Package up local script binaries
   packageScripts = dir: map (name: pkgs.substituteAll {
@@ -69,7 +69,7 @@ in
   home.packages = (with pkgs; [
     # Some extrapkgs are duplicated from system packages for more frequent
     # updates in userland
-    extrapkgs.nvim
+    nvim
 
     # Apps
     bitwarden
@@ -99,9 +99,6 @@ in
       jedi
     ]))
     gcc
-    stylua # lua formatter
-    sumneko-lua-language-server # Lua lsp
-    rnix-lsp # Nix lsp
     nodejs_latest
     tree-sitter
     websocat # websocket netcat
@@ -122,7 +119,8 @@ in
     go
 
     rclone
-    obs-studio # Screen recording, streaming
+    # obs-studio # Screen recording, streaming
+    grim # Wayland screenshot backend?
     flameshot  # Screenshots
     transmission-gtk # Torrents
     mullvad-vpn # Frontend
