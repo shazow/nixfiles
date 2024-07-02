@@ -122,7 +122,7 @@ in
     # obs-studio # Screen recording, streaming
     grim # Wayland screenshot backend?
     flameshot  # Screenshots
-    transmission-gtk # Torrents
+    transmission_4-gtk # Torrents
     mullvad-vpn # Frontend
 
     #mplayer  # TODO: Switch to mpc?
