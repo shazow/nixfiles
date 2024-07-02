@@ -74,6 +74,10 @@ in
     "${mod}+b" = "exec wl-paste | rofi -dmenu | xargs bookmark | xargs -I '{}' xdg-open obsidian://open/?path={}";
     "${mod}+XF86Display" = "exec xrandr --auto"; # Reset screen
 
+    # Splits
+    "${mod}+h" = "splith";
+    "${mod}+v" = "splitv";
+
     # Kill focused window
     "${mod}+Shift+q" = "kill";
 
