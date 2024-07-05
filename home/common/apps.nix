@@ -64,6 +64,9 @@ in
     enable = true;
   };
 
+  
+  fonts.fontconfig.enable = true; # Auto-discover fonts
+
   home.file.".tmux.conf".source = ../config/tmux.conf;
 
   home.packages = (with pkgs; [

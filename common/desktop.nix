@@ -68,6 +68,9 @@
     dejavu_fonts
     nerdfonts # Includes font-awesome, material-icons, powerline-fonts
     emojione
+
+    corefonts # Needed for kerbal space program mods?
+    vistafonts
   ];
   fonts.enableDefaultPackages = true;
 
