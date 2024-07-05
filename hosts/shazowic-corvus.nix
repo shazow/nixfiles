@@ -13,7 +13,7 @@
     options snd_hda_intel power_save=1 power_save_controller=Y
   '';
   #hardware.enableAllFirmware = true;  # This pulls in everything, including Mac hardware etc.
-  hardware.opengl.extraPackages = with pkgs; [ vaapiIntel libvdpau-va-gl vaapiVdpau intel-ocl intel-media-driver ];
+  hardware.graphics.extraPackages = with pkgs; [ vaapiIntel libvdpau-va-gl vaapiVdpau intel-ocl intel-media-driver ];
 
   # Bluetooth
   services.blueman.enable = true;

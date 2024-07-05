@@ -28,7 +28,7 @@
   hardware.cpu.amd.updateMicrocode = true;
   hardware.enableRedistributableFirmware = true;
   hardware.steam-hardware.enable = true; # VR
-  hardware.opengl = {
+  hardware.graphics = {
     enable = true;
     extraPackages = [
       pkgs.rocmPackages.clr.icd

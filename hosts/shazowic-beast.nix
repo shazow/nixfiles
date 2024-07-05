@@ -15,7 +15,7 @@
   boot.extraModprobeConfig = ''
     options hid_apple fnmode=2 swap_opt_cmd=1
   '';
-  hardware.opengl.extraPackages = with pkgs; [ vaapiIntel libvdpau-va-gl vaapiVdpau ];
+  hardware.graphics.extraPackages = with pkgs; [ vaapiIntel libvdpau-va-gl vaapiVdpau ];
 
 
   # Bluetooth
