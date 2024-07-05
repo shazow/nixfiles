@@ -13,8 +13,6 @@
   hardware.enableRedistributableFirmware = true;
   hardware.opengl = {
     enable = true;
-    driSupport = true;
-    driSupport32Bit = true;
     extraPackages = [
       pkgs.rocmPackages.clr.icd
       pkgs.amdvlk
