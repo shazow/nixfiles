@@ -5,7 +5,9 @@
 , disk
 , ...
 }: {
-  # XXX: boot.layout.enable = true;
+  # FIXME: New boot layout module is not ot fully working yet, not sure what's missing
+  # Can Remove common/boot.nix after fixing.
+  #boot.layout.enable = true;
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
@@ -28,6 +30,7 @@
   hardware.cpu.amd.updateMicrocode = true;
   hardware.enableRedistributableFirmware = true;
   hardware.steam-hardware.enable = true; # VR
+  hardware.xpadneo.enable = true; # 8BitDo Ultimate controller wireless support
   hardware.graphics = {
     enable = true;
     extraPackages = [
