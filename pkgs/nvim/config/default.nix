@@ -43,13 +43,22 @@
     neogen.enable = true;
     neogen.keymaps.generate = "<leader>gen";
     notify.enable = true;
-    treesitter.enable = true;
     undotree.enable = true;
     dap.enable = true;
     copilot-lua.enable = true;
     copilot-lua.suggestion.enabled = false; # Required for copilot-cmp
     copilot-lua.panel.enabled = false; # Required for copilot-cmp
     copilot-cmp.enable = true;
+
+    treesitter = {
+      enable = true;
+      settings = {
+        ensure_installed = "all";
+        highlight.enable = true;
+        incremental_selection.enable = true;
+        indent.enable = true;
+      };
+    };
 
     lsp = {
       enable = true;
@@ -131,7 +140,7 @@
 
     nvim-treesitter-textobjects
 
-    #copilot-vim # FIXME: nonfree?
+    copilot-vim # FIXME: nonfree?
     dressing-nvim
     lsp_signature-nvim
     lualine-lsp-progress
