@@ -94,6 +94,7 @@
     enable = true;
     enableOnBoot = false; # Started on-demand by docker.socket
   };
+  virtualisation.waydroid.enable = true; # Android emulator, for TFT
 
   users.users.${primaryUsername} = {
     isNormalUser = true;
