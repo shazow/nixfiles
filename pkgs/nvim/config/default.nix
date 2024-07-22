@@ -140,7 +140,7 @@
 
     nvim-treesitter-textobjects
 
-    copilot-vim # FIXME: nonfree?
+    #copilot-vim # FIXME: nonfree?
     dressing-nvim
     lsp_signature-nvim
     lualine-lsp-progress
