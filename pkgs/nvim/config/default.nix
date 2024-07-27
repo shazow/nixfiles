@@ -38,10 +38,10 @@
     indent-blankline.enable = true;
     surround.enable = true;
     toggleterm.enable = true; # Terminal floaties
-    nvim-tree.enable = true; # Explore FS  # Note: neotree was buggy?
     nvim-bqf.enable = true; # Quickfix Window
     neogen.enable = true;
     neogen.keymaps.generate = "<leader>gen";
+    neo-tree.enable = true;
     notify.enable = true;
     undotree.enable = true;
     dap.enable = true;

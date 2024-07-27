@@ -1,7 +1,6 @@
 """ TODO: Port these to lua
 
 " General mappings
-nnoremap <leader>\ :noh<return> " Turn off highlighting
 nnoremap <silent><leader>w :call search('\u', 'W')<CR> " Jump TitleCase words
 
 nnoremap <expr> gp '`[' . strpart(getregtype(), 0, 1) . '`]' " Reselect paste.
