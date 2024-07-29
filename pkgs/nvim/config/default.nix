@@ -186,7 +186,7 @@
       plugin = trouble-nvim;
       require = "trouble";
       keymaps = [
-        { key = "<leader>t"; action = helpers.mkRaw "require('trouble').open"; }
+        { key = "<leader>t"; action = helpers.mkRaw "require('trouble').open('diagnostics')"; }
       ];
     }
   ];
