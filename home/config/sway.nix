@@ -170,5 +170,13 @@ in
       criteria = { app_id = "dropdown"; };
       command = "move scratchpad";
     }
+    {
+      criteria = { window_type = "dialog"; };
+      command = "floating enable";
+    }
+    {
+      criteria = { window_role = "dialog"; };
+      command = "floating enable";
+    }
   ];
 }
