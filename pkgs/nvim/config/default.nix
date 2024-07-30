@@ -1,4 +1,4 @@
-{ pkgs, helpers, ... }:
+{ pkgs, ... }:
 {
   imports = [
     # morePlugins helpers
@@ -44,12 +44,21 @@
     notify.enable = true;
     undotree.enable = true;
     dap.enable = true;
+    guess-indent.enable = true;
+    trouble.enable = true;
+    dressing.enable = true; # Improved ui widgets
 
+    # Zen mode
+    zen-mode.enable = true; # Replaced true-zen-nvim
+    twilight.enable = true; # Dim inactive portion, used with zenmode
+
+    # Copilot
     copilot-lua.enable = true;
     copilot-lua.suggestion.enabled = false; # Required for copilot-cmp
     copilot-lua.panel.enabled = false; # Required for copilot-cmp
     copilot-cmp.enable = true;
     copilot-chat.enable = true;
+
 
     treesitter = {
       enable = true;
@@ -60,6 +69,7 @@
         indent.enable = true;
       };
     };
+    treesitter-textobjects.enable = true;
 
     lsp = {
       enable = true;
@@ -84,12 +94,20 @@
     };
 
     cmp.enable = true;
+    cmp.autoEnableSources = true;
     cmp.settings = {
-      snippet.expand = ''
-        function(args)
-          require('luasnip').lsp_expand(args.body)
-        end
-      '';
+      # This supposed to be obsoleted by autoEnableSources, but seems borken?
+      sources = [
+        { name = "nvim_lsp"; }
+        { name = "nvim_lsp_document_symbol"; }
+        { name = "nvim_lsp_signature_help"; }
+        { name = "copilot"; }
+        { name = "calc"; }
+        { name = "path"; }
+        { name = "treesitter"; }
+        { name = "luasnip"; }
+        { name = "cmdline"; }
+      ];
       mapping = {
         "<CR>" = "cmp.mapping.confirm({ select = true })";
         "<Tab>" = ''
@@ -106,6 +124,8 @@
           end)
         '';
         "<C-Space>" = "cmp.mapping.complete()";
+        "<Up>" = "cmp.mapping.select_prev_item()";
+        "<Down>" = "cmp.mapping.select_next_item()";
       };
     };
 
@@ -117,6 +137,7 @@
     cmp-nvim-lsp.enable = true;
     cmp-nvim-lsp-document-symbol.enable = true;
     cmp-nvim-lsp-signature-help.enable = true;
+    cmp-path.enable = true;
     cmp-dap.enable = true;
 
     # Telescope:
@@ -130,6 +151,20 @@
         "<c-a>" = { action = "buffers"; options.desc = "Telescope Buffers"; };
       };
     };
+
+    # Which-key
+    #which-key = {
+    #  enable = true;
+    #  plugins.presets = {
+    #    operators = false;
+    #    motions = false;
+    #    textObjects = false;
+    #    windows = false;
+    #    nav = false;
+    #    z = false;
+    #    g = false;
+    #  };
+    #};
   };
 
   extraPlugins = with pkgs.vimPlugins; [
@@ -139,19 +174,12 @@
     # TODO: witchhazel
     # TODO: themery-nvim
 
-    nvim-treesitter-textobjects
-
-    dressing-nvim
     lsp_signature-nvim
     lualine-lsp-progress
     neomake
     vim-gnupg
     nvim-web-devicons
     nvim-luapad
-
-    # Zen mode
-    zen-mode-nvim # Replaced true-zen-nvim
-    twilight-nvim
 
     # Languages
     # TODO: "iden3/vim-circom-syntax" -- Circom
@@ -160,7 +188,7 @@
     vim-nix
     vim-vue
     vim-solidity
-    rust-vim
+  ch rust-vim
   ];
 
   morePlugins.enable = true;
@@ -176,18 +204,11 @@
             "zk",
             "sqls",
             "tailwindcss",
+            "rnix", -- deprecated
           },
           configs = { lua_ls = { settings = { Lua = { diagnostics = { globals = { "vim" }}}}}},
         })
       '';
-    }
-    { plugin = guess-indent-nvim; require = "guess-indent"; }
-    {
-      plugin = trouble-nvim;
-      require = "trouble";
-      keymaps = [
-        { key = "<leader>t"; action = helpers.mkRaw "require('trouble').open('diagnostics')"; }
-      ];
     }
   ];
 }
