@@ -188,7 +188,7 @@
     vim-nix
     vim-vue
     vim-solidity
-  ch rust-vim
+    rust-vim
   ];
 
   morePlugins.enable = true;
