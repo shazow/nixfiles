@@ -15,5 +15,5 @@
     ../../home/portable.nix
   ];
 
-  root = import ./configuration.nix;
+  root = ./configuration.nix;
 }

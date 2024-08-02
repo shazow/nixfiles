@@ -1,10 +1,9 @@
 {
   pkgs,
   lib,
+  disk,
   ...
 }: {
-  boot.layout.enable = true;
-
   imports = [
     ../../hardware/framework-13-amd.nix
 
@@ -12,6 +11,10 @@
 
     ../../common/users.nix
     ../../common/crypto.nix
+
+    (import ../../common/boot.nix {
+        inherit disk;
+    })
   ];
 
   # Palm rejection during typing for x11
