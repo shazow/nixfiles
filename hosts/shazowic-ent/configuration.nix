@@ -95,6 +95,7 @@
     enableOnBoot = false; # Started on-demand by docker.socket
   };
   virtualisation.waydroid.enable = true; # Android emulator, for TFT
+  systemd.services.waydroid-container.wantedBy = lib.mkForce []; # Disable waydroid-container start on boot
 
   users.users.${primaryUsername} = {
     isNormalUser = true;
