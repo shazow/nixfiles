@@ -27,7 +27,7 @@
 
   powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
   powerManagement.powertop.enable = true; # Run powertop on boot
-  systemd.services.battery-limit.ExecStart = "${pkgs.ectool}/bin/ectool fwchargelimit 85"; # Limit battery charge to 85% on boot
+  systemd.services.battery-limit.serviceConfig.ExecStart = "${pkgs.ectool}/bin/ectool fwchargelimit 85"; # Limit battery charge to 85% on boot
 
   # Not needed, use mesa driver by default: services.xserver.videoDrivers = [ "amdgpu" ];
   hardware.bluetooth.enable = true;
