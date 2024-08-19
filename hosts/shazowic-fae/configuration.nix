@@ -2,6 +2,7 @@
   pkgs,
   lib,
   disk,
+  initialHashedPassword,
   ...
 }: {
   imports = [
@@ -10,13 +11,17 @@
     #../../common/desktop-i3.nix
     ../../common/desktop-wayland.nix
 
-    ../../common/users.nix
     ../../common/crypto.nix
+
+    ../../modules/users.nix
 
     (import ../../common/boot.nix {
         inherit disk;
     })
   ];
+
+  nixfiles.users.enable = true;
+  nixfiles.users.initialHashedPassword = initialHashedPassword;
 
   # Palm rejection during typing for x11
   services.xserver.libinput.touchpad.disableWhileTyping = true;

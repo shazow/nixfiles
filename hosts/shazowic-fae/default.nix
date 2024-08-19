@@ -7,8 +7,6 @@
 
   modules = [
     inputs.nixos-hardware.nixosModules.framework-13-7040-amd
-
-    ../../modules/bootlayout.nix
   ];
 
   home = [
