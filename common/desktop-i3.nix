@@ -17,6 +17,7 @@
   };
 
   environment.systemPackages = with pkgs; [
+    arandr
     clipmenu
     clipnotify
     i3lock

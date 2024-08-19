@@ -63,7 +63,6 @@ in
     # Run `gpg-connect-agent reloadagent /bye` after changing to reload config
     enable = true;
   };
-
   
   fonts.fontconfig.enable = true; # Auto-discover fonts
 

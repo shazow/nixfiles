@@ -47,7 +47,6 @@
     alsa-firmware
     alsa-tools
     android-udev-rules
-    arandr
     colord
     dunst
     feh
