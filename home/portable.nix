@@ -2,16 +2,22 @@
 
 {
   imports = [
+    ./common/wayland.nix
     ./common/apps.nix
-    ./common/x11.nix
   ];
 
   xresources.properties = {
-    "Xft.dpi" = 140; # = 210 / 1.5, where 210 is the native DPI.
+    # "Xft.dpi" = 140; # = 210 / 1.5, where 210 is the native DPI.
+    "Xft.dpi" = 256; # 2880x1920 over 13.5 screen (2.8K panel)
   };
 
   # External monitor management
   programs.autorandr = import ./config/autorandr.nix;
+
+  wayland.windowManager.sway.config.output."eDP-1" = {
+    adaptive_sync = "on";
+    scale = "1.75";
+  };
 
   # Speaker calibration
   services.easyeffects.enable = true;
