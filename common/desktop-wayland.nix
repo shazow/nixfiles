@@ -46,7 +46,6 @@
     wl-clipboard # wl-copy and wl-paste for copy/paste from stdin / stdout
     qt5.qtwayland # for qt
 
-    way-displays # Replacement for arandr
     wtype # xdotool, but for wayland
     xwayland
     xwaylandvideobridge # Portal for screen sharing

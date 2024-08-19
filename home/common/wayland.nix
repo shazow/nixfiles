@@ -34,6 +34,8 @@ in
   home.sessionVariables = sessionVars;
 
   home.packages = with pkgs; [
+    wdisplays
+
     # Not sure if these are needed but having trouble with some tray icons not
     # showing up, so let's see if it helps.
     networkmanagerapplet
