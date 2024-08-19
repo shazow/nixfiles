@@ -1,5 +1,7 @@
 {
-  lib
+  config,
+  lib,
+  ...
 }:
 with lib; let
   cfg = config.nixfiles.users;
@@ -31,20 +33,20 @@ in {
   };
 
   config = mkIf cfg.enable {
-    users.users.${primaryUsername} = {
+    users.users.${cfg.primaryUsername} = {
       isNormalUser = true;
-      home = "/home/${primaryUsername}";
+      home = "/home/${cfg.primaryUsername}";
       extraGroups = [ "wheel" "sudoers" "audio" "video" "disk" "networkmanager" "plugdev" "dialout" "adbusers" "docker" "i2c" ];
       uid = 1000;
-      initialHashedPassword = initialHashedPassword;
+      initialHashedPassword = cfg.initialHashedPassword;
     };
 
     # Guest user
-    users.users.${guestUsername} = {
+    users.users.${cfg.guestUsername} = {
       isNormalUser = true;
-      home = "/home/${guestUsername}";
+      home = "/home/${cfg.guestUsername}";
       uid = 1100;
-      initialHashedPassword = initialHashedPassword;
+      initialHashedPassword = cfg.initialHashedPassword;
     };
-  }
+  };
 }
