@@ -20,12 +20,13 @@
     })
   ];
 
-  nixfiles.users.enable = true;
-  nixfiles.users.initialHashedPassword = initialHashedPassword;
+  nixfiles.users = {
+    enable = true;
+    inherit initialHashedPassword;
+  };
 
   # Palm rejection during typing for x11
-  services.xserver.libinput.touchpad.disableWhileTyping = true;
-  services.xserver.dpi = 256; # 2880x1920 over 13.5 screen (2.8K panel)
+  services.libinput.touchpad.disableWhileTyping = true;
 
   # Disable tailscale from starting by default, it's fairly noisy and may be impacting battery life
   systemd.services.tailscaled.wantedBy = lib.mkForce [ ];
