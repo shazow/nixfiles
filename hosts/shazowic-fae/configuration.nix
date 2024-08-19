@@ -7,7 +7,8 @@
   imports = [
     ../../hardware/framework-13-amd.nix
 
-    ../../common/desktop-i3.nix
+    #../../common/desktop-i3.nix
+    ../../common/desktop-wayland.nix
 
     ../../common/users.nix
     ../../common/crypto.nix
