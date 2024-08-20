@@ -70,9 +70,15 @@ in
     "XF86AudioPause" = "exec playerctl pause";
     "XF86AudioNext" = "exec playerctl next";
     "XF86AudioPrev" = "exec playerctl previous";
+
+    # There's a bug in the Framework that sends Super_L+p instead of XF86Display, so we duplicate the bindings -_-
+    # https://community.frame.work/t/whats-up-with-the-display-switch-key/43078
     "XF86Display" = "exec rofi-screenlayout";
+    "Mod4+p" = "exec rofi-screenlayout";
+    "Shift+XF86Display" = "exec rofi-screenlayout _default"; # Reset screen
+    "Shift+Mod4+p" = "exec rofi-screenlayout _default"; # Reset screen
+
     "${mod}+b" = "exec wl-paste | rofi -dmenu | xargs bookmark | xargs -I '{}' xdg-open obsidian://open/?path={}";
-    "${mod}+XF86Display" = "exec xrandr --auto"; # Reset screen
 
     # Splits
     "${mod}+h" = "splith";

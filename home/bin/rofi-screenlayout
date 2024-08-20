@@ -1,2 +1,26 @@
 #!/usr/bin/env sh
-rofi -modes "Screens:ls $HOME/.screenlayout/" -show 'Screens' | xargs -r -t sh -c
+# LAYOUT_PATH contains executable files that look like this:
+#
+#   $ cat $LAYOUT_PATH/_default
+#   swaymsg "output eDP-1 mode 2880x1920@120Hz"
+#   swaymsg "output eDP-1 adaptive_sync on"
+#   swaymsg "output eDP-1 scale 1.75"
+#   swaymsg "output eDP-1 power on"
+#
+#   $ cat $LAYOUT_PATH/integrated_only
+#   swaymsg "output * power off"
+#   ./_default
+#
+# In x11-land, arandr is capable of generating scripts like this.
+
+: "${LAYOUT_PATH:=$HOME/.screenlayout}"
+cd "$LAYOUT_PATH" || exit
+
+if [ -f "$1" ]; then
+    # Force calling an option
+    sh -c "./$1"
+    exit $?
+fi
+
+# Print the available layout options, and execute the selection
+find . -type f -executable -printf "%f\n" | sort | rofi -dmenu | xargs -I '{}' -r -t sh -c './{}'
