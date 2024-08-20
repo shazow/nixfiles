@@ -1,0 +1,36 @@
+#!/usr/bin/env sh
+# Wrapper around `light` except turns off screen past 0
+
+: "${OUTPUT_DEVICE:="auto"}" # or "eDP-1"
+: "${AMOUNT:="10"}"
+
+if [ "$OUTPUT_DEVICE" = "auto" ]; then
+    OUTPUT_DEVICE="$(swaymsg -t get_outputs | jq .[0].name)"
+fi
+
+if [ "$2" ]; then
+    # Override env AMOUNT because it's annoying to pass env vars into sway bindings
+    AMOUNT="$2"
+fi
+
+readonly old="$(light -G)"
+
+case $1 in
+    up)
+        if [ "$old" = "0.00" ]; then
+            swaymsg output "$OUTPUT_DEVICE" power on
+        fi
+        # FIXME: There's a bug here where we'll double-up after breaking out of 0, meh
+        light -A "$AMOUNT"
+    ;;
+    down)
+        if [ "$old" = "0.00" ]; then
+            swaymsg output "$OUTPUT_DEVICE" power off
+        else
+            light -U "$AMOUNT"
+        fi
+    ;;
+esac
+
+new="$(light -G)"
+echo "Brightness adjusted for $OUTPUT_DEVICE: $old -> $new"

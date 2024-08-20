@@ -58,10 +58,10 @@ in
   ];
   keybindings = lib.mkOptionDefault {
     # Special keys
-    "XF86MonBrightnessUp" = "exec light -A 10"; # TODO: Port wrapper using `ddcutil setvcp 10 + 5` on desktop?
-    "XF86MonBrightnessDown" = "exec light -U 10";
-    "${mod}+XF86MonBrightnessUp" = "exec light -A 2";
-    "${mod}+XF86MonBrightnessDown" = "exec light -U 2";
+    "XF86MonBrightnessUp" = "exec brightness up 10"; # TODO: Port wrapper using `ddcutil setvcp 10 + 5` on desktop?
+    "XF86MonBrightnessDown" = "exec brightness down 10";
+    "${mod}+XF86MonBrightnessUp" = "exec brightness up 5";
+    "${mod}+XF86MonBrightnessDown" = "exec brightness down 5";
     "XF86AudioRaiseVolume" = "exec --no-startup-id volumectl up";
     "XF86AudioLowerVolume" = "exec --no-startup-id volumectl down";
     "XF86AudioMute" = "exec --no-startup-id volumectl mute";
