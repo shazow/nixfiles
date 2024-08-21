@@ -52,6 +52,12 @@ in
   output = {
     "*" = { scale = "1.5"; };
   };
+  input = {
+    "type:touchpad" = {
+      tap = "enabled";
+      dwt = "enabled"; # Disable keyboard while typing
+    };
+  };
   startup = [
     { command = "${pkgs.swaybg}/bin/swaybg --color \"#000000\""; }
     { command = "${darkmode}"; }
