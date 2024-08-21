@@ -26,7 +26,7 @@
   };
 
   # Palm rejection during typing for x11
-  services.libinput.touchpad.disableWhileTyping = true;
+  #services.libinput.touchpad.disableWhileTyping = true;
 
   # Disable tailscale from starting by default, it's fairly noisy and may be impacting battery life
   systemd.services.tailscaled.wantedBy = lib.mkForce [ ];
