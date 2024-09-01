@@ -1,9 +1,12 @@
 { pkgs, ... }:
 {
   imports = [
+    ./avante.nix
+
     # morePlugins helpers
     ../modules/plugins.nix
   ];
+
 
   # Helpers used elsewhere
   extraConfigLuaPre = ''
