@@ -23,7 +23,7 @@
           owner = "yetone";
           repo = "avante.nvim";
           rev = "3ccb71d7ef21d4a0db62ec08f05bbac5763545ff";
-          hash = "sha256-QHWQY4703YcAEZ5qIRI3KKoK6EIMuyZL6oSfgheKmNA=";
+          hash = "sha256-aiz/vGrNKPJnZZqd7yEQ1S0bjz66a+QqsoIjAJXO358=";
         };
         # dependencies = {
         #   "nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
