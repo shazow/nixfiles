@@ -7,6 +7,26 @@
     ../modules/plugins.nix
   ];
 
+  performance = {
+    byteCompileLua = {
+      enable = true;
+      nvimRuntime = true;
+      configs = true;
+      plugins = true;
+    };
+    combinePlugins = {
+      enable = true;
+      standalonePlugins = [
+        # Collision
+        "nvim-treesitter"
+        "nvim-treesitter-textobjects"
+        "vimplugin-treesitter-grammar-nix"
+
+        # Failure: vim.api.nvim_get_runtime_file("copilot/index.js", false)
+        "copilot.lua"
+      ];
+    };
+  };
 
   # Helpers used elsewhere
   extraConfigLuaPre = ''
@@ -43,7 +63,8 @@
     nvim-bqf.enable = true; # Quickfix Window
     neogen.enable = true;
     neogen.keymaps.generate = "<leader>gen";
-    neo-tree.enable = true;
+    # neo-tree.enable = true;
+    oil.enable = true;
     notify.enable = true;
     undotree.enable = true;
     dap.enable = true;
@@ -62,17 +83,25 @@
     copilot-cmp.enable = true;
     copilot-chat.enable = true;
 
-
     treesitter = {
       enable = true;
       settings = {
         ensure_installed = "all";
         highlight.enable = true;
         incremental_selection.enable = true;
+        incremental_selection.keymaps = {
+          node_incremental = "+";
+          node_decremental = "_";
+          scope_incremental = "-";
+        };
         indent.enable = true;
       };
     };
-    treesitter-textobjects.enable = true;
+    treesitter-textobjects = {
+      enable = true;
+      move.enable = true;
+      select.enable = true;
+    };
 
     lsp = {
       enable = true;
