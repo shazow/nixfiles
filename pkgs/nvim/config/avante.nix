@@ -22,8 +22,8 @@
         src = fetchFromGitHub {
           owner = "yetone";
           repo = "avante.nvim";
-          rev = "4a3b278a76e043935f4c6e8d66445f2f3a8a9d63"; # v0.0.2+
-          hash = "sha256-jSgwaro1qsduAGtttlEy0+3aIJ8DeqVX2+rPB559GL0=";
+          rev = "3ccb71d7ef21d4a0db62ec08f05bbac5763545ff";
+          hash = "sha256-aiz/vGrNKPJnZZqd7yEQ1S0bjz66a+QqsoIjAJXO358=";
         };
         # dependencies = {
         #   "nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons

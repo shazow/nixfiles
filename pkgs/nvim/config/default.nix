@@ -1,10 +1,8 @@
 { pkgs, ... }:
 {
   imports = [
+    ./lsp.nix
     ./avante.nix
-
-    # morePlugins helpers
-    ../modules/plugins.nix
   ];
 
   performance = {
@@ -27,6 +25,7 @@
       ];
     };
   };
+  luaLoader.enable = true;
 
   # Helpers used elsewhere
   extraConfigLuaPre = ''
@@ -103,23 +102,6 @@
       select.enable = true;
     };
 
-    lsp = {
-      enable = true;
-      keymaps = {
-        lspBuf = {
-          "K" = "hover";
-          "<C-k>" = "signature_help";
-          "gr" = "references";
-          "gD" = "declaration";
-          "gd" = "definition";
-          "gi" = "implementation";
-          "gt" = "type_definition";
-          "<leader>ca" = "code_action";
-          "<leader>re" = "rename";
-          "<leader>f" = "format";
-        };
-      };
-    };
     lualine = {
       enable = true;
       sections.lualine_c = [ "filename" "lsp_progress" ];
@@ -134,6 +116,7 @@
         { name = "nvim_lsp_document_symbol"; }
         { name = "nvim_lsp_signature_help"; }
         { name = "copilot"; }
+        { name = "nvim_lua"; }
         { name = "calc"; }
         { name = "path"; }
         { name = "treesitter"; }
@@ -206,8 +189,6 @@
     # TODO: witchhazel
     # TODO: themery-nvim
 
-    lsp_signature-nvim
-    lualine-lsp-progress
     neomake
     vim-gnupg
     nvim-web-devicons
@@ -217,31 +198,10 @@
     # TODO: "iden3/vim-circom-syntax" -- Circom
 
     # vim-go # FIXME: Disabled until it removes dependency on archived gocode package
-    vim-nix
-    vim-vue
-    vim-solidity
-    rust-vim
-  ];
-
-  morePlugins.enable = true;
-  morePlugins.plugins = with pkgs.vimPlugins; [
-    {
-      plugin = lazy-lsp-nvim;
-      config = ''
-        require('lazy-lsp').setup({
-          excluded_servers = {
-            "denols",
-            "efm", -- not using it?
-            "diagnosticls",
-            "zk",
-            "sqls",
-            "tailwindcss",
-            "rnix", -- deprecated
-          },
-          configs = { lua_ls = { settings = { Lua = { diagnostics = { globals = { "vim" }}}}}},
-        })
-      '';
-    }
+    #vim-nix
+    #vim-vue
+    #vim-solidity
+    #rust-vim
   ];
 }
 

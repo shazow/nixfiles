@@ -31,28 +31,6 @@
           inherit nvim;
           name = "A nixvim configuration";
         };
-        tests = let
-          results = import ./tests.nix {
-            inherit (pkgs) lib stdenv;
-            examplePackage = pkgs.vimPlugins.vim-nix;
-          };
-        in
-          # Could avoid this boilerplate using https://github.com/antifuchs/nix-flake-tests
-          if results == []
-          then pkgs.runCommand "lib-tests-success" {} "touch $out"
-          else pkgs.runCommand "lib-tests-failure" {
-            s = pkgs.lib.concatStringsSep "\n" (
-              builtins.map (result: ''
-                ${result.name}:
-                  expected: ${builtins.toJSON result.expected}
-                  result:   ${builtins.toJSON result.result}
-              '')
-              results
-            );
-          } ''
-            echo -e "Tests failed:\\n\\n$s" >&2
-            exit 1
-          '';
       };
 
       packages = nvim;

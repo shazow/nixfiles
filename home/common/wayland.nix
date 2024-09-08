@@ -26,9 +26,10 @@ in
   nixpkgs.overlays = [ inputs.nixpkgs-wayland.overlay ];
 
   home.pointerCursor = {
-    name = "capitaine-cursors";
-    package = pkgs.capitaine-cursors;
-    size = 24;
+    name = "phinger-cursors-light";
+    package = pkgs.phinger-cursors;
+    size = 32;
+    gtk.enable = true;
   };
 
   home.sessionVariables = sessionVars;
