@@ -1,4 +1,5 @@
 # Wayland alternative to x11.nix
+# TODO: Add https://github.com/rafaelrc7/wayland-pipewire-idle-inhibit
 { pkgs, config, lib, inputs, ... }:
 let
   sessionVars = {
