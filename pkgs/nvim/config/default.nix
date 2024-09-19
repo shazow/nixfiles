@@ -2,7 +2,7 @@
 {
   imports = [
     ./lsp.nix
-    ./avante.nix
+    ./ai.nix
   ];
 
   performance = {
@@ -26,6 +26,8 @@
     };
   };
   luaLoader.enable = true;
+
+  extraPackages = [ pkgs.statix ];
 
   # Helpers used elsewhere
   extraConfigLuaPre = ''
@@ -75,13 +77,6 @@
     zen-mode.enable = true; # Replaced true-zen-nvim
     twilight.enable = true; # Dim inactive portion, used with zenmode
 
-    # Copilot
-    copilot-lua.enable = true;
-    copilot-lua.suggestion.enabled = false; # Required for copilot-cmp
-    copilot-lua.panel.enabled = false; # Required for copilot-cmp
-    copilot-cmp.enable = true;
-    copilot-chat.enable = true;
-
     treesitter = {
       enable = true;
       settings = {
@@ -104,7 +99,16 @@
 
     lualine = {
       enable = true;
-      sections.lualine_c = [ "filename" "lsp_progress" ];
+      settings.sections.lualine_c = [ "filename" "lsp_progress" ];
+    };
+
+    none-ls = {
+      enable = true;
+      sources = {
+        code_actions.gitsigns.enable = true;
+        code_actions.statix.enable = true;
+        diagnostics.statix.enable = true;
+      };
     };
 
     cmp.enable = true;
@@ -168,19 +172,25 @@
     };
 
     # Which-key
-    #which-key = {
-    #  enable = true;
-    #  plugins.presets = {
-    #    operators = false;
-    #    motions = false;
-    #    textObjects = false;
-    #    windows = false;
-    #    nav = false;
-    #    z = false;
-    #    g = false;
-    #  };
-    #};
+    which-key = {
+      enable = true;
+      settings.keys.scroll_down = "<down>";
+      settings.keys.scroll_up = "<up>";
+      settings.plugins.presets = {
+        operators = false;
+        motions = false;
+        text_objects = false;
+        windows = false;
+        nav = false;
+        z = false;
+        g = false;
+      };
+    };
   };
+
+  keymaps = [
+    { key = "<leader>t"; action = "<cmd>Trouble<cr>"; options.desc = "Open Trouble Diagnostics"; }
+  ];
 
   extraPlugins = with pkgs.vimPlugins; [
     # Colorschemes

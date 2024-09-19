@@ -41,6 +41,13 @@
     };
   };
 
+  files."ftplugin/lua.lua" = {
+    extraPlugins = [ pkgs.vimPlugins.lazydev-nvim ];
+    extraConfigLua = ''
+      require('lazydev').setup({})
+    '';
+  };
+
   extraPlugins = with pkgs.vimPlugins; [
     lsp_signature-nvim
     lualine-lsp-progress

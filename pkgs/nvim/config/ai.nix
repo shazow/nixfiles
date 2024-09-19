@@ -1,11 +1,24 @@
+# TODO: Try also...
+# - https://github.com/olimorris/codecompanion.nvim
+# - https://github.com/frankroeder/parrot.nvim
+# - https://github.com/yacineMTB/dingllm.nvim
 { pkgs, ... }:
 {
-  # Borrowed from https://github.com/edmundmiller/dotfiles/blob/97871a7ac081ec57a7d692f26bb3ca587fd9c009/modules/editors/vim.nix
   opts = {
     laststatus = 3;
     splitkeep = "screen";
   };
 
+  plugins = {
+    # Copilot
+    copilot-lua.enable = true;
+    copilot-lua.suggestion.enabled = false; # Required for copilot-cmp
+    copilot-lua.panel.enabled = false; # Required for copilot-cmp
+    copilot-cmp.enable = true;
+    copilot-chat.enable = true;
+  };
+
+  # Avante config borrowed from https://github.com/edmundmiller/dotfiles/blob/97871a7ac081ec57a7d692f26bb3ca587fd9c009/modules/editors/vim.nix
   extraPlugins = with pkgs; [
     vimPlugins.nvim-web-devicons
     vimPlugins.plenary-nvim
