@@ -59,7 +59,7 @@
     diffview.enable = true;
     gitsigns.enable = true;
     indent-blankline.enable = true;
-    surround.enable = true;
+    vim-surround.enable = true;
     toggleterm.enable = true; # Terminal floaties
     nvim-bqf.enable = true; # Quickfix Window
     neogen.enable = true;
@@ -203,6 +203,8 @@
     vim-gnupg
     nvim-web-devicons
     nvim-luapad
+
+    markdown-preview-nvim
 
     # Languages
     # TODO: "iden3/vim-circom-syntax" -- Circom
