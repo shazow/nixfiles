@@ -143,6 +143,7 @@ in
     gotop
     glib # for gsettings
     gsettings-desktop-schemas
+    impala # wifi tui, like nmtui
     jq
     ncdu_2 # disk space analyzer
     powerstat
