@@ -72,6 +72,7 @@
     guess-indent.enable = true;
     trouble.enable = true;
     dressing.enable = true; # Improved ui widgets
+    web-devicons.enable = true;
 
     # Zen mode
     zen-mode.enable = true; # Replaced true-zen-nvim
@@ -204,7 +205,6 @@
 
     neomake
     vim-gnupg
-    nvim-web-devicons
     nvim-luapad
 
     markdown-preview-nvim

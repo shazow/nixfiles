@@ -13,7 +13,7 @@
     copilot-chat.enable = true;
   };
 
-  extraPlugins = with pkgs; [
+  extraPlugins = with pkgs.vimPlugins; [
     avante-nvim
   ];
 
