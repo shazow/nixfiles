@@ -13,41 +13,45 @@ in
 {
   nixpkgs.config.allowUnfree = true;
 
-  programs.home-manager.enable = true;
-  programs.alacritty = {
-    enable = true;
-    settings = {
-      colors.primary.background = "#000000";
-      env.TERM = "xterm-256color"; # ssh'ing into old servers with TERM=alacritty is sad
-    };
-  };
+  programs = {
+    home-manager.enable = true;
 
-  programs.git = {
-    enable = true;
-    lfs.enable = true;
-    difftastic.enable = true;
-    userName = "Andrey Petrov";
-    userEmail = "andrey.petrov@shazow.net";
-    aliases = {
-      undo = "reset --soft HEAD^";
-      last = "log -1 HEAD";
-      serve = "daemon --reuseaddr --base-path=. --export-all --verbose --enable=receive-pack --listen=0.0.0.0";
-
-      diff2 = "diff --color-words --ignore-all-space --patience";
-      log2 = "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative";
-
-      deploy = "!merge(){ git checkout $2 && git merge $1 && git push $2 && git checkout \${1#refs/heads/}; }; merge $(git symbolic-ref HEAD) $1";
-      blast = ''for-each-ref --sort=-committerdate refs/heads/ --format="%(committerdate:relative)%09%(refname:short)'';
-      pr = "!pr(){ git fetch origin pull/$1/head:pr-$1; git checkout pr-$1; }; pr";
-    };
-    extraConfig = {
-      push = {
-        autoSetupRemote = true;
+    alacritty = {
+      enable = true;
+      settings = {
+        colors.primary.background = "#000000";
+        env.TERM = "xterm-256color"; # ssh'ing into old servers with TERM=alacritty is sad
       };
     };
-  };
 
-  programs.bash = let
+    git = {
+      enable = true;
+      lfs.enable = true;
+      difftastic.enable = true;
+      userName = "Andrey Petrov";
+      userEmail = "andrey.petrov@shazow.net";
+      aliases = {
+        undo = "reset --soft HEAD^";
+        last = "log -1 HEAD";
+        serve = "daemon --reuseaddr --base-path=. --export-all --verbose --enable=receive-pack --listen=0.0.0.0";
+
+        diff2 = "diff --color-words --ignore-all-space --patience";
+        log2 = "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative";
+
+        deploy = "!merge(){ git checkout $2 && git merge $1 && git push $2 && git checkout \${1#refs/heads/}; }; merge $(git symbolic-ref HEAD) $1";
+        blast = ''for-each-ref --sort=-committerdate refs/heads/ --format="%(committerdate:relative)%09%(refname:short)"'';
+        pr = "!pr(){ git fetch origin pull/$1/head:pr-$1; git checkout pr-$1; }; pr";
+
+        # Interactive
+        ilog = "!git log --oneline --color=always | fzf --ansi --reverse --preview='git show --color=always {1}'";
+        ibranchlog = "!git log --color=always --oneline $(git merge-base main HEAD)..HEAD | fzf --ansi --reverse --preview='git show --color=always {1}'";
+      };
+      extraConfig = {
+        push = { autoSetupRemote = true; };
+      };
+    };
+
+  bash = let
     bashHelpers = builtins.readFile "${inputs.dotfiles.outPath}/helpers.bash";
     bashProfile = builtins.readFile "${inputs.dotfiles.outPath}/.bash_profile";
   in {
@@ -58,6 +62,7 @@ in
       ssh-unsafe=''ssh -o "UserKnownHostsFile /dev/null" -o StrictHostKeyChecking=no'';
     };
   };
+};
 
   services.gpg-agent = {
     # Run `gpg-connect-agent reloadagent /bye` after changing to reload config
