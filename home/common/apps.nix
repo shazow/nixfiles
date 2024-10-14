@@ -141,7 +141,6 @@ in
     # TODO: Move these to system config?
     bat
     mdcat
-    #delta
     ddcutil
     file
     fzf
