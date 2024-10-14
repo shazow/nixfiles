@@ -12,7 +12,7 @@
 # - https://github.com/srid/nixos-config/blob/master/flake.nix
 {
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     nixos-hardware.url = "github:nixos/nixos-hardware";
@@ -23,7 +23,6 @@
 
     # My nvim config as a standalone nvim distribution
     nvim.url = "path:./pkgs/nvim";
-    nvim.inputs.nixpkgs.follows = "nixpkgs";
 
     # Framework embedded controller tool
     ectool.url = "github:tlvince/ectool.nix";
@@ -36,7 +35,7 @@
     framework-audio-presets = { url = "github:ceiphr/ee-framework-presets"; flake = false; };
   };
 
-  outputs = inputs@{ nixpkgs, home-manager, nixos-hardware, flake-utils, ... }:
+  outputs = inputs@{ nixpkgs, home-manager, flake-utils, ... }:
     let
       username = "shazow";
 
