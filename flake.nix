@@ -13,12 +13,14 @@
 {
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
+    #nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     home-manager.url = "github:nix-community/home-manager/release-24.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     nixos-hardware.url = "github:nixos/nixos-hardware";
 
     # My nvim config as a standalone nvim distribution
     nvim.url = "path:./pkgs/nvim";
+    #nvim.inputs.nixpkgs.follows = "nixpkgs"; # TODO: Switch once we use stable nixvim?
 
     # Framework embedded controller tool
     ectool.url = "github:tlvince/ectool.nix";
@@ -52,6 +54,9 @@
           (final: prev: {
             nvim = inputs.nvim.defaultPackage.${prev.system};
             ectool = inputs.ectool.defaultPackage.${prev.system};
+            #unstable = import nixpkgs-unstable {
+            #  inherit (final) system config;
+            #};
           })
         ];
       };
