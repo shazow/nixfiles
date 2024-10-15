@@ -24,8 +24,6 @@ let
   lockcmd = "${pkgs.swaylock}/bin/swaylock -fF";
 in
 {
-  nixpkgs.overlays = [ inputs.nixpkgs-wayland.overlay ];
-
   home.pointerCursor = {
     name = "phinger-cursors-light";
     package = pkgs.phinger-cursors;
@@ -49,13 +47,14 @@ in
   gtk = {
     enable = true;
     theme = {
-      #name = "adwaita-icon-theme";
       name = "Adwaita-dark";
-      package = pkgs.adwaita-icon-theme;
+      package = pkgs.gnome.adwaita-icon-theme;
+      #package = pkgs.adwaita-icon-theme;  # New name in unstable
     };
     iconTheme = {
       name = "Adwaita-dark";
-      package = pkgs.adwaita-icon-theme;
+      package = pkgs.gnome.adwaita-icon-theme;
+      #package = pkgs.adwaita-icon-theme;  # New name in unstable
     };
   };
 

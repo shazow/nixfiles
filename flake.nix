@@ -17,10 +17,6 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     nixos-hardware.url = "github:nixos/nixos-hardware";
 
-    # Wayland (newer community-managed packages)
-    nixpkgs-wayland.url = "github:nix-community/nixpkgs-wayland";
-    nixpkgs-wayland.inputs.nixpkgs.follows = "nixpkgs";
-
     # My nvim config as a standalone nvim distribution
     nvim.url = "path:./pkgs/nvim";
 
