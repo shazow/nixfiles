@@ -152,7 +152,12 @@
       };
     };
 
-    luasnip.enable = true;
+    luasnip = {
+      enable = true;
+      settings.enable_autosnippets = true;
+      settings.fromLua = [ { paths = ../snippets; } ];
+    };
+
     cmp_luasnip.enable = true;
     cmp-treesitter.enable = true;
     cmp-calc.enable = true;
