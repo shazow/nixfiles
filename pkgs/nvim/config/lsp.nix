@@ -18,8 +18,8 @@
         };
       };
       servers = {
-        nil-ls.enable = true;
-        lua-ls = {
+        nil_ls.enable = true;
+        lua_ls = {
           enable = true;
           settings = {
             diagnostics.globals = [ "vim" ];
