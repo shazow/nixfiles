@@ -1,7 +1,14 @@
 { pkgs, ... }:
 {
+  # Things that are volatile or messy are moved into their own imports
   imports = [
+    # Package version pinning overlays
+    ./overlays.nix
+
+    # Language server stuff
     ./lsp.nix
+
+    # AI assistant stuff
     ./ai.nix
   ];
 
