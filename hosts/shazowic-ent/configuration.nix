@@ -26,6 +26,8 @@
     })
   ];
 
+  nixpkgs.config.rocmSupport = true;
+
   # Hardware specific
   hardware.cpu.amd.updateMicrocode = true;
   hardware.enableRedistributableFirmware = true;
