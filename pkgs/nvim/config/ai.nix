@@ -11,13 +11,9 @@
     copilot-lua.panel.enabled = false; # Required for copilot-cmp
     copilot-cmp.enable = true;
     copilot-chat.enable = true;
+    avante.enable = true;
+    avante.settings = {
+      provider = "copilot";
+    };
   };
-
-  extraPlugins = with pkgs.vimPlugins; [
-    avante-nvim
-  ];
-
-  extraConfigLua = ''
-    require('avante').setup({ provider = 'copilot' })
-  '';
 }
