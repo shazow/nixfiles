@@ -26,6 +26,7 @@
             runtime.version = "Lua 5.1";
           };
         };
+        ts_ls.enable = true;
       };
       onAttach = # lua
         ''
