@@ -29,7 +29,7 @@
   #     };
   #   };
   # }
-  ]);
+  ];
 
   extraConfigLua = ''
     --require("codecompanion").setup()
