@@ -27,7 +27,7 @@
     Option "TearFree" "true"
   '';
 
-  services.xserver.libinput = {
+  services.libinput = {
     enable = true;
     touchpad = {
       disableWhileTyping = true;
