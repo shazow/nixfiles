@@ -1,8 +1,9 @@
-{
-  config, pkgs, lib,
-  initialHashedPassword,
-  disk,
-  ...
+{ config
+, pkgs
+, lib
+, initialHashedPassword
+, disk
+, ...
 }:
 {
   boot.kernelPackages = pkgs.linuxPackages_latest;
@@ -25,12 +26,24 @@
   powerManagement.powertop.enable = true; # Run powertop --auto-tune on start
 
   imports = [
-    ./hardware/thinkpad-x1c.nix
-    (import ./common/boot.nix {
-    	inherit disk;
+    ../../hardware/thinkpad-x1c.nix
+
+    (import ../../common/boot.nix {
+      inherit disk;
     })
-    ./common/desktop-i3.nix
+
+    ../../common/crypto.nix
+
+    #../../common/desktop-i3.nix
+    ../../common/desktop-wayland.nix
+
+    ../../modules/users.nix
   ];
+
+  nixfiles.users = {
+    enable = true;
+    inherit initialHashedPassword;
+  };
 
   networking.firewall.allowedTCPPorts = [
     8010 # VLC Chromecast
@@ -38,44 +51,10 @@
   ];
 
   environment.systemPackages = with pkgs; [
-    home-manager
-
-    # Desktop
-    alsa-tools
-    arandr
-    colord
-    dunst
-    feh
-    libnotify
-    maim
-    openvpn
-    pavucontrol
-    xclip
-    xdotool
-    xsel
-
-    # Apps
-    gnupg
-
-    # Other
-    android-udev-rules
-    alsa-firmware
-
     # Wireless
-    bluez
     iw # wireless tooling
     wireless-regdb
   ];
-
-  services.udev = {
-    # FIXME: Monitor with `udevadm monitor --property`
-    # FIXME: Need ENV{XAUTHORITY}="/home/shazow/.Xauthority"?
-    # TODO: Add bluetooth remove lock event? ACTION=="remove", SUBSYSTEM=="bluetooth", ATTRS{address}=="00:00:00:00:00:00", ENV{DISPLAY}=":0", RUN+="su shazow -c screenlock"
-    #   Could also use rssi or lq to check signal strength. Maybe we want to launch a signal strength poller on add that dies when the device disappears, and changes the lock settings?
-    #extraRules = ''
-    #  ACTION=="change", SUBSYSTEM=="drm", HOTPLUG=="1", ENV{DISPLAY}=":0", RUN+="xrandr --auto"
-    #'';
-  };
 
   networking.hostName = "shazowic-corvus";
   networking.search = [ "shazow.gmail.com.beta.tailscale.net" ];
@@ -89,23 +68,6 @@
     enableOnBoot = false; # Started on-demand by docker.socket
   };
 
-  users.users.shazow = {
-    isNormalUser = true;
-    home = "/home/shazow";
-    description = "shazow";
-    extraGroups = [ "wheel" "sudoers" "audio" "video" "disk" "networkmanager" "plugdev" "dialout" "adbusers" "docker" ];
-    uid = 1000;
-    initialHashedPassword = initialHashedPassword;
-  };
-
-  users.users.andrey = {
-    isNormalUser = true;
-    home = "/home/andrey";
-    description = "andrey";
-    uid = 1100;
-    initialHashedPassword = initialHashedPassword;
-  };
-
   # Agent daemon required for pinentry
   programs.gnupg.agent.enable = true;
 
@@ -116,5 +78,5 @@
   # compatible, in order to avoid breaking some software such as database
   # servers. You should change this only after NixOS release notes say you
   # should.
-  system.stateVersion = "23.05";
+  system.stateVersion = "24.05";
 }
