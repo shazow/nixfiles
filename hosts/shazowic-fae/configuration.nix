@@ -16,7 +16,7 @@
     ../../modules/users.nix
 
     (import ../../common/boot.nix {
-        inherit disk;
+       inherit disk;
     })
   ];
 
