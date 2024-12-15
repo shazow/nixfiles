@@ -128,6 +128,17 @@ in
     enable = true;
     config = import ../config/sway.nix { inherit pkgs lib lockcmd; };
     extraOptions = [ "-Dlegacy-wl-drm" ];
+    package = pkgs.sway.overrideAttrs (old: {
+      patches = [
+        (pkgs.fetchpatch
+          {
+            # dbus systray patch
+            # https://github.com/swaywm/sway/pull/8405
+            url = "https://patch-diff.githubusercontent.com/raw/swaywm/sway/pull/8405.patch";
+            sha256 = "sha256-poblUEaeytBD8xqfiW0lRWaJ12RZ1meLGjZPl7JBrOo=";
+          })
+      ];
+    });
   };
 
 }
