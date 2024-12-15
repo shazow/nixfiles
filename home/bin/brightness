@@ -13,6 +13,12 @@ if [ "$2" ]; then
     AMOUNT="$2"
 fi
 
+# Check if light returns a warning
+if light -G 2>&1 1>/dev/null | grep -q "No backlight controller was found"; then
+    echo "No controller found, exiting."
+    exit 1
+fi
+
 readonly old="$(light -G)"
 
 case $1 in
