@@ -54,8 +54,8 @@
   hardware.bluetooth.enable = true;
 
   # Valheim
-  networking.firewall.allowedTCPPortRanges = [ [ { from = 2456; to = 2458; } ];
-  networking.firewall.allowedUDPPortRanges = [ [ { from = 2456; to = 2458; } ];
+  networking.firewall.allowedTCPPortRanges = [ { from = 2456; to = 2458; } ];
+  networking.firewall.allowedUDPPortRanges = [ { from = 2456; to = 2458; } ];
 
   services.openssh = {
     enable = true;

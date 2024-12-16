@@ -13,7 +13,7 @@
 {
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
-    #nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
+    # nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable"; # Uncomment pkgs-unstable below if using
     home-manager.url = "github:nix-community/home-manager/release-24.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     nixos-hardware.url = "github:nixos/nixos-hardware";
@@ -100,6 +100,7 @@
           value = home-manager.lib.homeManagerConfiguration {
             extraSpecialArgs = {
               inherit inputs username hostname;
+              # pkgs-unstable = inputs.nixpkgs-unstable.legacyPackages.${host.system};
             };
             pkgs = nixpkgs.legacyPackages.${host.system};
             modules = host.home ++ [
