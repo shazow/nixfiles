@@ -53,6 +53,10 @@
   services.blueman.enable = true;
   hardware.bluetooth.enable = true;
 
+  # Valheim
+  networking.firewall.allowedTCPPortRanges = [ [ { from = 2456; to = 2458; } ];
+  networking.firewall.allowedUDPPortRanges = [ [ { from = 2456; to = 2458; } ];
+
   services.openssh = {
     enable = true;
     startWhenNeeded = true; # Don't start until socket request comes in to systemd
