@@ -116,7 +116,13 @@ in
     # Gaming
     lutris
     wine
-    prismlauncher # minecraft launcher
+    # prismlauncher # minecraft launcher
+
+    # umu launcher for proton
+    (inputs.umu.packages.${stdenv.hostPlatform.system}.umu.override {
+      version = inputs.umu.shortRev;
+      truststore = true;
+    })
 
     # Programming: Rust
     #latest.rustChannels.nightly.rust
