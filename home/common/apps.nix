@@ -117,12 +117,7 @@ in
     lutris
     wine
     # prismlauncher # minecraft launcher
-
-    # umu launcher for proton
-    (inputs.umu.packages.${stdenv.hostPlatform.system}.umu.override {
-      version = inputs.umu.shortRev;
-      truststore = true;
-    })
+    #umu-launcher # TODO: Uncomment when https://github.com/NixOS/nixpkgs/pull/369259 is merged
 
     # Programming: Rust
     #latest.rustChannels.nightly.rust

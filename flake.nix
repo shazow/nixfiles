@@ -31,12 +31,6 @@
 
     # Audio profiles for Framework 13 speakers
     framework-audio-presets = { url = "github:ceiphr/ee-framework-presets"; flake = false; };
-
-    # Remove when https://github.com/NixOS/nixpkgs/issues/297662 is merged
-    umu = {
-      url = "github:Open-Wine-Components/umu-launcher?dir=packaging/nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
   outputs = inputs@{ nixpkgs, home-manager, flake-utils, nixpkgs-unstable, ... }:
