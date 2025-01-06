@@ -113,6 +113,7 @@
 
   # programs.nix-ld.enable = true; # Run unpatched dynamic libraries
   programs.steam.enable = true;
+  programs.gamescope.enable = true;
   programs.dconf.enable = true; # Needed for GTK
   programs.light.enable = true;
   programs.gnupg.agent.enable = true; # GPG Daemon needed for pinentry
