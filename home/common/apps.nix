@@ -51,12 +51,18 @@ in
       };
     };
 
-  bash = let
-    bashHelpers = builtins.readFile "${inputs.dotfiles.outPath}/helpers.bash";
-    bashProfile = builtins.readFile "${inputs.dotfiles.outPath}/.bash_profile";
-  in {
+  bash = {
     enable = true;
-    initExtra = bashHelpers + "\n\n" + bashProfile; # Included for interactive shells
+    initExtra = ''
+      # Load machine-local settings
+      [[ -f ~/.bash_private ]] && source ~/.bash_private
+
+      # -- dotfiles/helpers.bash
+      ${builtins.readFile "${inputs.dotfiles.outPath}/helpers.bash"}
+
+      # -- dotfiles/.bash_profile
+      ${builtins.readFile "${inputs.dotfiles.outPath}/.bash_profile"}
+    '';
     shellAliases = {
       vincognito=''vim --noplugin -u NONE -U NONE -i NONE --cmd "set noswapfile" --cmd "set nobackup"'';
       ssh-unsafe=''ssh -o "UserKnownHostsFile /dev/null" -o StrictHostKeyChecking=no'';
