@@ -1,0 +1,73 @@
+{
+  "nodes": {
+    "cdda-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1736532689,
+        "narHash": "sha256-2TPDe2PtuNgaVyE31dZm1NhVhoTne+sKNU0ojBzY08w=",
+        "owner": "CleverRaven",
+        "repo": "Cataclysm-DDA",
+        "rev": "5f3e1f5c87c504bf5739290a6ab277ee418a0e00",
+        "type": "github"
+      },
+      "original": {
+        "owner": "CleverRaven",
+        "repo": "Cataclysm-DDA",
+        "type": "github"
+      }
+    },
+    "flake-utils": {
+      "inputs": {
+        "systems": "systems"
+      },
+      "locked": {
+        "lastModified": 1731533236,
+        "narHash": "sha256-l0KFg5HjrsfsO/JpG+r7fRrqm12kzFHyUHqHCVpMMbI=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "11707dc2f618dd54ca8739b309ec4fc024de578b",
+        "type": "github"
+      },
+      "original": {
+        "id": "flake-utils",
+        "type": "indirect"
+      }
+    },
+    "nixpkgs": {
+      "locked": {
+        "lastModified": 0,
+        "narHash": "sha256-df3dJApLPhd11AlueuoN0Q4fHo/hagP75LlM5K1sz9g=",
+        "path": "/nix/store/ly4s3hw35dd1c2vsd694y2715pc1d2c1-source",
+        "type": "path"
+      },
+      "original": {
+        "id": "nixpkgs",
+        "type": "indirect"
+      }
+    },
+    "root": {
+      "inputs": {
+        "cdda-src": "cdda-src",
+        "flake-utils": "flake-utils",
+        "nixpkgs": "nixpkgs"
+      }
+    },
+    "systems": {
+      "locked": {
+        "lastModified": 1681028828,
+        "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
+        "owner": "nix-systems",
+        "repo": "default",
+        "rev": "da67096a3b9bf56a91d16901293e51ba5b49a27e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-systems",
+        "repo": "default",
+        "type": "github"
+      }
+    }
+  },
+  "root": "root",
+  "version": 7
+}
