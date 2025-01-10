@@ -6,3 +6,4 @@
 /disk.nix
 *.gz
 *.key
+**/result
