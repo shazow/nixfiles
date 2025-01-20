@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
-# TODO: Look into wl-present https://man.archlinux.org/man/wl-present.1.en
+# Ever wanted to present a full screen with multiple windows, but have it just
+# be a virtual desktop? And then have a preview mirror window that acts like a
+# regular window? This is it.
 set -x
 
 swaymsg create_output
@@ -13,8 +15,9 @@ trap cleanup EXIT
 wl-mirror "$OUTPUT"
 
 # Notes:
+# TODO: Look into wl-present https://man.archlinux.org/man/wl-present.1.en
 #
-# Remove bar?
+# Remove bar? (Doesn't work for some reason?)
 # swaymsg "bar none output $OUTPUT"
 #
 # Change resolution? Defualts to 1080p
