@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+# TODO: Look into wl-present https://man.archlinux.org/man/wl-present.1.en
+set -x
+
+swaymsg create_output
+OUTPUT=$(swaymsg -r -t get_outputs | jq '.[].name' | grep HEADLESS | tr -d '"')
+
+function cleanup() {
+  swaymsg output "$OUTPUT" unplug
+}
+trap cleanup EXIT
+
+wl-mirror "$OUTPUT"
+
+# Notes:
+#
+# Remove bar?
+# swaymsg "bar none output $OUTPUT"
+#
+# Change resolution? Defualts to 1080p
+# swaymsg output "$OUTPUT" resolution 1280x720
+#
+# Serve on wayvnc?
+# wayvnc --output "$OUTPUT" 127.0.0.1 5900
