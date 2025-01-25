@@ -49,5 +49,5 @@
   #hardware.bluetooth.powerOnBoot = false;
 
   # https://nixos.org/manual/nixos/stable/options.html#opt-system.stateVersion
-  system.stateVersion = "24.05";
+  system.stateVersion = "24.11";
 }
