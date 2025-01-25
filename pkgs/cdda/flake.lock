@@ -1,21 +1,5 @@
 {
   "nodes": {
-    "cdda-src": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1736532689,
-        "narHash": "sha256-2TPDe2PtuNgaVyE31dZm1NhVhoTne+sKNU0ojBzY08w=",
-        "owner": "CleverRaven",
-        "repo": "Cataclysm-DDA",
-        "rev": "5f3e1f5c87c504bf5739290a6ab277ee418a0e00",
-        "type": "github"
-      },
-      "original": {
-        "owner": "CleverRaven",
-        "repo": "Cataclysm-DDA",
-        "type": "github"
-      }
-    },
     "flake-utils": {
       "inputs": {
         "systems": "systems"
@@ -35,19 +19,22 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 0,
-        "narHash": "sha256-df3dJApLPhd11AlueuoN0Q4fHo/hagP75LlM5K1sz9g=",
-        "path": "/nix/store/ly4s3hw35dd1c2vsd694y2715pc1d2c1-source",
-        "type": "path"
+        "lastModified": 1736755442,
+        "narHash": "sha256-a3MMEY7i/wdF0gb7WFNTn6onzaiMOvwj7OerRVenA8o=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "ef56e777fedaa4da8c66a150081523c5de1e0171",
+        "type": "github"
       },
       "original": {
-        "id": "nixpkgs",
-        "type": "indirect"
+        "owner": "NixOS",
+        "ref": "nixpkgs-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
       }
     },
     "root": {
       "inputs": {
-        "cdda-src": "cdda-src",
         "flake-utils": "flake-utils",
         "nixpkgs": "nixpkgs"
       }
