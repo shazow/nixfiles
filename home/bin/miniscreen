@@ -5,6 +5,7 @@
 set -x
 
 swaymsg create_output
+sleep 0.1 # FIXME: Is there a better way? Sometimes it doesn't show immediately
 OUTPUT=$(swaymsg -r -t get_outputs | jq '.[].name' | grep HEADLESS | tr -d '"')
 
 function cleanup() {
