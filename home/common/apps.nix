@@ -135,7 +135,7 @@ in
     rclone
     # obs-studio # Screen recording, streaming
     grim # Wayland screenshot backend?
-    (flameshot.overrideAttrs {enableWlrSupport = true;}) # Screenshots
+    (flameshot.override { enableWlrSupport = true; }) # Screenshots
     transmission_4-gtk # Torrents
     mullvad-vpn # Frontend
 
