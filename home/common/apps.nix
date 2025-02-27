@@ -51,24 +51,20 @@ in
       };
     };
 
-  bash = {
-    enable = true;
-    initExtra = ''
-      # Load machine-local settings
-      [[ -f ~/.bash_private ]] && source ~/.bash_private
+    bash = {
+      enable = true;
+      initExtra = ''
+        # Load machine-local settings
+        [[ -f ~/.bash_private ]] && source ~/.bash_private
 
-      # -- dotfiles/helpers.bash
-      ${builtins.readFile "${inputs.dotfiles.outPath}/helpers.bash"}
+        # -- dotfiles/helpers.bash
+        ${builtins.readFile "${inputs.dotfiles.outPath}/helpers.bash"}
 
-      # -- dotfiles/.bash_profile
-      ${builtins.readFile "${inputs.dotfiles.outPath}/.bash_profile"}
-    '';
-    shellAliases = {
-      vincognito=''vim --noplugin -u NONE -U NONE -i NONE --cmd "set noswapfile" --cmd "set nobackup"'';
-      ssh-unsafe=''ssh -o "UserKnownHostsFile /dev/null" -o StrictHostKeyChecking=no'';
+        # -- dotfiles/.bash_profile
+        ${builtins.readFile "${inputs.dotfiles.outPath}/.bash_profile"}
+      '';
     };
   };
-};
 
   services.gpg-agent = {
     # Run `gpg-connect-agent reloadagent /bye` after changing to reload config
