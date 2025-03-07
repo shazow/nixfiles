@@ -11,7 +11,7 @@
     copilot-lua.settings.panel.enabled = false; # Required for copilot-cmp
     copilot-cmp.enable = true;
     copilot-chat.enable = true;
-    avante.enable = true;
+    avante.enable = false;
     avante.settings = {
       provider = "claude";
     };

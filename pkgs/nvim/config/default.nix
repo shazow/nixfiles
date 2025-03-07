@@ -63,6 +63,7 @@
 
   plugins = {
     comment.enable = true;
+    csvview.enable = true;
     diffview.enable = true;
     gitsigns.enable = true;
     indent-blankline.enable = true;
