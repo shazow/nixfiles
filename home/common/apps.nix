@@ -1,4 +1,4 @@
-{ pkgs, inputs, ... }:
+{ pkgs, pkgs-unstable, inputs, ... }:
 let
   # Package up local script binaries
   packageScripts = dir: map (name: pkgs.substituteAll {
@@ -131,7 +131,7 @@ in
     rclone
     # obs-studio # Screen recording, streaming
     grim # Wayland screenshot backend?
-    (flameshot.override { enableWlrSupport = true; }) # Screenshots
+    (pkgs-unstable.flameshot.override { enableWlrSupport = true; }) # Screenshots
     transmission_4-gtk # Torrents
     mullvad-vpn # Frontend
 
