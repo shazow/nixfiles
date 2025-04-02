@@ -50,6 +50,8 @@ in
     size = 10.0;
   };
   output = {
+    # FIXME: This breaks flameshot?
+    # Need something like QT_SCREEN_SCALE_FACTORS = builtins.toString (1 / 1.5);
     "*" = { scale = "1.5"; };
   };
   input = {
