@@ -1,0 +1,19 @@
+#!/usr/bin/env sh
+# Open nvim in a split layout for developing with a daemon via `make run`
+nvim -c "
+  vsplit
+  edit .
+  wincmd h
+
+  if filereadable('Makefile')
+    split
+    terminal
+    wincmd k
+    terminal make run
+  else
+    terminal
+  endif
+
+  wincmd l
+  wincmd =
+"
