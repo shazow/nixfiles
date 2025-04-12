@@ -48,6 +48,7 @@ in
       };
       extraConfig = {
         push = { autoSetupRemote = true; };
+        init.defaultBranch = "main";
       };
     };
 
