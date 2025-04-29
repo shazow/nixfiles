@@ -6,16 +6,32 @@
 {
   plugins = {
     # Copilot
-    copilot-lua.enable = true;
-    copilot-lua.settings.suggestion.enabled = false; # Required for copilot-cmp
-    copilot-lua.settings.panel.enabled = false; # Required for copilot-cmp
-    copilot-lua.settings.copilot_model = "gpt-4o-copilot";  # Default is gpt-35-turbo, supports gpt-4o-copilot
-    copilot-cmp.enable = true;
-    copilot-chat.enable = true;
-    #copilot-chat.settings.model = "gpt4";
-    avante.enable = true;
-    avante.settings = {
-      provider = "claude";
+    copilot-lua = {
+      enable = true;
+      settings.suggestion.enabled = false; # Required for copilot-cmp
+      settings.panel.enabled = false; # Required for copilot-cmp
+      settings.copilot_model = "gpt-4o-copilot";  # Default is gpt-35-turbo, supports gpt-4o-copilot
+      # Load on insert or command
+      lazyLoad.settings.event = "InsertEnter";
+      lazyLoad.settings.cmd = [ "Copilot" "CopilotAuth" ];
+    };
+    copilot-cmp = {
+      enable = true;
+      # Load after copilot.lua and nvim-cmp
+      lazyLoad.settings.after = [ "copilot.lua" "nvim-cmp" ];
+    };
+    copilot-chat = {
+      enable = true;
+      #copilot-chat.settings.model = "gpt4";
+      lazyLoad.settings.cmd = "CopilotChat";
+      # Consider adding keymaps if you have specific ones for CopilotChat actions
+    };
+    avante = {
+      enable = true;
+      lazyLoad.settings.cmd = "Avante";
+      settings = {
+        provider = "claude";
+      };
     };
   };
 

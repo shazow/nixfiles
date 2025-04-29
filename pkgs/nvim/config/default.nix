@@ -34,6 +34,9 @@
   };
   luaLoader.enable = true;
 
+  # Enable the lazy loader
+  plugins.lz-n.enable = true;
+
   extraPackages = [ pkgs.statix ];
 
   # Helpers used elsewhere
@@ -62,32 +65,86 @@
   };
 
   plugins = {
-    comment.enable = true;
-    csvview.enable = true;
-    diffview.enable = true;
-    gitsigns.enable = true;
-    indent-blankline.enable = true;
-    vim-surround.enable = true;
-    toggleterm.enable = true; # Terminal floaties
-    nvim-bqf.enable = true; # Quickfix Window
-    neogen.enable = true;
-    neogen.keymaps.generate = "<leader>gen";
+    comment = {
+      enable = true;
+      # Loads Comment.nvim mappings
+      lazyLoad.settings.keys = [ "gc" "gcc" ];
+    };
+    csvview = {
+      enable = true;
+      lazyLoad.settings.ft = [ "csv" ];
+    };
+    diffview = {
+      enable = true;
+      # Unsupported: #lazyLoad.settings.cmd = [ "DiffviewOpen" "DiffviewClose" "DiffviewToggleFiles" "DiffviewFocusFiles" "DiffviewRefresh" ];
+    };
+    indent-blankline = {
+      enable = true;
+      lazyLoad.settings.event = "DeferredUIEnter"; # Load early for visual consistency
+    };
+    vim-surround = {
+      enable = true;
+    };
+    toggleterm = {
+      enable = true; # Terminal floaties
+      lazyLoad.settings.cmd = "ToggleTerm";
+    };
+    nvim-bqf = {
+      enable = true; # Quickfix Window
+      # Unsupported? #lazyLoad.settings.ft = "qf";
+    };
+    neogen = {
+      enable = true;
+      keymaps.generate = "<leader>gen";
+      # Unsupported? #lazyLoad.settings.keys = "<leader>gen";
+    };
     # neo-tree.enable = true;
-    oil.enable = true;
-    notify.enable = true;
-    undotree.enable = true;
-    dap.enable = true;
-    guess-indent.enable = true;
-    trouble.enable = true;
-    dressing.enable = true; # Improved ui widgets
-    web-devicons.enable = true;
+    oil = {
+      enable = true;
+      lazyLoad.settings.cmd = "Oil";
+    };
+    notify = {
+      enable = true;
+      lazyLoad.settings.event = "DeferredUIEnter"; # Core UI
+    };
+    undotree = {
+      enable = true;
+      # Unsupported? #lazyLoad.settings.cmd = "UndotreeToggle";
+    };
+    dap = {
+      enable = true;
+      lazyLoad.settings.cmd = [ "DapContinue" "DapStepOver" "DapStepInto" "DapStepOut" "DapTerminate" ]; # Common DAP commands
+    };
+    guess-indent = {
+      enable = true;
+      lazyLoad.settings.event = "BufReadPre";
+    };
+    trouble = {
+      enable = true;
+    };
+    dressing = {
+      enable = true; # Improved ui widgets
+      lazyLoad.settings.event = "DeferredUIEnter"; # UI Enhancement
+    };
+    web-devicons = {
+      enable = true;
+      lazyLoad.settings.event = "DeferredUIEnter"; # Used by many plugins
+    };
 
     # Zen mode
-    zen-mode.enable = true; # Replaced true-zen-nvim
-    twilight.enable = true; # Dim inactive portion, used with zenmode
+    zen-mode = {
+      enable = true; # Replaced true-zen-nvim
+      lazyLoad.settings.cmd = "ZenMode";
+    };
+    twilight = {
+      enable = true; # Dim inactive portion, used with zenmode
+      lazyLoad.settings.cmd = "Twilight";
+    };
 
     treesitter = {
       enable = true;
+      # Treesitter should load early as many things depend on it.
+      # #lazyLoad.settings.event = "DeferredUIEnter"; # Or BufReadPre? Let's keep it eager for now.
       settings = {
         ensure_installed = "all";
         highlight.enable = true;
@@ -108,11 +165,14 @@
 
     lualine = {
       enable = true;
+      # Status line should be visible early
+      lazyLoad.settings.event = "DeferredUIEnter";
       settings.sections.lualine_c = [ "filename" "lsp_progress" ];
     };
 
     none-ls = {
       enable = true;
+      lazyLoad.settings.event = [ "BufReadPost" "BufNewFile" ];
       sources = {
         code_actions.gitsigns.enable = true;
         code_actions.statix.enable = true;
@@ -120,48 +180,52 @@
       };
     };
 
-    cmp.enable = true;
-    cmp.autoEnableSources = true;
-    cmp.settings = {
-      # This supposed to be obsoleted by autoEnableSources, but seems borken?
-      sources = [
-        { name = "nvim_lsp"; }
-        { name = "nvim_lsp_document_symbol"; }
-        { name = "nvim_lsp_signature_help"; }
-        { name = "copilot"; }
-        { name = "nvim_lua"; }
-        { name = "calc"; }
-        { name = "path"; }
-        { name = "treesitter"; }
-        { name = "luasnip"; }
-        { name = "cmdline"; }
-      ];
-      mapping = {
-        "<CR>" = "cmp.mapping.confirm({ select = true })";
-        "<Tab>" = ''
-          vim.schedule_wrap(function(fallback)
-            if cmp.visible() and has_words_before() then
-              cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
-            elseif require("luasnip").expandable() then
-              require("luasnip").expand()
-            elseif require("luasnip").expand_or_jumpable() then
-              require("luasnip").expand_or_jump()
-            else
-              fallback()
-            end
-          end)
-        '';
-        "<C-Space>" = "cmp.mapping.complete()";
-        "<Up>" = "cmp.mapping.select_prev_item()";
-        "<Down>" = "cmp.mapping.select_next_item()";
-      };
-      experimental = {
-        ghost_text = true;
+    cmp = {
+      enable = true;
+      autoEnableSources = true;
+      settings = {
+          # This supposed to be obsoleted by autoEnableSources, but seems borken?
+        sources = [
+          { name = "nvim_lsp"; }
+          { name = "nvim_lsp_document_symbol"; }
+          { name = "nvim_lsp_signature_help"; }
+          { name = "copilot"; }
+          { name = "nvim_lua"; }
+          { name = "calc"; }
+          { name = "path"; }
+          { name = "treesitter"; }
+          { name = "luasnip"; }
+          { name = "cmdline"; }
+        ];
+        mapping = {
+          "<CR>" = "cmp.mapping.confirm({ select = true })";
+          "<Tab>" = ''
+            vim.schedule_wrap(function(fallback)
+              if cmp.visible() and has_words_before() then
+                cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
+              elseif require("luasnip").expandable() then
+                require("luasnip").expand()
+              elseif require("luasnip").expand_or_jumpable() then
+                require("luasnip").expand_or_jump()
+              else
+                fallback()
+              end
+            end)
+          '';
+          "<C-Space>" = "cmp.mapping.complete()";
+          "<Up>" = "cmp.mapping.select_prev_item()";
+          "<Down>" = "cmp.mapping.select_next_item()";
+        };
+        experimental = {
+          ghost_text = true;
+        };
       };
     };
 
     luasnip = {
       enable = true;
+      # Load when cmp loads or on InsertEnter
+      lazyLoad.settings.event = "DeferredUIEnter";
       settings.enable_autosnippets = true;
       settings.fromLua = [ { paths = ../snippets; } ];
     };
@@ -180,6 +244,10 @@
     telescope = {
       enable = true;
       extensions.fzf-native.enable = true;
+      # Load on keymaps defined below
+      lazyLoad.settings.keys = [ "<c-p>" "<c-d>" "<c-s>" "<c-a>" ];
+      # Also load on command
+      lazyLoad.settings.cmd = "Telescope";
       keymaps = {
         "<c-p>" = { action = "git_files"; options.desc = "Telescope Git Files"; };
         "<c-d>" = { action = "find_files"; options.desc = "Telescope Find Files"; };
@@ -191,6 +259,7 @@
     # Which-key
     which-key = {
       enable = true;
+      lazyLoad.settings.event = "DeferredUIEnter"; # Load early to show keybindings
       settings.keys.scroll_down = "<down>";
       settings.keys.scroll_up = "<up>";
       settings.plugins.presets = {
@@ -232,4 +301,3 @@
     #rust-vim
   ];
 }
-
