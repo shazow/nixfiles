@@ -295,7 +295,7 @@
       },
       "locked": {
         "lastModified": 1,
-        "narHash": "sha256-SPF+guwatotjx8ZDl+hK2PjzNASdLraOeXt86VI9Qss=",
+        "narHash": "sha256-SJ+PxWqm2nvqN+5N7x93FngqqNzX6cDirkTZ0tzNTMw=",
         "path": "./pkgs/nvim",
         "type": "path"
       },
