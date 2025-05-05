@@ -28,7 +28,7 @@
     };
     avante = {
       enable = true;
-      lazyLoad.settings.cmd = "Avante";
+      lazyLoad.settings.event = "DeferredUIEnter";
       settings = {
         provider = "claude";
       };
