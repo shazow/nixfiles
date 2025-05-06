@@ -64,6 +64,10 @@
         action.__raw = ''function() require('snacks').zen() end'';
         options.desc = "Zen Mode";
       }
+      { key = "<leader>re";
+        action.__raw = ''function() require('snacks').rename.rename_file() end'';
+        options.desc = "Rename file";
+      }
     ];
   };
 }
