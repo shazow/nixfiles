@@ -1,0 +1,45 @@
+# Snacks is a generalized plugin that replaces a bunch of plugins
+# This module maintains toggles for these features.
+# https://github.com/folke/snacks.nvim
+{
+  config = {
+    plugins.snacks = {
+      enable = true;
+      settings = {
+        input.enabled = true;
+        notifier.enabled = true;
+        picker.enabled = true;
+      };
+    };
+    keymaps = [
+      { key = "<C-P>";
+        action.__raw = ''function() require('snacks').picker.smart() end'';
+        options.desc = "Smart file picker";
+      }
+      { key = "<C-p>";
+        action.__raw = ''function() require('snacks').picker.git_files() end'';
+        options.desc = "Search in git repo";
+      }
+      { key = "<C-d>";
+        action.__raw = ''function() require('snacks').picker.files() end'';
+        options.desc = "Search files";
+      }
+      { key = "<C-s>";
+        action.__raw = ''function() require('snacks').picker.grep() end'';
+        options.desc = "Search contents";
+      }
+      { key = "<C-b>";
+        action.__raw = ''function() require('snacks').picker.buffers() end'';
+        options.desc = "Search buffers";
+      }
+      { key = "<C-n>";
+        action.__raw = ''function() require('snacks').picker.notifications() end'';
+        options.desc = "Search notifications";
+      }
+      { key = "<C-c>";
+        action.__raw = ''function() require('snacks').picker.commands() end'';
+        options.desc = "Search commands";
+      }
+    ];
+  };
+}

@@ -10,6 +10,8 @@
 
     # AI assistant stuff
     ./ai.nix
+
+    ./snacks.nix
   ];
 
   performance = {
@@ -103,10 +105,6 @@
       enable = true;
       lazyLoad.settings.cmd = "Oil";
     };
-    notify = {
-      enable = true;
-      lazyLoad.settings.event = "DeferredUIEnter"; # Core UI
-    };
     undotree = {
       enable = true;
       # Unsupported? #lazyLoad.settings.cmd = "UndotreeToggle";
@@ -121,10 +119,6 @@
     };
     trouble = {
       enable = true;
-    };
-    dressing = {
-      enable = true; # Improved ui widgets
-      lazyLoad.settings.event = "DeferredUIEnter"; # UI Enhancement
     };
     web-devicons = {
       enable = true;
@@ -239,22 +233,6 @@
     cmp-nvim-lsp-signature-help.enable = true;
     cmp-path.enable = true;
     cmp-dap.enable = true;
-
-    # Telescope:
-    telescope = {
-      enable = true;
-      extensions.fzf-native.enable = true;
-      # Load on keymaps defined below
-      lazyLoad.settings.keys = [ "<c-p>" "<c-d>" "<c-s>" "<c-a>" ];
-      # Also load on command
-      lazyLoad.settings.cmd = "Telescope";
-      keymaps = {
-        "<c-p>" = { action = "git_files"; options.desc = "Telescope Git Files"; };
-        "<c-d>" = { action = "find_files"; options.desc = "Telescope Find Files"; };
-        "<c-s>" = { action = "live_grep"; options.desc = "Telescope Live Grep"; };
-        "<c-a>" = { action = "buffers"; options.desc = "Telescope Buffers"; };
-      };
-    };
 
     # Which-key
     which-key = {
