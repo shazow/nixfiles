@@ -66,7 +66,12 @@
       }
       { key = "<leader>z";
         action.__raw = ''function() require('snacks').zen() end'';
-        options.desc = "Zen Mode";
+        options.desc = "Zen mode";
+      }
+      { key = "<C-`>";
+        action.__raw = ''function() require('snacks').terminal() end'';
+        options.desc = "Toggle terminal";
+        mode = ["n" "v" "t" "i"];
       }
     ];
   };
