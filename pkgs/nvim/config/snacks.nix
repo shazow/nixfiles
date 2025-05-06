@@ -6,6 +6,8 @@
     plugins.snacks = {
       enable = true;
       settings = {
+        explorer.enabled = true;
+        indent.enabled = true;
         input.enabled = true;
         notifier.enabled = true;
         picker.enabled = true;
@@ -15,6 +17,14 @@
       "Snacks" = {
         command.__raw = ''function() require('snacks').picker.pickers() end'';
         desc = "Snack pickers picker";
+      };
+      "GitBrowse" = {
+        command.__raw = ''function() require('snacks').gitbrowse() end'';
+        desc = "Open git repo in browser";
+      };
+      "Terminal" = {
+        command.__raw = ''function() require('snacks').terminal() end'';
+        desc = "Open Terminal";
       };
     };
     keymaps = [

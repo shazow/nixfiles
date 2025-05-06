@@ -81,20 +81,8 @@
       enable = true;
       # Unsupported: #lazyLoad.settings.cmd = [ "DiffviewOpen" "DiffviewClose" "DiffviewToggleFiles" "DiffviewFocusFiles" "DiffviewRefresh" ];
     };
-    indent-blankline = {
-      enable = true;
-      lazyLoad.settings.event = "DeferredUIEnter"; # Load early for visual consistency
-    };
     vim-surround = {
       enable = true;
-    };
-    toggleterm = {
-      enable = true; # Terminal floaties
-      lazyLoad.settings.cmd = "ToggleTerm";
-    };
-    nvim-bqf = {
-      enable = true; # Quickfix Window
-      # Unsupported? #lazyLoad.settings.ft = "qf";
     };
     neogen = {
       enable = true;
@@ -105,10 +93,6 @@
     oil = {
       enable = true;
       lazyLoad.settings.cmd = "Oil";
-    };
-    notify = {
-      enable = true;
-      lazyLoad.settings.event = "DeferredUIEnter"; # Core UI
     };
     dap = {
       enable = true;
