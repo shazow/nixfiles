@@ -11,8 +11,14 @@
         picker.enabled = true;
       };
     };
+    userCommands = {
+      "Snacks" = {
+        command.__raw = ''function() require('snacks').picker.pickers() end'';
+        desc = "Snack pickers picker";
+      };
+    };
     keymaps = [
-      { key = "<C-P>";
+      { key = "<C-space>";
         action.__raw = ''function() require('snacks').picker.smart() end'';
         options.desc = "Smart file picker";
       }
@@ -38,7 +44,15 @@
       }
       { key = "<C-c>";
         action.__raw = ''function() require('snacks').picker.commands() end'';
-        options.desc = "Search commands";
+        options.desc = "Search commands and pickers";
+      }
+      { key = "<leader>u";
+        action.__raw = ''function() require('snacks').picker.undo() end'';
+        options.desc = "Undo";
+      }
+      { key = "<leader>z";
+        action.__raw = ''function() require('snacks').zen() end'';
+        options.desc = "Zen Mode";
       }
     ];
   };

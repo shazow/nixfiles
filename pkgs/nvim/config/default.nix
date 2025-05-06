@@ -11,6 +11,7 @@
     # AI assistant stuff
     ./ai.nix
 
+    # A lot of QoL stuff implemented using snacks
     ./snacks.nix
   ];
 
@@ -105,9 +106,9 @@
       enable = true;
       lazyLoad.settings.cmd = "Oil";
     };
-    undotree = {
+    notify = {
       enable = true;
-      # Unsupported? #lazyLoad.settings.cmd = "UndotreeToggle";
+      lazyLoad.settings.event = "DeferredUIEnter"; # Core UI
     };
     dap = {
       enable = true;
@@ -123,16 +124,6 @@
     web-devicons = {
       enable = true;
       lazyLoad.settings.event = "DeferredUIEnter"; # Used by many plugins
-    };
-
-    # Zen mode
-    zen-mode = {
-      enable = true; # Replaced true-zen-nvim
-      lazyLoad.settings.cmd = "ZenMode";
-    };
-    twilight = {
-      enable = true; # Dim inactive portion, used with zenmode
-      lazyLoad.settings.cmd = "Twilight";
     };
 
     treesitter = {
