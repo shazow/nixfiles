@@ -26,6 +26,10 @@
         command.__raw = ''function() require('snacks').terminal() end'';
         desc = "Open Terminal";
       };
+      "Rename" = {
+        command.__raw = ''function() require('snacks').rename.rename_file() end'';
+        desc = "Rename file";
+      };
     };
     keymaps = [
       { key = "<C-space>";
@@ -63,10 +67,6 @@
       { key = "<leader>z";
         action.__raw = ''function() require('snacks').zen() end'';
         options.desc = "Zen Mode";
-      }
-      { key = "<leader>re";
-        action.__raw = ''function() require('snacks').rename.rename_file() end'';
-        options.desc = "Rename file";
       }
     ];
   };

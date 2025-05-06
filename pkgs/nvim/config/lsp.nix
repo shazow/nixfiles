@@ -13,7 +13,7 @@
           "gi" = "implementation";
           "gt" = "type_definition";
           "<leader>ca" = "code_action";
-          # "<leader>re" = "rename"; # Done by snacks now
+          "<leader>re" = "rename";
           "<leader>f" = "format";
         };
       };
