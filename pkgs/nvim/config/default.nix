@@ -67,6 +67,19 @@
     };
   };
 
+  autoCmd = [
+    # via https://www.reddit.com/r/neovim/comments/1kq8jxb/just_wanted_to_share_this_little_config_snippet_i/
+    {
+      desc = "Show errors and warnings in a floating window";
+      event = "CursorHold";
+      callback = {
+        __raw = ''
+          function() vim.diagnostic.open_float(nil, { focusable = false, source = "if_many" }) end
+        '';
+      };
+    }
+  ];
+
   plugins = {
     comment = {
       enable = true;
@@ -229,6 +242,7 @@
 
   keymaps = [
     { key = "<leader>t"; action = "<cmd>Trouble<cr>"; options.desc = "Open Trouble Diagnostics"; }
+    { key = "<leader><enter>"; action = "<cmd>Trouble diagnostics<cr>"; options.desc = "Open Diagnostics"; }
   ];
 
   extraPlugins = with pkgs.vimPlugins; [
