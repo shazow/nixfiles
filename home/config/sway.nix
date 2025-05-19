@@ -87,6 +87,7 @@ in
     "Shift+Mod4+p" = "exec rofi-screenlayout _default"; # Reset screen
 
     "${mod}+b" = "exec wl-paste | rofi -dmenu | xargs bookmark | xargs -I '{}' xdg-open obsidian://open/?path={}";
+    "${mod}+n" = "exec note"; # Open latest note
 
     # Splits
     "${mod}+h" = "splith";
