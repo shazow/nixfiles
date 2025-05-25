@@ -3,6 +3,7 @@
   plugins = {
     lsp = {
       enable = true;
+      inlayHints = true;
       keymaps = {
         lspBuf = {
           "K" = "hover";
@@ -18,7 +19,10 @@
         };
       };
       servers = {
-        nil_ls.enable = true;
+        ts_ls.enable = true;
+        nil_ls = {
+          enable = true;
+        };
         lua_ls = {
           enable = true;
           settings = {
@@ -26,27 +30,13 @@
             runtime.version = "Lua 5.1";
           };
         };
-        ts_ls.enable = true;
       };
-      onAttach = # lua
-        ''
-          vim.api.nvim_command("augroup LSP")
-          vim.api.nvim_command("autocmd!")
-          if client.server_capabilities.documentHighlightProvider then
-            vim.api.nvim_command("autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()")
-            vim.api.nvim_command("autocmd CursorHoldI <buffer> lua vim.lsp.buf.document_highlight()")
-            vim.api.nvim_command("autocmd CursorMoved <buffer> lua vim.lsp.util.buf_clear_references()")
-          end
-          vim.api.nvim_command("augroup END")
-        '';
     };
-  };
 
-  files."ftplugin/lua.lua" = {
-    extraPlugins = [ pkgs.vimPlugins.lazydev-nvim ];
-    extraConfigLua = ''
-      require('lazydev').setup({})
-    '';
+    # Handles lua-related settings (not sure if this is necessary?)
+    lazydev = {
+      enable = true;
+    };
   };
 
   extraPlugins = with pkgs.vimPlugins; [
@@ -67,6 +57,12 @@
         "tailwindcss",
         "rnix", -- deprecated
 
+        -- Managed by nixvim
+        -- TODO: Autogenerate these from above?
+        "lua_ls",
+        "nil_ls",
+        "ts_ls",
+  
         -- Curated set from https://github.com/dundalek/lazy-lsp.nvim/blob/master/servers.md#curated-servers
         "ccls",                            -- prefer clangd
         "denols",                          -- prefer eslint and ts_ls
