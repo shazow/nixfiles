@@ -4,7 +4,7 @@ vim.opt.termguicolors = true
 vim.opt.background = "dark"
 
 vim.opt.mouse = "nicr" -- Enable mouse in terminals
-vim.opt.ruler = true -- Position at the bottom of the screen
+vim.opt.ruler = true   -- Position at the bottom of the screen
 vim.opt.joinspaces = false
 vim.opt.hidden = true
 vim.opt.previewheight = 5
