@@ -33,6 +33,22 @@
       };
     };
 
+    # Borrowed from dwf, unsure if it sparks joy yet
+    none-ls = {
+      enable = true;
+      sources = {
+        code_actions = {
+          gitsigns.enable = true;
+          statix.enable = true;
+        };
+        diagnostics = {
+          checkmake.enable = true;
+          deadnix.enable = true;
+          statix.enable = true;
+        };
+      };
+    };
+
     # Handles lua-related settings (not sure if this is necessary?)
     lazydev = {
       enable = true;
