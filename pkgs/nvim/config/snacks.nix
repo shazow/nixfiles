@@ -41,11 +41,11 @@
         options.desc = "Search in git repo";
       }
       { key = "<C-d>";
-        action.__raw = ''function() require('snacks').picker.files() end'';
+        action.__raw = ''function() require('snacks').picker.git_files() end'';
         options.desc = "Search files";
       }
       { key = "<C-s>";
-        action.__raw = ''function() require('snacks').picker.grep() end'';
+        action.__raw = ''function() require('snacks').picker.git_grep() end'';
         options.desc = "Search contents";
       }
       { key = "<C-b>";
