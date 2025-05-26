@@ -13,6 +13,9 @@
 
     # A lot of QoL stuff implemented using snacks
     ./snacks.nix
+
+    # My nvim plugins
+    ./mine.nix
   ];
 
   performance = {
@@ -257,14 +260,5 @@
     nvim-luapad
 
     markdown-preview-nvim
-
-    # Languages
-    # TODO: "iden3/vim-circom-syntax" -- Circom
-
-    # vim-go # FIXME: Disabled until it removes dependency on archived gocode package
-    #vim-nix
-    #vim-vue
-    #vim-solidity
-    #rust-vim
   ];
 }
