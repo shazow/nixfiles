@@ -9,12 +9,20 @@ flows have been abstracted and reversed to allow for the
 stateless/reproduceability requirements of flakes.
 
 In order to maintain some sensitive data outside the repo, the NixOS flake
-is designed to be called into by another minimal flake. For convenience, there
+is designed to be called into by another outer flake. For convenience, there
 is a template for this flake in this repo:
 
 ```console
 $ nix flake init -t $NIXFILES_PATH/templates#nixos-device
 ```
+
+Flow overview:
+
+- Hosts are defined in `hosts/*`
+- The flake provides `mkSystemConfigurations with arguments
+- An outer flake is generated from `templates/nixos-device` that calls `mkSystemConfigurations` with additional private details, such as filesystem layout, FDE settings, additional secrets.
+
+I like to have a clone of this `nixfiles` repo in `~root/nixfiles` which pulls from userland, and `~root/nixos` which is an instantiation of the nixos-device template.
 
 
 ## Installing: Old Pre-flake Edition
