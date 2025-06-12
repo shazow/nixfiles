@@ -1,0 +1,2 @@
+run:
+	nix run .
