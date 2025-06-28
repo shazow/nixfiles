@@ -20,6 +20,7 @@
   imports = [
     ../../common/desktop-wayland.nix
     ../../common/crypto.nix
+    ../../common/network-bridge.nix
     # ../../common/tracy.nix
     (import ../../common/boot.nix {
         inherit disk;
@@ -52,10 +53,6 @@
   services.fwupd.enable = true;
   services.blueman.enable = true;
   hardware.bluetooth.enable = true;
-
-  # Valheim
-  networking.firewall.allowedTCPPortRanges = [ { from = 2456; to = 2458; } ];
-  networking.firewall.allowedUDPPortRanges = [ { from = 2456; to = 2458; } ];
 
   services.openssh = {
     enable = true;
