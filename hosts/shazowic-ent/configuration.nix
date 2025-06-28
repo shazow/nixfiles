@@ -20,7 +20,6 @@
   imports = [
     ../../common/desktop-wayland.nix
     ../../common/crypto.nix
-    ../../common/network-bridge.nix
     # ../../common/tracy.nix
     (import ../../common/boot.nix {
         inherit disk;
