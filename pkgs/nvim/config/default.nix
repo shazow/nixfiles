@@ -162,6 +162,7 @@
       move.enable = true;
       select.enable = true;
     };
+    treesj.enable = true;
 
     lualine = {
       enable = true;
