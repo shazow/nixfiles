@@ -86,7 +86,7 @@ in
     google-chrome
     signal-desktop
     i3status-rust
-    captive-browser
+    # captive-browser # Doesn't work anymore? Remove?
 
     # PDF, image mainpulation
     ghostscript
@@ -130,6 +130,7 @@ in
     go
 
     rclone
+    gocryptfs # Encrypted volumes
     # obs-studio # Screen recording, streaming
     grim # Wayland screenshot backend?
     (pkgs-unstable.flameshot.override { enableWlrSupport = true; }) # Screenshots

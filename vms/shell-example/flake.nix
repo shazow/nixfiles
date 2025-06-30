@@ -30,8 +30,8 @@
                   # macvtap is more efficient than a plain tap bridge (which inspects every packet at the kernel level)
                   type = "macvtap";
                   macvtap = {
-                    mode = "bridge"; # or "private" if we don't want VMs to talk to each other
-                    link = "eno1";
+                    mode = "vepa"; # "bridge" for ethernet, "vepa" for wifi, or "private" if we don't want VMs to talk to each other
+                    link = "microvm1@wlan0";
                     ## Need to make a user-owned macvtap device first
                     ## https://astro.github.io/microvm.nix/interfaces.html?highlight=macvtap#type--macvtap
                     ## TODO: Make this declarative somehow?
@@ -58,13 +58,13 @@
                 '';
               };
 
-              networking.useNetworkd = true;
+              networking = {
+                useDHCP = true;
+              };
+
               systemd.network.enable = true;
               systemd.network.networks."20-lan" = {
                 matchConfig.Type = "ether";
-                networkConfig = {
-                  DHCP = "yes";
-                };
               };
 
             }
