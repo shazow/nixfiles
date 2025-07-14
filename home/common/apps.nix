@@ -145,6 +145,7 @@ in
 
     # TODO: Move these to system config?
     bat
+    blueberry # gtk bluetooth frontend
     mdcat
     ddcutil
     file
@@ -152,7 +153,7 @@ in
     gotop
     glib # for gsettings
     gsettings-desktop-schemas
-    # Not in stable yet: impala # wifi tui, like nmtui
+    impala # wifi tui, like nmtui
     jq
     ncdu_2 # disk space analyzer
     powerstat
