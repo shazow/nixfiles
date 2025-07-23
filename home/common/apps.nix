@@ -1,14 +1,17 @@
 { pkgs, pkgs-unstable, inputs, ... }:
 let
   # Package up local script binaries
-  packageScripts = dir: map (name: pkgs.substituteAll {
-      src = "${dir}/${name}";
-      dir = "bin";
-      isExecutable = true;
-    }) (builtins.attrNames (builtins.readDir dir));
+  bundleScripts = name: src: pkgs.stdenv.mkDerivation {
+    inherit name src;
 
-  localScripts = packageScripts ../bin;
-  dotfileScripts = packageScripts "${inputs.dotfiles.outPath}/local/bin";
+    installPhase = ''
+      mkdir -p $out/bin
+      cp -r $src/* $out/bin/
+    '';
+  };
+
+  localScripts = bundleScripts "localScripts" ../bin;
+  dotfileScripts = bundleScripts "dotfileScripts" "${inputs.dotfiles.outPath}/local/bin";
 in
 {
   nixpkgs.config.allowUnfree = true;
@@ -76,7 +79,10 @@ in
 
   home.file.".tmux.conf".source = ../config/tmux.conf;
 
-  home.packages = (with pkgs; [
+  home.packages = [
+    localScripts
+    dotfileScripts
+  ] ++ (with pkgs; [
     # Some extrapkgs are duplicated from system packages for more frequent
     # updates in userland
     nvim
@@ -165,5 +171,5 @@ in
     xorg.xev
     xorg.xkill
     whois
-  ]) ++ localScripts ++ dotfileScripts; 
+  ]);
 }
