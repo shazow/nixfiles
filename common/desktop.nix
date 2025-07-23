@@ -65,11 +65,15 @@
   fonts.packages = with pkgs; [
     noto-fonts
     dejavu_fonts
-    nerdfonts # Includes font-awesome, material-icons, powerline-fonts
     emojione
 
     corefonts # Needed for kerbal space program mods?
     vistafonts
+
+    # Not sure which of these we need, used to just get all of nerdfonts
+    nerd-fonts.droid-sans-mono
+    font-awesome
+    powerline-fonts
   ];
   fonts.enableDefaultPackages = true;
 
