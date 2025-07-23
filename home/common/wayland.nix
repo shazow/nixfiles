@@ -108,7 +108,7 @@ in
   # home-manager's sway module.
 
   services.mako.enable = true;
-  services.mako.defaultTimeout = 3000;
+  services.mako.settings.default-timeout = 3000;
   services.cliphist.enable = true;
   services.network-manager-applet.enable = true;
 

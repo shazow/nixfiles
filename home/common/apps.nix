@@ -92,7 +92,7 @@ in
     ghostscript
     gimp
     qpdf
-    xournal
+    #xournalpp
     zathura
     #skanlite
     #simple-scan
