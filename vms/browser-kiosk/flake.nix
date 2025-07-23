@@ -34,10 +34,16 @@
               ];
 
               hypervisor = "qemu";
-              socket = "control.socket";
               qemu.extraArgs = [
                 # Handle fractal scaling on Wayland
                 "-display" "sdl,gl=on"
+              ];
+              interfaces = [
+                {
+                  type = "user";
+                  id = "microvm1";
+                  mac = "02:02:00:00:00:01";
+                }
               ];
             };
           }
@@ -58,8 +64,6 @@
             }
           )
         ];
-        # TODO: Add networking via bridge
-        # https://astro.github.io/microvm.nix/simple-network.html
       };
     };
   };
