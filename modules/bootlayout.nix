@@ -102,7 +102,6 @@ in {
 
     fileSystems = {
       "/boot/efi" = {
-        label = "uefi";
         device = cfg.efiDevice;
         fsType = "vfat";
         options = [ "discard" ];

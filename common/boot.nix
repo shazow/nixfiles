@@ -70,7 +70,6 @@ in
     };
 
     "/boot/efi" = {
-      label = "uefi";
       device = disk.efi.device;
       fsType = "vfat";
       options = [ "discard" ];
