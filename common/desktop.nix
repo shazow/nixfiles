@@ -124,12 +124,19 @@
   programs.adb.enable = true; # Android dev
   services.geoclue2.enable = true;
   services.fwupd.enable = true;
-  services.avahi.enable = true;
-  services.avahi.nssmdns4 = true;
-  services.avahi.openFirewall = true;
   services.fstrim.enable = true; # for SSDs
   services.printing.enable = true;
   services.printing.drivers = [ pkgs.brlaser ];
+
+  services.avahi = {
+    enable = true;
+    nssmdns4 = true;
+    openFirewall = true;
+    publish = {
+      enable = true;
+      addresses = true;
+    };
+  };
 
   systemd.services.NetworkManager-wait-online.enable = false; # FIXME: Workaround for systemd/dbus related issue? https://github.com/NixOS/nixpkgs/issues/180175
   # services.localtimed.enable = true; # Broken: https://github.com/NixOS/nixpkgs/issues/177792

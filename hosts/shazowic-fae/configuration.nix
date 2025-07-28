@@ -42,7 +42,7 @@
   networking.hostName = "shazowic-fae";
   networking.firewall.allowedTCPPorts = [
     8010 # VLC Chromecast
-    2022 # SSH Chat debugging
+    7000 # VLC Airplay
   ];
 
   # Boot with bluetooth powered off?

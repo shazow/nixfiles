@@ -171,5 +171,11 @@ in
     xorg.xev
     xorg.xkill
     whois
+
+    # Fonts
+    dejavu_fonts
+    font-awesome_4
+    material-icons
+    powerline-fonts
   ]);
 }
