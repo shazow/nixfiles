@@ -37,6 +37,12 @@ in
         undo = "reset --soft HEAD^";
         last = "log -1 HEAD";
         serve = "daemon --reuseaddr --base-path=. --export-all --verbose --enable=receive-pack --listen=0.0.0.0";
+        remote-add-me = ''
+          !remote-add() {
+            git remote add shazow "git@github.com:shazow/$1";
+          };
+          remote-add $(basename $(git remote get-url origin))
+        '';
 
         diff2 = "diff --color-words --ignore-all-space --patience";
         log2 = "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative";
