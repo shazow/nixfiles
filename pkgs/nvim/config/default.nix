@@ -81,6 +81,21 @@
         '';
       };
     }
+    {
+      desc = "Run make in the nearest Makefile directory on save.";
+      event = "BufWritePost";
+      pattern = "*.scss";
+      callback = {
+        __raw = ''
+          function()
+            local makefile = vim.fn.findfile("Makefile", ".;")
+            if makefile ~= "" and makefile ~= nil then
+              vim.cmd("silent NeomakeSh make -C " .. vim.fn.fnamemodify(makefile, ":p:h"))
+            end
+          end
+        '';
+      };
+    }
   ];
 
   plugins = {
