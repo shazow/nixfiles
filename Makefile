@@ -40,6 +40,8 @@ wireguard: /etc/nixos/.wireguard.key
 sup: # What's new?
 	nix-shell -p nvd --run 'nvd diff $$(ls -dv /nix/var/nix/profiles/system-*-link | tail -2)'
 
+graph:
+	nix eval --json ".#nixosConfigurations.${HOST}.graph" | nix run --inputs-from .  "nixpkgs#fx"
 
 ## Setup
 # Note: This is for old pre-flake stuff
