@@ -10,7 +10,7 @@
 }:
 let
   mod = "Mod4";
-  term = "alacritty";
+  term = "wezterm";
 
   # Niri port of xcwd using niri msg to get focused window info
   windowcwd = pkgs.writeScript "windowcwd" ''
@@ -93,8 +93,9 @@ let
     }
     
     // Spawn startup commands
-    spawn-at-startup "${pkgs.swaybg}/bin/swaybg" "--color" "#000000"
+    spawn-at-startup "${pkgs.swaybg}/bin/swaybg" "--color" "#002b36"  // Solarized dark background
     spawn-at-startup "${darkmode}"
+    spawn-at-startup "waybar"
     
     // Cursor configuration
     cursor {
@@ -112,8 +113,8 @@ let
         "Mod+Shift+Q" { close-window; }
         
         // Application launcher
-        "Mod+Space" { spawn "rofi" "-show" "run" "-p" "$ "; }
-        "Mod+Shift+Tab" { spawn "rofi" "-show" "window" "-p" "[window] "; }
+        "Mod+Space" { spawn "fuzzel"; }
+        "Mod+Shift+Tab" { spawn "fuzzel-windows"; }
         
         // Lock screen
         "Mod+L" { spawn "${lockcmd}"; }
@@ -128,14 +129,14 @@ let
         "Alt+Shift+4" { spawn "flameshot" "gui"; }
         
         // Clipboard
-        "Mod+Shift+V" { spawn "sh" "-c" "cliphist list | rofi -dmenu | cliphist decode | wl-copy"; }
-        "Mod+Shift+D" { spawn "sh" "-c" "cliphist list | dmenu | cliphist delete && notify-send 'Deleted clipboard item'"; }
+        "Mod+Shift+V" { spawn "fuzzel-clipboard"; }
+        "Mod+Shift+D" { spawn "sh" "-c" "cliphist list | fuzzel --dmenu --prompt='delete: ' | cliphist delete && notify-send 'Deleted clipboard item'"; }
         
         // Emoji
-        "Mod+Alt+Space" { spawn "rofi" "-show" "emoji" "-modi" "emoji"; }
+        "Mod+Alt+Space" { spawn "fuzzel-emoji"; }
         
         // Bookmarks and notes
-        "Mod+B" { spawn "sh" "-c" "wl-paste | rofi -dmenu | xargs bookmark | xargs -I '{}' xdg-open obsidian://open/?path={}"; }
+        "Mod+B" { spawn "fuzzel-bookmark"; }
         "Mod+N" { spawn "note"; }
         
         // Push-to-talk (note: release events may need special handling)
@@ -158,6 +159,7 @@ let
         "Mod+XF86MonBrightnessDown" { spawn "brightness" "down" "5"; }
         
         // Display switching (Framework laptop quirk)
+        // Note: rofi-screenlayout may need to be adapted for fuzzel or kept as-is
         "XF86Display" { spawn "rofi-screenlayout"; }
         "Mod+P" { spawn "rofi-screenlayout"; }
         "Shift+XF86Display" { spawn "rofi-screenlayout" "_default"; }
@@ -273,16 +275,19 @@ in
     QT_SCALE_FACTOR = "1.5";
   };
   
-  # Wayland-related packages that work well with niri
+  # Desktop 2025 Edition packages for niri
   # Note: niri is available in stable nixpkgs
   home.packages = with pkgs; [
-    # Core Wayland tools (same as used in sway config)
+    # Core Wayland tools
     swaybg          # Background
     swaylock        # Screen locking
     wl-clipboard    # Clipboard utilities
     
-    # Application launcher and menus
-    rofi-wayland    # Application launcher
+    # Desktop 2025 Edition core applications
+    niri            # Scrollable-tiling Wayland compositor
+    waybar          # Status bar (replaces i3status-rust)
+    wezterm         # Terminal (replaces alacritty)
+    fuzzel          # Launcher (replaces rofi)
     
     # Screenshot tools  
     flameshot       # Screenshots
@@ -290,6 +295,7 @@ in
     # Audio control
     pamixer         # Audio mixer
     pipewire        # Audio system
+    pavucontrol     # Audio control GUI
     
     # Brightness control
     # brightness    # Custom script, needs to be available
@@ -303,7 +309,15 @@ in
     # Notifications
     libnotify       # notify-send
     
-    # Status bar (if not using niri's built-in status)
-    i3status-rust   # Same status bar as sway config
+    # Utilities for fuzzel scripts
+    jq              # JSON parsing (for windowcwd and other scripts)
+    xargs           # For bookmark and other pipeline scripts
+    
+    # Theming support
+    gnome.adwaita-icon-theme  # Icons
+    gnome.gnome-themes-extra  # GTK themes
+    
+    # Compatibility - keep rofi-screenlayout until replaced
+    rofi-wayland    # For rofi-screenlayout compatibility
   ];
 }

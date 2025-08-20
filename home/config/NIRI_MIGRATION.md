@@ -129,3 +129,97 @@ The Niri configuration is highly customizable. Check the [Niri documentation](ht
 - Theming options
 
 Remember that Niri is a different paradigm from traditional tiling window managers. Give yourself time to adapt to the scrollable column workflow!
+
+
+## Desktop 2025 Edition
+
+The Desktop 2025 Edition is a complete modernization of the desktop setup that goes beyond just migrating from Sway to Niri. It includes:
+
+### Component Migrations
+
+| Component | Old (Sway Era) | New (Desktop 2025) | Status |
+|-----------|----------------|--------------------|---------|
+| **Compositor** | Sway | Niri | ✅ Complete |
+| **Status Bar** | i3status-rust | Waybar | ✅ Complete |
+| **Terminal** | Alacritty | Wezterm | ✅ Complete |
+| **Launcher** | Rofi | Fuzzel | ✅ Complete |
+| **Theming** | Manual GTK | Stylix + GTK | 🚧 Partial |
+| **Notifications** | - | Dunst | ✅ Complete |
+
+### How to Use Desktop 2025 Edition
+
+#### Option 1: Full Desktop 2025 Edition
+```nix
+# In your home.nix
+{
+  imports = [
+    ./config/desktop-2025.nix
+  ];
+  
+  # Your other configuration...
+}
+```
+
+#### Option 2: Individual Components
+```nix
+# Pick and choose components
+{
+  imports = [
+    ./config/niri.nix      # Niri compositor
+    ./config/waybar.nix    # Waybar status bar  
+    ./config/wezterm.nix   # Wezterm terminal
+    ./config/fuzzel.nix    # Fuzzel launcher
+    # ./config/stylix.nix  # Optional theming
+  ];
+}
+```
+
+### Key Differences in Desktop 2025
+
+#### Waybar vs i3status-rust
+- **More configurable**: Native support for modules, styling, and animations
+- **Better integration**: Direct support for Niri workspaces and window titles
+- **Modern styling**: CSS-based theming with hover effects and transitions
+- **Interactive elements**: Click handlers for volume, brightness controls
+
+#### Wezterm vs Alacritty
+- **GPU acceleration**: Better performance for complex terminal usage
+- **Multiplexing**: Built-in tabs and panes (no need for tmux for basic usage)
+- **Ligatures**: Full support for programming fonts with ligatures
+- **Lua configuration**: More flexible configuration language
+- **Image protocol**: Support for displaying images in terminal
+
+#### Fuzzel vs Rofi
+- **Native Wayland**: Better integration with Wayland compositors
+- **Simpler**: Focused launcher without the complexity of Rofi's many modes
+- **Fast**: Optimized for speed and low resource usage
+- **Consistent theming**: Better integration with system color schemes
+
+### Migration Path
+
+1. **Start with Niri**: Use the existing `niri.nix` module (already updated for Desktop 2025)
+2. **Add Waybar**: Enable the waybar module for a modern status bar
+3. **Switch Terminal**: Try Wezterm - it should be a drop-in replacement for most use cases
+4. **Try Fuzzel**: Fuzzel may need adjustment if you use complex Rofi configurations
+5. **Optional Theming**: Add stylix when ready for unified theming
+
+### Compatibility Notes
+
+- **rofi-screenlayout**: Still uses Rofi for now (not yet ported to Fuzzel)
+- **Custom scripts**: Any scripts using `rofi -dmenu` need updating to `fuzzel --dmenu`
+- **Keybindings**: Most keybindings remain the same, but some Fuzzel shortcuts differ
+- **Themes**: Manual theme configuration still works alongside automatic theming
+
+### Performance Benefits
+
+- **Lower memory usage**: Niri + Fuzzel use less RAM than Sway + Rofi
+- **Better GPU utilization**: Wezterm and Waybar leverage GPU acceleration
+- **Faster startup**: Fuzzel launches much faster than Rofi
+- **Smoother animations**: Native Wayland protocols provide better frame timing
+
+### Future Roadmap
+
+- **Complete Stylix integration**: Unified theming across all components
+- **Custom Fuzzel modes**: Port remaining Rofi functionality to Fuzzel
+- **Niri-specific features**: Leverage unique Niri features like column presets
+- **Performance optimization**: Fine-tune all components for the Framework laptop
