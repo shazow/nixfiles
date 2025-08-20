@@ -4,11 +4,7 @@
 { config, pkgs, ... }:
 
 let
-  # Get niri from unstable since it's not in stable yet
-  pkgs-unstable = import <nixpkgs-unstable> { 
-    inherit (pkgs) system; 
-    config = pkgs.config; 
-  };
+  # Niri is now available in stable nixpkgs
 in
 {
   # Import the niri configuration
@@ -16,15 +12,15 @@ in
     ./config/niri.nix
   ];
 
-  # Add niri package from unstable
+  # Add niri package from stable nixpkgs
   home.packages = with pkgs; [
     # Regular stable packages
     firefox
     alacritty
     rofi-wayland
     
-    # Niri from unstable
-    pkgs-unstable.niri
+    # Niri from stable nixpkgs
+    niri
   ];
 
   # Other home-manager configuration...

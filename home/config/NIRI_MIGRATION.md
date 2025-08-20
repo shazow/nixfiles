@@ -49,7 +49,7 @@ Niri uses KDL (KubeML Document Language) for configuration instead of Nix expres
 ### ⚠️ Needs Adjustment
 - [ ] **Scratchpad functionality**: No direct equivalent in Niri
 - [ ] **Push-to-talk key release**: Niri might handle key releases differently
-- [ ] **Window CWD detection**: The `windowcwd` script needs to be adapted for Niri's window tree
+- [x] **Window CWD detection**: Now uses `niri msg focused-window` to get current working directory
 - [ ] **Resize mode**: Niri uses preset column widths instead of manual resizing
 - [ ] **Status bar**: May need adjustment to work with Niri
 
@@ -59,16 +59,16 @@ Niri uses KDL (KubeML Document Language) for configuration instead of Nix expres
 
 ## How to Enable
 
-1. **Install Niri**: Make sure to use nixpkgs-unstable for the niri package:
+1. **Install Niri**: Make sure to use stable nixpkgs for the niri package:
    ```nix
    # In your home.nix or wherever you import this module:
    { pkgs, ... }:
    let
-     pkgs-unstable = import <nixpkgs-unstable> {};
+     pkgs-unstable = import <stable nixpkgs> {};
    in
    {
      home.packages = [
-       pkgs-unstable.niri
+       pkgs.niri
        # ... other packages
      ];
      

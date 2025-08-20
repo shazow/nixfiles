@@ -12,12 +12,27 @@ let
   mod = "Mod4";
   term = "alacritty";
 
-  # Niri port of xcwd (similar to sway version)
-  # Note: This may need adjustment for niri's window tree structure
+  # Niri port of xcwd using niri msg to get focused window info
   windowcwd = pkgs.writeScript "windowcwd" ''
-    # TODO: Adapt this for niri when niri has a similar command to swaymsg
-    # For now, fallback to HOME
-    echo $HOME
+    #!/usr/bin/env bash
+    # Get the focused window's PID using niri msg
+    pid=$(niri msg focused-window | ${pkgs.jq}/bin/jq -r '.pid // empty')
+    
+    if [ -n "$pid" ] && [ "$pid" != "null" ]; then
+      # Try to find the shell process (common parent patterns)
+      for candidate_pid in $(pgrep -P "$pid" 2>/dev/null) "$pid"; do
+        if [ -d "/proc/$candidate_pid" ]; then
+          cwd=$(readlink "/proc/$candidate_pid/cwd" 2>/dev/null)
+          if [ -n "$cwd" ] && [ -d "$cwd" ]; then
+            echo "$cwd"
+            exit 0
+          fi
+        fi
+      done
+    fi
+    
+    # Fallback to HOME if we can't determine the working directory
+    echo "$HOME"
   '';
 
   # Dark mode script
@@ -25,6 +40,19 @@ let
     export XDG_DATA_DIRS=${pkgs.gsettings-desktop-schemas}/share/gsettings-schemas/${pkgs.gsettings-desktop-schemas.name}:$XDG_DATA_DIRS
     gsettings set org.gnome.desktop.interface gtk-theme 'Adwaita-dark'
     dconf write /org/gnome/desktop/interface/color-scheme "'prefer-dark'"
+  '';
+  # Push-to-talk script (same as sway)
+  push-to-talk = pkgs.writeScript "push-to-talk" ''
+    case $1 in
+        on)
+            pamixer --default-source -u
+            pw-cat -p "${../../assets/sounds/ptt-activate.mp3}"
+        ;;
+        off)
+            pamixer --default-source -m
+            pw-cat -p "${../../assets/sounds/ptt-deactivate.mp3}"
+        ;;
+    esac
   '';
 
   # Niri configuration as KDL (corrected syntax)
@@ -246,7 +274,7 @@ in
   };
   
   # Wayland-related packages that work well with niri
-  # Note: niri itself needs to be installed from unstable, see NIRI_MIGRATION.md
+  # Note: niri is available in stable nixpkgs
   home.packages = with pkgs; [
     # Core Wayland tools (same as used in sway config)
     swaybg          # Background
