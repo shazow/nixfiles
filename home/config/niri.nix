@@ -20,25 +20,11 @@ let
     echo $HOME
   '';
 
-  # Dark mode script (same as sway)
+  # Dark mode script
   darkmode = pkgs.writeScript "darkmode" ''
     export XDG_DATA_DIRS=${pkgs.gsettings-desktop-schemas}/share/gsettings-schemas/${pkgs.gsettings-desktop-schemas.name}:$XDG_DATA_DIRS
     gsettings set org.gnome.desktop.interface gtk-theme 'Adwaita-dark'
     dconf write /org/gnome/desktop/interface/color-scheme "'prefer-dark'"
-  '';
-
-  # Push-to-talk script (same as sway)
-  push-to-talk = pkgs.writeScript "push-to-talk" ''
-    case $1 in
-        on)
-            pamixer --default-source -u
-            pw-cat -p "${../../assets/sounds/ptt-activate.mp3}"
-        ;;
-        off)
-            pamixer --default-source -m
-            pw-cat -p "${../../assets/sounds/ptt-deactivate.mp3}"
-        ;;
-    esac
   '';
 
   # Niri configuration as KDL (corrected syntax)
