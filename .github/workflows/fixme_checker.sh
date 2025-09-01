@@ -27,8 +27,10 @@ grep -r -P "FIXME.*(https://github.com/([^/]+)/([^/]+)/(issues|pull)/(\d+))" . |
     continue
   fi
 
+  file_path=$(echo "$line" | cut -d':' -f1)
+
   # Construct the title for the new issue
-  issue_title="$owner/$repo#$issue_number"
+  issue_title="$file_path: $owner/$repo#$issue_number"
 
   # Check if an issue with this title already exists in the target repo
   existing_issue=$(curl -s -H "Authorization: token $GITHUB_TOKEN" "https://api.github.com/search/issues?q=repo:$TARGET_REPO+is:issue+in:title+\"$issue_title\"" | jq '.items | length')
@@ -38,7 +40,6 @@ grep -r -P "FIXME.*(https://github.com/([^/]+)/([^/]+)/(issues|pull)/(\d+))" . |
   fi
 
   # Create the new issue
-  file_path=$(echo "$line" | cut -d':' -f1)
   line_number=$(echo "$line" | cut -d':' -f2)
   commit_sha=$(git rev-parse HEAD)
 
