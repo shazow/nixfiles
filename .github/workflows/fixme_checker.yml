@@ -1,0 +1,19 @@
+name: FIXME Checker
+
+on:
+  schedule:
+    - cron: '0 15 * * 1' # Runs every Monday at 3pm
+  workflow_dispatch: # Allows manual triggering
+
+jobs:
+  check_fixmes:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Run FIXME checker script
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_SERVER_URL: ${{ github.server_url }}
+        run: ./.github/workflows/fixme_checker.sh
