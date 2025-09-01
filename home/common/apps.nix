@@ -19,7 +19,7 @@ in
   programs = {
     home-manager.enable = true;
 
-    alacritty = {
+    alacritty = { # FIXME: Testing my fixme detector. https://github.com/shazow/nixfiles/issues/1
       enable = true;
       settings = {
         colors.primary.background = "#000000";
