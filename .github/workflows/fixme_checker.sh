@@ -6,18 +6,20 @@ set -e
 TARGET_REPO="$GITHUB_REPOSITORY"
 
 # Grep for FIXME comments with GitHub issue URLs
-# This regex is more robust and captures the owner, repo, and issue number
-grep -r -P "FIXME.*(https://github.com/([^/]+)/([^/]+)/(issues|pull)/(\d+))" . | while read -r line; do
+# This regex is more robust and captures the owner, repo, issue number, and comment fragments.
+grep -r -P "FIXME.*(https://github.com/([^/]+)/([^/]+)/(issues|pull)/(\d+)(#issuecomment-\d+)?)" . --exclude-dir={.git,node_modules,dist,build} --exclude="*.lock" --exclude="*.log" | while read -r line; do
   # Extract the URL and its components from the line
-  url=$(echo "$line" | grep -o -P '(https://github.com/([^/]+)/([^/]+)/(issues|pull)/(\d+))' | head -n 1)
+  full_url=$(echo "$line" | grep -o -P 'https://github.com/([^/]+)/([^/]+)/(issues|pull)/(\d+)(#issuecomment-\d+)?' | head -n 1)
 
-  if [ -z "$url" ]; then
+  if [ -z "$full_url" ]; then
     continue
   fi
 
-  owner=$(echo "$url" | cut -d'/' -f4)
-  repo=$(echo "$url" | cut -d'/' -f5)
-  issue_number=$(echo "$url" | cut -d'/' -f7)
+  base_url=$(echo "$full_url" | sed 's/#.*//')
+
+  owner=$(echo "$base_url" | cut -d'/' -f4)
+  repo=$(echo "$base_url" | cut -d'/' -f5)
+  issue_number=$(echo "$base_url" | cut -d'/' -f7)
 
   # Check if the issue is closed
   # Note: This could be optimized to reduce API calls on large repositories
@@ -41,14 +43,32 @@ grep -r -P "FIXME.*(https://github.com/([^/]+)/([^/]+)/(issues|pull)/(\d+))" . |
 
   # Create the new issue
   line_number=$(echo "$line" | cut -d':' -f2)
+  code_line=$(echo "$line" | cut -d':' -f3-)
   commit_sha=$(git rev-parse HEAD)
 
+  redirect_url=$(echo "$full_url" | sed 's|github.com|redirect.github.com|')
+
   # Construct the link to the FIXME using the GITHUB_SERVER_URL passed from the workflow
-  issue_body="The issue [$issue_title]($url) has been closed. This FIXME may be ready to be addressed.\n\n[Link to FIXME]($GITHUB_SERVER_URL/$TARGET_REPO/blob/$commit_sha/$file_path#L$line_number)"
+  issue_body=$(cat <<EOF
+The issue [$owner/$repo#$issue_number]($redirect_url) has been closed. This FIXME may be ready to be addressed.
+
+From \`$file_path:$line_number\`:
+\`\`\`
+$code_line
+\`\`\`
+
+$GITHUB_SERVER_URL/$TARGET_REPO/blob/$commit_sha/$file_path#L$line_number
+EOF
+)
+
+  json_payload=$(jq -n \
+    --arg title "$issue_title" \
+    --arg body "$issue_body" \
+    '{title: $title, body: $body}')
 
   curl -s -X POST \
     -H "Authorization: token $GITHUB_TOKEN" \
     -H "Content-Type: application/json" \
-    -d "{\"title\":\"$issue_title\",\"body\":\"$issue_body\"}" \
+    -d "$json_payload" \
     "https://api.github.com/repos/$TARGET_REPO/issues"
 done
