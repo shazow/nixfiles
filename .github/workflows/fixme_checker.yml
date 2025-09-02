@@ -3,7 +3,13 @@ name: FIXME Checker
 on:
   schedule:
     - cron: '0 15 * * 1' # Runs every Monday at 3pm
-  workflow_dispatch: # Allows manual triggering
+  workflow_dispatch:
+    inputs:
+      update_existing:
+        description: 'Update existing issues instead of skipping them'
+        required: true
+        type: boolean
+        default: false
 
 jobs:
   check_fixmes:
@@ -16,4 +22,5 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_SERVER_URL: ${{ github.server_url }}
+          SHOULD_UPDATE: ${{ github.event.inputs.update_existing }}
         run: ./.github/workflows/fixme_checker.sh
