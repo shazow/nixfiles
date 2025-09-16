@@ -54,7 +54,7 @@
 
       pkgsOverlayModule = {
         nixpkgs.overlays = [
-          inputs.niri-flake.overlays
+          inputs.niri-flake.overlays.niri
 
           # Extra packages we're injecting from inputs
           (final: prev: {
