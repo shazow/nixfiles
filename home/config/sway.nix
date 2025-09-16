@@ -25,18 +25,6 @@ let
     dconf write /org/gnome/desktop/interface/color-scheme "'prefer-dark'"
   '';
 
-  push-to-talk = pkgs.writeScript "push-to-talk" ''
-    case $1 in
-        on)
-            pamixer --default-source -u
-            pw-cat -p "${../../assets/sounds/ptt-activate.mp3}"
-        ;;
-        off)
-            pamixer --default-source -m
-            pw-cat -p "${../../assets/sounds/ptt-deactivate.mp3}"
-        ;;
-    esac
-  '';
 in
 {
   modifier = mod;

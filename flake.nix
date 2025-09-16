@@ -18,6 +18,10 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     nixos-hardware.url = "github:nixos/nixos-hardware";
 
+    # Wayland desktop overlays
+    niri-flake.url = "github:sodiboo/niri-flake";
+    stylix.url = "github:danth/stylix";
+
     # My nvim config as a standalone nvim distribution
     nvim.url = "path:./pkgs/nvim";
     #nvim.inputs.nixpkgs.follows = "nixpkgs"; # TODO: Switch once we use stable nixvim?
@@ -50,6 +54,8 @@
 
       pkgsOverlayModule = {
         nixpkgs.overlays = [
+          inputs.niri-flake.overlays
+
           # Extra packages we're injecting from inputs
           (final: prev: {
             nvim = inputs.nvim.defaultPackage.${prev.system};
