@@ -2,7 +2,7 @@
 
 {
   imports = [
-    ./common/wayland.nix
+    ./common/wayland-sway.nix
     ./common/apps.nix
   ];
 
