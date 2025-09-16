@@ -3,28 +3,8 @@ let
   mod = "Mod4";
   term = "wezterm";
   lockcmd = "${pkgs.swaylock}/bin/swaylock -fF";
-
-  sounds = pkgs.stdenv.mkDerivation {
-    name = "nixfiles-sounds";
-    src = ../../assets/sounds;
-    installPhase = ''
-      mkdir -p $out
-      cp -r ./* $out/
-    '';
-  };
-
-  push-to-talk = pkgs.writeScript "push-to-talk" ''
-    case $1 in
-        on)
-            pamixer --default-source -u
-            pw-cat -p "${sounds}/ptt-activate.mp3"
-        ;;
-        off)
-            pamixer --default-source -m
-            pw-cat -p "${sounds}/ptt-deactivate.mp3"
-        ;;
-    esac
-  '';
+  scripts = import ../common/scripts.nix { inherit pkgs; };
+  push-to-talk = scripts."push-to-talk";
 in
 with lib.niri.actions; {
   # General settings
