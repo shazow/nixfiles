@@ -53,6 +53,13 @@
   services.blueman.enable = true;
   hardware.bluetooth.enable = true;
 
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    pulse.enable = true;
+  };
+  security.rtkit.enable = true;
+
   services.openssh = {
     enable = true;
     startWhenNeeded = true; # Don't start until socket request comes in to systemd

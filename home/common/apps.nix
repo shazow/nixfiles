@@ -98,6 +98,8 @@ in
     google-chrome
     signal-desktop
     i3status-rust
+    waybar
+    fuzzel
     # captive-browser # Doesn't work anymore? Remove?
 
     # PDF, image mainpulation

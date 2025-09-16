@@ -13,7 +13,7 @@
   ];
 
   home = [
-    ../../home/desktop.nix
+    ../../home/desktop-niri.nix
   ];
 
   root = import ./configuration.nix;

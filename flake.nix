@@ -31,6 +31,10 @@
 
     # Audio profiles for Framework 13 speakers
     framework-audio-presets = { url = "github:ceiphr/ee-framework-presets"; flake = false; };
+
+    # Desktop 2025
+    niri-flake.url = "github:sodiboo/niri-flake";
+    stylix.url = "github:danth/stylix";
   };
 
   outputs = inputs@{ nixpkgs, home-manager, flake-utils, nixpkgs-unstable, ... }:
@@ -50,6 +54,7 @@
 
       pkgsOverlayModule = {
         nixpkgs.overlays = [
+          inputs.niri-flake.overlays.default
           # Extra packages we're injecting from inputs
           (final: prev: {
             nvim = inputs.nvim.defaultPackage.${prev.system};
