@@ -25,18 +25,6 @@ let
     dconf write /org/gnome/desktop/interface/color-scheme "'prefer-dark'"
   '';
 
-  push-to-talk = pkgs.writeScript "push-to-talk" ''
-    case $1 in
-        on)
-            pamixer --default-source -u
-            pw-cat -p "${../../assets/sounds/ptt-activate.mp3}"
-        ;;
-        off)
-            pamixer --default-source -m
-            pw-cat -p "${../../assets/sounds/ptt-deactivate.mp3}"
-        ;;
-    esac
-  '';
 in
 {
   modifier = mod;
@@ -121,8 +109,8 @@ in
     "--release Alt+Shift+4" = "exec flameshot gui";
 
     # Global mic push-to-talk
-    "--no-repeat KP_Multiply" = "exec ${push-to-talk} on";
-    "--release KP_Multiply" = "exec ${push-to-talk} off";
+    #"--no-repeat KP_Multiply" = "exec ${push-to-talk} on";
+    #"--release KP_Multiply" = "exec ${push-to-talk} off";
 
     # Scratchpad
     "${mod}+Shift+grave" = "move scratchpad";

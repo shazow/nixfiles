@@ -18,6 +18,10 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     nixos-hardware.url = "github:nixos/nixos-hardware";
 
+    # Wayland desktop overlays
+    niri-flake.url = "github:sodiboo/niri-flake";
+    stylix.url = "github:danth/stylix";
+
     # My nvim config as a standalone nvim distribution
     nvim.url = "path:./pkgs/nvim";
     #nvim.inputs.nixpkgs.follows = "nixpkgs"; # TODO: Switch once we use stable nixvim?
@@ -33,7 +37,7 @@
     framework-audio-presets = { url = "github:ceiphr/ee-framework-presets"; flake = false; };
   };
 
-  outputs = inputs@{ nixpkgs, home-manager, flake-utils, nixpkgs-unstable, ... }:
+  outputs = inputs@{ nixpkgs, home-manager, flake-utils, ... }:
     let
       username = "shazow";
 
@@ -50,6 +54,8 @@
 
       pkgsOverlayModule = {
         nixpkgs.overlays = [
+          inputs.niri-flake.overlays.niri
+
           # Extra packages we're injecting from inputs
           (final: prev: {
             nvim = inputs.nvim.defaultPackage.${prev.system};
@@ -105,6 +111,8 @@
             };
             pkgs = nixpkgs.legacyPackages.${host.system};
             modules = host.home ++ [
+                #inputs.stylix.homeModules.stylix
+              inputs.niri-flake.homeModules.niri
               pkgsOverlayModule
             ];
           };
