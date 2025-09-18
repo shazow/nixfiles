@@ -109,8 +109,8 @@ in
     "--release Alt+Shift+4" = "exec flameshot gui";
 
     # Global mic push-to-talk
-    "--no-repeat KP_Multiply" = "exec ${push-to-talk} on";
-    "--release KP_Multiply" = "exec ${push-to-talk} off";
+    #"--no-repeat KP_Multiply" = "exec ${push-to-talk} on";
+    #"--release KP_Multiply" = "exec ${push-to-talk} off";
 
     # Scratchpad
     "${mod}+Shift+grave" = "move scratchpad";
