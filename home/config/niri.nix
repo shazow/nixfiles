@@ -1,9 +1,8 @@
-{ pkgs, lib, ... }:
+{ pkgs, config, lockcmd, ... }:
 let
-  mod = "Mod4";
   term = "wezterm";
 in
-with lib.niri.actions; {
+with config.lib.niri.actions; {
   # General settings
   layout.gaps = 8;
   spawn-at-startup = [
@@ -15,17 +14,16 @@ with lib.niri.actions; {
   outputs."*".scale = 1.5;
 
   # Input
-  input.mod-key = mod;
-  input."type:touchpad".tap = true;
-  input."type:touchpad".dwt = true;
+  input.touchpad.tap = true;
+  input.touchpad.dwt = true;
 
   # Keybindings
   binds = {
     # Special keys
     "XF86MonBrightnessUp".action = spawn "brightness" "up" "10";
     "XF86MonBrightnessDown".action = spawn "brightness" "down" "10";
-    "${mod}+XF86MonBrightnessUp".action = spawn "brightness" "up" "5";
-    "${mod}+XF86MonBrightnessDown".action = spawn "brightness" "down" "5";
+    "Mod+XF86MonBrightnessUp".action = spawn "brightness" "up" "5";
+    "Mod+XF86MonBrightnessDown".action = spawn "brightness" "down" "5";
     "XF86AudioRaiseVolume".action = spawn "volumectl" "up";
     "XF86AudioLowerVolume".action = spawn "volumectl" "down";
     "XF86AudioMute".action = spawn "volumectl" "mute";
@@ -36,51 +34,50 @@ with lib.niri.actions; {
     "XF86AudioPrev".action = spawn "playerctl" "previous";
 
     # Display management
-    "XF86Display".action = spawn "fuzzel"; # Niri doesn't have a direct equivalent for rofi-screenlayout
-    "Mod4+p".action = spawn "fuzzel";
+    # TODO: ... port sway config here
 
     # Application launcher
-    "${mod}+space".action = spawn "fuzzel";
+    "Mod+space".action = spawn "fuzzel";
 
     # Clipboard
-    "${mod}+Shift+v".action = spawn "sh" "-c" "cliphist list | fuzzel --dmenu | cliphist decode | wl-copy";
-    "${mod}+Shift+d".action = spawn "sh" "-c" "cliphist list | fuzzel --dmenu | cliphist delete && notify-send 'Deleted clipboard item'";
+    "Mod+Shift+v".action = spawn "sh" "-c" "cliphist list | fuzzel --dmenu | cliphist decode | wl-copy";
+    "Mod+Shift+d".action = spawn "sh" "-c" "cliphist list | fuzzel --dmenu | cliphist delete && notify-send 'Deleted clipboard item'";
 
     # Terminal
-    "${mod}+Return".action = spawn term;
+    "Mod+Return".action = spawn term;
 
     # Window management
-    "${mod}+Shift+q".action = close-window;
-    "${mod}+Left".action = focus-column-left;
-    "${mod}+Right".action = focus-column-right;
-    "${mod}+k".action = focus-window-up;
-    "${mod}+j".action = focus-window-down;
-    "${mod}+Shift+h".action = move-column-left;
-    "${mod}+Shift+l".action = move-column-right;
-    "${mod}+Shift+k".action = move-window-up;
-    "${mod}+Shift+j".action = move-window-down;
+    "Mod+Shift+q".action = close-window;
+    "Mod+Left".action = focus-column-left;
+    "Mod+Right".action = focus-column-right;
+    "Mod+k".action = focus-window-up;
+    "Mod+j".action = focus-window-down;
+    "Mod+Shift+h".action = move-column-left;
+    "Mod+Shift+l".action = move-column-right;
+    "Mod+Shift+k".action = move-window-up;
+    "Mod+Shift+j".action = move-window-down;
 
     # Workspaces
-    "${mod}+1".action = focus-workspace 1;
-    "${mod}+2".action = focus-workspace 2;
-    "${mod}+3".action = focus-workspace 3;
-    "${mod}+4".action = focus-workspace 4;
-    "${mod}+5".action = focus-workspace 5;
-    "${mod}+6".action = focus-workspace 6;
-    "${mod}+7".action = focus-workspace 7;
-    "${mod}+8".action = focus-workspace 8;
-    "${mod}+9".action = focus-workspace 9;
-    "${mod}+0".action = focus-workspace 10;
+    "Mod+1".action = focus-workspace 1;
+    "Mod+2".action = focus-workspace 2;
+    "Mod+3".action = focus-workspace 3;
+    "Mod+4".action = focus-workspace 4;
+    "Mod+5".action = focus-workspace 5;
+    "Mod+6".action = focus-workspace 6;
+    "Mod+7".action = focus-workspace 7;
+    "Mod+8".action = focus-workspace 8;
+    "Mod+9".action = focus-workspace 9;
+    "Mod+0".action = focus-workspace 10;
 
     # Lock screen
-    "${mod}+l".action = spawn lockcmd;
+    "Mod+l".action = spawn lockcmd;
 
     # Screenshot
     "Print".action = spawn "flameshot" "gui";
     "Shift+Print".action = spawn "flameshot" "full";
 
     # Exit niri
-    "${mod}+Control+Delete".action = quit;
+    "Mod+Control+Delete".action = quit;
   };
 
   # Window rules

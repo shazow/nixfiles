@@ -37,7 +37,7 @@
     framework-audio-presets = { url = "github:ceiphr/ee-framework-presets"; flake = false; };
   };
 
-  outputs = inputs@{ nixpkgs, home-manager, flake-utils, nixpkgs-unstable, ... }:
+  outputs = inputs@{ nixpkgs, home-manager, flake-utils, ... }:
     let
       username = "shazow";
 
@@ -111,6 +111,8 @@
             };
             pkgs = nixpkgs.legacyPackages.${host.system};
             modules = host.home ++ [
+                #inputs.stylix.homeModules.stylix
+              inputs.niri-flake.homeModules.niri
               pkgsOverlayModule
             ];
           };
