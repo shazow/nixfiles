@@ -20,7 +20,8 @@
 
     # Wayland desktop overlays
     niri-flake.url = "github:sodiboo/niri-flake";
-    stylix.url = "github:danth/stylix";
+    stylix.url = "github:nix-community/stylix/release-25.05";
+    stylix.inputs.nixpkgs.follows = "nixpkgs";
 
     # My nvim config as a standalone nvim distribution
     nvim.url = "path:./pkgs/nvim";
