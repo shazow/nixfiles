@@ -31,6 +31,11 @@
           "tray"
         ];
 
+        "tray" = {
+          spacing = 5;
+          icon-size = 24;
+        };
+
         "niri/window" = {
           format = "{}";
           max-length = 50;
@@ -116,7 +121,7 @@
 
         clock = {
           interval = 10;
-          format = " {:%a %Y-%m-%d %l:%M %p}";
+          format = "{:%a %Y-%m-%d %I:%M %p}";
           tooltip-format = "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>";
         };
       };

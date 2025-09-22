@@ -4,20 +4,28 @@ let
   #withAllWorkspaces = fn: lib.listToAttrs (lib.genList fn 10); # TODO: use this WIP helper
 in
 with config.lib.niri.actions; {
-  # General settings
   layout.gaps = 0;
+  layout.background-color = "#000000";
+  layout.preset-column-widths = [
+    { proportion = 1. / 3.; }
+    { proportion = 1. / 2.; }
+    { proportion = 2. / 3.; }
+  ];
+
   spawn-at-startup = [
+    { argv = ["systemctl" "start" "--user" "waybar"]; }
   ];
 
   # Outputs
-  outputs."*".scale = 2;
+  outputs."*" = {
+    scale = 2;
+    variable-refresh-rate = true;
+  };
 
   # Input
   input.touchpad.tap = true;
   input.touchpad.dwt = true;
   input.focus-follows-mouse.enable = true;
-
-  layout.background-color = "#000000";
 
   # Keybindings
   binds = {
@@ -130,6 +138,7 @@ with config.lib.niri.actions; {
   ];
 
   debug = {
+    # Workaround for https://github.com/YaLTeR/niri/issues/1948
     deactivate-unfocused-windows = [];
   };
 }
