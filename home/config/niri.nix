@@ -2,6 +2,12 @@
 let
   #mod = a: b: a - (b * (a / b)); # TODO: Use built-in function when available https://github.com/NixOS/nix/issues/12616
   #withAllWorkspaces = fn: lib.listToAttrs (lib.genList fn 10); # TODO: use this WIP helper
+  windowcwd = pkgs.writeScript "windowcwd" ''
+    pid=$(niri msg --json focused-window | jq .pid)
+    ppid=$(pgrep --newest --parent $pid)
+    readlink /proc/$ppid/cwd || echo $HOME
+  '';
+
 in
 with config.lib.niri.actions; {
   layout.gaps = 0;
@@ -58,6 +64,7 @@ with config.lib.niri.actions; {
 
     # Terminal
     "Mod+Return".action = spawn term;
+    "Mod+Shift+Return".action = spawn "sh" "-c" "${term} --working-directory \"$(${windowcwd})\"";
 
     # Scratchpad
     # FIXME: Need to investigate how to port to niri https://github.com/YaLTeR/niri/discussions/329

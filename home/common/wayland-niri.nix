@@ -2,7 +2,7 @@
 # TODO: Add https://github.com/rafaelrc7/wayland-pipewire-idle-inhibit
 { pkgs, config, lib, pkgs-unstable, ... }:
 let
-  lockcmd = "${pkgs.swaylock}/bin/swaylock -fF";
+  lockcmd = "${pkgs.swaylock}/bin/swaylock";
   term = "alacritty"; # TODO: Plumb this
 in
 {
