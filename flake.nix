@@ -112,9 +112,9 @@
             };
             pkgs = nixpkgs.legacyPackages.${host.system};
             modules = host.home ++ [
-                #inputs.stylix.homeModules.stylix
-              inputs.niri-flake.homeModules.niri
               pkgsOverlayModule
+              inputs.niri-flake.homeModules.niri
+              inputs.stylix.homeModules.stylix
             ];
           };
         })

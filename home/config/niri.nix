@@ -4,21 +4,25 @@ let
 in
 with config.lib.niri.actions; {
   # General settings
-  layout.gaps = 8;
+  layout.gaps = 0;
   spawn-at-startup = [
-    # { argv = [ "swaybg" "--color" "#000000" ]; }
-    { argv = [ "waybar" ]; }
   ];
 
   # Outputs
-  outputs."*".scale = 1.5;
+  outputs."*".scale = 2;
 
   # Input
   input.touchpad.tap = true;
   input.touchpad.dwt = true;
+  input.focus-follows-mouse.enable = true;
+
+  layout.background-color = "#000000";
 
   # Keybindings
   binds = {
+    # Help
+    "Mod+Shift+Slash".action = show-hotkey-overlay;
+
     # Special keys
     "XF86MonBrightnessUp".action = spawn "brightness" "up" "10";
     "XF86MonBrightnessDown".action = spawn "brightness" "down" "10";
@@ -81,23 +85,24 @@ with config.lib.niri.actions; {
   };
 
   # Window rules
-  #window-rules = [
-  #  {
-  #    matches = [ { title = ".*"; } ]; # Apply to all windows
-  #    border.enable = true;
-  #    border.width = 2;
-  #  }
-  #  {
-  #    matches = [ { is-focused = true; } ];
-  #    border.active.color = "#FF0000";
-  #  }
-  #  {
-  #    matches = [ { is-focused = false; } ];
-  #    border.inactive.color = "#888888";
-  #  }
-  #  {
-  #    matches = [ { app-id = "dropdown"; } ];
-  #    open-floating = true;
-  #  }
-  #];
+  # https://github.com/YaLTeR/niri/wiki/Configuration:-Window-Rules
+  window-rules = [
+    {
+      # All windows
+    }
+    # {
+    #   matches = [ { is-focused = true; } ];
+    # }
+    # {
+    #   matches = [ { is-focused = false; } ];
+    # }
+    {
+      matches = [ { app-id = "dropdown"; } ];
+      open-floating = true;
+    }
+    {
+      matches = [ { app-id = "org.wezfurlong.wezterm"; } ];
+      default-column-width.proportion = 0.5;
+    }
+  ];
 }

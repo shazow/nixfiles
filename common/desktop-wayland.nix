@@ -33,9 +33,10 @@
     qt5.qtwayland # for qt
 
     wtype # xdotool, but for wayland
-    xwayland
     # kdePackages.xwaylandvideobridge # Portal for screen sharing
   ];
+
+  programs.xwayland.enable = true;
 
   xdg.portal = {
     enable = true;
