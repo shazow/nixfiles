@@ -17,8 +17,8 @@ in
 
   programs.rofi = {
     enable = true;
-    font = "DejaVu Sans Mono 12";
-    theme = "Monokai";
+    font = lib.mkDefault "DejaVu Sans Mono 12";
+    theme = lib.mkDefault "Monokai";
     package = pkgs.rofi.override { plugins = [ pkgs.rofi-emoji ]; };
     extraConfig = {
       combi-mode = "window,drun,calc";

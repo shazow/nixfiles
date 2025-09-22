@@ -32,7 +32,7 @@ in
   terminal = term;
   window.border = 1;
   window.hideEdgeBorders = "both";
-  colors.background = "#000000";
+  colors.background = lib.mkDefault "#000000";
   fonts = {
     names = [ "DejaVu Sans Mono" "FontAwesome" ];
     style = "Bold Semi-Condensed";

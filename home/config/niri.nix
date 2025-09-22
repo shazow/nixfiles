@@ -1,4 +1,8 @@
 { pkgs, config, lockcmd, term ? "alacritty", launcher ? "fuzzel", ... }:
+let
+  #mod = a: b: a - (b * (a / b)); # TODO: Use built-in function when available https://github.com/NixOS/nix/issues/12616
+  #withAllWorkspaces = fn: lib.listToAttrs (lib.genList fn 10); # TODO: use this WIP helper
+in
 with config.lib.niri.actions; {
   # General settings
   layout.gaps = 0;
@@ -47,6 +51,11 @@ with config.lib.niri.actions; {
     # Terminal
     "Mod+Return".action = spawn term;
 
+    # Scratchpad
+    # FIXME: Need to investigate how to port to niri https://github.com/YaLTeR/niri/discussions/329
+    "Mod+grave".action = spawn "i3-scratchpad \"dropdown\"";
+
+
     # Window management
     "Mod+Shift+q".action = close-window;
     "Mod+Left".action = focus-column-left;
@@ -72,16 +81,30 @@ with config.lib.niri.actions; {
     "Mod+9".action = focus-workspace 9;
     "Mod+0".action = focus-workspace 10;
 
+    "Mod+Shift+1".action.move-column-to-workspace = 1;
+    "Mod+Shift+2".action.move-column-to-workspace = 2;
+    "Mod+Shift+3".action.move-column-to-workspace = 3;
+    "Mod+Shift+4".action.move-column-to-workspace = 4;
+    "Mod+Shift+5".action.move-column-to-workspace = 5;
+    "Mod+Shift+6".action.move-column-to-workspace = 6;
+    "Mod+Shift+7".action.move-column-to-workspace = 7;
+    "Mod+Shift+8".action.move-column-to-workspace = 8;
+    "Mod+Shift+9".action.move-column-to-workspace = 9;
+    "Mod+Shift+0".action.move-column-to-workspace = 10;
+
     # Lock screen
     "Mod+l".action = spawn lockcmd;
 
     # Screenshot
     "Print".action = spawn "flameshot" "gui";
-    "Shift+Print".action = spawn "flameshot" "full";
+    "Shift+Print".action.screenshot = {};
+    "Mod+Shift+Print".action.screenshot-window = {};
 
     # Exit niri
     "Mod+Control+Delete".action = quit;
   };
+
+  workspaces."scratch" = {};
 
   # Window rules
   # https://github.com/YaLTeR/niri/wiki/Configuration:-Window-Rules
@@ -98,10 +121,15 @@ with config.lib.niri.actions; {
     # }
     {
       matches = [ { app-id = "dropdown"; } ];
+      open-on-workspace = "scratch";
       open-floating = true;
     }
     # {
     #   matches = [ { app-id = "org.wezfurlong.wezterm"; } ];
     # }
   ];
+
+  debug = {
+    deactivate-unfocused-windows = [];
+  };
 }
