@@ -4,6 +4,7 @@
   # TODO: Redo with something like https://github.com/mxkrsv/dotfiles-old/blob/master/.config/waybar/config?
   programs.waybar = {
     enable = true;
+    systemd.enable = false; # We launch it manually
 
     settings = {
       mainBar = {

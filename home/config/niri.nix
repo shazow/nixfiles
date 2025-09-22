@@ -13,7 +13,7 @@ with config.lib.niri.actions; {
   ];
 
   spawn-at-startup = [
-    { argv = ["systemctl" "start" "--user" "waybar"]; }
+    { argv = ["waybar"]; }
   ];
 
   # Outputs
