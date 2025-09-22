@@ -6,18 +6,26 @@ let
 in
 {
   imports = [
-    #./waybar.nix
+    ./waybar.nix
   ];
 
   home.packages = with pkgs; [
-    waybar
-    fuzzel
   ];
 
   programs.niri = {
     enable = true;
     package = pkgs.niri-unstable;
     settings = import ../config/niri.nix { inherit pkgs config lockcmd; };
+  };
+
+  programs.fuzzel = {
+    enable = true;
+    settings = {
+      main = {
+        dpi-aware = "yes";
+        width = "100";
+      };
+    };
   };
 
   programs.wezterm = {

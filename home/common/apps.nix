@@ -19,14 +19,6 @@ in
   programs = {
     home-manager.enable = true;
 
-    alacritty = { # FIXME: Testing my fixme detector. https://github.com/shazow/nixfiles/issues/1
-      enable = true;
-      settings = {
-        colors.primary.background = "#000000";
-        env.TERM = "xterm-256color"; # ssh'ing into old servers with TERM=alacritty is sad
-      };
-    };
-
     git = {
       enable = true;
       lfs.enable = true;
@@ -97,8 +89,6 @@ in
     bitwarden
     google-chrome
     signal-desktop
-    i3status-rust
-    # captive-browser # Doesn't work anymore? Remove?
 
     # PDF, image mainpulation
     ghostscript

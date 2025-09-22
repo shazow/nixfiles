@@ -6,6 +6,8 @@ let
 in
 {
   home.packages = with pkgs; [
+    i3status-rust
+
     # Not sure if these are needed but having trouble with some tray icons not
     # showing up, so let's see if it helps.
     networkmanagerapplet
@@ -23,6 +25,13 @@ in
     };
   };
 
+  alacritty = {
+    enable = true;
+    settings = {
+      colors.primary.background = "#000000";
+      env.TERM = "xterm-256color"; # ssh'ing into old servers with TERM=alacritty is sad
+    };
+  };
 
   services.swayidle = {
     enable = true;

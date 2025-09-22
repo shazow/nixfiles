@@ -7,7 +7,7 @@
     settings = {
       mainBar = {
         layer = "top";
-        position = "top";
+        position = "bottom";
 
         modules-left = [
           "network#wifi"
@@ -120,19 +120,8 @@
       };
     };
 
-    # --------------------------------------------------------------------
-    # 2. DEFINE STYLES
-    # --------------------------------------------------------------------
-    # The style attribute is a direct copy of your Waybar 'style.css' file.
-    style = ''
-      * {
-          border: none;
-          border-radius: 0;
-          font-family: "Font Awesome 6 Free", "Noto Sans", sans-serif;
-          font-size: 14px;
-          min-height: 0;
-      }
 
+    style = ''
       window#waybar {
           background: #002b36;
           color: #839496;
