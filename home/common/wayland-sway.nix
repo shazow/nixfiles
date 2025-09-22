@@ -25,14 +25,6 @@ in
     };
   };
 
-  alacritty = {
-    enable = true;
-    settings = {
-      colors.primary.background = "#000000";
-      env.TERM = "xterm-256color"; # ssh'ing into old servers with TERM=alacritty is sad
-    };
-  };
-
   services.swayidle = {
     enable = true;
     events = [

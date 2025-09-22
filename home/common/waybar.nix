@@ -1,6 +1,7 @@
 { pkgs, ... }:
 
 {
+  # TODO: Redo with something like https://github.com/mxkrsv/dotfiles-old/blob/master/.config/waybar/config?
   programs.waybar = {
     enable = true;
 
@@ -27,6 +28,7 @@
           "backlight"
           "pulseaudio"
           "clock"
+          "tray"
         ];
 
         "niri/window" = {

@@ -3,6 +3,7 @@
 { pkgs, config, lib, pkgs-unstable, ... }:
 let
   lockcmd = "${pkgs.swaylock}/bin/swaylock -fF";
+  term = "alacritty"; # TODO: Plumb this
 in
 {
   imports = [
@@ -10,12 +11,13 @@ in
   ];
 
   home.packages = with pkgs; [
+    xwayland-satellite
   ];
 
   programs.niri = {
     enable = true;
     package = pkgs.niri-unstable;
-    settings = import ../config/niri.nix { inherit pkgs config lockcmd; };
+    settings = import ../config/niri.nix { inherit pkgs config lockcmd term; };
   };
 
   programs.fuzzel = {
@@ -26,10 +28,6 @@ in
         width = "100";
       };
     };
-  };
-
-  programs.wezterm = {
-    enable = true;
   };
 
   services.swayidle = {

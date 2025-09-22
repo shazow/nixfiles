@@ -4,11 +4,12 @@
   lib,
 
   lockcmd ? "${pkgs.swaylock}/bin/swaylock -fF",
+  term ? "alacritty",
   ...
 }:
 let
+  inherit term;
   mod = "Mod4";
-  term = "alacritty";
 
   # sway port of xcwd
   # via: https://www.reddit.com/r/swaywm/comments/ayedi1/opening_terminals_at_the_same_directory/ei7i1dl/?context=1
