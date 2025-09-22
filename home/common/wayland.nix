@@ -2,6 +2,7 @@
 # TODO: Add https://github.com/rafaelrc7/wayland-pipewire-idle-inhibit
 { pkgs, config, lib, pkgs-unstable, ... }:
 let
+  term = "alacritty";
   sessionVars = {
     GDK_BACKEND = "wayland"; # GTK
     XDG_SESSION_TYPE = "wayland"; # Electron
@@ -9,6 +10,7 @@ let
 
     # Electron apps should use Ozone/wayland
     NIXOS_OZONE_WL = "1";
+    TERMINAL=term;
   };
 
   lockcmd = "${pkgs.swaylock}/bin/swaylock -fF";
@@ -53,4 +55,23 @@ in
   services.mako.settings.default-timeout = 3000;
   services.cliphist.enable = true;
   services.network-manager-applet.enable = true;
+
+  programs.wezterm = {
+    enable = true;
+    extraConfig = # lua
+    ''
+      return {
+        scrollback_lines = 10000,
+      }
+    '';
+  };
+
+  programs.alacritty = {
+    enable = true;
+    settings = {
+      colors.primary.background = "#000000";
+      env.TERM = "xterm-256color"; # ssh'ing into old servers with TERM=alacritty is sad
+    };
+  };
+
 }

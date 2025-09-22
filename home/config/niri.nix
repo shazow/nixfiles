@@ -1,7 +1,4 @@
-{ pkgs, config, lockcmd, ... }:
-let
-  term = "wezterm";
-in
+{ pkgs, config, lockcmd, term ? "alacritty", launcher ? "fuzzel", ... }:
 with config.lib.niri.actions; {
   # General settings
   layout.gaps = 0;
@@ -41,7 +38,7 @@ with config.lib.niri.actions; {
     # TODO: ... port sway config here
 
     # Application launcher
-    "Mod+space".action = spawn "fuzzel";
+    "Mod+space".action = spawn launcher;
 
     # Clipboard
     "Mod+Shift+v".action = spawn "sh" "-c" "cliphist list | fuzzel --dmenu | cliphist decode | wl-copy";
@@ -54,12 +51,14 @@ with config.lib.niri.actions; {
     "Mod+Shift+q".action = close-window;
     "Mod+Left".action = focus-column-left;
     "Mod+Right".action = focus-column-right;
-    "Mod+k".action = focus-window-up;
-    "Mod+j".action = focus-window-down;
-    "Mod+Shift+h".action = move-column-left;
-    "Mod+Shift+l".action = move-column-right;
+    "Mod+Up".action = focus-window-up;
+    "Mod+Down".action = focus-window-down;
+    "Mod+Shift+Left".action = move-column-left;
+    "Mod+Shift+Right".action = move-column-right;
     "Mod+Shift+k".action = move-window-up;
     "Mod+Shift+j".action = move-window-down;
+    "Mod+Shift+Up".action = move-window-to-workspace-up;
+    "Mod+Shift+Down".action = move-window-to-workspace-down;
 
     # Workspaces
     "Mod+1".action = focus-workspace 1;
@@ -89,6 +88,7 @@ with config.lib.niri.actions; {
   window-rules = [
     {
       # All windows
+      default-column-width.proportion = 0.5;
     }
     # {
     #   matches = [ { is-focused = true; } ];
@@ -100,9 +100,8 @@ with config.lib.niri.actions; {
       matches = [ { app-id = "dropdown"; } ];
       open-floating = true;
     }
-    {
-      matches = [ { app-id = "org.wezfurlong.wezterm"; } ];
-      default-column-width.proportion = 0.5;
-    }
+    # {
+    #   matches = [ { app-id = "org.wezfurlong.wezterm"; } ];
+    # }
   ];
 }
