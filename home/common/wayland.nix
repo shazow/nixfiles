@@ -32,6 +32,18 @@ in
 
   gtk.enable = true;
 
+  xdg.portal = {
+    enable = true;
+    extraPortals = [
+      pkgs.xdg-desktop-portal-gtk
+      pkgs.xdg-desktop-portal-wlr # Backend for wayland roots
+      pkgs.xdg-desktop-portal-gnome # Screencasting support for niri
+      pkgs.gnome-keyring # Implements secret portal
+    ];
+    xdgOpenUsePortal = true; # Make xdg-open use portals for opening things inside flatpak etc
+    config.common.default = "*";
+  };
+
   services.gammastep = {
     enable = true;
     tray = true;
