@@ -20,6 +20,7 @@ in
     settings = import ../config/niri.nix { inherit pkgs config lockcmd term; };
   };
 
+  # TODO: Try https://github.com/abenz1267/walker? 
   programs.fuzzel = {
     enable = true;
     settings = {
