@@ -8,7 +8,7 @@ let
     readlink /proc/$ppid/cwd || echo $HOME
   '';
   fuzzel-emoji = pkgs.writeScript "fuzzel-emoji" ''
-    cat ${pkgs.emoji-list}/emoji-list.txt | fuzzel --match-mode fzf --dmenu | cut -f1 | wl-copy
+    cat ${pkgs.emoji-list}/emoji-list.txt | fuzzel --match-mode fuzzy --dmenu --tabs=2 | cut -f1 | wl-copy -n
   '';
 in
 with config.lib.niri.actions; {
