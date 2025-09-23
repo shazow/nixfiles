@@ -7,7 +7,10 @@ let
     ppid=$(pgrep --newest --parent $pid)
     readlink /proc/$ppid/cwd || echo $HOME
   '';
-
+  fuzzel-emoji = pkgs.writeScript "fuzzel-emoji" (builtins.readFile (pkgs.fetchurl {
+    url = "https://raw.githubusercontent.com/end-4/fuzzel-emoji/d89abc6ae7c4d6fdb27931e2f2ae025cdd857b74/fuzzel-emoji";
+    hash = "sha256-ACyGPshklitkFk8hOvmwLTeeJQrV0k/DgnJdKKwSvxw=";
+  }).outPath);
 in
 with config.lib.niri.actions; {
   layout.gaps = 0;
@@ -59,6 +62,7 @@ with config.lib.niri.actions; {
 
     # Application launcher
     "Mod+space".action = spawn launcher;
+    "Mod+Alt+space".action = spawn "${fuzzel-emoji}";
 
     # Clipboard
     "Mod+Shift+v".action = spawn "sh" "-c" "cliphist list | fuzzel --dmenu | cliphist decode | wl-copy";
@@ -119,9 +123,9 @@ with config.lib.niri.actions; {
     "Mod+Shift+minus".action = spawn "systemctl" "suspend";
 
     # Screenshot
-    "Print".action = spawn "flameshot" "gui";
-    "Shift+Print".action.screenshot = {};
-    "Mod+Shift+Print".action.screenshot-window = {};
+    "Mod+Print".action = spawn "flameshot" "gui";
+    "Print".action.screenshot = {};
+    "Shift+Print".action.screenshot-window = {};
 
     # Exit niri
     "Mod+Control+Delete".action = quit;
@@ -146,6 +150,16 @@ with config.lib.niri.actions; {
       matches = [ { app-id = "dropdown"; } ];
       open-on-workspace = "scratch";
       open-floating = true;
+    }
+    {
+      matches = [ { app-id = "^steam$"; title = "^notificationtoasts.*$"; } ];
+      default-floating-position = {
+        x = 25;
+        y = 25;
+        relative-to = "bottom-right";
+      };
+
+      open-focused = false;
     }
     # {
     #   matches = [ { app-id = "org.wezfurlong.wezterm"; } ];
