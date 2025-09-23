@@ -15,11 +15,10 @@ toggle() {
     local class="$1"
     if command -v i3-msg > /dev/null; then
         i3-msg "[instance=\"$class\"] scratchpad show"
+    elif command -v niri > /dev/null; then
+        niri msg action toggle-scratch --app-id "$class"
     elif command -v swaymsg > /dev/null; then
         swaymsg "[app_id=\"$class\"] scratchpad show, resize set 80 ppt 50 ppt, move absolute position 300 0"
-    elif command -v niri > /dev/null; then
-        # Niri handles scratchpad position/size in its own config.
-        niri msg action toggle-scratch --app-id "$class"
     else
         echo "Error: need i3-msg, swaymsg, or niri to function." >&2
         exit 1
@@ -35,20 +34,19 @@ find_class() {
         # xdotool returns 0 on success (if window is found)
         xdotool search --classname "$class" >/dev/null 2>&1
         return $?
-    elif command -v swaymsg > /dev/null; then
-        # sway
+    elif command -v niri > /dev/null; then
+        # niri
         local r
-        r=$(swaymsg -t get_tree | jq ".. | select(.app_id? == \"$class\")")
+        r=$(niri msg --json windows | jq ".. | select(.app_id? == \"$class\")")
         if [[ -n "$r" ]]; then
             return 0 # Found
         else
             return 1 # Not found
         fi
-    elif command -v niri > /dev/null; then
-        # niri
+    elif command -v swaymsg > /dev/null; then
+        # sway
         local r
-        # Niri uses "app-id" in its JSON tree
-        r=$(niri msg query-tree | jq ".. | select(.\"app-id\"? == \"$class\")")
+        r=$(swaymsg -t get_tree | jq ".. | select(.app_id? == \"$class\")")
         if [[ -n "$r" ]]; then
             return 0 # Found
         else
