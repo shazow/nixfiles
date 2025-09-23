@@ -117,9 +117,14 @@ with config.lib.niri.actions; {
     "Mod+Shift+0".action.move-column-to-workspace = 10;
 
     # Lock & Suspend
-    "Mod+l".action = spawn lockcmd;
-    "Mod+minus".action = spawn lockcmd;
-    "Mod+Shift+minus".action = spawn "systemctl" "suspend";
+    "Mod+l" = {
+      action = spawn lockcmd;
+      allow-inhibiting = false;
+    };
+    "Mod+Shift+minus" = {
+      action = spawn "systemctl" "suspend";
+      allow-when-locked = true;
+    };
 
     # Screenshot
     "Mod+Print".action = spawn "flameshot" "gui";
