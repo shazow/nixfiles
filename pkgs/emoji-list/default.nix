@@ -1,6 +1,6 @@
 # Fetch latest emojis and compile thme into a one-line-per-emoji text file with fzf searchable descriptions
 # Example usage:
-#   cat ${emojis}/emoji-list.txt | fuzzel --match-mode fzf --dmenu | cut -f1 | xargs wtype
+#   cat ${emojis}/emoji-list.txt | fuzzel --match-mode fuzzy --dmenu --tabs=2 | cut -f1 | wl-copy -n
 { pkgs ? import <nixpkgs> {} }:
 
 pkgs.stdenv.mkDerivation rec {
