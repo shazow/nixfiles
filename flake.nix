@@ -57,8 +57,11 @@
         nixpkgs.overlays = [
           inputs.niri-flake.overlays.niri
 
+          (import ./pkgs/overlay.nix)
+
           # Extra packages we're injecting from inputs
           (final: prev: {
+            # TODO: Move these into ./pkgs/overlay.nix?
             nvim = inputs.nvim.defaultPackage.${prev.system};
             ectool = inputs.ectool.defaultPackage.${prev.system};
             # Alternative way to access unstable packages inside pkgs.unstable.*

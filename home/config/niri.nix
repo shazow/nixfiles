@@ -7,10 +7,9 @@ let
     ppid=$(pgrep --newest --parent $pid)
     readlink /proc/$ppid/cwd || echo $HOME
   '';
-  fuzzel-emoji = pkgs.writeScript "fuzzel-emoji" (builtins.readFile (pkgs.fetchurl {
-    url = "https://raw.githubusercontent.com/end-4/fuzzel-emoji/d89abc6ae7c4d6fdb27931e2f2ae025cdd857b74/fuzzel-emoji";
-    hash = "sha256-ACyGPshklitkFk8hOvmwLTeeJQrV0k/DgnJdKKwSvxw=";
-  }).outPath);
+  fuzzel-emoji = pkgs.writeScript "fuzzel-emoji" ''
+    cat ${pkgs.emoji-list}/emoji-list.txt | fuzzel --match-mode fzf --dmenu | cut -f1 | wl-copy
+  '';
 in
 with config.lib.niri.actions; {
   layout.gaps = 0;
