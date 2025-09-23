@@ -38,16 +38,6 @@
 
   programs.xwayland.enable = true;
 
-  xdg.portal = {
-    enable = true;
-    wlr.enable = true;
-    extraPortals = [
-      pkgs.xdg-desktop-portal-gtk
-      pkgs.xdg-desktop-portal-wlr # Backend for wayland roots
-    ];
-    config.common.default = "*";
-  };
-
   security.pam.services.swaylock = {};
   security.pam.loginLimits = [
     # Allow userland to request real-time priority, probably useful for VR?
