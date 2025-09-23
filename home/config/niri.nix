@@ -22,6 +22,8 @@ with config.lib.niri.actions; {
     { argv = ["waybar"]; }
   ];
 
+  hotkey-overlay.skip-at-startup = true;
+
   # Outputs
   outputs."*" = {
     scale = 2;
@@ -83,6 +85,10 @@ with config.lib.niri.actions; {
     "Mod+Shift+j".action = move-window-down;
     "Mod+Shift+Up".action = move-window-to-workspace-up;
     "Mod+Shift+Down".action = move-window-to-workspace-down;
+    "Mod+Comma".action = consume-or-expel-window-left;
+    "Mod+Period".action = consume-or-expel-window-right;
+    "Mod+Shift+Space".action = toggle-window-floating;
+    "Mod+Tab".action = toggle-overview;
 
     # Workspaces
     "Mod+1".action = focus-workspace 1;
@@ -107,8 +113,10 @@ with config.lib.niri.actions; {
     "Mod+Shift+9".action.move-column-to-workspace = 9;
     "Mod+Shift+0".action.move-column-to-workspace = 10;
 
-    # Lock screen
+    # Lock & Suspend
     "Mod+l".action = spawn lockcmd;
+    "Mod+minus".action = spawn lockcmd;
+    "Mod+Shift+minus".action = spawn "systemctl" "suspend";
 
     # Screenshot
     "Print".action = spawn "flameshot" "gui";
