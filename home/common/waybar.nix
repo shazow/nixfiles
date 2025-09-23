@@ -10,6 +10,7 @@
       mainBar = {
         layer = "top";
         position = "bottom";
+        height = 24;
 
         modules-left = [
           "network#wifi"
@@ -39,7 +40,7 @@
 
         "niri/window" = {
           format = "{}";
-          max-length = 50;
+          max-length = 80;
         };
 
         "network#wifi" = {
@@ -129,7 +130,11 @@
     };
 
 
-    style = ''
+    style = # css
+      ''
+      * {
+        font-family: "DejaVu Sans Mono", "FontAwesome", monospace;
+      }
       window#waybar {
           background: #002b36;
           color: #839496;
