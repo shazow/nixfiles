@@ -134,8 +134,6 @@ in
     rclone
     gocryptfs # Encrypted volumes
     # obs-studio # Screen recording, streaming
-    grim # Wayland screenshot backend?
-    (pkgs-unstable.flameshot.override { enableWlrSupport = true; }) # Screenshots
     transmission_4-gtk # Torrents
     mullvad-vpn # Frontend
 
