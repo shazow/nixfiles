@@ -26,6 +26,15 @@ in
   home.sessionVariables = sessionVars;
 
   home.packages = with pkgs; [
+    # Screenshots, with their powers combined: slurp | grim -g - | satty --filename -
+    slurp
+    grim
+    satty # Screenshot annotation tool
+
+    (pkgs.writeScriptBin "paste-into-satty" ''
+       wl-paste -n -t image/png | ${pkgs.satty}/bin/satty --filename -
+    '')
+
     wdisplays
     wl-mirror
   ];

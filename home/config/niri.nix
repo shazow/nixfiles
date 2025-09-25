@@ -92,6 +92,11 @@ with config.lib.niri.actions; {
     "Mod+Period".action = consume-or-expel-window-right;
     "Mod+Shift+Space".action = toggle-window-floating;
     "Mod+Tab".action = toggle-overview;
+    "Alt+tab".action = focus-column-right-or-first;
+    "Alt+Shift+tab".action = focus-window-previous;
+    "Mod+f".action = fullscreen-window;
+    "Mod+Shift+f".action = toggle-windowed-fullscreen;
+    "Mod+w".action = toggle-column-tabbed-display;
 
     # Workspaces
     "Mod+1".action = focus-workspace 1;
@@ -127,7 +132,7 @@ with config.lib.niri.actions; {
     };
 
     # Screenshot
-    "Mod+Print".action = spawn "flameshot" "gui";
+    "Mod+Print".action = spawn "sh" "-c" "slurp | grim -g - | satty --filename -";
     "Print".action.screenshot = {};
     "Shift+Print".action.screenshot-window = {};
 
@@ -143,6 +148,7 @@ with config.lib.niri.actions; {
     {
       # All windows
       default-column-width.proportion = 0.5;
+      clip-to-geometry = true;
     }
     # {
     #   matches = [ { is-focused = true; } ];
