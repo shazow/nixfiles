@@ -8,7 +8,7 @@
     enable = true;
     settings = {
       default_session = {
-        command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd sway";
+        command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd niri-session";
         user = "greeter";
       };
     };
@@ -33,19 +33,10 @@
     qt5.qtwayland # for qt
 
     wtype # xdotool, but for wayland
-    xwayland
     # kdePackages.xwaylandvideobridge # Portal for screen sharing
   ];
 
-  xdg.portal = {
-    enable = true;
-    wlr.enable = true;
-    extraPortals = [
-      pkgs.xdg-desktop-portal-gtk
-      pkgs.xdg-desktop-portal-wlr # Backend for wayland roots
-    ];
-    config.common.default = "*";
-  };
+  programs.xwayland.enable = true;
 
   security.pam.services.swaylock = {};
   security.pam.loginLimits = [
