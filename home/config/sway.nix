@@ -116,7 +116,7 @@ in
     # Scratchpad
     "${mod}+Shift+grave" = "move scratchpad";
     #for_window [instance="dropdown"] move scratchpad, border pixel 2, resize set 80 ppt 50 ppt, move absolute position 300 0
-    "${mod}+grave" = "exec --no-startup-id i3-scratchpad \"dropdown\"";
+    "${mod}+grave" = "exec --no-startup-id scratchpad \"dropdown\"";
 
     # start a terminal
     "${mod}+Return" = "exec ${term}";

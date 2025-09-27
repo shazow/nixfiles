@@ -72,8 +72,7 @@ with config.lib.niri.actions; {
     "Mod+Shift+Return".action = spawn "sh" "-c" "${term} --working-directory \"$(${windowcwd})\"";
 
     # Scratchpad
-    # FIXME: Need to investigate how to port to niri https://github.com/YaLTeR/niri/discussions/329
-    "Mod+grave".action = spawn "i3-scratchpad \"dropdown\"";
+    "Mod+grave".action = spawn "scratchpad";
 
 
     # Window management
@@ -140,6 +139,17 @@ with config.lib.niri.actions; {
     "Mod+Control+Delete".action = quit;
   };
 
+  # Not sure I love this but helps hide the scratch window at the end...
+  workspaces."1" = {};
+  workspaces."2" = {};
+  workspaces."3" = {};
+  workspaces."4" = {};
+  workspaces."5" = {};
+  workspaces."6" = {};
+  workspaces."7" = {};
+  workspaces."8" = {};
+  workspaces."9" = {};
+  workspaces."0" = {};
   workspaces."scratch" = {};
 
   # Window rules
@@ -160,6 +170,15 @@ with config.lib.niri.actions; {
       matches = [ { app-id = "dropdown"; } ];
       open-on-workspace = "scratch";
       open-floating = true;
+
+      default-floating-position = {
+        x = 0;
+        y = 0;
+        relative-to = "top";
+      };
+
+      default-window-height.proportion = 0.4;
+      default-column-width.proportion = 0.8;
     }
     {
       matches = [ { app-id = "^steam$"; title = "^notificationtoasts.*$"; } ];
