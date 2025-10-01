@@ -7,7 +7,7 @@ let
 in
 {
   imports = [
-    ./waybar.nix
+    ./ironbar.nix
   ];
 
   home.packages = with pkgs; [
@@ -17,7 +17,10 @@ in
   programs.niri = {
     enable = true;
     package = pkgs.niri-unstable;
-    settings = import ../config/niri.nix { inherit pkgs config lockcmd term; };
+    settings = import ../config/niri.nix {
+      inherit pkgs config lockcmd term;
+      bar = "ironbar";
+    };
   };
 
   # TODO: Try https://github.com/abenz1267/walker? 

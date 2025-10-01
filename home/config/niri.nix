@@ -1,4 +1,10 @@
-{ pkgs, config, lockcmd, term ? "alacritty", launcher ? "fuzzel", ... }:
+{ pkgs, config,
+  lockcmd,
+  term ? "alacritty",
+  launcher ? "fuzzel",
+  bar ? "ironbar",
+  ...
+}:
 let
   #mod = a: b: a - (b * (a / b)); # TODO: Use built-in function when available https://github.com/NixOS/nix/issues/12616
   #withAllWorkspaces = fn: lib.listToAttrs (lib.genList fn 10); # TODO: use this WIP helper
@@ -21,7 +27,7 @@ with config.lib.niri.actions; {
   ];
 
   spawn-at-startup = [
-    { argv = ["waybar"]; }
+    { argv = [ bar ]; }
   ];
 
   hotkey-overlay.skip-at-startup = true;
@@ -79,8 +85,10 @@ with config.lib.niri.actions; {
     "Mod+Shift+q".action = close-window;
     "Mod+Left".action = focus-column-left;
     "Mod+Right".action = focus-column-right;
-    "Mod+Up".action = focus-window-up;
-    "Mod+Down".action = focus-window-down;
+    "Mod+Alt+Up".action = focus-window-up;
+    "Mod+Alt+Down".action = focus-window-down;
+    "Mod+Up".action = focus-workspace-up;
+    "Mod+Down".action = focus-workspace-down;
     "Mod+Shift+Left".action = move-column-left;
     "Mod+Shift+Right".action = move-column-right;
     "Mod+Shift+k".action = move-window-up;
@@ -96,6 +104,8 @@ with config.lib.niri.actions; {
     "Mod+f".action = fullscreen-window;
     "Mod+Shift+f".action = toggle-windowed-fullscreen;
     "Mod+w".action = toggle-column-tabbed-display;
+    "Mod+r".action = switch-preset-column-width;
+    "Mod+Shift+r".action = switch-preset-column-width-back;
 
     # Workspaces
     "Mod+1".action = focus-workspace 1;
