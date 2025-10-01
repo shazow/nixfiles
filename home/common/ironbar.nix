@@ -53,9 +53,14 @@ in
               ]
           }
 
-          $tray = { type = "tray" }
+          $tray = {
+            type = "tray"
+          }
 
-          $clock = { type = "clock" }
+          $clock = {
+            type = "clock" 
+            format = "%Y-%m-%d %I:%M %p"
+          }
 
           $clipboard = { type = "clipboard" max_items = 3 truncate.mode = "end" truncate.length = 50 }
 
@@ -79,6 +84,7 @@ in
             $clipboard
             $clock
             $notifications
+            $tray
           ]
       }
       in {
@@ -93,9 +99,10 @@ in
     };
 
     "ironbar/style.css" = {
+      onChange = "${lib.getExe pkg} reload";
       text = # css
       ''
-        @define-color color_bg #2d2d2d;
+        @define-color color_bg #000000;
         @define-color color_bg_dark #1c1c1c;
         @define-color color_border #424242;
         @define-color color_border_active #6699cc;
@@ -106,7 +113,7 @@ in
 
         * {
           font-family: Noto Sans Nerd Font, sans-serif;
-          font-size: 16px;
+          font-size: 14px;
           border: none;
           border-radius: 0;
         }

@@ -25,6 +25,12 @@ with config.lib.niri.actions; {
     { proportion = 1. / 2.; }
     { proportion = 2. / 3.; }
   ];
+  layout.preset-window-heights = [
+    { proportion = 1. / 3.; }
+    { proportion = 1. / 2.; }
+    { proportion = 2. / 3.; }
+  ];
+  layout.focus-ring.enable = false;
 
   spawn-at-startup = [
     { argv = [ bar ]; }
@@ -105,30 +111,30 @@ with config.lib.niri.actions; {
     "Mod+Shift+f".action = toggle-windowed-fullscreen;
     "Mod+w".action = toggle-column-tabbed-display;
     "Mod+r".action = switch-preset-column-width;
-    "Mod+Shift+r".action = switch-preset-column-width-back;
+    "Mod+Shift+r".action = switch-preset-window-height;
 
     # Workspaces
-    "Mod+1".action = focus-workspace 1;
-    "Mod+2".action = focus-workspace 2;
-    "Mod+3".action = focus-workspace 3;
-    "Mod+4".action = focus-workspace 4;
-    "Mod+5".action = focus-workspace 5;
-    "Mod+6".action = focus-workspace 6;
-    "Mod+7".action = focus-workspace 7;
-    "Mod+8".action = focus-workspace 8;
-    "Mod+9".action = focus-workspace 9;
-    "Mod+0".action = focus-workspace 10;
+    "Mod+1".action = focus-workspace "1";
+    "Mod+2".action = focus-workspace "2";
+    "Mod+3".action = focus-workspace "3";
+    "Mod+4".action = focus-workspace "4";
+    "Mod+5".action = focus-workspace "5";
+    "Mod+6".action = focus-workspace "6";
+    "Mod+7".action = focus-workspace "7";
+    "Mod+8".action = focus-workspace "8";
+    "Mod+9".action = focus-workspace "9";
+    "Mod+0".action = focus-workspace "10";
 
-    "Mod+Shift+1".action.move-column-to-workspace = 1;
-    "Mod+Shift+2".action.move-column-to-workspace = 2;
-    "Mod+Shift+3".action.move-column-to-workspace = 3;
-    "Mod+Shift+4".action.move-column-to-workspace = 4;
-    "Mod+Shift+5".action.move-column-to-workspace = 5;
-    "Mod+Shift+6".action.move-column-to-workspace = 6;
-    "Mod+Shift+7".action.move-column-to-workspace = 7;
-    "Mod+Shift+8".action.move-column-to-workspace = 8;
-    "Mod+Shift+9".action.move-column-to-workspace = 9;
-    "Mod+Shift+0".action.move-column-to-workspace = 10;
+    "Mod+Shift+1".action.move-column-to-workspace = "1";
+    "Mod+Shift+2".action.move-column-to-workspace = "2";
+    "Mod+Shift+3".action.move-column-to-workspace = "3";
+    "Mod+Shift+4".action.move-column-to-workspace = "4";
+    "Mod+Shift+5".action.move-column-to-workspace = "5";
+    "Mod+Shift+6".action.move-column-to-workspace = "6";
+    "Mod+Shift+7".action.move-column-to-workspace = "7";
+    "Mod+Shift+8".action.move-column-to-workspace = "8";
+    "Mod+Shift+9".action.move-column-to-workspace = "9";
+    "Mod+Shift+0".action.move-column-to-workspace = "10";
 
     # Lock & Suspend
     "Mod+l" = {
@@ -150,16 +156,6 @@ with config.lib.niri.actions; {
   };
 
   # Not sure I love this but helps hide the scratch window at the end...
-  workspaces."1" = {};
-  workspaces."2" = {};
-  workspaces."3" = {};
-  workspaces."4" = {};
-  workspaces."5" = {};
-  workspaces."6" = {};
-  workspaces."7" = {};
-  workspaces."8" = {};
-  workspaces."9" = {};
-  workspaces."0" = {};
   workspaces."scratch" = {};
 
   # Window rules
