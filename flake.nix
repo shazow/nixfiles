@@ -13,7 +13,7 @@
 {
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-25.05";
-    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable"; # Uncomment pkgs-unstable below if using
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable"; # TODO: Switch back to normal nixos-unstable after https://nixpk.gs/pr-tracker.html?pr=446271 is built
     home-manager.url = "github:nix-community/home-manager/release-25.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     nixos-hardware.url = "github:nixos/nixos-hardware";
