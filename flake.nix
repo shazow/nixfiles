@@ -13,10 +13,15 @@
 {
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-25.05";
-    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable"; # Uncomment pkgs-unstable below if using
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable"; # TODO: Switch back to normal nixos-unstable after https://nixpk.gs/pr-tracker.html?pr=446271 is built
     home-manager.url = "github:nix-community/home-manager/release-25.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     nixos-hardware.url = "github:nixos/nixos-hardware";
+
+    # Wayland desktop overlays
+    niri-flake.url = "github:sodiboo/niri-flake";
+    stylix.url = "github:nix-community/stylix/release-25.05";
+    stylix.inputs.nixpkgs.follows = "nixpkgs";
 
     # My nvim config as a standalone nvim distribution
     nvim.url = "path:./pkgs/nvim";
@@ -33,7 +38,7 @@
     framework-audio-presets = { url = "github:ceiphr/ee-framework-presets"; flake = false; };
   };
 
-  outputs = inputs@{ nixpkgs, home-manager, flake-utils, nixpkgs-unstable, ... }:
+  outputs = inputs@{ nixpkgs, home-manager, flake-utils, ... }:
     let
       username = "shazow";
 
@@ -50,8 +55,13 @@
 
       pkgsOverlayModule = {
         nixpkgs.overlays = [
+          inputs.niri-flake.overlays.niri
+
+          (import ./pkgs/overlay.nix)
+
           # Extra packages we're injecting from inputs
           (final: prev: {
+            # TODO: Move these into ./pkgs/overlay.nix?
             nvim = inputs.nvim.defaultPackage.${prev.system};
             ectool = inputs.ectool.defaultPackage.${prev.system};
             # Alternative way to access unstable packages inside pkgs.unstable.*
@@ -106,6 +116,8 @@
             pkgs = nixpkgs.legacyPackages.${host.system};
             modules = host.home ++ [
               pkgsOverlayModule
+              inputs.niri-flake.homeModules.niri
+              inputs.stylix.homeModules.stylix
             ];
           };
         })
