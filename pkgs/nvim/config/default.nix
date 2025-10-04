@@ -104,6 +104,9 @@
       # Loads Comment.nvim mappings
       lazyLoad.settings.keys = [ "gc" "gcc" ];
     };
+    ccc = { # Color picker
+      enable = true;
+    };
     csvview = {
       enable = true;
       lazyLoad.settings.ft = [ "csv" ];

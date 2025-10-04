@@ -2,8 +2,8 @@
   description = "A nixvim configuration";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.05";
-    nixvim.url = "github:nix-community/nixvim/nixos-25.05"; # Use stable "/nixos-25.05" suffix?
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixvim.url = "github:nix-community/nixvim"; # Use stable "/nixos-25.05" suffix?
     nixvim.inputs.nixpkgs.follows = "nixpkgs";
   };
 

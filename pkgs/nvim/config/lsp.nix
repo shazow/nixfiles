@@ -4,20 +4,18 @@
     lsp = {
       enable = true;
       inlayHints = true;
-      keymaps = {
-        lspBuf = {
-          "K" = "hover";
-          "<C-k>" = "signature_help";
-          "gr" = "references";
-          "gD" = "declaration";
-          "gd" = "definition";
-          "gi" = "implementation";
-          "gt" = "type_definition";
-          "<leader>ca" = "code_action";
-          "<leader>re" = "rename";
-          "<leader>f" = "format";
-        };
-      };
+      keymaps = [
+        { key = "K"; lspBufAction = "hover"; }
+        { key = "<C-k>"; lspBufAction = "signature_help"; }
+        { key = "gr"; lspBufAction = "references"; }
+        { key = "gD"; lspBufAction = "declaration"; }
+        { key = "gd"; lspBufAction = "definition"; }
+        { key = "gi"; lspBufAction = "implementation"; }
+        { key = "gt"; lspBufAction = "type_definition"; }
+        { key = "<leader>ca"; lspBufAction = "code_action"; }
+        { key = "<leader>re"; lspBufAction = "rename"; }
+        { key = "<leader>f"; lspBufAction = "format"; }
+      ];
       servers = {
         ts_ls.enable = true;
         nil_ls = {

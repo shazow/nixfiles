@@ -57,18 +57,9 @@ map("v", "<", "<gv", {}) -- Retain visual select when indenting
 
 -- Use gopls to reformat on save
 vim.api.nvim_create_autocmd("BufWritePre", {
-  pattern = "*.go",
+  pattern = { "*.go", "*.rs", "*.lua", "*.tsx", "*.ts" },
   callback = function(args)
-    vim.lsp.buf.format({
-      -- This filter function is the key.
-      -- It checks all active LSPs for the current buffer
-      -- and only allows the one named "gopls" to run.
-      filter = function(client)
-        return client.name == "gopls"
-      end,
-      bufnr = args.buf,
-      async = true,
-    })
+    vim.lsp.buf.format({ bufnr = args.buf, async = true, })
   end,
-  desc = "Format Go files on save with gopls only",
+  desc = "Organize imports and format on write",
 })
