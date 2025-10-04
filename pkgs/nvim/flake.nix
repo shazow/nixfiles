@@ -12,9 +12,7 @@
     nixvim,
     flake-utils,
     ...
-  }: let
-    config = import ./config;
-  in
+  }:
     flake-utils.lib.eachDefaultSystem (system: let
       nixvimLib = nixvim.lib.${system};
       pkgs = import nixpkgs { inherit system; }; # Use the nixpkgs from inputs
@@ -24,7 +22,7 @@
         extraSpecialArgs = {
           nixvimHelpers = nixvim.lib.helpers;
         };
-        module = config;
+        module = import ./config { inherit pkgs; };
       };
     in {
       checks = {
