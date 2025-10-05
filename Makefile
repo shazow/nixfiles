@@ -32,6 +32,7 @@ sync-pkgs:
 clean:
 	sudo nix-collect-garbage --delete-older-than 7d
 	home-manager expire-generations "-7 days"
+	refresh-flakes ~/projects
 
 wireguard: /etc/nixos/.wireguard.key
 	wg genkey > "$@"
