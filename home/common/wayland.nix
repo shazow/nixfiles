@@ -145,6 +145,7 @@ in
     enable = true;
     config = import ../config/sway.nix { inherit pkgs lib lockcmd; };
     extraOptions = [ "-Dlegacy-wl-drm" ];
+    package = pkgs-unstable.sway;
   };
 
 }

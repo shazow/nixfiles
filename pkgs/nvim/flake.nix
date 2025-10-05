@@ -2,7 +2,7 @@
   description = "A nixvim configuration";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     nixvim.url = "github:nix-community/nixvim"; # Use stable "/nixos-25.05" suffix?
     nixvim.inputs.nixpkgs.follows = "nixpkgs";
   };
@@ -15,22 +15,19 @@
   }:
     flake-utils.lib.eachDefaultSystem (system: let
       nixvimLib = nixvim.lib.${system};
-      pkgs = import nixpkgs { inherit system; }; # Use the nixpkgs from inputs
       nixvim' = nixvim.legacyPackages.${system};
-      nvim = nixvim'.makeNixvimWithModule {
-        inherit pkgs;
+      nixvimModule = {
+        inherit system;
         extraSpecialArgs = {
           nixvimHelpers = nixvim.lib.helpers;
         };
-        module = import ./config { inherit pkgs; };
+        module = import ./config;
       };
+      nvim = nixvim'.makeNixvimWithModule nixvimModule;
     in {
       checks = {
         # Run `nix flake check .` to verify that your config is not broken
-        default = nixvimLib.check.mkTestDerivationFromNvim {
-          inherit nvim;
-          name = "A nixvim configuration";
-        };
+        default = nixvimLib.check.mkTestDerivationFromNixvimModule nixvimModule;
       };
 
       packages = nvim;

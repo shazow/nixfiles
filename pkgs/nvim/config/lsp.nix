@@ -4,18 +4,38 @@
     lsp = {
       enable = true;
       inlayHints = true;
-      keymaps = [
-        { key = "K"; lspBufAction = "hover"; }
-        { key = "<C-k>"; lspBufAction = "signature_help"; }
-        { key = "gr"; lspBufAction = "references"; }
-        { key = "gD"; lspBufAction = "declaration"; }
-        { key = "gd"; lspBufAction = "definition"; }
-        { key = "gi"; lspBufAction = "implementation"; }
-        { key = "gt"; lspBufAction = "type_definition"; }
-        { key = "<leader>ca"; lspBufAction = "code_action"; }
-        { key = "<leader>re"; lspBufAction = "rename"; }
-        { key = "<leader>f"; lspBufAction = "format"; }
-      ];
+      keymaps = {
+        diagnostic = {
+        "]d" = "goto_next";
+        "[d" = "goto_prev";
+        };
+        lspBuf = {
+          "<Leader>rn" = "rename";
+          "<Leader>ca" = "code_action";
+          "<Leader>f" = "format";
+          "<C-k>" = "signature_help";
+          "K" = "hover";
+          g0 = "document_symbol";
+          gW = "workspace_symbol";
+          gd = "definition";
+          gD = "declaration";
+          gi = "implementation";
+          gr = "references";
+          gt = "type_definition";
+        };
+      };
+      #keymaps = [
+      #  { key = "K"; lspBufAction = "hover"; }
+      #  { key = "<C-k>"; lspBufAction = "signature_help"; }
+      #  { key = "gr"; lspBufAction = "references"; }
+      #  { key = "gD"; lspBufAction = "declaration"; }
+      #  { key = "gd"; lspBufAction = "definition"; }
+      #  { key = "gi"; lspBufAction = "implementation"; }
+      #  { key = "gt"; lspBufAction = "type_definition"; }
+      #  { key = "<leader>ca"; lspBufAction = "code_action"; }
+      #  { key = "<leader>re"; lspBufAction = "rename"; }
+      #  { key = "<leader>f"; lspBufAction = "format"; }
+      #];
       servers = {
         ts_ls.enable = true;
         nil_ls = {
