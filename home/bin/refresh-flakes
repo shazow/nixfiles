@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+# Find repos with flakes that have been used recently, and run nix develop on them
+
+: "${BASEPATH:=${1:=.}}"
+
+cd $BASEPATH
+
+fd --hidden --exact-depth 1 --changed-within "10weeks" "" */.git/logs/refs/heads |
+    cut -d "/" -f1 |
+    sort -u |
+    xargs fd --exact-depth 1 "^flake.nix$" |
+    xargs dirname |
+    while read p; do
+        echo "Refreshing flake: ${p}"
+        nix develop "./$p"
+    done
