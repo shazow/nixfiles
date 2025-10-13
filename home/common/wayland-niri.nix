@@ -2,7 +2,7 @@
 # TODO: Add https://github.com/rafaelrc7/wayland-pipewire-idle-inhibit
 { pkgs, config, lib, pkgs-unstable, ... }:
 let
-  lockcmd = "${pkgs.swaylock}/bin/swaylock";
+  lockcmd = "systemctl --user start lock.target";
   term = "alacritty"; # TODO: Plumb this
 in
 {
@@ -23,7 +23,7 @@ in
     };
   };
 
-  # TODO: Try https://github.com/abenz1267/walker? 
+  # TODO: Try https://github.com/abenz1267/walker?
   programs.fuzzel = {
     enable = true;
     settings = {
@@ -44,8 +44,14 @@ in
       # Turn off screen (just before locking)
       {
         timeout = 170;
-        command = "${pkgs.wlr-randr}/bin/wlr-randr --output '*' --off";
-        resumeCommand = "${pkgs.wlr-randr}/bin/wlr-randr --output '*' --on";
+
+        # Generic wayland:
+        #command = "${pkgs.wlr-randr}/bin/wlr-randr --output '*' --off";
+        #resumeCommand = "${pkgs.wlr-randr}/bin/wlr-randr --output '*' --on";
+
+        # Niri specific:
+        command = "niri msg action power-off-monitors";
+        resumeCommand = "niri msg action power-on-monitors";
       }
       # Lock computer
       {

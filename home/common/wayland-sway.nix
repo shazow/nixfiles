@@ -2,7 +2,7 @@
 # TODO: Add https://github.com/rafaelrc7/wayland-pipewire-idle-inhibit
 { pkgs, config, lib, pkgs-unstable, ... }:
 let
-  lockcmd = "${pkgs.swaylock}/bin/swaylock -fF";
+  lockcmd = "systemctl --user start lock.target";
 in
 {
   home.packages = with pkgs; [

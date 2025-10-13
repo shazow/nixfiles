@@ -12,10 +12,13 @@ let
     NIXOS_OZONE_WL = "1";
     TERMINAL=term;
   };
-
-  lockcmd = "${pkgs.swaylock}/bin/swaylock -fF";
 in
 {
+  imports = [
+    # Swaylock systemd service lives here
+    ./lock.nix
+  ];
+
   home.pointerCursor = {
     name = "phinger-cursors-light";
     package = pkgs.phinger-cursors;
@@ -61,17 +64,7 @@ in
     temperature.night = 3500;
   };
 
-  programs.swaylock = {
-    enable = true;
-    settings = {
-      color = lib.mkDefault "000000";
-      font-size = 24;
-      indicator-idle-visible = false;
-      indicator-radius = 100;
-      show-failed-attempts = true;
-    };
-  };
-
+  # TODO: Try services.swaync.enable = true;
   services.mako.enable = true;
   services.mako.settings.default-timeout = 3000;
   services.cliphist.enable = true;
