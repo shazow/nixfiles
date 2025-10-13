@@ -50,7 +50,7 @@ in
       pkgs.xdg-desktop-portal-gtk
       pkgs.xdg-desktop-portal-wlr # Backend for wayland roots
       pkgs.xdg-desktop-portal-gnome # Screencasting support for niri
-      pkgs.gnome-keyring # Implements secret portal
+      # pkgs.gnome-keyring # Implements secret portal
     ];
     xdgOpenUsePortal = true; # Make xdg-open use portals for opening things inside flatpak etc
     config.common.default = "*";
@@ -69,16 +69,6 @@ in
   services.mako.settings.default-timeout = 3000;
   services.cliphist.enable = true;
   services.network-manager-applet.enable = true;
-
-  programs.wezterm = {
-    enable = true;
-    extraConfig = # lua
-    ''
-      return {
-        scrollback_lines = 10000,
-      }
-    '';
-  };
 
   programs.alacritty = {
     enable = true;
