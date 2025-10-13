@@ -31,5 +31,8 @@
       WantedBy = [ "lock.target" "sleep.target" "suspend.target" "hibernate.target" "hybrid-sleep.target" ];
     };
   };
+
+  systemd.user.targets.lock.Unit.Description = "Lock the screen";
+  systemd.user.targets.unlock.Unit.Description = "Screen is unlocked";
 }
 
