@@ -138,7 +138,7 @@ with config.lib.niri.actions; {
 
     # Lock & Suspend
     "Mod+l" = {
-      action = spawn lockcmd;
+      action = spawn "sh" "-c" lockcmd;
       allow-inhibiting = false;
     };
     "Mod+Shift+minus" = {

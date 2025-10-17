@@ -13,8 +13,19 @@
     };
   };
 
+  home.packages = with pkgs; [
+    # TODO: Use systemd-lock-handler somehow?  https://git.sr.ht/~whynothugo/systemd-lock-handler
+    # Handles porting over correct events from sleep into lock/unlock.
+    #systemd-lock-handler
+  ];
+
+  #systemd.user.services.systemd-lock-handler.wantedBy = [ "default.target" ];
+
+
   systemd.user.services.wayland-lock = {
     Unit = {
+      # Skip starting this when doing a switch
+      X-SwitchMethod = "keep-old";
       Description = "Lock the screen for Wayland";
       # Can activate with `systemctl --user start lock.target`
       PartOf = [ "lock.target" ];

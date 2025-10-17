@@ -33,6 +33,7 @@ in
     slurp
     grim
     satty # Screenshot annotation tool
+    #gnome-keyring
 
     (pkgs.writeScriptBin "paste-into-satty" ''
        wl-paste -n -t image/png | ${pkgs.satty}/bin/satty --filename -
@@ -50,12 +51,13 @@ in
       pkgs.xdg-desktop-portal-gtk
       pkgs.xdg-desktop-portal-wlr # Backend for wayland roots
       pkgs.xdg-desktop-portal-gnome # Screencasting support for niri
-      # pkgs.gnome-keyring # Implements secret portal
+      #pkgs.gnome-keyring # Implements secret portal
     ];
     xdgOpenUsePortal = true; # Make xdg-open use portals for opening things inside flatpak etc
     config.common.default = "*";
   };
 
+  #services.gnome.gnome-keyring.enable = lib.mkDefault true;
   services.gammastep = {
     enable = true;
     tray = true;

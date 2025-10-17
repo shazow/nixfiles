@@ -37,8 +37,10 @@ in
   services.swayidle = {
     enable = true;
     events = [
-      { event = "before-sleep"; command = lockcmd; }
       { event = "lock"; command = lockcmd; }
+      # FIXME: This should work with the systemctl lockcmd, but it doesn't for some reason? Not sure why. Try again later?
+      # Bonu spoints if we can just use the systemd service directly to trigger on sleep reliably, so we don't need this part of swayidle
+      { event = "before-sleep"; command = "${pkgs.swaylock}/bin/swaylock -fF"; }
     ];
     timeouts = [
       # Turn off screen (just before locking)
