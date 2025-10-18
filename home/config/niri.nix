@@ -31,6 +31,7 @@ with config.lib.niri.actions; {
     { proportion = 2. / 3.; }
   ];
   layout.focus-ring.enable = false;
+  layout.tab-indicator.position = "top";
 
   spawn-at-startup = [
     { argv = [ bar ]; }

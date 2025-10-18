@@ -25,7 +25,7 @@
   systemd.user.services.wayland-lock = {
     Unit = {
       # Skip starting this when doing a switch
-      X-SwitchMethod = "keep-old";
+      X-SwitchMethod = "stop-only";
       Description = "Lock the screen for Wayland";
       # Can activate with `systemctl --user start lock.target`
       PartOf = [ "lock.target" ];
