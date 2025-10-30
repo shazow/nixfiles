@@ -1,9 +1,6 @@
 { pkgs, username, ... }:
 
 {
-  # External monitor management
-  programs.autorandr = import ./config/autorandr.nix;
-
   home.packages = with pkgs; [
     blender
   ];

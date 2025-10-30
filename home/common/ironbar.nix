@@ -55,6 +55,7 @@ in
 
           $tray = {
             type = "tray"
+            icon_size = 28
           }
 
           $clock = {

@@ -16,7 +16,7 @@ in
 
   programs.niri = {
     enable = true;
-    package = pkgs.niri-unstable;
+    package = pkgs.niri;
     settings = import ../config/niri.nix {
       inherit pkgs config lockcmd term;
       bar = "ironbar";
