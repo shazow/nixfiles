@@ -162,6 +162,5 @@
     alsa.enable = true;
     alsa.support32Bit = true; # Not sure if Steam still needs this
     pulse.enable = true; # Pulse server emulation, useful for running pulseaudio GUIs
-    pulse.flatVolumes = false; # Prevent volume reduction feedback loop (volume keeps dropping over and over because it tries to sync to app-level volume and stacks the change for some reason).
   };
 }
