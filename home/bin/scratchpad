@@ -4,10 +4,10 @@
 # a dropdown terminal if it has been killed.
 #
 # Terminal usage:
-# $ ./i3-sway-niri-scratchpad.sh dropdown alacritty
+# $ ./scratchpad dropdown alacritty
 #
 # WM config usage (example):
-#   bindsym $mod+grave exec --no-startup-id /path/to/i3-sway-niri-scratchpad.sh "dropdown" "alacritty"
+#   bindsym $mod+grave exec --no-startup-id /path/to/scratchpad "dropdown" "alacritty"
 #
 set -euo pipefail
 
@@ -16,6 +16,8 @@ toggle() {
     local class="$1"
     if command -v i3-msg > /dev/null; then
         i3-msg "[instance=\"$class\"] scratchpad show"
+    elif command -v swaymsg > /dev/null && pgrep -x sway; then
+        swaymsg "[app_id=\"$class\"] scratchpad show, resize set 80 ppt 50 ppt, move absolute position 300 0"
     elif command -v niri > /dev/null; then
         local workspace="$(niri msg -j workspaces | jq '.[] | select(.is_focused == true)')"
         local workspace_id="$(echo "$workspace" | jq -r '.id')"
@@ -30,8 +32,6 @@ toggle() {
             niri msg action move-window-to-workspace --window-id "$window_id" "$workspace_idx" --focus=true
             niri msg action focus-window --id "$window_id"
         fi
-    elif command -v swaymsg > /dev/null; then
-        swaymsg "[app_id=\"$class\"] scratchpad show, resize set 80 ppt 50 ppt, move absolute position 300 0"
     else
         echo "Error: need i3-msg, swaymsg, or niri to function." >&2
         exit 1
@@ -47,19 +47,19 @@ find_class() {
         # xdotool returns 0 on success (if window is found)
         xdotool search --classname "$class" >/dev/null 2>&1
         return $?
-    elif command -v niri > /dev/null; then
-        # niri
+    elif command -v swaymsg > /dev/null && pgrep -x sway; then
+        # sway
         local r
-        r=$(niri msg --json windows | jq ".. | select(.app_id? == \"$class\")")
+        r=$(swaymsg -t get_tree | jq ".. | select(.app_id? == \"$class\")")
         if [[ -n "$r" ]]; then
             return 0 # Found
         else
             return 1 # Not found
         fi
-    elif command -v swaymsg > /dev/null; then
-        # sway
+    elif command -v niri > /dev/null; then
+        # niri
         local r
-        r=$(swaymsg -t get_tree | jq ".. | select(.app_id? == \"$class\")")
+        r=$(niri msg --json windows | jq ".. | select(.app_id? == \"$class\")")
         if [[ -n "$r" ]]; then
             return 0 # Found
         else
