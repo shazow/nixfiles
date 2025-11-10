@@ -136,6 +136,7 @@ in
     # obs-studio # Screen recording, streaming
     transmission_4-gtk # Torrents
     mullvad-vpn # Frontend
+    keymapp # ZSA keyboard gui
 
     #mplayer  # TODO: Switch to mpc?
     playerctl
