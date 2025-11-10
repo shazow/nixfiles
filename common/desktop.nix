@@ -114,6 +114,7 @@
   # networking.firewall.allowedUDPPorts = [];
 
   hardware.sane.enable = true;
+  hardware.keyboard.zsa.enable = true;
 
   # programs.nix-ld.enable = true; # Run unpatched dynamic libraries
   programs.steam.enable = true;
