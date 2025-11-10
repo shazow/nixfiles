@@ -54,7 +54,21 @@ in
       #pkgs.gnome-keyring # Implements secret portal
     ];
     xdgOpenUsePortal = true; # Make xdg-open use portals for opening things inside flatpak etc
-    config.common.default = "*";
+    # https://github.com/sodiboo/niri-flake/issues/509#issuecomment-3413921072
+    config = {
+      common = {
+        default = [
+          "gtk"
+          "gnome"
+        ];
+      };
+      niri = {
+        default = [
+          "gtk"
+          "gnome"
+        ];
+      };
+    };
   };
 
   #services.gnome.gnome-keyring.enable = lib.mkDefault true;
