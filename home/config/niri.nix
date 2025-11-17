@@ -24,11 +24,13 @@ with config.lib.niri.actions; {
     { proportion = 1. / 3.; }
     { proportion = 1. / 2.; }
     { proportion = 2. / 3.; }
+    { proportion = 1.0; }
   ];
   layout.preset-window-heights = [
     { proportion = 1. / 3.; }
     { proportion = 1. / 2.; }
     { proportion = 2. / 3.; }
+    { proportion = 1.0; }
   ];
   layout.focus-ring.enable = false;
   layout.tab-indicator.position = "top";
@@ -44,10 +46,18 @@ with config.lib.niri.actions; {
     scale = 2;
     variable-refresh-rate = true;
   };
+  outputs."eDP-1" = {
+    # Laptop
+    scale = 1.75;
+    variable-refresh-rate = true;
+  };
 
   # Input
-  input.touchpad.tap = true;
-  input.touchpad.dwt = true;
+  input.touchpad = {
+    tap = true;
+    dwt = true;
+    natural-scroll = false;
+  };
   input.focus-follows-mouse.enable = true;
 
   # Keybindings
