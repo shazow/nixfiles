@@ -31,6 +31,9 @@
   # Disable tailscale from starting by default, it's fairly noisy and may be impacting battery life
   systemd.services.tailscaled.wantedBy = lib.mkForce [ ];
 
+  # Battery dbus interface
+  services.upower.enable = true;
+
   environment.systemPackages = with pkgs; [
     ectool # Embedded controller tool (battery charge limit, etc.)
 
