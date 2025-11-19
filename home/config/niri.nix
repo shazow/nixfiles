@@ -3,6 +3,7 @@
   term ? "alacritty",
   launcher ? "fuzzel",
   bar ? "ironbar",
+  portable ? false,
   ...
 }:
 let
@@ -33,7 +34,14 @@ with config.lib.niri.actions; {
     { proportion = 1.0; }
   ];
   layout.focus-ring.enable = false;
-  layout.tab-indicator.position = "top";
+  layout.tab-indicator = {
+    enable = true;
+    place-within-column = true;
+    position = "top";
+    hide-when-single-tab = true;
+    length.total-proportion = 1.0;
+    gaps-between-tabs = 5;
+  };
 
   spawn-at-startup = [
     { argv = [ bar ]; }
@@ -46,8 +54,8 @@ with config.lib.niri.actions; {
     scale = 2;
     variable-refresh-rate = true;
   };
-  outputs."eDP-1" = {
-    # Laptop
+  outputs."BOE NE135A1M-NY1 Unknown" = {
+    # Framework 13 Laptop
     scale = 1.75;
     variable-refresh-rate = true;
   };
@@ -97,13 +105,14 @@ with config.lib.niri.actions; {
     # Scratchpad
     "Mod+grave".action = spawn "scratchpad";
 
-
     # Window management
     "Mod+Shift+q".action = close-window;
     "Mod+Left".action = focus-column-left;
     "Mod+Right".action = focus-column-right;
     "Mod+Alt+Up".action = focus-window-up;
     "Mod+Alt+Down".action = focus-window-down;
+    "Mod+Shift+BracketLeft".action = focus-window-up-or-column-left;
+    "Mod+Shift+BracketRight".action = focus-window-down-or-column-right;
     "Mod+Up".action = focus-workspace-up;
     "Mod+Down".action = focus-workspace-down;
     "Mod+Shift+Left".action = move-column-left;
@@ -120,7 +129,8 @@ with config.lib.niri.actions; {
     "Alt+Shift+tab".action = focus-window-previous;
     "Mod+f".action = fullscreen-window;
     "Mod+Shift+f".action = toggle-windowed-fullscreen;
-    "Mod+w".action = toggle-column-tabbed-display;
+    "Mod+Shift+w".action = toggle-column-tabbed-display;
+    "Mod+w".action = spawn "niri-tabbed";
     "Mod+r".action = switch-preset-column-width;
     "Mod+Shift+r".action = switch-preset-window-height;
 
@@ -174,7 +184,7 @@ with config.lib.niri.actions; {
   window-rules = [
     {
       # All windows
-      default-column-width.proportion = 0.5;
+      default-column-width.proportion = 2. / 3.;
       clip-to-geometry = true;
     }
     # {
