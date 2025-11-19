@@ -1,6 +1,8 @@
 # Wayland alternative to x11.nix
 # TODO: Add https://github.com/rafaelrc7/wayland-pipewire-idle-inhibit
-{ pkgs, config, lib, pkgs-unstable, ... }:
+{ pkgs, config, lib, pkgs-unstable,
+  portable ? false,
+  ... }:
 let
   lockcmd = "systemctl --user start lock.target";
   term = "alacritty"; # TODO: Plumb this
@@ -18,7 +20,7 @@ in
     enable = true;
     package = pkgs.niri;
     settings = import ../config/niri.nix {
-      inherit pkgs config lockcmd term;
+      inherit pkgs config lockcmd term portable;
       bar = "ironbar";
     };
   };
