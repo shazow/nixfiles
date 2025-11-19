@@ -37,20 +37,25 @@ in
           $sys_info = {
               type = "sys_info"
 
-              interval.memory = 30
-              interval.cpu = 1
+              interval.memory = 60
+              interval.cpu = 2
               interval.temps = 5
-              interval.disks = 300
-              interval.networks = 3
+              interval.disks = 60
+              interval.networks = 60
 
               format = [
-              " {cpu_percent}% | {cpu_frequency} GHz | {temp_c@CPUTIN}°C"
-              " {memory_used} / {memory_total} GB ({memory_available} | {memory_percent2}%) | {swap_used} / {swap_total} GB ({swap_free} | {swap_percent}%)"
-              "󰋊 {disk_used#T@/:.1} / {disk_total#T@/:.1} TB ({disk_percent@/}%) | {disk_read} / {disk_write} MB/s"
-              "󰓢 {net_down@enp39s0} / {net_up@enp39s0} Mbps"
-              "󰖡 {load_average1} | {load_average5} | {load_average15}"
-              "󰥔 {uptime}"
+                " {cpu_frequency}GHz"
+                " {temp_c@min}~{temp_c@max}°C"
+                // " {memory_used} / {memory_total} GB ({memory_available} | {memory_percent}%) | {swap_used} / {swap_total} GB ({swap_free} | {swap_percent}%)"
+                "󰋊 {disk_used#T@/:.1} / {disk_total#T@/:.1}TB" // | {disk_read} / {disk_write} MB/s"
               ]
+          }
+
+          $battery = {
+            type = "battery"
+            format = "{percentage}% ({time_remaining})"
+            thresholds.warning = 20
+            thresholds.critical = 5
           }
 
           $tray = {
@@ -75,6 +80,17 @@ in
               icons.muted = "󰝟"
           }
 
+          //$brightness = { 
+          //  type = "custom" 
+          //  bar = [
+          //    {
+          //      type = "progress"
+          //      value = "light"
+          //      length = 100
+          //    }
+          //  ] 
+          //}
+
           $left = [
             $workspaces
           ]
@@ -83,6 +99,8 @@ in
             $sys_info
             $volume
             $clipboard
+            //$brightness
+            $battery
             $clock
             $notifications
             $tray
@@ -91,7 +109,7 @@ in
       in {
           anchor_to_edges = true
           position = "bottom"
-          icon_theme = "Paper"
+          icon_theme = "Adwaita"
 
           start = $left
           end = $right
