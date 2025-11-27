@@ -65,6 +65,9 @@ with config.lib.niri.actions; {
     tap = true;
     dwt = true;
     natural-scroll = false;
+    click-method = "clickfinger";
+    scroll-method = "two-finger";
+    workspace-auto-back-and-forth = true;
   };
   input.focus-follows-mouse.enable = true;
 
