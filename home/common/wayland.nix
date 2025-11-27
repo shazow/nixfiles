@@ -95,6 +95,7 @@ in
   programs.alacritty = {
     enable = true;
     settings = {
+      window.decorations = "Transparent";
       colors.primary.background = lib.mkDefault "#000000";
       env.TERM = "xterm-256color"; # ssh'ing into old servers with TERM=alacritty is sad
     };
