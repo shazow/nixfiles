@@ -5,13 +5,13 @@
 # If run interactively, runs an fzf selector to checkout a given PR branch
 # If run pipied, output the "${pr_number}\t${branch_name}"
 
-function log {
+log() {
     echo "$*" >&2
 }
 
-readonly repo=$(git remote get-url origin | sed -E 's/.*github.com[:/](.*)(\.git)?/\1/' | sed 's/\.git$//')
+readonly repo="$(git remote get-url origin | sed -E 's/.*github.com[:/](.*)(\.git)?/\1/' | sed 's/\.git$//')"
 
-function checkout() {
+checkout() {
     # Shove it in a reasonably-named local pulls/*-branch and switch
     declare number="$1" ref="$2"
     if [[ ! "$ref" ]]; then
@@ -48,7 +48,7 @@ fi
 
 # Make a nice fzf UX for Pull Requests and title/body preview
 # NOTE: fzf preview command is vulnerable to RCE so we base64-encode/decode strings to defend against it
-readonly chosen=$(
+readonly chosen="$(
     echo "$pulls" \
     | jq -r '.[] | [.number, .head.ref, ("# " + .title + "\n\n" + (.body // "") | @base64)] | @tsv' \
     | fzf \
@@ -57,7 +57,7 @@ readonly chosen=$(
         --with-nth 1,2 \
         --preview-label " Pull Request " \
         --preview 'echo {3} | base64 --decode | bat --color=always -l md --style=plain' \
-)
+)"
 
 if [[ ! "$chosen" ]]; then
     exit 0
