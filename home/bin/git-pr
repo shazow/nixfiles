@@ -12,7 +12,7 @@ log() {
 readonly repo="$(git remote get-url origin | sed -E 's/.*github.com[:/](.*)(\.git)?/\1/' | sed 's/\.git$//')"
 
 checkout() {
-    # Shove it in a reasonably-named local pulls/*-branch and switch
+    # Shove a PR number in a reasonably-named local "pull/$number-$branch" branch and switch
     declare number="$1" ref="$2"
     if [[ ! "$ref" ]]; then
         ref=$(curl -s "https://api.github.com/repos/${repo}/pulls/${1}" | jq -r -e '.head.ref')
