@@ -2,28 +2,23 @@
 # TODO: Add https://github.com/rafaelrc7/wayland-pipewire-idle-inhibit
 { pkgs, config, lib, pkgs-unstable, ... }:
 let
+  term = "alacritty";
   sessionVars = {
-    # For my fancy bookmark script: home/bin/bookmark
-    BOOKMARK_DIR = "${config.home.homeDirectory}/remote/bookmarks";
-
-    # Sway/Wayland env
-    # (Should this be in wayland.windowManager.sway.config.extraSessionCommands?)
     GDK_BACKEND = "wayland"; # GTK
     XDG_SESSION_TYPE = "wayland"; # Electron
-    # Removed: SDL_VIDEODRIVER = "wayland"; # SDL
-    # ^ This breaks some games, maybe proton related? - https://www.reddit.com/r/linux_gaming/comments/17lbqdv/baldurs_gate_iii_sound_but_no_display/
     QT_QPA_PLATFORM = "wayland"; # QT
-    XDG_SESSION_DESKTOP = "sway";
-    XDG_CURRENT_DESKTOP = "sway";
-    GDK_PIXBUF_MODULE_FILE = "$(ls ${pkgs.librsvg.out}/lib/gdk-pixbuf-*/*/loaders.cache)"; # SVG GTK icons fix? Not sure
 
     # Electron apps should use Ozone/wayland
     NIXOS_OZONE_WL = "1";
+    TERMINAL=term;
   };
-
-  lockcmd = "${pkgs.swaylock}/bin/swaylock -fF";
 in
 {
+  imports = [
+    # Swaylock systemd service lives here
+    ./lock.nix
+  ];
+
   home.pointerCursor = {
     name = "phinger-cursors-light";
     package = pkgs.phinger-cursors;
@@ -31,121 +26,110 @@ in
     gtk.enable = true;
   };
 
-  #nixpkgs.overlays = [
-  #  (final: prev: {
-  #    # Fails with
-  #    # > meson.build:48:10: ERROR: Subproject "subprojects/wlroots" required but not found.
-  #    sway-unwrapped = pkgs-unstable.sway-unwrapped.overrideAttrs (old: {
-  #      # We use the unstable 0.10 packaged version as it has some fixes we need
-  #      version = "1.9";
-  #      # dbus systray patched version
-  #      # https://github.com/swaywm/sway/pull/8405
-  #      src = pkgs.fetchFromGitHub {
-  #        owner = "swaywm";
-  #        repo = "sway";
-  #        rev = "19661d1853e766f28ac44284383ff2ee49bf53ae"; # v1.9 version of the PR
-  #        hash = "sha256-CDIe7yzWSEZ/2ADtOgife/nkj0idCDqOwP4H+8AFcZc=";
-  #      };
-  #    });
-  #  })
-  #];
-
   home.sessionVariables = sessionVars;
 
   home.packages = with pkgs; [
+    # Screenshots, with their powers combined: slurp | grim -g - | satty --filename -
+    slurp
+    grim
+    satty # Screenshot annotation tool
+    #gnome-keyring
+
+    (pkgs.writeScriptBin "paste-into-satty" ''
+       wl-paste -n -t image/png | ${pkgs.satty}/bin/satty --filename -
+    '')
+
     wdisplays
     wl-mirror
-
-    # Not sure if these are needed but having trouble with some tray icons not
-    # showing up, so let's see if it helps.
-    networkmanagerapplet
-    hicolor-icon-theme
-    gnome-icon-theme
   ];
 
   gtk = {
     enable = true;
-    theme = {
-      name = "Adwaita-dark";
-      package = pkgs.adwaita-icon-theme;
-    };
     iconTheme = {
-      name = "Adwaita-dark";
+      name = "Adwaita";
       package = pkgs.adwaita-icon-theme;
     };
   };
 
+  xdg.portal = {
+    enable = true;
+    extraPortals = [
+      pkgs.xdg-desktop-portal-gtk
+      pkgs.xdg-desktop-portal-wlr # Backend for wayland roots
+      pkgs.xdg-desktop-portal-gnome # Screencasting support for niri
+      #pkgs.gnome-keyring # Implements secret portal
+    ];
+    xdgOpenUsePortal = true; # Make xdg-open use portals for opening things inside flatpak etc
+    # https://github.com/sodiboo/niri-flake/issues/509#issuecomment-3413921072
+    config = {
+      common = {
+        default = [
+          "gtk"
+          "gnome"
+        ];
+      };
+      niri = {
+        default = [
+          "gtk"
+          "gnome"
+        ];
+      };
+    };
+  };
+
+  #services.gnome.gnome-keyring.enable = lib.mkDefault true;
   services.gammastep = {
     enable = true;
-    #tray = true; # Broken?
+    tray = true;
     provider = "geoclue2";
     temperature.day = 5700;
     temperature.night = 3500;
   };
 
-  programs.rofi = {
-    enable = true;
-    font = "DejaVu Sans Mono 12";
-    theme = "Monokai";
-    package = pkgs.rofi.override { plugins = [ pkgs.rofi-emoji ]; };
-    extraConfig = {
-      combi-mode = "window,drun,calc";
-    };
-  };
-
-  programs.swaylock = {
-    enable = true;
-    settings = {
-      color = "000000";
-      font-size = 24;
-      indicator-idle-visible = false;
-      indicator-radius = 100;
-      show-failed-attempts = true;
-    };
-  };
-
-  # The home-assistant services below won't work unless we're also using
-  # home-manager's sway module.
-
+  # TODO: Try services.swaync.enable = true;
   services.mako.enable = true;
   services.mako.settings.default-timeout = 3000;
   services.cliphist.enable = true;
   services.network-manager-applet.enable = true;
 
-  services.swayidle = {
+  programs.alacritty = {
     enable = true;
-    events = [
-      { event = "before-sleep"; command = lockcmd; }
-      { event = "lock"; command = lockcmd; }
-    ];
-    timeouts = [
-      # Turn off screen (just before locking)
-      {
-        timeout = 170;
-        command = "${pkgs.sway}/bin/swaymsg \"output * dpms off\"";
-        resumeCommand = "${pkgs.sway}/bin/swaymsg \"output * dpms on\"";
-      }
-      # Lock computer
-      {
-        timeout = 180;
-        command = lockcmd;
-      }
-    ];
+    settings = {
+      window.decorations = "Transparent";
+      colors.primary.background = lib.mkDefault "#000000";
+      env.TERM = "xterm-256color"; # ssh'ing into old servers with TERM=alacritty is sad
+    };
   };
 
-  # Not working? Need to try the stable version
-  #services.swayosd.enable = true;
-
-  wayland.windowManager.sway.swaynag.enable = true;
-
-  # Note: We can also use program.sway but home-manager integrates systemd
-  # graphical target units properly so that swayidle and friends all load
-  # correctly together. It also handles injecting the correct XDG_* variables.
-  wayland.windowManager.sway = {
+  stylix = {
     enable = true;
-    config = import ../config/sway.nix { inherit pkgs lib lockcmd; };
-    extraOptions = [ "-Dlegacy-wl-drm" ];
-    package = pkgs-unstable.sway;
-  };
+    polarity = "dark";
+    # https://github.com/tinted-theming/schemes
+    # https://tinted-theming.github.io/tinted-gallery/
+    # Some good candidates:
+    #base16Scheme = "${pkgs.base16-schemes}/share/themes/ayu-dark.yaml";
+    base16Scheme = "${pkgs.base16-schemes}/share/themes/da-one-black.yaml";
+    #base16Scheme = "${pkgs.base16-schemes}/share/themes/irblack.yaml";
 
+    # Mylokai ported: https://github.com/shazow/dotfiles/blob/ac38d11e445b508f2578c05c5eff4be9d053b7c1/.vim/colors/mylokai.vim
+    # base16Scheme = ((pkgs.formats.yaml {}).generate "mylokai.yaml" {
+    #   base00 = "1B1D1E";
+    #   base01 = "293739";
+    #   base02 = "403D3D";
+    #   base03 = "546568";
+    #   base04 = "808080";
+    #   base05 = "F8F8F2";
+    #   base06 = "F8F8F0";
+    #   base07 = "F9F8F5";
+    #   base08 = "F92672";
+    #   base09 = "FD971F";
+    #   base0A = "E6DB74";
+    #   base0B = "A6E22E";
+    #   base0C = "66D9EF";
+    #   base0D = "66D9EF";
+    #   base0E = "AE81FF";
+    #   base0F = "d56825";
+    # }).outPath;
+    # 
+  };
 }

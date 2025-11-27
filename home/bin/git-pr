@@ -1,0 +1,66 @@
+#!/usr/bin/env bash
+# Requires: curl jq fzf bat git
+#
+# Get PRs of current repo
+# If run interactively, runs an fzf selector to checkout a given PR branch
+# If run pipied, output the "${pr_number}\t${branch_name}"
+
+function log {
+    echo "$*" >&2
+}
+
+readonly repo=$(git remote get-url origin | sed -E 's/.*github.com[:/](.*)(\.git)?/\1/' | sed 's/\.git$//')
+
+function checkout() {
+    # Shove it in a reasonably-named local pulls/*-branch and switch
+    declare number="$1" ref="$2"
+    if [[ ! "$ref" ]]; then
+        ref=$(curl -s "https://api.github.com/repos/${repo}/pulls/${1}" | jq -r -e '.head.ref')
+        if ! [[ $? ]]; then
+            log "error: not found: repos/${repo}/pulls/${1}"
+            return 1
+        fi
+    fi
+    if git show-ref --verify --quiet "refs/heads/$ref"; then
+        log "Local branch found, switching to it: $ref"
+        git switch "$ref"
+        return 0
+    fi
+    log "Checking out PR ${number}-${ref}"
+    git fetch origin "pull/$1/head:pull/$1-${ref}"
+    git checkout "pull/$1-${ref}"
+}
+
+if [[ $1 ]]; then
+    # Select a specific PR number
+    checkout "$1"
+    exit $?
+fi
+
+log "Loading repo: ${repo}"
+readonly pulls="$(curl -s "https://api.github.com/repos/${repo}/pulls?state=open")"
+
+if ! [[ -t 1 ]]; then
+    # Output is being pipied, just print it
+    echo "$pulls" | jq -r '.[] | [.number, .head.ref] | @tsv'
+    exit $?
+fi
+
+# Make a nice fzf UX for Pull Requests and title/body preview
+# NOTE: fzf preview command is vulnerable to RCE so we base64-encode/decode strings to defend against it
+readonly chosen=$(
+    echo "$pulls" \
+    | jq -r '.[] | [.number, .head.ref, ("# " + .title + "\n\n" + (.body // "") | @base64)] | @tsv' \
+    | fzf \
+        --reverse \
+        --delimiter $'\t' \
+        --with-nth 1,2 \
+        --preview-label " Pull Request " \
+        --preview 'echo {3} | base64 --decode | bat --color=always -l md --style=plain' \
+)
+
+if [[ ! "$chosen" ]]; then
+    exit 0
+fi
+
+checkout "$(echo "$chosen" | cut -f1)" "$(echo "$chosen" | cut -f2)"

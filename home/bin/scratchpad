@@ -1,0 +1,105 @@
+#!/usr/bin/env bash
+# i3/sway/niri scratchpad-aware launcher.
+# The main goal is to make it easier to auto-restart
+# a dropdown terminal if it has been killed.
+#
+# Terminal usage:
+# $ ./scratchpad dropdown alacritty
+#
+# WM config usage (example):
+#   bindsym $mod+grave exec --no-startup-id /path/to/scratchpad "dropdown" "alacritty"
+#
+set -euo pipefail
+
+# Toggles the visibility of the scratchpad window.
+toggle() {
+    local class="$1"
+    if command -v i3-msg > /dev/null; then
+        i3-msg "[instance=\"$class\"] scratchpad show"
+    elif command -v swaymsg > /dev/null && pgrep -x sway; then
+        swaymsg "[app_id=\"$class\"] scratchpad show, resize set 80 ppt 50 ppt, move absolute position 300 0"
+    elif command -v niri > /dev/null; then
+        local workspace="$(niri msg -j workspaces | jq '.[] | select(.is_focused == true)')"
+        local workspace_id="$(echo "$workspace" | jq -r '.id')"
+        local window="$(niri msg --json windows | jq ".. | select(.app_id? == \"$class\")")"
+        local window_id="$(echo "$window" | jq -r '.id')"
+        if [[ "$(echo "$window" | jq -r '.workspace_id')" == "$workspace_id" ]]; then
+            echo "Moving win_id=$window_id to scratch workspace"
+            niri msg action move-window-to-workspace --window-id "$window_id" "scratch" --focus=false
+        else
+            local workspace_idx="$(echo "$workspace" | jq -r '.idx')"
+            echo "Moving win_id=$window_id to $workspace_idx workspace"
+            niri msg action move-window-to-workspace --window-id "$window_id" "$workspace_idx" --focus=true
+            niri msg action focus-window --id "$window_id"
+        fi
+    else
+        echo "Error: need i3-msg, swaymsg, or niri to function." >&2
+        exit 1
+    fi
+}
+
+# Finds if a window with the given class/app_id already exists.
+# Returns 0 if found, 1 otherwise.
+find_class() {
+    local class="$1"
+    if command -v xdotool > /dev/null; then
+        # i3 / X11
+        # xdotool returns 0 on success (if window is found)
+        xdotool search --classname "$class" >/dev/null 2>&1
+        return $?
+    elif command -v swaymsg > /dev/null && pgrep -x sway; then
+        # sway
+        local r
+        r=$(swaymsg -t get_tree | jq ".. | select(.app_id? == \"$class\")")
+        if [[ -n "$r" ]]; then
+            return 0 # Found
+        else
+            return 1 # Not found
+        fi
+    elif command -v niri > /dev/null; then
+        # niri
+        local r
+        r=$(niri msg --json windows | jq ".. | select(.app_id? == \"$class\")")
+        if [[ -n "$r" ]]; then
+            return 0 # Found
+        else
+            return 1 # Not found
+        fi
+    else
+        echo "Warning: Could not find a tool to query window manager state (xdotool, swaymsg, niri)." >&2
+        # Assume window doesn't exist so it gets launched.
+        return 1
+    fi
+}
+
+# Handles launching and toggling for alacritty.
+scratch_alacritty() {
+    local class="$1"
+
+    # Launch the terminal if it's not already running.
+    if ! find_class "$class"; then
+        # The WM is expected to catch the window via its rules and make it a scratchpad.
+        alacritty --class "$class" -o window.opacity=0.8 -e tmux new-session -A -s scratch &
+        # Give the window manager a moment to recognize the new window.
+        sleep 0.3
+    fi
+
+    toggle "$class"
+}
+
+main() {
+    local class="${1:-dropdown}"
+    local cmd="${2:-alacritty}"
+
+    case "$cmd" in
+        alacritty)
+            scratch_alacritty "${class}"
+            ;;
+        *)
+            echo "Error: Unsupported command '$cmd'" >&2
+            exit 1
+            ;;
+    esac
+}
+
+main "$@"

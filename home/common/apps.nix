@@ -19,14 +19,6 @@ in
   programs = {
     home-manager.enable = true;
 
-    alacritty = { # FIXME: Testing my fixme detector. https://github.com/shazow/nixfiles/issues/1
-      enable = true;
-      settings = {
-        colors.primary.background = "#000000";
-        env.TERM = "xterm-256color"; # ssh'ing into old servers with TERM=alacritty is sad
-      };
-    };
-
     git = {
       enable = true;
       lfs.enable = true;
@@ -80,6 +72,7 @@ in
     # Run `gpg-connect-agent reloadagent /bye` after changing to reload config
     enable = true;
   };
+  services.ssh-agent.enable = true;
   
   fonts.fontconfig.enable = true; # Auto-discover fonts
 
@@ -97,8 +90,6 @@ in
     bitwarden
     google-chrome
     signal-desktop
-    i3status-rust
-    # captive-browser # Doesn't work anymore? Remove?
 
     # PDF, image mainpulation
     ghostscript
@@ -144,10 +135,9 @@ in
     rclone
     gocryptfs # Encrypted volumes
     # obs-studio # Screen recording, streaming
-    grim # Wayland screenshot backend?
-    (pkgs-unstable.flameshot.override { enableWlrSupport = true; }) # Screenshots
     transmission_4-gtk # Torrents
     mullvad-vpn # Frontend
+    keymapp # ZSA keyboard gui
 
     #mplayer  # TODO: Switch to mpc?
     playerctl
@@ -183,5 +173,10 @@ in
     font-awesome_4
     material-icons
     powerline-fonts
+
+    # AI
+    (pkgs-unstable.whisper-cpp.override {
+      vulkanSupport = true; 
+    })
   ]);
 }

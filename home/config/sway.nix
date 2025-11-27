@@ -4,11 +4,12 @@
   lib,
 
   lockcmd ? "${pkgs.swaylock}/bin/swaylock -fF",
+  term ? "alacritty",
   ...
 }:
 let
+  inherit term;
   mod = "Mod4";
-  term = "alacritty";
 
   # sway port of xcwd
   # via: https://www.reddit.com/r/swaywm/comments/ayedi1/opening_terminals_at_the_same_directory/ei7i1dl/?context=1
@@ -25,25 +26,14 @@ let
     dconf write /org/gnome/desktop/interface/color-scheme "'prefer-dark'"
   '';
 
-  push-to-talk = pkgs.writeScript "push-to-talk" ''
-    case $1 in
-        on)
-            pamixer --default-source -u
-            pw-cat -p "${../../assets/sounds/ptt-activate.mp3}"
-        ;;
-        off)
-            pamixer --default-source -m
-            pw-cat -p "${../../assets/sounds/ptt-deactivate.mp3}"
-        ;;
-    esac
-  '';
 in
 {
   modifier = mod;
   terminal = term;
   window.border = 1;
   window.hideEdgeBorders = "both";
-  colors.background = "#000000";
+  window.titlebar = false;
+  colors.background = lib.mkDefault "#000000";
   fonts = {
     names = [ "DejaVu Sans Mono" "FontAwesome" ];
     style = "Bold Semi-Condensed";
@@ -121,13 +111,13 @@ in
     "--release Alt+Shift+4" = "exec flameshot gui";
 
     # Global mic push-to-talk
-    "--no-repeat KP_Multiply" = "exec ${push-to-talk} on";
-    "--release KP_Multiply" = "exec ${push-to-talk} off";
+    #"--no-repeat KP_Multiply" = "exec ${push-to-talk} on";
+    #"--release KP_Multiply" = "exec ${push-to-talk} off";
 
     # Scratchpad
     "${mod}+Shift+grave" = "move scratchpad";
     #for_window [instance="dropdown"] move scratchpad, border pixel 2, resize set 80 ppt 50 ppt, move absolute position 300 0
-    "${mod}+grave" = "exec --no-startup-id i3-scratchpad \"dropdown\"";
+    "${mod}+grave" = "exec --no-startup-id scratchpad \"dropdown\"";
 
     # start a terminal
     "${mod}+Return" = "exec ${term}";

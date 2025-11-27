@@ -1,0 +1,94 @@
+#!/usr/bin/env bash
+# Toggle all windows in workspace in/out of a tabbed container
+# Retain ordering and focus
+
+# 1. Get Workspace and Window Info
+# We need the workspaces JSON to see the column structure (to know if we are already consolidated)
+WORKSPACES_JSON=$(niri msg --json workspaces)
+WINDOWS_JSON=$(niri msg --json windows)
+
+# Find focused workspace ID and Object
+FOCUSED_WS_DATA=$(echo "$WORKSPACES_JSON" | jq '.[] | select(.is_focused)')
+WS_ID=$(echo "$FOCUSED_WS_DATA" | jq -r '.id')
+
+if [ -z "$WS_ID" ]; then
+    notify-send "Niri Tabs" "No active workspace found."
+    exit 1
+fi
+
+# Capture the original focused window ID to restore later
+ORIGINAL_FOCUS_ID=$(echo "$WINDOWS_JSON" | jq -r '.[] | select(.is_focused) | .id')
+
+# Count Windows on this workspace
+WINDOW_COUNT=$(echo "$WINDOWS_JSON" | jq "[.[] | select(.workspace_id == $WS_ID)] | length")
+
+# Count Columns on this workspace
+# We rely on the workspace -> columns array structure
+COLUMN_COUNT=$(echo "$FOCUSED_WS_DATA" | jq '.columns | length')
+
+# --- LOGIC BRANCH ---
+
+# CASE A: ALREADY TABBED (1 Column, Multiple Windows) -> TOGGLE OFF (Explode)
+if [ "$COLUMN_COUNT" -eq 1 ] && [ "$WINDOW_COUNT" -gt 1 ]; then
+
+    # 1. Reset display mode to normal (untab)
+    niri msg action set-column-display normal
+
+    # 2. Unmaximize if needed (Optional, but usually safer to toggle off)
+    # niri msg action maximize-column
+
+    # 3. Explode the Stack
+    # We have N windows in 1 column. We need to expel N-1 times to separate them.
+    ITERATIONS=$((WINDOW_COUNT - 1))
+
+    for ((i=0; i<ITERATIONS; i++)); do
+        # Focus the bottom window of the stack
+        niri msg action focus-window-bottom
+
+        # Expel it (moves it to a new column, usually to the right)
+        niri msg action expel-window-from-column
+
+        # The focus usually follows the expelled window (now in a new column).
+        # We need to go back to our main stack (to the left) to continue stripping it.
+        niri msg action focus-column-left
+    done
+
+    # 4. Restore original focus
+    if [ -n "$ORIGINAL_FOCUS_ID" ]; then
+        niri msg action focus-window --id "$ORIGINAL_FOCUS_ID"
+    fi
+
+    exit 0
+fi
+
+# CASE B: SCATTERED (Multiple Columns) -> TOGGLE ON (Consolidate & Tab)
+
+# If 0 or 1 window total, just ensure tabbed/maximized and exit
+if [ "$WINDOW_COUNT" -lt 2 ]; then
+    niri msg action set-column-display tabbed
+    niri msg action maximize-column
+    exit 0
+fi
+
+# 1. Reset focus to the Left-most column
+for ((i=0; i<WINDOW_COUNT; i++)); do
+    niri msg action focus-column-left
+done
+
+# 2. Sweep Merge
+ITERATIONS=$((WINDOW_COUNT - 1))
+
+for ((i=0; i<ITERATIONS; i++)); do
+    niri msg action focus-column-right
+    niri msg action consume-or-expel-window-left
+done
+
+# 3. Finalize
+niri msg action set-column-display tabbed
+
+# 4. Restore original focus
+if [ -n "$ORIGINAL_FOCUS_ID" ]; then
+    niri msg action focus-window --id "$ORIGINAL_FOCUS_ID"
+fi
+
+niri msg action maximize-column

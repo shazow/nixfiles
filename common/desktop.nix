@@ -114,6 +114,7 @@
   # networking.firewall.allowedUDPPorts = [];
 
   hardware.sane.enable = true;
+  hardware.keyboard.zsa.enable = true;
 
   # programs.nix-ld.enable = true; # Run unpatched dynamic libraries
   programs.steam.enable = true;
@@ -154,6 +155,7 @@
   xdg.portal.enable = true; # xdg portal is used for tunneling permissions to flatpak
   xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
   xdg.portal.config.common.default = "*";
+  xdg.portal.wlr.enable = true;
 
   security.polkit.enable = true;
   security.rtkit.enable = true; # Real time scheduling support, useful for audio priority
