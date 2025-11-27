@@ -72,6 +72,7 @@ in
     # Run `gpg-connect-agent reloadagent /bye` after changing to reload config
     enable = true;
   };
+  services.ssh-agent.enable = true;
   
   fonts.fontconfig.enable = true; # Auto-discover fonts
 
@@ -172,5 +173,10 @@ in
     font-awesome_4
     material-icons
     powerline-fonts
+
+    # AI
+    (pkgs-unstable.whisper-cpp.override {
+      vulkanSupport = true; 
+    })
   ]);
 }
