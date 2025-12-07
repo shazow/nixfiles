@@ -67,8 +67,8 @@ with config.lib.niri.actions; {
     natural-scroll = false;
     click-method = "clickfinger";
     scroll-method = "two-finger";
-    workspace-auto-back-and-forth = true;
   };
+  input.workspace-auto-back-and-forth = true;
   input.focus-follows-mouse.enable = true;
 
   # Keybindings
