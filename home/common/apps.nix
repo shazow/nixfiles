@@ -25,34 +25,35 @@ in
     git = {
       enable = true;
       lfs.enable = true;
-      difftastic.enable = true;
-      userName = name;
-      userEmail = email;
-      aliases = {
-        undo = "reset --soft HEAD^";
-        last = "log -1 HEAD";
-        serve = "daemon --reuseaddr --base-path=. --export-all --verbose --enable=receive-pack --listen=0.0.0.0";
-        remote-add-me = ''
-          !remote-add() {
-            git remote add shazow "git@github.com:shazow/$1";
-          };
-          remote-add $(basename $(git remote get-url origin))
-        '';
 
-        diff2 = "diff --color-words --ignore-all-space --patience";
-        log2 = "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative";
+      settings = {
+        inherit name email;
 
-        deploy = "!merge(){ git checkout $2 && git merge $1 && git push $2 && git checkout \${1#refs/heads/}; }; merge $(git symbolic-ref HEAD) $1";
-        blast = ''for-each-ref --sort=-committerdate refs/heads/ --format="%(committerdate:relative)%09%(refname:short)"'';
-        pr = "!pr(){ git fetch origin pull/$1/head:pr-$1; git checkout pr-$1; }; pr";
-
-        # Interactive
-        ilog = "!git log --oneline --color=always | fzf --ansi --reverse --preview='git show --color=always {1}'";
-        ibranchlog = "!git log --color=always --oneline $(git merge-base main HEAD)..HEAD | fzf --ansi --reverse --preview='git show --color=always {1}'";
-      };
-      extraConfig = {
         push = { autoSetupRemote = true; };
         init.defaultBranch = "main";
+
+        alias = {
+          undo = "reset --soft HEAD^";
+          last = "log -1 HEAD";
+          serve = "daemon --reuseaddr --base-path=. --export-all --verbose --enable=receive-pack --listen=0.0.0.0";
+          remote-add-me = ''
+            !remote-add() {
+              git remote add shazow "git@github.com:shazow/$1";
+            };
+            remote-add $(basename $(git remote get-url origin))
+          '';
+
+          diff2 = "diff --color-words --ignore-all-space --patience";
+          log2 = "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative";
+
+          deploy = "!merge(){ git checkout $2 && git merge $1 && git push $2 && git checkout \${1#refs/heads/}; }; merge $(git symbolic-ref HEAD) $1";
+          blast = ''for-each-ref --sort=-committerdate refs/heads/ --format="%(committerdate:relative)%09%(refname:short)"'';
+          pr = "!pr(){ git fetch origin pull/$1/head:pr-$1; git checkout pr-$1; }; pr";
+
+          # Interactive
+          ilog = "!git log --oneline --color=always | fzf --ansi --reverse --preview='git show --color=always {1}'";
+          ibranchlog = "!git log --color=always --oneline $(git merge-base main HEAD)..HEAD | fzf --ansi --reverse --preview='git show --color=always {1}'";
+        };
       };
     };
 
@@ -64,6 +65,11 @@ in
           inherit name email;
         };
       };
+    };
+
+    difftastic = {
+      enable = true;
+      git.enable = true;
     };
 
     bash = {
@@ -100,7 +106,7 @@ in
     nvim
 
     # Apps
-    bitwarden
+    bitwarden-desktop
     google-chrome
     signal-desktop
 
@@ -170,7 +176,7 @@ in
     gsettings-desktop-schemas
     impala # wifi tui, like nmtui
     jq
-    ncdu_2 # disk space analyzer
+    ncdu # disk space analyzer
     powerstat
     lsof
     hsetroot # for setting bg in picom (xsetroot doesn't work)

@@ -16,7 +16,7 @@
   #hardware.enableAllFirmware = true;  # This pulls in everything, including Mac hardware etc.
   hardware.opengl = {
     enable = true;
-    extraPackages = with pkgs; [ vaapiIntel libvdpau-va-gl vaapiVdpau intel-ocl intel-media-driver ];
+    extraPackages = with pkgs; [ vaapiIntel libvdpau-va-gl libva-vdpau-driver intel-ocl intel-media-driver ];
   };
 
   # Bluetooth

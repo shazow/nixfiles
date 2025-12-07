@@ -32,18 +32,14 @@
   hardware.cpu.amd.updateMicrocode = true;
   hardware.enableRedistributableFirmware = true;
   hardware.steam-hardware.enable = true; # VR
-  hardware.xpadneo.enable = true; # 8BitDo Ultimate controller wireless support
+  #hardware.xpadneo.enable = true; # 8BitDo Ultimate controller wireless support # FIXME: https://github.com/NixOS/nixpkgs/issues/467164
   hardware.graphics = {
     enable = true;
     extraPackages = [
       pkgs.rocmPackages.clr.icd
-      pkgs.amdvlk
       # Encoding/decoding acceleration
       pkgs.libvdpau-va-gl
-      pkgs.vaapiVdpau
-    ];
-    extraPackages32 = [
-      pkgs.driversi686Linux.amdvlk
+      pkgs.libva-vdpau-driver
     ];
   };
   hardware.i2c.enable = true; # For controlling displays with ddcutil
@@ -80,7 +76,6 @@
     gnupg
 
     # Other
-    android-udev-rules
     alsa-firmware
 
     # Wireless

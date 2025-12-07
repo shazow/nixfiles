@@ -15,13 +15,11 @@
     enable = true;
     extraPackages = [
       pkgs.rocmPackages.clr.icd
-      pkgs.amdvlk
       # Encoding/decoding acceleration
       pkgs.libvdpau-va-gl
-      pkgs.vaapiVdpau
+      pkgs.libva-vdpau-driver
     ];
     extraPackages32 = [
-      pkgs.driversi686Linux.amdvlk
     ];
   };
 

@@ -46,7 +46,6 @@
     # Desktop
     alsa-firmware
     alsa-tools
-    android-udev-rules
     colord
     dunst
     feh
@@ -65,10 +64,8 @@
   fonts.packages = with pkgs; [
     noto-fonts
     dejavu_fonts
-    emojione
 
     corefonts # Needed for kerbal space program mods?
-    vistafonts
 
     # Not sure which of these we need, used to just get all of nerdfonts
     nerd-fonts.droid-sans-mono
