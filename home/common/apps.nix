@@ -16,15 +16,18 @@ in
 {
   nixpkgs.config.allowUnfree = true;
 
-  programs = {
+  programs = let
+    name = "Andrey Petrov";
+    email = "andrey.petrov@shazow.net";
+  in {
     home-manager.enable = true;
 
     git = {
       enable = true;
       lfs.enable = true;
       difftastic.enable = true;
-      userName = "Andrey Petrov";
-      userEmail = "andrey.petrov@shazow.net";
+      userName = name;
+      userEmail = email;
       aliases = {
         undo = "reset --soft HEAD^";
         last = "log -1 HEAD";
@@ -50,6 +53,16 @@ in
       extraConfig = {
         push = { autoSetupRemote = true; };
         init.defaultBranch = "main";
+      };
+    };
+
+    jujutsu = {
+      enable = true;
+      settings = {
+        ui.default-command = "log";
+        user = {
+          inherit name email;
+        };
       };
     };
 
