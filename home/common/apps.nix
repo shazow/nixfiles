@@ -140,6 +140,7 @@ in
 
     # Gaming
     lutris
+    faugus-launcher # umu launcher, better than lutris for many games
     wine
     # prismlauncher # minecraft launcher
     #umu-launcher # TODO: Uncomment when https://github.com/NixOS/nixpkgs/pull/369259 is merged
