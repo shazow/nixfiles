@@ -162,8 +162,10 @@
     };
     treesitter-textobjects = {
       enable = true;
-      move.enable = true;
-      select.enable = true;
+      settings = {
+        move.enable = true;
+        select.enable = true;
+      };
     };
     treesj.enable = true;
 
