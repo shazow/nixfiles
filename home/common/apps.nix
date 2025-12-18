@@ -27,7 +27,9 @@ in
       lfs.enable = true;
 
       settings = {
-        inherit name email;
+        user = {
+          inherit name email;
+        };
 
         push = { autoSetupRemote = true; };
         init.defaultBranch = "main";
