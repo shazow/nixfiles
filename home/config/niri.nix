@@ -211,18 +211,20 @@ with config.lib.niri.actions; {
       default-column-width.proportion = 0.8;
     }
     {
+      matches = [ { app-id = "^[Ss]team$"; } ];
+      open-focused = false;
+    }
+    {
+      matches = [ { app-id = "^[Ss]team$"; title = "^Steam$"; } ];
+      open-focused = true;
+    }
+    {
       matches = [ { app-id = "^[Ss]team$"; title = "^notificationtoasts.*$"; } ];
       default-floating-position = {
         x = 25;
         y = 25;
         relative-to = "bottom-right";
       };
-
-      open-focused = false;
-    }
-    {
-      matches = [ { app-id = "^[Ss]team$"; title = "^Steam - .*$"; } ];
-      open-focused = false;
     }
     # {
     #   matches = [ { app-id = "org.wezfurlong.wezterm"; } ];
