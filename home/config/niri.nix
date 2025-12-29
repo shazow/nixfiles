@@ -221,7 +221,7 @@ with config.lib.niri.actions; {
       open-focused = false;
     }
     {
-      matches = [ { app-id = "^[Ss]team$"; title = "^Steam - (Self Updater|News)$"; } ];
+      matches = [ { app-id = "^[Ss]team$"; title = "^Steam - .*$"; } ];
       open-focused = false;
     }
     # {
