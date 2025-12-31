@@ -201,4 +201,22 @@ in
       vulkanSupport = true; 
     })
   ]);
+  
+  xdg.configFile = {
+    # Stop Chrome from self-owning its volume to oblivion
+    "pipewire/pipewire-pulse.conf.d/99-chrome-volume-fix.conf" = {
+      text = pkgs.lib.generators.toJSON { } {
+        "pulse.rules" = [
+          {
+            matches = [ { "application.name" = "Google Chrome"; } ];
+            actions = {
+              "update-props" = {
+                "block-sink-volume" = true;
+              };
+            };
+          }
+        ];
+      };
+    };
+  };
 }
