@@ -220,6 +220,10 @@ with config.lib.niri.actions; {
 
       open-focused = false;
     }
+    {
+      matches = [ { app-id = "^steam$"; } ];
+      open-focused = false;
+    }
     # {
     #   matches = [ { app-id = "org.wezfurlong.wezterm"; } ];
     # }
