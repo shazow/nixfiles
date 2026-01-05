@@ -28,6 +28,9 @@
 
   nixpkgs.config.rocmSupport = true;
 
+  # GPU underclocking for the 7900 XTX (`lact gui`)
+  services.lact.enable = true;
+
   # Hardware specific
   hardware.cpu.amd.updateMicrocode = true;
   hardware.enableRedistributableFirmware = true;
