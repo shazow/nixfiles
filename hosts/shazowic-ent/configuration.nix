@@ -30,6 +30,7 @@
 
   # GPU underclocking for the 7900 XTX (`lact gui`)
   services.lact.enable = true;
+  hardware.amdgpu.overdrive.enable = true;
 
   # Hardware specific
   hardware.cpu.amd.updateMicrocode = true;
