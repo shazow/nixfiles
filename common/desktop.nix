@@ -101,7 +101,7 @@
   users.users.${primaryUsername} = {
     isNormalUser = true;
     home = "/home/${primaryUsername}";
-    extraGroups = [ "wheel" "sudoers" "audio" "video" "disk" "networkmanager" "plugdev" "dialout" "adbusers" "docker" "i2c" ];
+    extraGroups = [ "wheel" "sudoers" "audio" "video" "disk" "networkmanager" "plugdev" "dialout" "adbusers" "docker" "i2c" "kvm" ];
     uid = 1000;
     initialHashedPassword = initialHashedPassword;
   };
