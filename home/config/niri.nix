@@ -61,7 +61,8 @@ with config.lib.niri.actions; {
   };
   outputs."Dell Inc. AW3225QF HP20YZ3" = {
     scale = 2;
-    variable-refresh-rate = true;
+    # vrr causes annoying flickering on grey surfaces
+    # variable-refresh-rate = true;
     mode = {
       width = 3840;
       height = 2160;
