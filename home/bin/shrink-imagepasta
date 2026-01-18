@@ -10,13 +10,8 @@ cleanup() {
 }
 trap cleanup EXIT
 
-if ! wl-paste --no-newline > "$INPUT_FILE" 2>/dev/null; then
+if ! wl-paste  --type "image/png" --no-newline > "$INPUT_FILE" 2>/dev/null; then
     notify-send "Shrink Failed" "Could not paste from clipboard."
-    exit 1
-fi
-
-if ! file --mime-type "$INPUT_FILE" | grep -q "image/"; then
-    notify-send "Shrink Failed" "Clipboard content is not an image."
     exit 1
 fi
 
