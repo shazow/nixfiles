@@ -2,9 +2,8 @@
 # Resize and shrink clipboard image
 set -e
 
-
 INPUT_FILE=$(mktemp --suffix=.png)
-OUTPUT_FILE=$(mktemp --suffix=.jpg)
+OUTPUT_FILE=$(mktemp --suffix=.png)
 
 cleanup() {
     rm -f "$INPUT_FILE" "$OUTPUT_FILE"
@@ -22,10 +21,12 @@ if ! file --mime-type "$INPUT_FILE" | grep -q "image/"; then
 fi
 
 SIZE_BEFORE=$(du -h "$INPUT_FILE" | cut -f1)
-magick "$INPUT_FILE" -resize "50%" -quality "90" "$OUTPUT_FILE"
+
+magick "$INPUT_FILE" -resize "50%" -strip -quality "95" "$OUTPUT_FILE"
+
 SIZE_AFTER=$(du -h "$OUTPUT_FILE" | cut -f1)
 
-wl-copy --type "image/jpeg" < "$OUTPUT_FILE"
+wl-copy --type "image/png" < "$OUTPUT_FILE"
 
 notify-send \
     -i "$OUTPUT_FILE" \
