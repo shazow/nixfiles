@@ -2,6 +2,7 @@
 # Resize and shrink clipboard image
 set -e
 
+# We use temporary files so we can measure before/after sizes and include a notification preview
 INPUT_FILE=$(mktemp --suffix=.png)
 OUTPUT_FILE=$(mktemp --suffix=.png)
 
@@ -17,6 +18,7 @@ fi
 
 SIZE_BEFORE=$(du -h "$INPUT_FILE" | cut -f1)
 
+# PNGs don't have "quality" the way JPEG does, so quality is compression rating (diminishing returns)
 magick "$INPUT_FILE" -resize "50%" -strip -quality "95" "$OUTPUT_FILE"
 
 SIZE_AFTER=$(du -h "$OUTPUT_FILE" | cut -f1)
