@@ -112,7 +112,8 @@ in
     google-chrome
     signal-desktop
 
-    # PDF, image mainpulation
+    # PDF, image manipulation
+    imagemagick
     ghostscript
     gimp
     qpdf

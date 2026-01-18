@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+# Resize and shrink clipboard image
+set -e
+
+
+INPUT_FILE=$(mktemp --suffix=.png)
+OUTPUT_FILE=$(mktemp --suffix=.jpg)
+
+cleanup() {
+    rm -f "$INPUT_FILE" "$OUTPUT_FILE"
+}
+trap cleanup EXIT
+
+if ! wl-paste --no-newline > "$INPUT_FILE" 2>/dev/null; then
+    notify-send "Shrink Failed" "Could not paste from clipboard."
+    exit 1
+fi
+
+if ! file --mime-type "$INPUT_FILE" | grep -q "image/"; then
+    notify-send "Shrink Failed" "Clipboard content is not an image."
+    exit 1
+fi
+
+SIZE_BEFORE=$(du -h "$INPUT_FILE" | cut -f1)
+magick "$INPUT_FILE" -resize "50%" -quality "90" "$OUTPUT_FILE"
+SIZE_AFTER=$(du -h "$OUTPUT_FILE" | cut -f1)
+
+wl-copy --type "image/jpeg" < "$OUTPUT_FILE"
+
+notify-send \
+    -i "$OUTPUT_FILE" \
+    "Image Shrunk" \
+    "Size: $SIZE_BEFORE → $SIZE_AFTER"
