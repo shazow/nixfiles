@@ -12,6 +12,20 @@ let
 
   localScripts = bundleScripts "localScripts" ../bin;
   dotfileScripts = bundleScripts "dotfileScripts" "${inputs.dotfiles.outPath}/local/bin";
+
+  desktopScripts = pkgs.symlinkJoin {
+    name = "desktopScripts";
+    paths = [
+      (pkgs.makeDesktopItem {
+        name = "shrink-imagepasta";
+        desktopName = "Shrink Imagepasta";
+        genericName = "Shrink Clipboard Image";
+        exec = "shrink-imagepasta";
+        terminal = false;
+        categories = [ "Utility" "Graphics" ];
+      })
+    ];
+  };
 in
 {
   nixpkgs.config.allowUnfree = true;
@@ -102,6 +116,7 @@ in
   home.packages = [
     localScripts
     dotfileScripts
+    desktopScripts
   ] ++ (with pkgs; [
     # Some extrapkgs are duplicated from system packages for more frequent
     # updates in userland
