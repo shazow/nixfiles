@@ -61,8 +61,7 @@ with config.lib.niri.actions; {
   };
   outputs."Dell Inc. AW3225QF HP20YZ3" = {
     scale = 1.25;
-    # vrr causes annoying flickering on grey surfaces
-    # variable-refresh-rate = true;
+    variable-refresh-rate = "on-demand";
     mode = { width = 3840; height = 2160; refresh= 120.0; };
   };
 
@@ -216,6 +215,16 @@ with config.lib.niri.actions; {
       default-window-height.proportion = 0.4;
       default-column-width.proportion = 0.8;
     }
+
+    # Steam
+    {
+      matches = [ { app-id = "^steam$"; } ];
+      open-focused = false;
+    }
+    {
+      matches = [ { app-id = "^steam$"; title = "Friends List"; } ];
+      default-column-width.proportion = 1. / 3.;
+    }
     {
       matches = [ { app-id = "^steam$"; title = "^notificationtoasts.*$"; } ];
       default-floating-position = {
@@ -223,13 +232,8 @@ with config.lib.niri.actions; {
         y = 25;
         relative-to = "bottom-right";
       };
-
-      open-focused = false;
     }
-    {
-      matches = [ { app-id = "^steam$"; } ];
-      open-focused = false;
-    }
+    # TODO: Add block-out-from = "screen-capture" for bitwarden and clipboard
     # {
     #   matches = [ { app-id = "org.wezfurlong.wezterm"; } ];
     # }
