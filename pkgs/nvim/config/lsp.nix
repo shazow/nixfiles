@@ -26,6 +26,7 @@
           runtime.version = "Lua 5.1";
         };
       };
+      # "*".enable = false;
     };
   };
 
@@ -62,24 +63,28 @@
 
   extraConfigLua = let
     # We generate the excluded servers for lazy-lsp in nix so we can bolt on config.lsp.servers in here.
-    excludedServersTable = lib.generators.toLua {} ([
-      "efm" # not using it?
-      "diagnosticls"
-      "zk"
-      "sqls"
-      "tailwindcss"
-      "rnix" # deprecated
+    excludedServersTable = lib.generators.toLua {} (
+      [
+        "efm" # not using it?
+        "diagnosticls"
+        "zk"
+        "sqls"
+        "tailwindcss"
+        "rnix" # deprecated
 
-      # Curated set from https://github.com/dundalek/lazy-lsp.nvim/blob/master/servers.md#curated-servers
-      "ccls"                            # prefer clangd
-      "denols"                          # prefer eslint and ts_ls
-      "docker_compose_language_service" # yamlls should be enough?
-      "flow"                            # prefer eslint and ts_ls
-      "ltex"                            # grammar tool using too much CPU
-      "quick_lint_js"                   # prefer eslint and ts_ls
-      "scry"                            # archived on Jun 1, 2023
-      "tailwindcss"                     # associates with too many filetypes
-    ] ++ builtins.attrNames config.lsp.servers);
+        # Curated set from https://github.com/dundalek/lazy-lsp.nvim/blob/master/servers.md#curated-servers
+        "ccls"                            # prefer clangd
+        "denols"                          # prefer eslint and ts_ls
+        "docker_compose_language_service" # yamlls should be enough?
+        "flow"                            # prefer eslint and ts_ls
+        "ltex"                            # grammar tool using too much CPU
+        "quick_lint_js"                   # prefer eslint and ts_ls
+        "scry"                            # archived on Jun 1, 2023
+        "tailwindcss"                     # associates with too many filetypes
+      ] ++ builtins.attrNames (
+        lib.filterAttrs (name: value: value.enable) config.lsp.servers
+      )
+    );
   in ''
     require('lazy-lsp').setup({
       use_vim_lsp_config = true,
