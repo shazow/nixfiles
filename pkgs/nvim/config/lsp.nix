@@ -1,56 +1,35 @@
 { pkgs, ...}:
 {
-  plugins = {
-    lsp = {
-      enable = true;
-      inlayHints = true;
-      keymaps = {
-        diagnostic = {
-        "]d" = "goto_next";
-        "[d" = "goto_prev";
-        };
-        lspBuf = {
-          "<Leader>rn" = "rename";
-          "<Leader>ca" = "code_action";
-          "<Leader>f" = "format";
-          "<C-k>" = "signature_help";
-          "K" = "hover";
-          g0 = "document_symbol";
-          gW = "workspace_symbol";
-          gd = "definition";
-          gD = "declaration";
-          gi = "implementation";
-          gr = "references";
-          gt = "type_definition";
-        };
+  lsp = {
+    inlayHints.enable = true;
+    keymaps = [
+      { key = "K"; lspBufAction = "hover"; }
+      { key = "<C-k>"; lspBufAction = "signature_help"; }
+      { key = "gr"; lspBufAction = "references"; }
+      { key = "gD"; lspBufAction = "declaration"; }
+      { key = "gd"; lspBufAction = "definition"; }
+      { key = "gi"; lspBufAction = "implementation"; }
+      { key = "gt"; lspBufAction = "type_definition"; }
+      { key = "<leader>ca"; lspBufAction = "code_action"; }
+      { key = "<leader>re"; lspBufAction = "rename"; }
+      { key = "<leader>f"; lspBufAction = "format"; }
+    ];
+    servers = {
+      ts_ls.enable = true;
+      nil_ls = {
+        enable = true;
       };
-      #keymaps = [
-      #  { key = "K"; lspBufAction = "hover"; }
-      #  { key = "<C-k>"; lspBufAction = "signature_help"; }
-      #  { key = "gr"; lspBufAction = "references"; }
-      #  { key = "gD"; lspBufAction = "declaration"; }
-      #  { key = "gd"; lspBufAction = "definition"; }
-      #  { key = "gi"; lspBufAction = "implementation"; }
-      #  { key = "gt"; lspBufAction = "type_definition"; }
-      #  { key = "<leader>ca"; lspBufAction = "code_action"; }
-      #  { key = "<leader>re"; lspBufAction = "rename"; }
-      #  { key = "<leader>f"; lspBufAction = "format"; }
-      #];
-      servers = {
-        ts_ls.enable = true;
-        nil_ls = {
-          enable = true;
-        };
-        lua_ls = {
-          enable = true;
-          settings = {
-            diagnostics.globals = [ "vim" ];
-            runtime.version = "Lua 5.1";
-          };
+      lua_ls = {
+        enable = true;
+        config = {
+          diagnostics.globals = [ "vim" ];
+          runtime.version = "Lua 5.1";
         };
       };
     };
+  };
 
+  plugins = {
     # Borrowed from dwf, unsure if it sparks joy yet
     # Maybe borks golang reformat? Need to fix ordering?
     #none-ls = {
@@ -69,9 +48,9 @@
     #};
 
     # Handles lua-related settings (not sure if this is necessary?)
-    lazydev = {
-      enable = true;
-    };
+    #lazydev = {
+    #  enable = true;
+    #};
   };
 
   extraPlugins = with pkgs.vimPlugins; [
@@ -83,6 +62,7 @@
 
   extraConfigLua = ''
     require('lazy-lsp').setup({
+      use_vim_lsp_config = true,
       prefer_local = true,
       excluded_servers = {
         "efm", -- not using it?

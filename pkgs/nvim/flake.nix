@@ -3,7 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
-    nixvim.url = "github:nix-community/nixvim"; # Use stable "/nixos-25.05" suffix?
+    nixvim.url = "github:nix-community/nixvim"; # Use stable "/nixos-25.11" suffix?
     nixvim.inputs.nixpkgs.follows = "nixpkgs";
   };
 
