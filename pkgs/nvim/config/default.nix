@@ -32,6 +32,8 @@
         "nvim-treesitter"
         "nvim-treesitter-textobjects"
         "vimplugin-treesitter-grammar-nix"
+        "vimplugin-nvim-treesitter-queries-lua"
+        "vimplugin-nvim-treesitter-queries-markdown"
 
         # Failure: vim.api.nvim_get_runtime_file("copilot/index.js", false)
         "copilot.lua"
