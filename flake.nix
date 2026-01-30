@@ -23,11 +23,11 @@
     stylix.url = "github:nix-community/stylix/release-25.11";
     stylix.inputs.nixpkgs.follows = "nixpkgs";
 
-    # My nvim config as a standalone nvim distribution
-    nvim.url = "path:./pkgs/nvim";
-    #nvim.inputs.nixpkgs.follows = "nixpkgs"; # TODO: Switch once we use stable nixvim?
+    nixvim.url = "github:nix-community/nixvim";
+    nixvim.inputs.nixpkgs.follows = "nixpkgs-unstable";
 
     # Framework embedded controller tool
+    # TODO: Remove this? Should be native in the kernel now
     ectool.url = "github:tlvince/ectool.nix";
     ectool.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -62,7 +62,9 @@
           # Extra packages we're injecting from inputs
           (final: prev: {
             # TODO: Move these into ./pkgs/overlay.nix?
-            nvim = inputs.nvim.defaultPackage.${prev.system};
+            nvim = inputs.nixvim.legacyPackages.${prev.system}.makeNixvimWithModule {
+              module.imports = [ ./pkgs/nvim/config ];
+            };
             ectool = inputs.ectool.defaultPackage.${prev.system};
             # Alternative way to access unstable packages inside pkgs.unstable.*
             #unstable = import nixpkgs-unstable {
@@ -130,7 +132,11 @@
 
     } // flake-utils.lib.eachDefaultSystem (system:
       {
-        packages.nvim = inputs.nvim.defaultPackage.${system};
+        # Expose packages accessible on the flake
+        # TODO: Consolidate with pkgsOverlayModule above?
+        packages.nvim = inputs.nixvim.legacyPackages.${system}.makeNixvimWithModule {
+          module.imports = [ ./pkgs/nvim/config ];
+        };
       }
     );
 }
