@@ -20,7 +20,7 @@
 
       # Not sure if I like this EQ, need to experiment more
       #services.easyeffects.preset = "Sennheiser-HD6XX-easyeffects"; # keys from easyeffects/output/*.json
-      xdg.configFile."easyeffects/output/HD6XX.json".source = ../../hardware/Sennheiser-HD6XX-easyeffects.json;
+      xdg.configFile."easyeffects/output/HD6XX.json".source = ../../hardware/Sennheiser-HD6XX-oratory1990-easyeffects.json;
     }
   ];
 
