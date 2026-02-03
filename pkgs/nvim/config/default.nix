@@ -14,8 +14,8 @@
     # A lot of QoL stuff implemented using snacks
     ./snacks.nix
 
-    # My nvim plugins
-    ./mine.nix
+    # External nvim plugins
+    ./external.nix
   ];
 
   performance = {
