@@ -108,6 +108,9 @@ in
     enable = true;
   };
   services.ssh-agent.enable = true;
+
+  # Audio EQ
+  services.easyeffects.enable = true;
   
   fonts.fontconfig.enable = true; # Auto-discover fonts
 
