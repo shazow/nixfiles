@@ -47,7 +47,6 @@
     alsa-firmware
     alsa-tools
     colord
-    dunst
     feh
     gnupg
     libnotify

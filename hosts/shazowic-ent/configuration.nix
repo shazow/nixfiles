@@ -69,7 +69,6 @@
     alsa-tools
     arandr
     colord
-    dunst
     feh
     libnotify
     maim
