@@ -28,12 +28,20 @@ checkout() {
     fi
     log "Checking out PR ${number}-${ref}"
     git fetch origin "pull/$1/head:pull/$1-${ref}"
-    git checkout "pull/$1-${ref}"
+    git checkout "pull/$1-${ref}" || return $?
+
+    # Try to set upstream if the branch exists on origin
+    if git ls-remote --exit-code --heads origin "$ref" >/dev/null 2>&1; then
+        log "Found $ref on origin, setting upstream..."
+        git fetch origin "$ref:refs/remotes/origin/$ref"
+        git branch --set-upstream-to="origin/$ref"
+    fi
+    return 0
 }
 
 if [[ $1 ]]; then
     # Select a specific PR number
-    checkout "$1"
+    checkout "$1" "$2"
     exit $?
 fi
 
