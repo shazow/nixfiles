@@ -36,6 +36,11 @@
 
     # Audio profiles for Framework 13 speakers
     framework-audio-presets = { url = "github:ceiphr/ee-framework-presets"; flake = false; };
+
+    microvm.url = "github:astro/microvm.nix";
+    microvm.inputs.nixpkgs.follows = "nixpkgs";
+
+    flake-utils.url = "github:numtide/flake-utils";
   };
 
   outputs = inputs@{ nixpkgs, home-manager, flake-utils, ... }:
@@ -73,9 +78,6 @@
           })
         ];
       };
-    in
-    {
-
       # NixOS System Configuration generator
       # Called by a device flake, can be generated from templates/nixos-device
 
@@ -103,6 +105,41 @@
             } // extraArgs;
           })
           hosts;
+    in
+    {
+      inherit mkSystemConfigurations;
+
+      nixosConfigurations = (mkSystemConfigurations {
+        initialHashedPassword = "";
+      }) // (nixpkgs.lib.attrsets.mapAttrs'
+        (hostname: host: {
+          name = "${hostname}-vm";
+          value = nixpkgs.lib.nixosSystem {
+            system = host.system;
+            modules = [
+              ./vms/base.nix
+              inputs.microvm.nixosModules.microvm
+              pkgsOverlayModule
+              home-manager.nixosModules.home-manager
+              {
+                # https://nix-community.github.io/home-manager/index.html#sec-install-nixos-module
+                home-manager.useUserPackages = true;
+                home-manager.useGlobalPkgs = true;
+                home-manager.users.${username}.imports = host.home ++ [
+                  inputs.niri-flake.homeModules.niri
+                  inputs.stylix.homeModules.stylix
+                ];
+
+                networking.hostName = "${hostname}-vm";
+              }
+            ];
+            specialArgs = {
+              inherit inputs hostname;
+              primaryUsername = username;
+            };
+          };
+        })
+        hosts);
 
       # Homes:
       # We generate a "username@hostname" combo per device
@@ -131,12 +168,20 @@
       };
 
     } // flake-utils.lib.eachDefaultSystem (system:
+      let
+        pkgs = nixpkgs.legacyPackages.${system};
+      in
       {
         # Expose packages accessible on the flake
         # TODO: Consolidate with pkgsOverlayModule above?
         packages.nvim = inputs.nixvim.legacyPackages.${system}.makeNixvimWithModule {
           module.imports = [ ./pkgs/nvim/config ];
         };
+
+        packages.vm = pkgs.writeShellScriptBin "vm" ''
+          host=$(uname -n)
+          exec nix run .#nixosConfigurations."$host"-vm.config.microvm.declaredRunner
+        '';
       }
     );
 }
