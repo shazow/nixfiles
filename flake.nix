@@ -109,10 +109,6 @@
     {
       inherit mkSystemConfigurations;
 
-      nixosConfigurations = mkSystemConfigurations {
-        initialHashedPassword = "";
-      };
-
       nixosVmConfigurations = mkSystemConfigurations {
         initialHashedPassword = "";
         modules = [
@@ -195,8 +191,7 @@
         };
 
         packages.vm = pkgs.writeShellScriptBin "vm" ''
-          host=$(uname -n)
-          exec nix run .#nixosVmConfigurations."$host".config.microvm.declaredRunner
+          exec nix run .#nixosVmConfigurations."$HOSTNAME".config.microvm.declaredRunner
         '';
       }
     );
