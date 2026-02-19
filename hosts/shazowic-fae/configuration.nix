@@ -35,7 +35,7 @@
   services.upower.enable = true;
 
   environment.systemPackages = with pkgs; [
-    ectool # Embedded controller tool (battery charge limit, etc.)
+    framework-tool # Embedded controller tool (battery charge limit, etc.), replaces ectool
 
     # Wireless
     iw # wireless tooling
