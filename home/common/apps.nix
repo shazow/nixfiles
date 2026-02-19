@@ -29,6 +29,13 @@ let
 in
 {
   nixpkgs.config.allowUnfree = true;
+  nix.registry.unstable.to = {
+    type = "github";
+    owner = "NixOS";
+    repo = "nixpkgs";
+    ref = "nixos-unstable";
+    # flake = pkgs-unstable;
+  };
 
   programs = let
     name = "Andrey Petrov";
