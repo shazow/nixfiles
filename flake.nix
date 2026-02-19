@@ -112,34 +112,51 @@
       nixosConfigurations = (mkSystemConfigurations {
         initialHashedPassword = "";
       }) // (nixpkgs.lib.attrsets.mapAttrs'
-        (hostname: host: {
-          name = "${hostname}-vm";
-          value = nixpkgs.lib.nixosSystem {
-            system = host.system;
-            modules = [
-              ./vms/base.nix
-              inputs.microvm.nixosModules.microvm
-              pkgsOverlayModule
-              home-manager.nixosModules.home-manager
-              {
-                # https://nix-community.github.io/home-manager/index.html#sec-install-nixos-module
-                home-manager.useUserPackages = true;
-                home-manager.useGlobalPkgs = true;
-                home-manager.users.${username}.imports = host.home ++ [
-                  inputs.niri-flake.homeModules.niri
-                  inputs.stylix.homeModules.stylix
+        (name: value: nixpkgs.lib.attrsets.nameValuePair "${name}-vm" value)
+        (mkSystemConfigurations {
+          initialHashedPassword = "";
+          modules = [
+            inputs.microvm.nixosModules.microvm
+            ({ config, lib, ... }: {
+              # Allow unfree packages
+              nixpkgs.config.allowUnfree = true;
+
+              # MicroVM configuration
+              microvm = {
+                hypervisor = "qemu";
+                mem = 4096;
+                vcpu = 2;
+
+                shares = [
+                  {
+                    source = "/nix/store";
+                    mountPoint = "/nix/.ro-store";
+                    tag = "ro-store";
+                    proto = "virtiofs";
+                  }
+                  {
+                    source = "/var/lib/microvm/${config.networking.hostName}/share";
+                    mountPoint = "/share";
+                    tag = "share";
+                    proto = "virtiofs";
+                  }
                 ];
 
-                networking.hostName = "${hostname}-vm";
-              }
-            ];
-            specialArgs = {
-              inherit inputs hostname;
-              primaryUsername = username;
-            };
-          };
+                interfaces = [
+                  {
+                    type = "user";
+                    id = "vm-net";
+                    mac = "02:00:00:00:00:01";
+                  }
+                ];
+              };
+
+              # Networking setup for VM
+              networking.useDHCP = false;
+            })
+          ];
         })
-        hosts);
+      );
 
       # Homes:
       # We generate a "username@hostname" combo per device
