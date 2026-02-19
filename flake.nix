@@ -28,7 +28,7 @@
     framework-audio-presets = { url = "github:ceiphr/ee-framework-presets"; flake = false; };
   };
 
-  outputs = inputs@{ nixpkgs, home-manager, flake-utils, ... }:
+  outputs = inputs@{ nixpkgs, home-manager, flake-utils, microvm, ... }:
     let
       username = "shazow";
 
@@ -62,15 +62,17 @@
           })
         ];
       };
-    in
+    in rec
     {
 
       # NixOS System Configuration generator
-      # Called by a device flake, can be generated from templates/nixos-device
+      # Called by a device flake, can be generated from templates/nixos-device:
+      #   nixosConfigurations = nixfiles.mkSystemConfigurations { ... }
+      # We also use it below to generate VM configurations.
 
       mkSystemConfigurations =
         { primaryUsername ? username
-        , initialHashedPassword
+        , initialHashedPassword ? null
         , modules ? []
         , extraArgs ? {}
         ,
@@ -92,6 +94,41 @@
             } // extraArgs;
           })
           hosts;
+
+      # VMs:
+      vmConfigurations = mkSystemConfigurations {
+        modules = [
+          inputs.microvm.nixosModules.microvm
+          ({ config, lib, ... }: {
+            microvm = {
+              mem = 4096;
+              vcpu = 4;
+              graphics.enable = true;
+              hypervisor = "qemu";
+              qemu.extraArgs = [
+                # Handle fractal scaling on Wayland
+                "-display" "sdl,gl=on"
+              ];
+
+              shares = [
+                {
+                  proto = "9p"; # 9p is slower than virtiofs but works in userland
+                  source = "/nix/store";
+                  mountPoint = "/nix/.ro-store";
+                  tag = "ro-store";
+                }
+              ];
+              interfaces = [
+                {
+                  type = "user";
+                  id = "microvm1";
+                  mac = "02:02:00:00:00:01";
+                }
+              ];
+            };
+          })
+        ];
+      };
 
       # Homes:
       # We generate a "username@hostname" combo per device
@@ -126,6 +163,9 @@
         packages.nvim = inputs.nixvim.legacyPackages.${system}.makeNixvimWithModule {
           module.imports = [ ./pkgs/nvim/config ];
         };
+        packages.vm = nixpkgs.legacyPackages.${system}.writeShellScriptBin "vm" ''
+          exec nix run .#vmConfigurations."$HOSTNAME".config.microvm.declaredRunner
+        '';
       }
     );
 }
