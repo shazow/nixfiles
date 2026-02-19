@@ -1,19 +1,10 @@
-# This flake is a shim for migrating my old non-flake NixOS config to a
-# reproduceable flake. A lot of it involves inverting the call flow to allow
-# for passing in all variable state from a root flake rather than sneaking them
-# into the middle of the config stack.
-#
 # This file might look a bit scary but really it's just some over-generalized
 # transformers. (:
-#
-# References:
-# - https://gitlab.com/rprospero/dotfiles/-/blob/master/flake.nix
-# - https://github.com/dwf/dotfiles/blob/master/flake.nix
-# - https://github.com/srid/nixos-config/blob/master/flake.nix
 {
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
-    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable"; # TODO: Switch back to normal nixos-unstable after https://nixpk.gs/pr-tracker.html?pr=446271 is built
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
+
     home-manager.url = "github:nix-community/home-manager/release-25.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     nixos-hardware.url = "github:nixos/nixos-hardware";
