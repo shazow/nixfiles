@@ -109,54 +109,53 @@
     {
       inherit mkSystemConfigurations;
 
-      nixosConfigurations = (mkSystemConfigurations {
+      nixosConfigurations = mkSystemConfigurations {
         initialHashedPassword = "";
-      }) // (nixpkgs.lib.attrsets.mapAttrs'
-        (name: value: nixpkgs.lib.attrsets.nameValuePair "${name}-vm" value)
-        (mkSystemConfigurations {
-          initialHashedPassword = "";
-          modules = [
-            inputs.microvm.nixosModules.microvm
-            ({ config, lib, ... }: {
-              # Allow unfree packages
-              nixpkgs.config.allowUnfree = true;
+      };
 
-              # MicroVM configuration
-              microvm = {
-                hypervisor = "qemu";
-                mem = 4096;
-                vcpu = 2;
+      nixosVmConfigurations = mkSystemConfigurations {
+        initialHashedPassword = "";
+        modules = [
+          inputs.microvm.nixosModules.microvm
+          ({ config, lib, ... }: {
+            # Allow unfree packages
+            nixpkgs.config.allowUnfree = true;
 
-                shares = [
-                  {
-                    source = "/nix/store";
-                    mountPoint = "/nix/.ro-store";
-                    tag = "ro-store";
-                    proto = "virtiofs";
-                  }
-                  {
-                    source = "/var/lib/microvm/${config.networking.hostName}/share";
-                    mountPoint = "/share";
-                    tag = "share";
-                    proto = "virtiofs";
-                  }
-                ];
+            # MicroVM configuration
+            microvm = {
+              hypervisor = "qemu";
+              mem = 4096;
+              vcpu = 2;
 
-                interfaces = [
-                  {
-                    type = "user";
-                    id = "vm-net";
-                    mac = "02:00:00:00:00:01";
-                  }
-                ];
-              };
+              shares = [
+                {
+                  source = "/nix/store";
+                  mountPoint = "/nix/.ro-store";
+                  tag = "ro-store";
+                  proto = "virtiofs";
+                }
+                {
+                  source = "/var/lib/microvm/${config.networking.hostName}/share";
+                  mountPoint = "/share";
+                  tag = "share";
+                  proto = "virtiofs";
+                }
+              ];
 
-              # Networking setup for VM
-              networking.useDHCP = false;
-            })
-          ];
-        })
-      );
+              interfaces = [
+                {
+                  type = "user";
+                  id = "vm-net";
+                  mac = "02:00:00:00:00:01";
+                }
+              ];
+            };
+
+            # Networking setup for VM
+            networking.useDHCP = false;
+          })
+        ];
+      };
 
       # Homes:
       # We generate a "username@hostname" combo per device
@@ -197,7 +196,7 @@
 
         packages.vm = pkgs.writeShellScriptBin "vm" ''
           host=$(uname -n)
-          exec nix run .#nixosConfigurations."$host"-vm.config.microvm.declaredRunner
+          exec nix run .#nixosVmConfigurations."$host".config.microvm.declaredRunner
         '';
       }
     );
