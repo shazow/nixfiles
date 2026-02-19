@@ -17,15 +17,14 @@
     nixvim.url = "github:nix-community/nixvim";
     nixvim.inputs.nixpkgs.follows = "nixpkgs-unstable";
 
-    # Framework embedded controller tool
-    # TODO: Remove this? Should be native in the kernel now
-    ectool.url = "github:tlvince/ectool.nix";
-    ectool.inputs.nixpkgs.follows = "nixpkgs";
+    microvm.url = "github:astro/microvm.nix";
+    microvm.inputs.nixpkgs.follows = "nixpkgs";
 
     # My old dotfiles
     dotfiles = { url = "github:shazow/dotfiles"; flake = false; };
 
     # Audio profiles for Framework 13 speakers
+    # TODO: Inline the preset JSON we're using and get rid of this input, it's small and doesn't change.
     framework-audio-presets = { url = "github:ceiphr/ee-framework-presets"; flake = false; };
   };
 
@@ -56,7 +55,6 @@
             nvim = inputs.nixvim.legacyPackages.${prev.system}.makeNixvimWithModule {
               module.imports = [ ./pkgs/nvim/config ];
             };
-            ectool = inputs.ectool.defaultPackage.${prev.system};
             # Alternative way to access unstable packages inside pkgs.unstable.*
             #unstable = import nixpkgs-unstable {
             # inherit (final) system config;
