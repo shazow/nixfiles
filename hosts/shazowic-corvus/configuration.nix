@@ -24,16 +24,21 @@
   hardware.bluetooth.enable = true;
   hardware.bluetooth.powerOnBoot = false;
 
+  boot.layout = {
+    enable = true;
+    luksDevices = disk.luksDevices;
+    efiDevice = disk.efi.device;
+    swapDevices = disk.swapDevices;
+    resumeDevice = disk.resumeDevice;
+    extraFileSystems = disk.extraFileSystems;
+  };
+
   nix.settings.max-jobs = lib.mkDefault 8;
   powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
   powerManagement.powertop.enable = true; # Run powertop --auto-tune on start
 
   imports = [
     ../../hardware/thinkpad-x1c.nix
-
-    (import ../../common/boot.nix {
-      inherit disk;
-    })
 
     ../../common/crypto.nix
 
