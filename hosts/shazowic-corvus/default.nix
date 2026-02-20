@@ -6,6 +6,7 @@
   system = "x86_64-linux";
 
   modules = [
+    ../../modules/bootlayout.nix
   ];
 
   home = [

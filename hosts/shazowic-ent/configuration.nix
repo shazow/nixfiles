@@ -5,9 +5,14 @@
 , disk
 , ...
 }: {
-  # FIXME: New boot layout module is not ot fully working yet, not sure what's missing
-  # Can Remove common/boot.nix after fixing.
-  #boot.layout.enable = true;
+  boot.layout = {
+    enable = true;
+    luksDevices = disk.luksDevices;
+    efiDevice = disk.efi.device;
+    swapDevices = disk.swapDevices;
+    resumeDevice = disk.resumeDevice;
+    extraFileSystems = disk.extraFileSystems;
+  };
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
@@ -21,9 +26,6 @@
     ../../common/desktop-wayland.nix
     ../../common/crypto.nix
     # ../../common/tracy.nix
-    (import ../../common/boot.nix {
-        inherit disk;
-    })
   ];
 
   nixpkgs.config.rocmSupport = true;

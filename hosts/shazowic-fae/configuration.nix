@@ -5,6 +5,15 @@
   initialHashedPassword,
   ...
 }: {
+  boot.layout = {
+    enable = true;
+    luksDevices = disk.luksDevices;
+    efiDevice = disk.efi.device;
+    swapDevices = disk.swapDevices;
+    resumeDevice = disk.resumeDevice;
+    extraFileSystems = disk.extraFileSystems;
+  };
+
   imports = [
     ../../hardware/framework-13-amd.nix
 
@@ -14,10 +23,6 @@
     ../../common/crypto.nix
 
     ../../modules/users.nix
-
-    (import ../../common/boot.nix {
-       inherit disk;
-    })
   ];
 
   nixfiles.users = {

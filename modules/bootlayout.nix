@@ -50,7 +50,7 @@ in {
     volumes = mkOption {
       type = types.attrs;
       default = {
-        "/" = { options = btrfsOptions ++ [ "subvol=@root" "nodiratime" "commit=100" ]; };
+        "/" = { options = btrfsOptions ++ [ "subvol=@rootnix" "nodiratime" "commit=100" ]; };
         "/home" = { options = btrfsOptions ++ [ "subvol=@home" ]; };
       };
     };
@@ -79,12 +79,15 @@ in {
 
   config = mkIf cfg.enable {
 
+    # Turn off screen after 60s even in console
+    boot.kernelParams = [ "consoleblank=60" ];
+
     # TODO: Add grub option?
     boot.loader = {
       grub.enable = false;
       systemd-boot = {
         enable = true;
-        configurationLimit = 10;
+        configurationLimit = 8;
         editor = false; # Disable bypassing init
       };
     } // {
