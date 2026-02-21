@@ -8,9 +8,7 @@
   imports = [
     ../../hardware/framework-13-amd.nix
 
-    ../../modules/bootlayout.nix
-
-    ../../moduules/users.nix
+    ../../modules/users.nix
 
     ../../common/desktop-wayland.nix
 
@@ -20,11 +18,6 @@
        inherit disk;
     })
   ];
-
-  #nixfiles.bootlayout = {
-  # enable = true;
-  # # The rest is configured via the parent flake (see /templates/nixos-device)
-  #};
 
   nixfiles.users = {
     enable = true;
