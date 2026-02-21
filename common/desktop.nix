@@ -111,6 +111,7 @@
   networking.firewall.checkReversePath = "loose"; # Workaround for tailscale? https://github.com/tailscale/tailscale/issues/3310
   # networking.firewall.allowedTCPPorts = [];
   # networking.firewall.allowedUDPPorts = [];
+  networking.nftables.enable = true;
 
   hardware.sane.enable = true;
   hardware.keyboard.zsa.enable = true;
