@@ -9,14 +9,14 @@
 } @ toplevel:
 with lib;
 let
-  cfg = config.boot.layout;
+  cfg = config.nixfiles.bootlayout;
   btrfsOptions = [ "defaults" "noatime" "compress=zstd" ];
   mkIfElse = p: yes: no: mkMerge [
     (mkIf p yes)
     (mkIf (!p) no)
   ];
 in {
-  options.boot.layout = {
+  options.nixfiles.bootlayout = {
     enable = mkEnableOption ''
       Mount a full disk encryption setup using BTRFS, encrypted swap device, and a /boot/efi device.
     '';

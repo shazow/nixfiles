@@ -7,7 +7,7 @@
 }: {
   # FIXME: New boot layout module is not ot fully working yet, not sure what's missing
   # Can Remove common/boot.nix after fixing.
-  #boot.layout.enable = true;
+  #nixfiles.bootlayout.enable = true;
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
 

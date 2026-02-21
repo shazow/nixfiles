@@ -1,7 +1,6 @@
 {
   pkgs,
   lib,
-  disk,
   initialHashedPassword,
   ...
 }: {
@@ -14,10 +13,6 @@
     ../../common/crypto.nix
 
     ../../modules/users.nix
-
-    (import ../../common/boot.nix {
-       inherit disk;
-    })
   ];
 
   nixfiles.users = {
