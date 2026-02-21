@@ -40,6 +40,7 @@ in {
 
     swapDevices = mkOption {
       type = types.listOf types.attrs;
+      default = [ "/dev/mapper/cryptswap" ];
     };
 
     resumeDevice = mkOption {
