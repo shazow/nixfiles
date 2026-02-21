@@ -2,22 +2,23 @@
   pkgs,
   lib,
   initialHashedPassword,
-  disk,
   ...
 }: {
   imports = [
     ../../hardware/framework-13-amd.nix
+
+    ../../modules/bootlayout.nix
 
     ../../modules/users.nix
 
     ../../common/desktop-wayland.nix
 
     ../../common/crypto.nix
-
-    (import ../../common/boot.nix {
-       inherit disk;
-    })
   ];
+
+  nixfiles.bootlayout = {
+    enable = lib.mkDefault true;
+  };
 
   nixfiles.users = {
     enable = true;
