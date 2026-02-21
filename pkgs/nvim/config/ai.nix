@@ -10,7 +10,7 @@
       enable = true;
       settings.suggestion.enabled = false; # Required for copilot-cmp
       settings.panel.enabled = false; # Required for copilot-cmp
-      settings.copilot_model = "gpt-4o-copilot";  # Default is gpt-35-turbo, supports gpt-4o-copilot
+      #settings.copilot_model = "gpt-4o-copilot";  # Default is gpt-35-turbo, supports gpt-4o-copilot
       # Load on insert or command
       lazyLoad.settings.event = "InsertEnter";
       lazyLoad.settings.cmd = [ "Copilot" "CopilotAuth" ];
