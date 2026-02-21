@@ -50,7 +50,8 @@ in {
     volumes = mkOption {
       type = types.attrs;
       default = {
-        "/" = { options = btrfsOptions ++ [ "subvol=@root" "nodiratime" "commit=100" ]; };
+        # FIXME: My old systems use subvol=@nixroot but really we should call it @root if we migrate
+        "/" = { options = btrfsOptions ++ [ "subvol=@nixroot" "nodiratime" "commit=100" ]; };
         "/home" = { options = btrfsOptions ++ [ "subvol=@home" ]; };
       };
     };

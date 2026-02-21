@@ -1,3 +1,8 @@
+# DEPRECATED
+# Use ../modules/boot.nix
+#
+# --
+#
 # Full disk encryption using a btrfs filesystem with encrypted /boot and a
 # separate swap device.
 #

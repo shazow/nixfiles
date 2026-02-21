@@ -11,6 +11,9 @@
     '';
   };
 
+  # Turn off screen after 60s in console
+  boot.kernelParams = [ "consoleblank=60" ];
+
   # Desktop environment agnostic packages.
   environment.systemPackages = with pkgs; [
     home-manager
