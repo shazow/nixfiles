@@ -2,6 +2,7 @@
   pkgs,
   lib,
   initialHashedPassword,
+  disk,
   ...
 }: {
   imports = [
@@ -9,17 +10,21 @@
 
     ../../modules/bootlayout.nix
 
-    ../../modules/users.nix
+    ../../moduules/users.nix
 
     ../../common/desktop-wayland.nix
 
     ../../common/crypto.nix
+
+    (import ../../common/boot.nix {
+       inherit disk;
+    })
   ];
 
-  nixfiles.bootlayout = {
-    enable = true;
-    # The rest is configured via the parent flake (see /templates/nixos-device)
-  };
+  #nixfiles.bootlayout = {
+  # enable = true;
+  # # The rest is configured via the parent flake (see /templates/nixos-device)
+  #};
 
   nixfiles.users = {
     enable = true;
