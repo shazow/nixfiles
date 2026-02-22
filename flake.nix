@@ -99,8 +99,14 @@
       vmConfigurations = mkSystemConfigurations {
         modules = [
           inputs.microvm.nixosModules.microvm
-          ({ config, lib, ... }: {
+          ({ config, lib, pkgs, ... }: {
             nixfiles.bootlayout.enable = false;
+            services.greetd.enable = lib.mkForce false;
+            services.cage = {
+              enable = true;
+              program = "${pkgs.niri}/bin/niri-session"; # TODO: Unhardcode this
+              user = username;
+            };
 
             microvm = {
               mem = 4096;
