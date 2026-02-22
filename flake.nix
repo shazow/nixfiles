@@ -100,10 +100,13 @@
         modules = [
           inputs.microvm.nixosModules.microvm
           ({ config, lib, ... }: {
+            nixfiles.bootlayout.enable = false;
+
             microvm = {
               mem = 4096;
               vcpu = 4;
               graphics.enable = true;
+
               hypervisor = "qemu";
               qemu.extraArgs = [
                 # Handle fractal scaling on Wayland
@@ -112,12 +115,14 @@
 
               shares = [
                 {
-                  proto = "9p"; # 9p is slower than virtiofs but works in userland
+                  # 9p is slower than virtiofs but works in userland
+                  proto = "9p";
                   source = "/nix/store";
                   mountPoint = "/nix/.ro-store";
                   tag = "ro-store";
                 }
               ];
+
               interfaces = [
                 {
                   type = "user";
