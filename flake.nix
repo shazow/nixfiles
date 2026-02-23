@@ -52,7 +52,7 @@
           # Extra packages we're injecting from inputs
           (final: prev: {
             # TODO: Move these into ./pkgs/overlay.nix?
-            nvim = inputs.nixvim.legacyPackages.${prev.system}.makeNixvimWithModule {
+            nvim = inputs.nixvim.legacyPackages.${prev.stdenv.hostPlatform.system}.makeNixvimWithModule {
               module.imports = [ ./pkgs/nvim/config ];
             };
             # Alternative way to access unstable packages inside pkgs.unstable.*
@@ -69,7 +69,6 @@
       # Called by a device flake, can be generated from templates/nixos-device:
       #   nixosConfigurations = nixfiles.mkSystemConfigurations { ... }
       # We also use it below to generate VM configurations.
-
       mkSystemConfigurations =
         { primaryUsername ? username
         , initialHashedPassword ? null
@@ -95,29 +94,42 @@
           })
           hosts;
 
+
+      # Homes:
+      # We generate a "username@hostname" combo per device
+      homeConfigurations = nixpkgs.lib.attrsets.mapAttrs'
+        (hostname: host: {
+          name = "${username}@${hostname}";
+          value = home-manager.lib.homeManagerConfiguration {
+            extraSpecialArgs = {
+              inherit inputs username hostname;
+              pkgs-unstable = inputs.nixpkgs-unstable.legacyPackages.${host.system};
+            };
+            pkgs = nixpkgs.legacyPackages.${host.system};
+            modules = host.home ++ [
+              pkgsOverlayModule
+              inputs.niri-flake.homeModules.niri
+              inputs.stylix.homeModules.stylix
+            ];
+          };
+        })
+        hosts;
+
       # VMs:
+      # A little treat on top to be able to launch replicas of any host as a QEMU VM, for testing and fun.
       vmConfigurations = mkSystemConfigurations {
+        initialHashedPassword = "$y$j9T$cKCdiliVyUYFTz6b6YC2K.$kLjtBxrCuzuxS//eMSLsHtXCkgkWimKq00cRdLzNBBB";
         modules = [
           inputs.microvm.nixosModules.microvm
+
           ({ config, lib, pkgs, ... }: {
             nixfiles.bootlayout.enable = false;
-            services.greetd.enable = lib.mkForce false;
-            services.cage = {
-              enable = true;
-              program = "${pkgs.niri}/bin/niri-session"; # TODO: Unhardcode this
-              user = username;
-            };
 
             microvm = {
               mem = 4096;
               vcpu = 4;
               graphics.enable = true;
-
               hypervisor = "qemu";
-              qemu.extraArgs = [
-                # Handle fractal scaling on Wayland
-                "-display" "sdl,gl=on"
-              ];
 
               shares = [
                 {
@@ -138,29 +150,25 @@
               ];
             };
           })
+
+          # Inject home-manager (normally managed independently from NixOS)
+          ({ lib, pkgs, ... }: {
+            home-manager.useGlobalPkgs = lib.mkForce false;
+            home-manager.extraSpecialArgs = {
+              inherit inputs username;
+              pkgs-unstable = inputs.nixpkgs-unstable.legacyPackages."${pkgs.stdenv.hostPlatform.system}";
+            };
+            home-manager.users.${username} = {
+              imports = [
+                ./home/desktop.nix
+                pkgsOverlayModule
+                inputs.niri-flake.homeModules.niri
+                inputs.stylix.homeModules.stylix
+              ];
+            };
+          })
         ];
       };
-
-      # Homes:
-      # We generate a "username@hostname" combo per device
-
-      homeConfigurations = nixpkgs.lib.attrsets.mapAttrs'
-        (hostname: host: {
-          name = "${username}@${hostname}";
-          value = home-manager.lib.homeManagerConfiguration {
-            extraSpecialArgs = {
-              inherit inputs username hostname;
-              pkgs-unstable = inputs.nixpkgs-unstable.legacyPackages.${host.system};
-            };
-            pkgs = nixpkgs.legacyPackages.${host.system};
-            modules = host.home ++ [
-              pkgsOverlayModule
-              inputs.niri-flake.homeModules.niri
-              inputs.stylix.homeModules.stylix
-            ];
-          };
-        })
-        hosts;
 
       checks = {
         # Ensure all hosts have a `system` attribute
