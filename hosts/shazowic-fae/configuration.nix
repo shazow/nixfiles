@@ -1,5 +1,6 @@
 {
   pkgs,
+  pkgs-unstable,
   lib,
   initialHashedPassword,
   ...
@@ -25,8 +26,8 @@
     inherit initialHashedPassword;
   };
 
-  # Palm rejection during typing for x11
-  #services.libinput.touchpad.disableWhileTyping = true;
+  # FIXME: Can switch back to pkgs.* when https://nixpk.gs/pr-tracker.html?pr=496567 is backported:
+  boot.kernelPackages = pkgs-unstable.linuxPackages_latest;
 
   # Disable tailscale from starting by default, it's fairly noisy and may be impacting battery life
   systemd.services.tailscaled.wantedBy = lib.mkForce [ ];

@@ -1,7 +1,5 @@
 { pkgs, lib, ... }:
 {
-  boot.kernelPackages = pkgs.linuxPackages_latest;
-
   # $ nixos-generate-config --show-hardware-config
   boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "thunderbolt" "usb_storage" "sd_mod" ];
   boot.kernelModules = [ "kvm-amd" ];
