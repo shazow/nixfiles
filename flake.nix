@@ -116,8 +116,13 @@
         })
         hosts;
 
-      # VMs:
+      # nixosConfiurations here is a placeholder, we don't actually use it except to do dry builds and vm builds.
+      # Normally we do this through a parent flake via ./templates/nixos-device
+      nixosConfigurations = mkSystemConfigurations {};
+
+      # VMs 
       # A little treat on top to be able to launch replicas of any host as a QEMU VM, for testing and fun.
+      # FIXME: Not sure we need this given that `nix run .#nixosConfigurations.${HOSTNAME}.config.system.build.vm` exists.
       vmConfigurations = mkSystemConfigurations {
         initialHashedPassword = "$y$j9T$cKCdiliVyUYFTz6b6YC2K.$kLjtBxrCuzuxS//eMSLsHtXCkgkWimKq00cRdLzNBBB";
         modules = [
