@@ -59,6 +59,13 @@
           })
         ];
       };
+
+      # Shared home-manager modules used in both homeConfigurations and vmVariant
+      homeModules = [
+        pkgsOverlayModule
+        inputs.niri-flake.homeModules.niri
+        inputs.stylix.homeModules.stylix
+      ];
     in rec
     {
 
@@ -104,11 +111,7 @@
               pkgs-unstable = inputs.nixpkgs-unstable.legacyPackages.${host.system};
             };
             pkgs = nixpkgs.legacyPackages.${host.system};
-            modules = host.home ++ [
-              pkgsOverlayModule
-              inputs.niri-flake.homeModules.niri
-              inputs.stylix.homeModules.stylix
-            ];
+            modules = host.home ++ homeModules;
           };
         })
         hosts;
@@ -135,12 +138,7 @@
                 pkgs-unstable = inputs.nixpkgs-unstable.legacyPackages."${pkgs.stdenv.hostPlatform.system}";
               };
               home-manager.users.${username} = {
-                imports = [
-                  ./home/desktop.nix
-                  pkgsOverlayModule
-                  inputs.niri-flake.homeModules.niri
-                  inputs.stylix.homeModules.stylix
-                ];
+                imports = [ ./home/desktop.nix ] ++ homeModules;
               };
             };
           })
