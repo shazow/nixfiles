@@ -16,6 +16,7 @@
     ];
     servers = {
       ts_ls.enable = true;
+      gopls.enable = true;
       nil_ls = {
         enable = true;
       };
