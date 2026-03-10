@@ -11,6 +11,9 @@ let
     # Electron apps should use Ozone/wayland
     NIXOS_OZONE_WL = "1";
     TERMINAL=term;
+
+    # Sane date formatting
+    LC_TIME="C.UTF-8";
   };
 in
 {
