@@ -34,6 +34,25 @@
   services.power-profiles-daemon.enable = true;
   services.thermald.enable = true;
 
+  # Rename Framework laptop built-in speakers in PipeWire/WirePlumber.
+  # Check with: `wpctl status` (or `pw-cli ls Node`) if the node name changes.
+  services.pipewire.wireplumber.extraConfig.framework-audio-rename = {
+    "monitor.alsa.rules" = [
+      {
+        matches = [
+          {
+            "node.name" = "alsa_output.pci-0000_c1_00.6.analog-stereo";
+          }
+        ];
+        actions = {
+          update-props = {
+            "node.description" = "Framework Audio";
+          };
+        };
+      }
+    ];
+  };
+
   services.fwupd.enable = true;
   services.fwupd.extraRemotes = [ "lvfs-testing" ]; # Some framework firmware is still in testing
 }
