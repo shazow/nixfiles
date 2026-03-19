@@ -27,6 +27,18 @@ notify() {
 		$* > ${NOTIFY_ID_PATH}
 }
 
+default_sink_name() {
+	wpctl inspect @DEFAULT_AUDIO_SINK@ 2>/dev/null \
+		| sed -nE 's/^[[:space:]]*node\.description = "([^"]+)"/\1/p' \
+		| head -n1
+}
+
+VOLUME_LABEL="Volume"
+SINK_NAME="$(default_sink_name)"
+if [[ -n "${SINK_NAME}" ]]; then
+	VOLUME_LABEL+=" (${SINK_NAME})"
+fi
+
 case $1 in
 	up)
 		pamixer --increase 5
@@ -39,10 +51,10 @@ case $1 in
 	mute)
 		pamixer --toggle-mute
 		if [[ "$(pamixer --get-mute)" == "true" ]]; then
-			notify "Muted"
+			notify "Muted${SINK_NAME:+ (${SINK_NAME})}"
 			exit 0
 		fi
 	;;
 esac
 
-notify --hint="int:value:$(pamixer --get-volume)" "Volume"
+notify --hint="int:value:$(pamixer --get-volume)" "${VOLUME_LABEL}"
