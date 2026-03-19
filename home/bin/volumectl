@@ -9,6 +9,8 @@
 #
 # Inspired by https://gist.github.com/sebastiencs/5d7227f388d93374cebdf72e783fbd6a
 
+set -xe
+
 # Default values, feel free to override here or via environment variables
 : "${NOTIFY_ID_PATH:=${TMPDIR:=/tmp}/volumectl.$USER}"
 : "${NOTIFY_ID:=$(cat $NOTIFY_ID_PATH)}"
@@ -24,20 +26,17 @@ notify() {
 		--icon="${NOTIFY_ICON}" \
 		--replace-id="${NOTIFY_ID:=0}" \
 		--print-id \
-		$* > ${NOTIFY_ID_PATH}
+		--hint="$2" \
+		"$1" > ${NOTIFY_ID_PATH}
 }
 
 default_sink_name() {
-	wpctl inspect @DEFAULT_AUDIO_SINK@ 2>/dev/null \
-		| sed -nE 's/^[[:space:]]*node\.description = "([^"]+)"/\1/p' \
-		| head -n1
+	# Alternate: wpctl inspect @DEFAULT_AUDIO_SINK@ | grep -m1 "node.description" | cut -d\" -f2
+	pamixer --get-default-sink | tail -n1 | cut -d \" -f4
 }
 
-VOLUME_LABEL="Volume"
 SINK_NAME="$(default_sink_name)"
-if [[ -n "${SINK_NAME}" ]]; then
-	VOLUME_LABEL+=" (${SINK_NAME})"
-fi
+VOLUME_LABEL="${SINK_NAME:-Volume}"
 
 case $1 in
 	up)
@@ -51,10 +50,10 @@ case $1 in
 	mute)
 		pamixer --toggle-mute
 		if [[ "$(pamixer --get-mute)" == "true" ]]; then
-			notify "Muted${SINK_NAME:+ (${SINK_NAME})}"
+			notify "Muted ${SINK_NAME}"
 			exit 0
 		fi
 	;;
 esac
 
-notify --hint="int:value:$(pamixer --get-volume)" "${VOLUME_LABEL}"
+notify "${VOLUME_LABEL}" "int:value:$(pamixer --get-volume)"
