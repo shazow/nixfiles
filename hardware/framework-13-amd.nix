@@ -47,6 +47,7 @@
         actions = {
           update-props = {
             "node.description" = "Framework Audio";
+            priority.session = 1100; # >1000 to make it default sink device, avoid selecting EasyEffects sometimes
           };
         };
       }
