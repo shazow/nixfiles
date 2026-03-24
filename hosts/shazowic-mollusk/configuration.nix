@@ -5,6 +5,10 @@
   ...
 }: let
   primaryUsername = "agent";
+  shazowGithubKeys = pkgs.fetchurl {
+    url = "https://github.com/shazow.keys";
+    hash = "sha256-nHKvVjTmTJM32hFEcdJ0bnNEV0ZEQThuuK8FW3YBdl8=";
+  };
 in {
   imports = [
     ./hardware.nix
@@ -35,7 +39,10 @@ in {
     enableOnBoot = false;
   };
 
-  users.users.${primaryUsername}.extraGroups = lib.mkAfter [ "docker" ];
+  users.users.${primaryUsername} = {
+    extraGroups = lib.mkAfter [ "docker" ];
+    openssh.authorizedKeys.keyFiles = [ shazowGithubKeys ];
+  };
 
   environment.systemPackages = with pkgs; [
     git
