@@ -7,6 +7,7 @@
   primaryUsername = "agent";
 in {
   imports = [
+    ./hardware.nix
     ../../modules/users.nix
   ];
 
