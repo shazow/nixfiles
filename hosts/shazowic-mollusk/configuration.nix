@@ -24,6 +24,12 @@ in {
 
   # Synology-hosted VM defaults
   services.qemuGuest.enable = true;
+  swapDevices = [
+    {
+      device = "/swapfile";
+      size = 8 * 1024; # 8GB in MiB
+    }
+  ];
 
   services.openssh = {
     enable = true;
