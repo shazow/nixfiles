@@ -19,9 +19,6 @@
     nixvim.url = "github:nix-community/nixvim";
     nixvim.inputs.nixpkgs.follows = "nixpkgs-unstable";
 
-    microvm.url = "github:astro/microvm.nix";
-    microvm.inputs.nixpkgs.follows = "nixpkgs";
-
     # My old dotfiles
     dotfiles = { url = "github:shazow/dotfiles"; flake = false; };
 
@@ -30,7 +27,7 @@
     framework-audio-presets = { url = "github:ceiphr/ee-framework-presets"; flake = false; };
   };
 
-  outputs = inputs@{ nixpkgs, home-manager, flake-utils, microvm, ... }:
+  outputs = inputs@{ nixpkgs, home-manager, flake-utils, ... }:
     let
       username = "shazow";
 
@@ -64,6 +61,13 @@
           })
         ];
       };
+
+      # Shared home-manager modules used in both homeConfigurations and vmVariant
+      homeModules = [
+        pkgsOverlayModule
+        inputs.niri-flake.homeModules.niri
+        inputs.stylix.homeModules.stylix
+      ];
     in rec
     {
 
@@ -109,70 +113,35 @@
               pkgs-unstable = inputs.nixpkgs-unstable.legacyPackages.${host.system};
             };
             pkgs = nixpkgs.legacyPackages.${host.system};
-            modules = host.home ++ [
-              pkgsOverlayModule
-              inputs.niri-flake.homeModules.niri
-              inputs.stylix.homeModules.stylix
-            ];
+            modules = host.home ++ homeModules;
           };
         })
         hosts;
 
-      # nixosConfiurations here is a placeholder, we don't actually use it except to do dry builds and vm builds.
+      # nixosConfigurations here is a placeholder, we don't actually use it except to do dry builds and vm builds.
       # Normally we do this through a parent flake via ./templates/nixos-device
-      nixosConfigurations = mkSystemConfigurations {};
-
-      # VMs 
-      # A little treat on top to be able to launch replicas of any host as a QEMU VM, for testing and fun.
-      # FIXME: Not sure we need this given that `nix run .#nixosConfigurations.${HOSTNAME}.config.system.build.vm` exists.
-      vmConfigurations = mkSystemConfigurations {
-        initialHashedPassword = "$y$j9T$cKCdiliVyUYFTz6b6YC2K.$kLjtBxrCuzuxS//eMSLsHtXCkgkWimKq00cRdLzNBBB";
+      nixosConfigurations = mkSystemConfigurations {
         modules = [
-          inputs.microvm.nixosModules.microvm
-
           ({ config, lib, pkgs, ... }: {
-            nixfiles.bootlayout.enable = false;
+            virtualisation.vmVariant = {
+              virtualisation = {
+                memorySize = 4096;
+                cores = 4;
+                graphics = true;
+              };
 
-            microvm = {
-              mem = 4096;
-              vcpu = 4;
-              graphics.enable = true;
-              hypervisor = "qemu";
+              nixfiles.users.initialHashedPassword = lib.mkForce "$y$j9T$cKCdiliVyUYFTz6b6YC2K.$kLjtBxrCuzuxS//eMSLsHtXCkgkWimKq00cRdLzNBBB";
+              nixfiles.bootlayout.enable = lib.mkForce false;
 
-              shares = [
-                {
-                  # 9p is slower than virtiofs but works in userland
-                  proto = "9p";
-                  source = "/nix/store";
-                  mountPoint = "/nix/.ro-store";
-                  tag = "ro-store";
-                }
-              ];
-
-              interfaces = [
-                {
-                  type = "user";
-                  id = "microvm1";
-                  mac = "02:02:00:00:00:01";
-                }
-              ];
-            };
-          })
-
-          # Inject home-manager (normally managed independently from NixOS)
-          ({ lib, pkgs, ... }: {
-            home-manager.useGlobalPkgs = lib.mkForce false;
-            home-manager.extraSpecialArgs = {
-              inherit inputs username;
-              pkgs-unstable = inputs.nixpkgs-unstable.legacyPackages."${pkgs.stdenv.hostPlatform.system}";
-            };
-            home-manager.users.${username} = {
-              imports = [
-                ./home/desktop.nix
-                pkgsOverlayModule
-                inputs.niri-flake.homeModules.niri
-                inputs.stylix.homeModules.stylix
-              ];
+              # Inject home-manager (normally managed independently from NixOS)
+              home-manager.useGlobalPkgs = lib.mkForce false;
+              home-manager.extraSpecialArgs = {
+                inherit inputs username;
+                pkgs-unstable = inputs.nixpkgs-unstable.legacyPackages."${pkgs.stdenv.hostPlatform.system}";
+              };
+              home-manager.users.${username} = {
+                imports = [ ./home/desktop.nix ] ++ homeModules;
+              };
             };
           })
         ];
@@ -191,7 +160,7 @@
           module.imports = [ ./pkgs/nvim/config ];
         };
         packages.vm = nixpkgs.legacyPackages.${system}.writeShellScriptBin "vm" ''
-          exec nix run .#vmConfigurations."$HOSTNAME".config.microvm.declaredRunner
+          exec nix run .#nixosConfigurations."$HOSTNAME".config.system.build.vm
         '';
       }
     );
