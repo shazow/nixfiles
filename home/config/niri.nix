@@ -75,6 +75,7 @@ with config.lib.niri.actions; {
   };
   input.workspace-auto-back-and-forth = false;
   input.focus-follows-mouse.enable = true;
+  input.focus-follows-mouse.max-scroll-amount = "0%"; # Prevent screen moving when scrolling at the edge of a window and accidentally popping over to another window.
 
   # Keybindings
   binds = {
