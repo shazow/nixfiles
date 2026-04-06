@@ -165,4 +165,16 @@
     alsa.support32Bit = true; # Not sure if Steam still needs this
     pulse.enable = true; # Pulse server emulation, useful for running pulseaudio GUIs
   };
+  services.pipewire.wireplumber.extraConfig."51-disable-restore" = {
+    "wireplumber.settings" = {
+      # EasyEffects tends to overtake the real audio device as default device, which is annoying.
+      "node.restore-default-targets" = false;
+      "node.stream.restore-target" = false;
+
+      # More things to disable in the future if it's still a problem:
+      #"device.restore-profile" = false;
+      #"device.restore-routes" = false;
+      #"node.stream.restore-props" = false;
+    };
+  };
 }
