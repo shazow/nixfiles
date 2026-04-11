@@ -30,7 +30,7 @@
     framework-audio-presets = { url = "github:ceiphr/ee-framework-presets"; flake = false; };
   };
 
-  outputs = inputs@{ nixpkgs, home-manager, flake-utils, microvm, ... }:
+  outputs = inputs@{ nixpkgs, home-manager, flake-utils, ... }:
     let
       username = "shazow";
 
