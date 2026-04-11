@@ -1,7 +1,6 @@
 {
   inputs = {
     agentspace.url = "github:shazow/agentspace";
-    microvm.url = "github:astro/microvm.nix";
   };
 
   outputs =
@@ -12,17 +11,27 @@
     }:
     let
       system = "x86_64-linux";
-    in rec
-    {
-      nixosConfigurations.agentspace = agentspace.lib.mkSandbox {
+      statedir = "/home/shazow/vms/agentspace";
+      sandbox = agentspace.lib.mkSandbox {
         connectWith = "ssh";
         protocol = "virtiofs";
         sshAuthorizedKeys = import ./authorizedKeys.nix;
+        persistence.homeImage = "${statedir}/home.img";
+        persistence.storeOverlay = "${statedir}/nix-store-overlay.img";
       };
+    in
+    {
+      nixosConfigurations.agentspace = sandbox;
 
-      apps.${system}.default = {
-        type = "app";
-        program = agentspace.lib.mkLaunch nixosConfigurations.agentspace;
+      apps.${system} = {
+        default = {
+          type = "app";
+          program = agentspace.lib.mkLaunch sandbox;
+        };
+        connect = {
+          type = "app";
+          program = agentspace.lib.mkConnect sandbox;
+        };
       };
     };
 }
