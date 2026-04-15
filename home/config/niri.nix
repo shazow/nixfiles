@@ -141,7 +141,9 @@ with config.lib.niri.actions; {
     "Mod+Shift+w".action = toggle-column-tabbed-display;
     "Mod+w".action = spawn "niri-tabbed";
     "Mod+r".action = switch-preset-column-width;
-    "Mod+Shift+r".action = switch-preset-window-height;
+    "Mod+Shift+r".action = switch-preset-column-width-back;
+    "Mod+e".action = switch-preset-window-height;
+    "Mod+Shift+e".action = switch-preset-window-height-back;
 
     # Workspaces
     "Mod+1".action = focus-workspace 1;
