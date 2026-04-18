@@ -17,6 +17,45 @@
         sshAuthorizedKeys = import ./authorizedKeys.nix;
         persistence.homeImage = "${statedir}/home.img";
         persistence.storeOverlay = "${statedir}/nix-store-overlay.img";
+
+        extraModules = [
+          {
+            microvm.vcpu = 16;
+            microvm.mem = 8 * 1024;
+          }
+        ];
+
+        homeModules = [
+          ({ pkgs, ... }: {
+            # TODO: Update agentspace to expose these overrides more ergonomically.
+            home.packages = [
+              pkgs.nodejs
+              pkgs.comma
+              pkgs.gnumake
+              pkgs.just
+            ];
+
+            home.file.".config/agents/AGENTS.md".source = ./AGENTS.md;
+
+            programs = let
+              name = "Andrey Petrov";
+              email = "andrey.petrov@shazow.net";
+            in {
+              git = {
+                enable = true;
+                settings.user = {
+                  inherit name email;
+                };
+              };
+              jujutsu = {
+                enable = true;
+                settings.user = {
+                  inherit name email;
+                };
+              };
+            };
+          })
+        ];
       };
     in
     {
