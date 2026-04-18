@@ -27,7 +27,6 @@
 
         homeModules = [
           ({ pkgs, ... }: {
-            # TODO: Update agentspace to expose these overrides more ergonomically.
             home.packages = [
               pkgs.nodejs
               pkgs.comma
