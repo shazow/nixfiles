@@ -2,8 +2,7 @@
 
 - We are inside a NixOS QEMU VM.
 - If a configuration of our environment is blocking a task, ask the user for changes.
-- Comma is available, so we can use `, foo` if command `foo` is not available.
-- `nix` is available with flakes enabled.
+- `nix` is available with flakes enabled, we can use `nix run nixpkgs#foo` to run missing tools.
 - nodejs is available, prefer `npx` for running npm commands instead of installing.
 - When creating a VM, make sure assigned memory is less than available memory.
 - When deciding how to build or test the project, review: `flake.nix`, `Makefile`, `justfile`

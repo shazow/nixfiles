@@ -29,7 +29,7 @@
           ({ pkgs, ... }: {
             home.packages = [
               pkgs.nodejs
-              pkgs.comma
+              pkgs.go
               pkgs.gnumake
               pkgs.just
             ];
