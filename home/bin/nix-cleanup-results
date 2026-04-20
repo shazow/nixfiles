@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+if [ "$#" -eq 0 ]; then
+    # Default to all results in CWD
+    set -- ./result*
+fi
+
+for link in "$@"; do
+    if ! [[ -L "$link" ]]; then
+        echo "Not a link, skipping: $link"
+        continue
+    fi
+
+    store_path=$(readlink "$link")
+    if [[ "$store_path" != /nix/store/* ]]; then
+        echo "Not in nix store, skipping: $link -> $store_path"
+        continue
+    fi
+
+    echo "Cleaning: $link -> $store_path"
+    rm "$link"
+    nix-store --delete $(nix-store -qR "$store_path") 2>/dev/null
+done
