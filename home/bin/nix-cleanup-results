@@ -1,4 +1,13 @@
 #!/usr/bin/env bash
+# Clean up a nix build result from the nix store and remove the symlinks.
+#
+# This is useful when we're testing nix code and producing a bunch of ./result ./result-1 ./result-2 etc
+# symlinks and we want to clean them up in the /nix/store too without doing a full nix-collect-garbage.
+#
+# Run without args to clean up the CWD, or give paths to results symlinks.
+# $ nix-cleanup-results
+# $ nix-cleanup-results ./foo/result*
+# $ nix-cleanup-results ./bar/result ./bar/result-1 ./bar/result-2
 
 if [ "$#" -eq 0 ]; then
     # Default to all results in CWD
