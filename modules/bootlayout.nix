@@ -96,67 +96,71 @@ in
     };
   };
 
-  config = mkIf cfg.enable {
-
-    boot.loader = {
-      grub.enable = false;
-      timeout = 0; # Hide picker (hold key like shift during boot)
-      systemd-boot = {
-        enable = true;
-        configurationLimit = 10;
-        editor = false; # Disable bypassing init
+  config = mkIf cfg.enable (mkMerge [
+    {
+      boot.loader = {
+        grub.enable = false;
+        systemd-boot = {
+          enable = true;
+          configurationLimit = 10;
+          editor = false; # Disable bypassing init
+        };
+      }
+      // {
+        # EFI
+        efi.canTouchEfiVariables = true;
+        efi.efiSysMountPoint = "/boot/efi";
       };
-    }
-    // {
-      # EFI
-      efi.canTouchEfiVariables = true;
-      efi.efiSysMountPoint = "/boot/efi";
-    };
 
-    # LUKS
-    boot.initrd.supportedFilesystems = [
-      "btrfs"
-      "ntfs"
-    ];
-    boot.initrd.luks.devices = cfg.luksDevices;
-
-    swapDevices = cfg.swapDevices;
-    boot.resumeDevice = cfg.resumeDevice;
-
-    fileSystems = {
-      "/boot/efi" = {
-        device = cfg.efiDevice;
-        fsType = "vfat";
-        options = [ "discard" ];
-      };
-    }
-    // (builtins.mapAttrs (mount: volume: {
-      device = cfg.rootDevice;
-      fsType = "btrfs";
-      options = volume.options;
-    }) (cfg.volumes // cfg.extraVolumes))
-    // cfg.extraFileSystems;
-
-  } // mkIf cfg.enable && cfg.graphical {
-
-    # Theme
-    boot.plymouth = {
-      enable = true;
-      theme = "nixos-bgrt";
-      themePackages = [
-        pkgs.nixos-bgrt-plymouth
+      # LUKS
+      boot.initrd.supportedFilesystems = [
+        "btrfs"
+        "ntfs"
       ];
-    };
+      boot.initrd.luks.devices = cfg.luksDevices;
 
-    kernelParams = mkIf cfg.graphical [ 
-      "quiet"                       # Suppress most kernel log messages during boot
-      "splash"                      # Show plymouth splash screen instead of text output
-      "rd.systemd.show_status=auto" # Only show systemd initrd status on error/slow boot
-      "rd.udev.log_level=3"         # Limit initrd udev messages to errors only
-    ];
+      swapDevices = cfg.swapDevices;
+      boot.resumeDevice = cfg.resumeDevice;
 
-    initrd.verbose = false;
-    initrd.systemd.enable = true; # Enables GUI for encryption password input
-    consoleLogLevel = 3;
-  };
+      fileSystems = {
+        "/boot/efi" = {
+          device = cfg.efiDevice;
+          fsType = "vfat";
+          options = [ "discard" ];
+        };
+      }
+      // (builtins.mapAttrs (mount: volume: {
+        device = cfg.rootDevice;
+        fsType = "btrfs";
+        options = volume.options;
+      }) (cfg.volumes // cfg.extraVolumes))
+      // cfg.extraFileSystems;
+    }
+    (mkIf cfg.graphical {
+
+      # Theme
+      boot.plymouth = {
+        enable = true;
+        # This theme is known to work with LUKS password prompt, when replacing 
+        # keep in mind it needs to support it otherwise the prompt will be hidden
+        # until you hit ESC.
+        theme = "nixos-bgrt";
+        themePackages = [
+          pkgs.nixos-bgrt-plymouth
+        ];
+      };
+
+      kernelParams = [
+        "quiet" # Suppress most kernel log messages during boot
+        "splash" # Show plymouth splash screen instead of text output
+        "rd.systemd.show_status=auto" # Only show systemd initrd status on error/slow boot
+        "rd.udev.log_level=3" # Limit initrd udev messages to errors only
+      ];
+
+      boot.loader.timeout = 0; # Hide picker (hold key like shift during boot)
+      boot.consoleLogLevel = 3;
+      boot.initrd.verbose = false;
+      boot.initrd.systemd.enable = true; # Enables GUI for encryption password input
+    })
+  ]);
 }
