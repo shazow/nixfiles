@@ -150,11 +150,12 @@ in
         ];
       };
 
-      kernelParams = [
+      boot.kernelParams = [
         "quiet" # Suppress most kernel log messages during boot
         "splash" # Show plymouth splash screen instead of text output
         "rd.systemd.show_status=auto" # Only show systemd initrd status on error/slow boot
         "rd.udev.log_level=3" # Limit initrd udev messages to errors only
+        "consoleblank=60" # Screensaver
       ];
 
       boot.loader.timeout = 0; # Hide picker (hold key like shift during boot)
