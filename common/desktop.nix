@@ -117,6 +117,7 @@
   hardware.keyboard.zsa.enable = true;
 
   # programs.nix-ld.enable = true; # Run unpatched dynamic libraries
+  programs.nh.enable = true; # nix cli rewrite
   programs.steam.enable = true;
   programs.gamescope.enable = true;
   programs.dconf.enable = true; # Needed for GTK
