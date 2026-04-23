@@ -6,25 +6,27 @@
   lib,
   config,
   ...
-} @ toplevel:
+}@toplevel:
 with lib;
 let
   cfg = config.nixfiles.bootlayout;
-  btrfsOptions = [ "defaults" "noatime" "compress=zstd" ];
-  mkIfElse = p: yes: no: mkMerge [
-    (mkIf p yes)
-    (mkIf (!p) no)
+  btrfsOptions = [
+    "defaults"
+    "noatime"
+    "compress=zstd"
   ];
-in {
+  mkIfElse =
+    p: yes: no:
+    mkMerge [
+      (mkIf p yes)
+      (mkIf (!p) no)
+    ];
+in
+{
   options.nixfiles.bootlayout = {
     enable = mkEnableOption ''
       Mount a full disk encryption setup using BTRFS, encrypted swap device, and a /boot/efi device.
     '';
-
-    loader = mkOption {
-      type = types.enum [ "systemd-boot" "grub" ];
-      default = "systemd-boot";
-    };
 
     luksDevices = toplevel.options.boot.initrd.luks.devices;
 
@@ -43,6 +45,8 @@ in {
       default = [ "/dev/mapper/cryptswap" ];
     };
 
+    graphical = mkEnableOption "Enable Plymouth boot theme and silent mode";
+
     resumeDevice = mkOption {
       type = types.str;
       default = "";
@@ -52,23 +56,36 @@ in {
       type = types.attrs;
       default = {
         # FIXME: My old systems use subvol=@rootnix but really we should call it @root if we migrate
-        "/" = { options = btrfsOptions ++ [ "subvol=@rootnix" "nodiratime" "commit=100" ]; };
-        "/home" = { options = btrfsOptions ++ [ "subvol=@home" ]; };
+        "/" = {
+          options = btrfsOptions ++ [
+            "subvol=@rootnix"
+            "nodiratime"
+            "commit=100"
+          ];
+        };
+        "/home" = {
+          options = btrfsOptions ++ [ "subvol=@home" ];
+        };
       };
     };
 
     extraVolumes = mkOption {
       description = "Additional btrfs volumes to mount on rootDevice";
       type = types.attrs;
-      default = {};
+      default = { };
       example = {
-        "/nix" = { options = btrfsOptions ++ [ "subvol=@nix" "nodiratime" ]; };
+        "/nix" = {
+          options = btrfsOptions ++ [
+            "subvol=@nix"
+            "nodiratime"
+          ];
+        };
       };
     };
 
     extraFileSystems = mkOption {
       type = toplevel.options.fileSystems.type;
-      default = {};
+      default = { };
       example = {
         "/mnt/diskstation" = {
           device = "diskstation:/volume1/share";
@@ -81,22 +98,26 @@ in {
 
   config = mkIf cfg.enable {
 
-    # TODO: Add grub option?
     boot.loader = {
       grub.enable = false;
+      timeout = 0; # Hide picker (hold key like shift during boot)
       systemd-boot = {
         enable = true;
         configurationLimit = 10;
         editor = false; # Disable bypassing init
       };
-    } // {
+    }
+    // {
       # EFI
       efi.canTouchEfiVariables = true;
       efi.efiSysMountPoint = "/boot/efi";
     };
 
     # LUKS
-    boot.initrd.supportedFilesystems = [ "btrfs" "ntfs" ];
+    boot.initrd.supportedFilesystems = [
+      "btrfs"
+      "ntfs"
+    ];
     boot.initrd.luks.devices = cfg.luksDevices;
 
     swapDevices = cfg.swapDevices;
@@ -108,13 +129,34 @@ in {
         fsType = "vfat";
         options = [ "discard" ];
       };
-    } // (
-      builtins.mapAttrs (mount: volume: {
-        device = cfg.rootDevice;
-        fsType = "btrfs";
-        options = volume.options;
-      }) (cfg.volumes // cfg.extraVolumes)
-    ) // cfg.extraFileSystems;
+    }
+    // (builtins.mapAttrs (mount: volume: {
+      device = cfg.rootDevice;
+      fsType = "btrfs";
+      options = volume.options;
+    }) (cfg.volumes // cfg.extraVolumes))
+    // cfg.extraFileSystems;
 
+  } // mkIf cfg.enable && cfg.graphical {
+
+    # Theme
+    boot.plymouth = {
+      enable = true;
+      theme = "nixos-bgrt";
+      themePackages = [
+        pkgs.nixos-bgrt-plymouth
+      ];
+    };
+
+    kernelParams = mkIf cfg.graphical [ 
+      "quiet"                       # Suppress most kernel log messages during boot
+      "splash"                      # Show plymouth splash screen instead of text output
+      "rd.systemd.show_status=auto" # Only show systemd initrd status on error/slow boot
+      "rd.udev.log_level=3"         # Limit initrd udev messages to errors only
+    ];
+
+    initrd.verbose = false;
+    initrd.systemd.enable = true; # Enables GUI for encryption password input
+    consoleLogLevel = 3;
   };
 }
