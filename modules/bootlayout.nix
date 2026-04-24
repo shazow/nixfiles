@@ -3,6 +3,7 @@
 #
 # Basically a wrapper around boot.* and filesystem.* but with different defaults.
 {
+  pkgs,
   lib,
   config,
   ...
