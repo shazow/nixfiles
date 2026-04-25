@@ -11,6 +11,12 @@
     '';
   };
 
+  imports = [
+    ../modules/virtiofsd-nix-store.nix
+  ];
+
+  nixfiles.virtiofs-nix-store.enable = true;
+
   # Turn off screen after 60s in console
   boot.kernelParams = [ "consoleblank=60" ];
 
