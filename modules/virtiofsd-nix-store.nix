@@ -12,7 +12,7 @@ let
   cfg = config.nixfiles.virtiofs-nix-store;
 in
 {
-  options.services.virtiofs-nix-store = {
+  options.nixfiles.virtiofs-nix-store = {
     enable = mkEnableOption "virtiofsd for read-only /nix/store share";
 
     socketGroup = mkOption {
