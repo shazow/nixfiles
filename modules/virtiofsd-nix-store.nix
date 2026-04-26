@@ -53,8 +53,10 @@ in
             --xattr \
             --cache=auto \
             --inode-file-handles=mandatory \
+            --sandbox=chroot \
             --readonly
         '';
+        # NOTE: We use `--sandbox=chroot` because the systemd service creates the namespace container with ProtectSystem = "strict" below.
 
         # virtiofsd has its own privilege dropping, but we add extra hadrening
         # to make debugging more fun.
