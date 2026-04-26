@@ -63,16 +63,6 @@ in
               --sandbox=${if cfg.ownHardening then "none" else "namespace"} \
               --readonly
           '';
-
-          # Hardening compatible with virtiofsd's native sandboxing
-          RestrictAddressFamilies = [ "AF_UNIX" ];
-          ProtectHostname = true;
-          ProtectClock = true;
-          ProtectKernelModules = true;
-          ProtectKernelLogs = true;
-          NoNewPrivileges = true;
-          RestrictRealtime = true;
-          RestrictSUIDSGID = true;
         }
         (mkIf cfg.ownHardening {
           # Systemd-native hardening options
@@ -84,6 +74,16 @@ in
           ProtectKernelTunables = true;
           ProtectSystem = "strict";
           ReadOnlyPaths = [ "/nix/store" ];
+
+          # TODO: Maybe move some of these to be included unconditionally?
+          RestrictAddressFamilies = [ "AF_UNIX" ];
+          ProtectHostname = true;
+          ProtectClock = true;
+          ProtectKernelModules = true;
+          ProtectKernelLogs = true;
+          NoNewPrivileges = true;
+          RestrictRealtime = true;
+          RestrictSUIDSGID = true;
         })
       ];
     };
