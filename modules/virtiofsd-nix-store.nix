@@ -20,6 +20,12 @@ in
       default = "kvm";
       description = "Group owning the virtiofsd socket";
     };
+
+    ownHardening = mkOption {
+      type = types.bool;
+      default = false;
+      description = "Disable virtiofsd's native hardening and have systemd do it instead";
+    };
   };
 
   config = mkIf cfg.enable {
@@ -38,49 +44,48 @@ in
       requires = [ "virtiofs-nix-store.socket" ];
       after = [ "virtiofs-nix-store.socket" ];
 
-      serviceConfig = {
-        Type = "simple";
-        User = "root";
-        Group = "root";
-        LimitNOFILE = 1048576;
+      serviceConfig = mkMerge [
+        {
+          Type = "simple";
+          User = "root";
+          Group = "root";
+          LimitNOFILE = 1048576;
 
-        ExecStart = pkgs.writeShellScript "virtiofsd-wrapper" ''
-          exec ${pkgs.virtiofsd}/bin/virtiofsd \
-            --fd=3 \
-            --shared-dir=/nix/store \
-            --thread-pool-size $(${pkgs.coreutils}/bin/nproc) \
-            --posix-acl \
-            --xattr \
-            --cache=auto \
-            --inode-file-handles=mandatory \
-            --sandbox=chroot \
-            --readonly
-        '';
-        # NOTE: We use `--sandbox=chroot` because the systemd service creates the namespace container with ProtectSystem = "strict" below.
+          ExecStart = pkgs.writeShellScript "virtiofsd-wrapper" ''
+            exec ${pkgs.virtiofsd}/bin/virtiofsd \
+              --fd=3 \
+              --shared-dir=/nix/store \
+              --thread-pool-size $(${pkgs.coreutils}/bin/nproc) \
+              --posix-acl \
+              --xattr \
+              --cache=auto \
+              --inode-file-handles=mandatory \
+              --sandbox=${if cfg.ownHardening then "none" else "namespace"} \
+              --readonly
+          '';
 
-        # virtiofsd has its own privilege dropping, but we add extra hadrening
-        # to make debugging more fun.
-
-        ProtectSystem = "strict";
-        ProtectHome = true;
-        ReadOnlyPaths = [ "/nix/store" ];
-        PrivateTmp = true;
-        PrivateDevices = true;
-
-        PrivateNetwork = true;
-        RestrictAddressFamilies = [ "AF_UNIX" ];
-
-        ProtectHostname = true;
-        ProtectClock = true;
-        ProtectKernelTunables = true;
-        ProtectKernelModules = true;
-        ProtectKernelLogs = true;
-        ProtectControlGroups = true;
-
-        NoNewPrivileges = true;
-        RestrictRealtime = true;
-        RestrictSUIDSGID = true;
-      };
+          # Hardening compatible with virtiofsd's native sandboxing
+          RestrictAddressFamilies = [ "AF_UNIX" ];
+          ProtectHostname = true;
+          ProtectClock = true;
+          ProtectKernelModules = true;
+          ProtectKernelLogs = true;
+          NoNewPrivileges = true;
+          RestrictRealtime = true;
+          RestrictSUIDSGID = true;
+        }
+        (mkIf cfg.ownHardening {
+          # Systemd-native hardening options
+          PrivateDevices = true;
+          PrivateNetwork = true;
+          PrivateTmp = true;
+          ProtectControlGroups = true;
+          ProtectHome = true;
+          ProtectKernelTunables = true;
+          ProtectSystem = "strict";
+          ReadOnlyPaths = [ "/nix/store" ];
+        })
+      ];
     };
   };
 }
