@@ -12,7 +12,6 @@
       system = "x86_64-linux";
       statedir = "/home/shazow/vms/agentspace";
       sandbox = agentspace.lib.mkSandbox {
-        sshAuthorizedKeys = import ./authorizedKeys.nix;
         persistence.basedir = statedir;
 
         # Powered by https://github.com/shazow/nixfiles/blob/main/modules/virtiofsd-nix-store.nix
@@ -32,7 +31,8 @@
         };
 
         # Yolo in the comfort of our VM
-        command = ''tmux new-session -c ~/workspace -A -s codex "npx -y @openai/codex --yolo"'';
+        ssh.command = ''tmux new-session -c ~/workspace -A -s codex "npx -y @openai/codex --yolo"'';
+        ssh.authorizedKeys = import ./authorizedKeys.nix; # Could also do this with writeFiles
 
         # Get a notification when we suspend/resume/balloon/etc.
         notifications.command = ''notify-send "virtie: $VIRTIE_NOTIFY_STATE - $VIRTIE_NOTIFY_MESSAGE"'';
