@@ -13,8 +13,29 @@
       statedir = "/home/shazow/vms/agentspace";
       sandbox = agentspace.lib.mkSandbox {
         sshAuthorizedKeys = import ./authorizedKeys.nix;
-        persistence.homeImage = "${statedir}/home.img";
-        persistence.storeOverlay = "${statedir}/nix-store-overlay.img";
+        persistence.basedir = statedir;
+
+        # Powered by https://github.com/shazow/nixfiles/blob/main/modules/virtiofsd-nix-store.nix
+        nixStoreShareSocket = "/var/run/virtiofs-nix-store.sock";
+
+        writeFiles = {
+          "/home/agent/.codex/auth.json" = {
+            path = "/home/shazow/.config/codex/auth.json";
+            chown = "agent:users";
+            mode = "0600";
+          };
+          "/home/agent/.takopi/takopi.toml" = {
+            path = "/home/shazow/.config/takopi/takopi.toml";
+            chown = "agent:users";
+            mode = "0600";
+          };
+        };
+
+        # Yolo in the comfort of our VM
+        command = ''tmux new-session -c ~/workspace -A -s codex "npx -y @openai/codex --yolo"'';
+
+        # Get a notification when we suspend/resume/balloon/etc.
+        notifications.command = ''notify-send "virtie: $VIRTIE_NOTIFY_STATE - $VIRTIE_NOTIFY_MESSAGE"'';
 
         extraModules = [
           {
@@ -30,9 +51,22 @@
               pkgs.go
               pkgs.gnumake
               pkgs.just
+              pkgs.tmux
+
+              (pkgs.writeShellApplication {
+                name = "takopi";
+                runtimeInputs = [
+                  pkgs.python314
+                  pkgs.uv
+                ];
+                text = ''
+                  exec uv tool run --python ${pkgs.python314}/bin/python3 --from takopi@latest takopi "$@"
+                '';
+              })
             ];
 
             home.file.".config/agents/AGENTS.md".source = ./AGENTS.md;
+            home.file.".codex/AGENTS.md".source = ./AGENTS.md;
 
             programs = let
               name = "Andrey Petrov";
