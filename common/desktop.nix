@@ -178,10 +178,10 @@
       "node.restore-default-targets" = false;
       "node.stream.restore-target" = false;
 
-      # More things to disable in the future if it's still a problem:
-      #"device.restore-profile" = false;
-      #"device.restore-routes" = false;
-      #"node.stream.restore-props" = false;
+      # Disable even more things since the above is not enough:
+      "device.restore-profile" = false;
+      "device.restore-routes" = false;
+      "node.stream.restore-props" = false;
     };
   };
 }
