@@ -7,11 +7,11 @@
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1777393748,
-        "narHash": "sha256-vMsVGthokEyeQjtlw+ARNSIXLEN5LDYRtWk2AWr7XJQ=",
+        "lastModified": 1777666211,
+        "narHash": "sha256-zkiqAHTzakkBqN08nf1tHx9JZ6gYU82gehKLoceHRkk=",
         "owner": "shazow",
         "repo": "agentspace",
-        "rev": "2813e44b1dfddad8d43cf26af0751b215f7392eb",
+        "rev": "514f767977860c9c85e02e07c37d03eb157df5ee",
         "type": "github"
       },
       "original": {
