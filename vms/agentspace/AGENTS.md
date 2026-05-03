@@ -4,7 +4,7 @@
 - If a configuration of our environment is blocking a task, ask the user for changes.
 - `nix` is available with flakes enabled, we can use `nix run nixpkgs#foo` to run missing tools.
 - nodejs is available, prefer `npx` for running npm commands instead of installing.
-- When creating a VM, make sure assigned memory is less than available memory.
+- When creating a VM, make sure assigned storage and memory is less than what is available. Keep testing VMs small.
 - When deciding how to build or test the project, review: `flake.nix`, `Makefile`, `justfile`
 - When running a nix flake for the first time, minimize downloading nixpkgs repeatedly. For example, we can use `--override-flake` from another source that we've already run (unless we need the latest or specific nixpkgs).
 
