@@ -3,9 +3,29 @@
 
 : "${OUTPUT_DEVICE:="auto"}" # or "eDP-1"
 : "${AMOUNT:="10"}"
+#
+# Default values, feel free to override here or via environment variables
+: "${NOTIFY_ID_PATH:=${TMPDIR:=/tmp}/brightness.$USER}"
+: "${NOTIFY_ID:=$(cat $NOTIFY_ID_PATH)}"
+: "${NOTIFY_TIMEOUT:=1500}"
+: "${NOTIFY_ICON:="display-brightness-symbolic"}"
+: "${NOTIFY_CATEGORY:="display"}"
+
+notify() {
+	notify-send \
+		--category="${NOTIFY_CATEGORY}" \
+		--expire-time="${NOTIFY_TIMEOUT}" \
+		--icon="${NOTIFY_ICON}" \
+		--replace-id="${NOTIFY_ID:=0}" \
+		--print-id \
+		--hint="$2" \
+		"$1" > ${NOTIFY_ID_PATH}
+}
 
 if [ "$OUTPUT_DEVICE" = "auto" ]; then
-    OUTPUT_DEVICE="$(swaymsg -t get_outputs | jq .[0].name)"
+    # Sway edition:
+    # OUTPUT_DEVICE="$(swaymsg -t get_outputs | jq .[0].name)"
+    OUTPUT_DEVICE="$(niri msg -j focused-output | jq -r .name)"
 fi
 
 if [ "$2" ]; then
@@ -24,14 +44,15 @@ readonly old="$(light -G)"
 case $1 in
     up)
         if [ "$old" = "0.00" ]; then
-            swaymsg output "$OUTPUT_DEVICE" power on
+            # wlopm requires wlr-output-power-management-unstable-v1.h, which niri doesn't implement yet T_T
+            wlopm --on "$OUTPUT_DEVICE"
         fi
         # FIXME: There's a bug here where we'll double-up after breaking out of 0, meh
         light -A "$AMOUNT"
     ;;
     down)
         if [ "$old" = "0.00" ]; then
-            swaymsg output "$OUTPUT_DEVICE" power off
+            wlopm --off "$OUTPUT_DEVICE"
         else
             light -U "$AMOUNT"
         fi
@@ -40,3 +61,4 @@ esac
 
 new="$(light -G)"
 echo "Brightness adjusted for $OUTPUT_DEVICE: $old -> $new"
+notify "${VOLUME_LABEL}" "int:value:${new%.*}"
