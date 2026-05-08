@@ -17,7 +17,9 @@
 ## Process
 
 - Ask the user before introducing a new dependency, unless the task expects this.
-- If we're using jujutsu (`.jj` is present), invoke a status command after each step to leverage the snapshotting functionality, create/move task bookmarks track against a branch.
+- If we're using jujutsu (`.jj` is present):
+  - Invoke a status command after each step to leverage the snapshotting functionality
+  - Create/move task bookmarks track remote branches.
 - If we are in `main`, make fresh branch/bookmark for the task.
 - We can roll back to previous snapshots if the code state gets messy. Before rolling back, write `NOTES.md` with what we learned and what went wrong and make a commit so we have a commit reference we can review later.
 - Whenever we make progress, consider making a commit.
