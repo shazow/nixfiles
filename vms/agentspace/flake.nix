@@ -17,32 +17,18 @@
         # Powered by https://github.com/shazow/nixfiles/blob/main/modules/virtiofsd-nix-store.nix
         nixStoreShareSocket = "/var/run/virtiofs-nix-store.sock";
 
-        writeFiles = {
-          "/home/agent/.codex/auth.json" = {
-            path = "/home/shazow/.config/codex/auth.json";
-            chown = "agent:users";
-            mode = "0600";
-          };
-          "/home/agent/.takopi/takopi.toml" = {
-            path = "/home/shazow/.config/takopi/takopi.toml";
-            chown = "agent:users";
-            mode = "0600";
-          };
-        };
-
         # Yolo in the comfort of our VM
         ssh.command = ''tmux new-session -c ~/workspace -A -s codex "npx -y @openai/codex --yolo"'';
         ssh.authorizedKeys = import ./authorizedKeys.nix; # Could also do this with writeFiles
 
+        # Additional files we inject at runtime over guest-agent socket
+        writeFiles = import ./writeFiles.nix;
+
         # Get a notification when we suspend/resume/balloon/etc.
         notifications.command = ''notify-send "virtie: $VIRTIE_NOTIFY_STATE - $VIRTIE_NOTIFY_MESSAGE"'';
 
-        extraModules = [
-          {
-            microvm.vcpu = 16;
-            microvm.mem = 8 * 1024;
-          }
-        ];
+        machine.vcpu = 16;
+        machine.memory = 8 * 1024;
 
         homeModules = [
           ({ pkgs, ... }: {
