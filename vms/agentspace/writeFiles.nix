@@ -7,7 +7,7 @@
   "/home/agent/.codex/config.toml" = {
     chown = "agent:users";
     mode = "0600";
-    content = # toml
+    text = # toml
       ''
       service_tier = "fast"
 
