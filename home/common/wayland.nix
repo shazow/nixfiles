@@ -44,6 +44,7 @@ in
 
     wdisplays
     wl-mirror
+    wlopm # wlr-output-power-management, for turning off screen without disabling the display device in niri
   ];
 
   gtk = {
