@@ -192,19 +192,19 @@
       enable = true;
       autoEnableSources = true;
       settings = {
-          # This supposed to be obsoleted by autoEnableSources, but seems borken?
-        sources = [
-          { name = "nvim_lsp"; }
-          { name = "nvim_lsp_document_symbol"; }
-          { name = "nvim_lsp_signature_help"; }
-          { name = "copilot"; }
-          { name = "nvim_lua"; }
-          { name = "calc"; }
-          { name = "path"; }
-          { name = "treesitter"; }
-          { name = "luasnip"; }
-          { name = "cmdline"; }
-        ];
+        # FIXME: Do we need this still?
+        # This supposed to be obsoleted by autoEnableSources, but seems borken?
+        #sources = [
+        #  { name = "nvim_lsp"; }
+        #  { name = "nvim_lsp_signature_help"; }
+        #  { name = "copilot"; }
+        #  { name = "nvim_lua"; }
+        #  { name = "calc"; }
+        #  { name = "path"; }
+        #  { name = "treesitter"; }
+        #  { name = "luasnip"; }
+        #  { name = "cmdline"; }
+        #];
         mapping = {
           "<CR>" = "cmp.mapping.confirm({ select = true })";
           "<Tab>" = ''
@@ -240,10 +240,10 @@
 
     cmp_luasnip.enable = true;
     cmp-treesitter.enable = true;
-    cmp-calc.enable = true;
+    #cmp-calc.enable = true; # unfree?
     cmp-cmdline.enable = true;
     cmp-nvim-lsp.enable = true;
-    cmp-nvim-lsp-document-symbol.enable = true;
+    #cmp-nvim-lsp-document-symbol.enable = true; # unfree?
     cmp-nvim-lsp-signature-help.enable = true;
     cmp-path.enable = true;
     cmp-dap.enable = true;
