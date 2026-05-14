@@ -93,7 +93,7 @@
       excluded_servers = ${excludedServersTable},
       preferred_servers = {
         markdown = {},
-        python = { "pyright", "ruff_lsp" },
+        python = { "ruff" },
       },
     })
   '';
