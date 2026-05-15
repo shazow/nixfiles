@@ -18,7 +18,7 @@
         nixStoreShareSocket = "/var/run/virtiofs-nix-store.sock";
 
         # Yolo in the comfort of our VM
-        ssh.command = ''tmux new-session -c ~/workspace -A -s codex "npx -y @openai/codex --yolo"'';
+        ssh.command = ''tmux new-session -c ~/workspace -A -s codex "npx -y @openai/codex --yolo --enable remote_control "'';
         ssh.authorizedKeys = import ./authorizedKeys.nix; # Could also do this with writeFiles
 
         # Additional files we inject at runtime over guest-agent socket
@@ -45,22 +45,12 @@
         homeModules = [
           ({ pkgs, ... }: {
             home.packages = [
+              pkgs.bubblewrap
               pkgs.nodejs
               pkgs.go
               pkgs.gnumake
               pkgs.just
               pkgs.tmux
-
-              (pkgs.writeShellApplication {
-                name = "takopi";
-                runtimeInputs = [
-                  pkgs.python314
-                  pkgs.uv
-                ];
-                text = ''
-                  exec uv tool run --python ${pkgs.python314}/bin/python3 --from takopi@latest takopi "$@"
-                '';
-              })
             ];
 
             home.file.".config/agents/AGENTS.md".source = ./AGENTS.md;

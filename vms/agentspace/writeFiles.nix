@@ -24,9 +24,4 @@
         notification_method = "bel"
       '';
   };
-  "/home/agent/.takopi/takopi.toml" = {
-    chown = "agent:users";
-    mode = "0600";
-    path = "/home/shazow/.config/takopi/takopi.toml";
-  };
 }
