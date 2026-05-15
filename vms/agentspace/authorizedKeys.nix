@@ -1,4 +1,4 @@
-# https://githubcom/shazow.keys
+# https://github.com/shazow.keys
 [
   "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILzLZf64Cvd3jGo/8NLyfrnlKLGi26BmS/UhFvByJmmL"
   "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPWrZA5SvCSRmewCRj8nKvcZVZz7+Gy7LWV30oZ/MUwr"
