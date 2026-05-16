@@ -18,7 +18,8 @@ in
 
   programs.niri = {
     enable = true;
-    package = pkgs.niri;
+    #package = pkgs.niri;
+    package = pkgs-unstable.niri;
     settings = import ../config/niri.nix {
       inherit pkgs config lockcmd term portable;
       bar = "ironbar";
