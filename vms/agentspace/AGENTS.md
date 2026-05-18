@@ -1,7 +1,9 @@
 ## Environment
 
 - We are inside a NixOS QEMU VM.
-- If a configuration of our environment is blocking a task, ask the user for changes.
+  - Never run `nix-collect-garbage` because we are using a `/nix/store` overlayfs. If we're out of space, alert the user.
+  - If a configuration of our environment is blocking a task, ask the user for changes.
+  - Use `~/workspace` for scratch space.
 - `nix` is available with flakes enabled, we can use `nix run nixpkgs#foo` to run missing tools.
 - nodejs is available, prefer `npx` for running npm commands instead of installing.
 - When creating a VM, make sure assigned storage and memory is less than what is available. Keep testing VMs small.
