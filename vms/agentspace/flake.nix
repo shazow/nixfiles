@@ -16,15 +16,15 @@
     }@inputs:
     let
       system = "x86_64-linux";
-      statedir = "/home/shazow/vms/agentspace";
       sandbox = agentspace.lib.mkSandbox {
-        persistence.basedir = statedir;
+        # I like to put all the images and workspace data in one place, so it's easier to track
+        persistence.baseDir = "/home/shazow/vms/agentspace"; # Default: $PWD/.agentspace
 
         # Powered by https://github.com/shazow/nixfiles/blob/main/modules/virtiofsd-nix-store.nix
         nixStoreShareSocket = "/var/run/virtiofs-nix-store.sock";
 
         # Yolo in the comfort of our VM
-        ssh.command = ''tmux new-session -c ~/workspace -A -s codex "npx -y @openai/codex --yolo"'';
+        ssh.command = ''tmux new-session -c $WORKSPACE -A -s codex "npx -y @openai/codex --yolo -C $WORKSPACE/*"'';
         ssh.authorizedKeys = import ./authorizedKeys.nix; # Could also do this with writeFiles
 
         # Additional files we inject at runtime over guest-agent socket

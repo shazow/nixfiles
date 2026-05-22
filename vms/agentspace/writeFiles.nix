@@ -3,6 +3,7 @@
     chown = "agent:users";
     mode = "0600";
     path = "/home/shazow/.config/codex/auth.json";
+    writeBack = true;
   };
   "/home/agent/.codex/config.toml" = {
     chown = "agent:users";
