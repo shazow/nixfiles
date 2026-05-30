@@ -109,7 +109,7 @@
   users.users.${primaryUsername} = {
     isNormalUser = true;
     home = "/home/${primaryUsername}";
-    extraGroups = [ "wheel" "sudoers" "audio" "video" "disk" "networkmanager" "plugdev" "dialout" "adbusers" "docker" "i2c" "kvm" "libvirt" ];
+    extraGroups = [ "wheel" "sudoers" "audio" "video" "disk" "networkmanager" "plugdev" "dialout" "docker" "i2c" "kvm" "libvirt" ];
     uid = 1000;
     initialHashedPassword = initialHashedPassword;
   };
@@ -127,9 +127,7 @@
   programs.steam.enable = true;
   programs.gamescope.enable = true;
   programs.dconf.enable = true; # Needed for GTK
-  programs.light.enable = true;
   programs.gnupg.agent.enable = true; # GPG Daemon needed for pinentry
-  programs.adb.enable = true; # Android dev
   services.geoclue2.enable = true;
   services.fwupd.enable = true;
   services.fstrim.enable = true; # for SSDs
