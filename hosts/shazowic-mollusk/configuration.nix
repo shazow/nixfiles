@@ -40,13 +40,8 @@ in {
     };
   };
 
-  virtualisation.docker = {
-    enable = true;
-    enableOnBoot = false;
-  };
-
   users.users.${primaryUsername} = {
-    extraGroups = lib.mkAfter [ "docker" ];
+    extraGroups = lib.mkAfter [];
     openssh.authorizedKeys.keyFiles = [ shazowGithubKeys ];
   };
 

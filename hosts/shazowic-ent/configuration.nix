@@ -90,26 +90,16 @@
   networking.networkmanager.wifi.backend = "iwd";
   networking.networkmanager.wifi.macAddress = "permanent"; # One of "preserve", "random", "stable", "permanent", "00:11:22:33:44:55"
 
-  virtualisation.docker = {
-    enable = true;
-    enableOnBoot = false; # Started on-demand by docker.socket
-  };
-  virtualisation.waydroid.enable = true; # Android emulator, for TFT
-  systemd.services.waydroid-container.wantedBy = lib.mkForce []; # Disable waydroid-container start on boot
-
   users.users.${primaryUsername} = {
     isNormalUser = true;
     home = "/home/${primaryUsername}";
-    extraGroups = [ "wheel" "sudoers" "audio" "video" "disk" "networkmanager" "plugdev" "dialout" "adbusers" "docker" "i2c" ];
+    extraGroups = [ "wheel" "sudoers" "audio" "video" "disk" "networkmanager" "plugdev" "dialout" "docker" "i2c" ];
     uid = 1000;
     initialHashedPassword = initialHashedPassword;
   };
 
   # Agent daemon required for pinentry
   programs.gnupg.agent.enable = true;
-
-  # Android dev
-  programs.adb.enable = true;
 
   # https://nixos.org/manual/nixos/stable/options.html#opt-system.stateVersion
   system.stateVersion = "24.11";

@@ -36,7 +36,7 @@ in {
     users.users.${cfg.primaryUsername} = {
       isNormalUser = true;
       home = "/home/${cfg.primaryUsername}";
-      extraGroups = [ "wheel" "sudoers" "audio" "video" "disk" "networkmanager" "plugdev" "dialout" "adbusers" "docker" "i2c" ];
+      extraGroups = [ "wheel" "sudoers" "audio" "video" "disk" "networkmanager" "plugdev" "dialout" "i2c" ];
       uid = 1000;
       initialHashedPassword = cfg.initialHashedPassword;
     };

@@ -66,16 +66,8 @@
   networking.networkmanager.wifi.macAddress = "stable"; # One of "preserve", "random", "stable", "permanent", "00:11:22:33:44:55"
   networking.networkmanager.wifi.powersave = true;
 
-  virtualisation.docker = {
-    enable = true;
-    enableOnBoot = false; # Started on-demand by docker.socket
-  };
-
   # Agent daemon required for pinentry
   programs.gnupg.agent.enable = true;
-
-  # Android dev
-  programs.adb.enable = true;
 
   # This value determines the NixOS release with which your system is to be
   # compatible, in order to avoid breaking some software such as database

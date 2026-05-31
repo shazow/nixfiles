@@ -101,11 +101,6 @@
   networking.networkmanager.wifi.macAddress = lib.mkDefault "stable"; # One of "preserve", "random", "stable", "permanent", "00:11:22:33:44:55"
   networking.networkmanager.wifi.powersave = true;
 
-  virtualisation.docker = {
-    enable = true;
-    enableOnBoot = false; # Started on-demand by docker.socket
-  };
-
   users.users.${primaryUsername} = {
     isNormalUser = true;
     home = "/home/${primaryUsername}";
