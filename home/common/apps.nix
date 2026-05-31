@@ -203,7 +203,7 @@ in
 
     # TODO: Move these to system config?
     bat
-    blueberry # gtk bluetooth frontend
+    blueman # bluetooth frontend
     mdcat
     ddcutil
     file

@@ -17,7 +17,7 @@
     stylix.inputs.nixpkgs.follows = "nixpkgs";
 
     nixvim.url = "github:nix-community/nixvim";
-    nixvim.inputs.nixpkgs.follows = "nixpkgs-unstable";
+    #nixvim.inputs.nixpkgs.follows = "nixpkgs-unstable";
 
     microvm.url = "github:astro/microvm.nix";
     microvm.inputs.nixpkgs.follows = "nixpkgs";

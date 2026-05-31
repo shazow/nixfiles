@@ -107,6 +107,7 @@ in
 
   stylix = {
     enable = true;
+    enableReleaseChecks = false; # FIXME: Remove once https://github.com/nix-community/stylix/issues/2325 is done and we can update our input.
     polarity = "dark";
     # https://github.com/tinted-theming/schemes
     # https://tinted-theming.github.io/tinted-gallery/
