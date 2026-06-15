@@ -12,8 +12,38 @@
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
   # $ sudo nixos-generate-config --show-hardware-config | grep -i kernel
-  boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "nvme" "usbhid" "usb_storage" "sd_mod" ];
+  boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "nvme" "usbhid" "usb_storage" "sd_mod" "r8169" ];
   boot.kernelModules = [ "kvm-amd" ];
+
+  # Remote FDE unlock: https://wiki.nixos.org/wiki/Remote_disk_unlocking
+  # TODO: Use something like https://github.com/boinkor-net/hoopsnake
+  # TODO: Also this is cool https://github.com/EmergentMind/nix-config/blob/dev/modules/hosts/nixos/remote-luks-unlock/default.nix
+  boot.initrd = {
+    systemd.network = {
+      enable = true;
+      #flushBeforeStage2 = true; # Do we need this?
+      networks."10-lan" = {
+        matchConfig.Name = "eno1";
+        DHCP = "yes";
+      };
+    };
+    systemd.users.root.shell = "${(pkgs.writeShellScriptBin "initrd-ssh-unlock" ''
+      exec /usr/bin/systemd-tty-ask-password-agent --watch
+    '')}/bin/initrd-ssh-unlock";
+    network = {
+      enable = true;
+      ssh = {
+        enable = true;
+        port = 22;
+        authorizedKeys = [
+          "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKXna820VISVbcHb5nRdidoIVj+/qu+B0FFKttDgUZU8 shazow@shazowic-maiar"
+        ];
+        hostKeys = [
+          "/etc/secrets/initrd/ssh_host_ed25519_key"
+        ];
+      };
+    };
+  };
 
   powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
 
