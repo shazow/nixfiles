@@ -12,7 +12,7 @@
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
   # $ sudo nixos-generate-config --show-hardware-config | grep -i kernel
-  boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "nvme" "usbhid" "usb_storage" "sd_mod" "r8169" ];
+  boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "nvme" "usbhid" "usb_storage" "sd_mod" "r8169" "realtek" "dm_crypt" "aesni_intel" ];
   boot.kernelModules = [ "kvm-amd" ];
 
   # Remote FDE unlock: https://wiki.nixos.org/wiki/Remote_disk_unlocking
