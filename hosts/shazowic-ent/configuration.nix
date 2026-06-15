@@ -27,9 +27,7 @@
         DHCP = "yes";
       };
     };
-    systemd.users.root.shell = "${(pkgs.writeShellScriptBin "initrd-ssh-unlock" ''
-      exec /usr/bin/systemd-tty-ask-password-agent --watch
-    '')}/bin/initrd-ssh-unlock";
+    systemd.users.root.shell = "/usr/bin/systemd-tty-ask-password-agent";
     network = {
       enable = true;
       ssh = {
@@ -37,6 +35,7 @@
         port = 22;
         authorizedKeys = [
           "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKXna820VISVbcHb5nRdidoIVj+/qu+B0FFKttDgUZU8 shazow@shazowic-maiar"
+          "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPWrZA5SvCSRmewCRj8nKvcZVZz7+Gy7LWV30oZ/MUwr shazow@shazowic-fae"
         ];
         hostKeys = [
           "/etc/secrets/initrd/ssh_host_ed25519_key"
