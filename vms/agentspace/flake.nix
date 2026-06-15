@@ -7,6 +7,9 @@
 
     llm-agents.url = "github:numtide/llm-agents.nix";
     llm-agents.inputs.nixpkgs.follows = "nixpkgs";
+
+    skills.url = "path:skills";
+    skills.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs =
@@ -24,7 +27,9 @@
         nixStoreShareSocket = "/var/run/virtiofs-nix-store.sock";
 
         # Yolo in the comfort of our VM
-        ssh.command = ''tmux new-session -c $WORKSPACE -A -s codex "npx -y @openai/codex --yolo -C $WORKSPACE/*"'';
+        #ssh.command = ''tmux new-session -c $WORKSPACE -A -s codex "npx -y @openai/codex --yolo -C $WORKSPACE/*"'';
+        # ^- No longer using tmux here because it borks codex BEL alerts
+        ssh.command = "npx -y @openai/codex --yolo -C $WORKSPACE/*";
         ssh.authorizedKeys = import ./authorizedKeys.nix; # Could also do this with writeFiles
 
         # Additional files we inject at runtime over guest-agent socket
@@ -40,9 +45,6 @@
           (
             { pkgs, ... }:
             {
-              # If we want graphics:
-              #microvm.graphics.enable = true;
-
               nix.settings = {
                 extra-substituters = [
                   "https://cache.numtide.com" # For https://github.com/numtide/llm-agents.nix
@@ -80,6 +82,9 @@
         ];
 
         homeModules = [
+          # Inject the skills we care about from ./skills sub-flake
+          inputs.skills.homeModules.default
+
           (
             { pkgs, ... }:
             {
