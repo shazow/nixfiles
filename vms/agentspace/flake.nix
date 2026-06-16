@@ -29,7 +29,6 @@
         # Yolo in the comfort of our VM
         #ssh.command = ''tmux new-session -c $WORKSPACE -A -s codex "npx -y @openai/codex --yolo -C $WORKSPACE/*"'';
         # ^- No longer using tmux here because it borks codex BEL alerts
-        ssh.command = "npx -y @openai/codex --yolo -C $WORKSPACE/*";
         ssh.authorizedKeys = import ./authorizedKeys.nix; # Could also do this with writeFiles
 
         # Additional files we inject at runtime over guest-agent socket
@@ -80,6 +79,9 @@
                 pkgs.tmux
                 pkgs.ripgrep
                 pkgs.jq
+
+                # Harness
+                pkgs.codex
               ];
             }
           )
