@@ -180,7 +180,7 @@
 
       checks = {
         # Ensure all hosts have a `system` attribute
-        system = builtins.all (builtins.attrValues hosts) (host: host.system != null);
+        system = builtins.all (host: host.system != null) (builtins.attrValues hosts);
       };
 
     } // flake-utils.lib.eachDefaultSystem (system:
