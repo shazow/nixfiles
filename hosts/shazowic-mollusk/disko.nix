@@ -2,7 +2,7 @@
   lib,
   ...
 }: {
-  # Single-disk layout for Synology VMM guests.
+  # Single-disk layout for server
   disko.devices = {
     disk.main = {
       type = "disk";
@@ -14,7 +14,7 @@
             priority = 1;
             name = "ESP";
             start = "1M";
-            end = "65M";
+            end = "512M";
             type = "EF00";
             content = {
               type = "filesystem";

@@ -4,7 +4,7 @@
   initialHashedPassword,
   ...
 }: let
-  primaryUsername = "agent";
+  primaryUsername = "shazow";
   shazowGithubKeys = pkgs.fetchurl {
     url = "https://github.com/shazow.keys";
     hash = "sha256-nHKvVjTmTJM32hFEcdJ0bnNEV0ZEQThuuK8FW3YBdl8=";
@@ -41,7 +41,7 @@ in {
   };
 
   users.users.${primaryUsername} = {
-    extraGroups = lib.mkAfter [];
+    extraGroups = lib.mkAfter [ "wheel" "sudoers" "kvm" ];
     openssh.authorizedKeys.keyFiles = [ shazowGithubKeys ];
   };
 
@@ -52,5 +52,5 @@ in {
   ];
 
   # https://nixos.org/manual/nixos/stable/options.html#opt-system.stateVersion
-  system.stateVersion = "25.11";
+  system.stateVersion = "26.05";
 }
