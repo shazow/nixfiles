@@ -21,9 +21,6 @@
     # We need enough modules to connect ethernet
     availableKernelModules = [ "r8169" "nvme" ];
 
-    udhcpc.enable = true;
-    flushBeforeStage2 = true;
-
     systemd.network = {
       enable = true;
       #flushBeforeStage2 = true; # Do we need this?
@@ -45,10 +42,6 @@
         hostKeys = [
           "/etc/secrets/initrd/ssh_host_ed25519_key"
         ];
-        extraConfig = ''
-          # Prevent OpenSSH 9.8+ from banning the proxy during boot polling
-          PerSourcePenalties no
-        '';
       };
     };
   };
