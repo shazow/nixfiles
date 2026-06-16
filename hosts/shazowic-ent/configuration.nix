@@ -12,13 +12,18 @@
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
   # $ sudo nixos-generate-config --show-hardware-config | grep -i kernel
-  boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "nvme" "usbhid" "usb_storage" "sd_mod" "r8169" "realtek" "dm_crypt" "aesni_intel" ];
   boot.kernelModules = [ "kvm-amd" ];
 
   # Remote FDE unlock: https://wiki.nixos.org/wiki/Remote_disk_unlocking
   # TODO: Use something like https://github.com/boinkor-net/hoopsnake
   # TODO: Also this is cool https://github.com/EmergentMind/nix-config/blob/dev/modules/hosts/nixos/remote-luks-unlock/default.nix
   boot.initrd = {
+    # We need enough modules to connect ethernet
+    availableKernelModules = [ "r8169" "nvme" ];
+
+    udhcpc.enable = true;
+    flushBeforeStage2 = true;
+
     systemd.network = {
       enable = true;
       #flushBeforeStage2 = true; # Do we need this?
@@ -40,6 +45,10 @@
         hostKeys = [
           "/etc/secrets/initrd/ssh_host_ed25519_key"
         ];
+        extraConfig = ''
+          # Prevent OpenSSH 9.8+ from banning the proxy during boot polling
+          PerSourcePenalties no
+        '';
       };
     };
   };
