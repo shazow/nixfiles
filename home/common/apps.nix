@@ -84,6 +84,7 @@ in
       enable = true;
       settings = {
         ui.default-command = "log";
+        remotes.origin.auto-track-bookmarks = "glob:*";
         user = {
           inherit name email;
         };
