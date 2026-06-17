@@ -140,7 +140,7 @@ in
     nvim
 
     # Apps
-    bitwarden-desktop
+    #bitwarden-desktop # FIXME: Can add back when they update electron: https://github.com/NixOS/nixpkgs/issues/526914
     google-chrome
     signal-desktop
 
@@ -160,7 +160,7 @@ in
     (python3.withPackages(ps: with ps; [
       black
       ipython
-      pipx
+      uv
       pynvim # Must be included in withPackages for neovim to get access to it.
       python-lsp-server
       jedi
