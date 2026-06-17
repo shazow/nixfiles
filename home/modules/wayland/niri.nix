@@ -8,10 +8,6 @@ let
   term = "alacritty"; # TODO: Plumb this
 in
 {
-  imports = [
-    ./ironbar.nix
-  ];
-
   home.packages = with pkgs; [
     xwayland-satellite
   ];
@@ -20,7 +16,7 @@ in
     enable = true;
     #package = pkgs.niri;
     package = pkgs-unstable.niri;
-    settings = import ../config/niri.nix {
+    settings = import ../../config/niri.nix {
       inherit pkgs config lockcmd term portable;
       bar = "ironbar";
     };
@@ -39,12 +35,12 @@ in
 
   services.swayidle = {
     enable = true;
-    events = lib.mkDefault [
-      { event = "lock"; command = lockcmd; }
+    events = lib.mkDefault {
+      lock = lockcmd;
       # FIXME: This should work with the systemctl lockcmd, but it doesn't for some reason? Not sure why. Try again later?
       # Bonu spoints if we can just use the systemd service directly to trigger on sleep reliably, so we don't need this part of swayidle
-      { event = "before-sleep"; command = "${pkgs.swaylock}/bin/swaylock -fF"; }
-    ];
+      before-sleep = "${pkgs.swaylock}/bin/swaylock -fF";
+    };
     timeouts = [
       # Turn off screen (just before locking)
       {

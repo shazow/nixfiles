@@ -27,10 +27,10 @@ in
 
   services.swayidle = {
     enable = true;
-    events = [
-      { event = "before-sleep"; command = lockcmd; }
-      { event = "lock"; command = lockcmd; }
-    ];
+    events = {
+      before-sleep = lockcmd;
+      lock = lockcmd;
+    };
     timeouts = [
       # Turn off screen (just before locking)
       {
@@ -53,7 +53,7 @@ in
   # correctly together. It also handles injecting the correct XDG_* variables.
   wayland.windowManager.sway = {
     enable = true;
-    config = import ../config/sway.nix { inherit pkgs lib lockcmd; };
+    config = import ../../config/sway.nix { inherit pkgs lib lockcmd; };
     extraOptions = [ "-Dlegacy-wl-drm" ];
     package = pkgs-unstable.sway;
   };

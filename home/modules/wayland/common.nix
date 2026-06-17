@@ -17,11 +17,6 @@ let
   };
 in
 {
-  imports = [
-    # Swaylock systemd service lives here
-    ./lock.nix
-  ];
-
   home.pointerCursor = {
     name = "phinger-cursors-light";
     package = pkgs.phinger-cursors;

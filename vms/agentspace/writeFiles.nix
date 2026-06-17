@@ -23,6 +23,9 @@
 
       [tui]
         notification_method = "bel"
+
+      [mcp_servers.nixos]
+        command = "mcp-nixos"
       '';
   };
 }

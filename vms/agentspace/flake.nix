@@ -82,6 +82,9 @@
 
                 # Harness
                 pkgs.codex
+
+                # MCP
+                pkgs.mcp-nixos
               ];
             }
           )

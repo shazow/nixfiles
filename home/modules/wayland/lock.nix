@@ -49,4 +49,3 @@
     Conflicts = [ "lock.target" ];
   };
 }
-

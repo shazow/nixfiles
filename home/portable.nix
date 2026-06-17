@@ -2,11 +2,11 @@
 
 {
   imports = [
-    ./common/wayland.nix
-    ./common/wayland-niri.nix
-    ./common/wayland-sway.nix # TODO: Remove
+    ./modules/wayland
     ./common/apps.nix
   ];
+
+  nixfiles.wayland.enable = true;
 
   home.username = username;
   home.homeDirectory = "/home/${username}";

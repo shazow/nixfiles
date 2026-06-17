@@ -6,11 +6,11 @@
   ];
 
   imports = [
-    ./common/wayland.nix
-    ./common/wayland-niri.nix
-    ./common/wayland-sway.nix # TODO: Remove
+    ./modules/wayland
     ./common/apps.nix
   ];
+
+  nixfiles.wayland.enable = true;
 
   xresources.properties = {
     # Doesn't seem like most things need this, but flatpak electron apps do.
