@@ -41,10 +41,12 @@ in {
   services.fstrim.enable = true;
 
   users.users.${primaryUsername} = {
-    initialHashedPassword = builtins.readFile "/tmp/initial-password";
+    inherit initialHashedPassword;
+
     extraGroups = lib.mkAfter [ "wheel" "sudoers" "kvm" ];
     openssh.authorizedKeys.keyFiles = [ shazowGithubKeys ];
   };
+  users.users.root.openssh.authorizedKeys.keyFiles = [ shazowGithubKeys ];
 
   environment.systemPackages = with pkgs; [
     curl
