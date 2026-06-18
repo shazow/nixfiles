@@ -46,6 +46,32 @@
     };
   };
 
+  # Suspend when not used
+  systemd.services.auto-suspend-empty = {
+    description = "Suspend system if no user sessions are active";
+
+    script = ''
+      if ! loginctl list-sessions --no-legend | awk '{print $6}' | grep -qx "user"; then
+        echo "No active user sessions, suspending..."
+        systemctl suspend
+      fi
+    '';
+
+    serviceConfig = {
+      Type = "oneshot";
+    };
+  };
+  systemd.timers.auto-suspend-empty = {
+    description = "Run auto-suspend-empty every 60 minutes";
+    wantedBy = [ "timers.target" ];
+
+    timerConfig = {
+      OnBootSec = "60min";
+      OnUnitInactiveSec = "60min";
+      AccuracySec = "5min";
+    };
+  };
+
   powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
 
   imports = [
