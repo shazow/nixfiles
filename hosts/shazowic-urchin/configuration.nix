@@ -1,7 +1,7 @@
 {
   pkgs,
   lib,
-  initialHashedPassword,
+  initialHashedPassword ? "$y$j9T$BrVmAwnWH3PO98lSOXlBK/$PG0IgLsCyxS8n.V2SyXxIwTwiQCuR15E.paIfE.6dyA",
   ...
 }: let
   primaryUsername = "shazow";

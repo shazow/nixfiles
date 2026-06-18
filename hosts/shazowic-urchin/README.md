@@ -4,7 +4,7 @@ Topton Intel Gold 8505 Mini PC with DDR5 memory, NVMe storage, four Intel i226-V
 
 ```bash
 nix run github:nix-community/nixos-anywhere -- \
-  --flake github:shazow/nixfiles#shazowic-urchin \
-  --target-host nixos@192.0.2.10 \
+  --flake .
+  --target-host nixos@192.168.2.203 \
   --generate-hardware-config nixos-generate-config hosts/shazowic-urchin/hardware.nix
 ```
