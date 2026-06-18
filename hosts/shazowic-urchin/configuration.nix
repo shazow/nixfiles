@@ -1,7 +1,7 @@
 {
   pkgs,
   lib,
-  initialHashedPassword ? "$y$j9T$BrVmAwnWH3PO98lSOXlBK/$PG0IgLsCyxS8n.V2SyXxIwTwiQCuR15E.paIfE.6dyA",
+  initialHashedPassword,
   ...
 }: let
   primaryUsername = "shazow";
@@ -12,13 +12,7 @@
 in {
   imports = [
     ./hardware.nix
-    ../../modules/users.nix
   ];
-
-  nixfiles.users = {
-    enable = true;
-    inherit initialHashedPassword primaryUsername;
-  };
 
   networking.hostName = "shazowic-urchin";
 
@@ -47,6 +41,7 @@ in {
   services.fstrim.enable = true;
 
   users.users.${primaryUsername} = {
+    initialHashedPassword = builtins.readFile "/tmp/initial-password";
     extraGroups = lib.mkAfter [ "wheel" "sudoers" "kvm" ];
     openssh.authorizedKeys.keyFiles = [ shazowGithubKeys ];
   };
