@@ -50,7 +50,7 @@
   systemd.services.auto-suspend-empty = {
     description = "Suspend system if no user sessions are active";
 
-    path = with pkgs; [ systemd gawk grep ];
+    path = with pkgs; [ systemd gawk gnugrep ];
 
     script = ''
       if loginctl list-sessions --no-legend | awk '{print $6}' | grep -qx "user"; then
