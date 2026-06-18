@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
-# Wrapper around `light` except turns off screen past 0
+# Wrapper around `birghtnessctl` except turns off screen past 0
 
 : "${OUTPUT_DEVICE:="auto"}" # or "eDP-1"
 : "${AMOUNT:="10"}"
@@ -22,6 +22,10 @@ notify() {
 		"$1" > ${NOTIFY_ID_PATH}
 }
 
+get() {
+    brightnessctl -m | awk -F, '{print $4}' | tr -d '%'
+}
+
 if [ "$OUTPUT_DEVICE" = "auto" ]; then
     # Sway edition:
     # OUTPUT_DEVICE="$(swaymsg -t get_outputs | jq .[0].name)"
@@ -33,32 +37,28 @@ if [ "$2" ]; then
     AMOUNT="$2"
 fi
 
-# Check if light returns a warning
-if light -G 2>&1 1>/dev/null | grep -q "No backlight controller was found"; then
-    echo "No controller found, exiting."
-    exit 1
-fi
-
-readonly old="$(light -G)"
+# brightnessctl get returns an integer representing the current brightness level
+readonly old="$(get)"
 
 case $1 in
     up)
-        if [ "$old" = "0.00" ]; then
+        if [ "$old" -eq 0 ]; then
             # wlopm requires wlr-output-power-management-unstable-v1.h, which niri doesn't implement yet T_T
             wlopm --on "$OUTPUT_DEVICE"
         fi
         # FIXME: There's a bug here where we'll double-up after breaking out of 0, meh
-        light -A "$AMOUNT"
+        # Assuming AMOUNT is a raw number (e.g., "5"). If it already includes a '%', use "${AMOUNT}+"
+        brightnessctl set "${AMOUNT}%+"
     ;;
     down)
-        if [ "$old" = "0.00" ]; then
+        if [ "$old" -eq 0 ]; then
             wlopm --off "$OUTPUT_DEVICE"
         else
-            light -U "$AMOUNT"
+            brightnessctl set "${AMOUNT}%-"
         fi
     ;;
 esac
 
-new="$(light -G)"
+new="$(get)"
 echo "Brightness adjusted for $OUTPUT_DEVICE: $old -> $new"
 notify "${VOLUME_LABEL}" "int:value:${new%.*}"

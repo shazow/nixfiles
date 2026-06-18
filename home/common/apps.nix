@@ -204,6 +204,7 @@ in
 
     # TODO: Move these to system config?
     bat
+    brightnessctl
     blueman # bluetooth frontend
     mdcat
     ddcutil
