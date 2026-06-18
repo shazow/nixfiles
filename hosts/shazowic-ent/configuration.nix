@@ -50,11 +50,16 @@
   systemd.services.auto-suspend-empty = {
     description = "Suspend system if no user sessions are active";
 
+    path = with pkgs; [ systemd gawk grep ];
+
     script = ''
-      if ! loginctl list-sessions --no-legend | awk '{print $6}' | grep -qx "user"; then
-        echo "No active user sessions, suspending..."
-        systemctl suspend
+      if loginctl list-sessions --no-legend | awk '{print $6}' | grep -qx "user"; then
+        # Active user detected, skipping
+        echo "Found active user login session, skipping suspend..."
+        exit
       fi
+      echo "No active user sessions, suspending..."
+      systemctl suspend
     '';
 
     serviceConfig = {
