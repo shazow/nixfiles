@@ -96,6 +96,7 @@ in
   users.users."agent" = {
     extraGroups = lib.mkAfter [ "kvm" ];
     isNormalUser = true;
+    linger = true;
   };
   users.users.root.openssh.authorizedKeys.keyFiles = [ shazowGithubKeys ];
 
