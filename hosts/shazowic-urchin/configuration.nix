@@ -20,6 +20,12 @@ in {
     "nix-command"
     "flakes"
   ];
+  nix.settings = {
+    extra-substituters = [ "https://cache.numtide.com" ];
+    extra-trusted-public-keys = [
+      "niks3.numtide.com-1:DTx8wZduET09hRmMtKdQDxNNthLQETkc/yaX7M4qK0g="
+    ];
+  };
 
   swapDevices = [
     {
@@ -44,7 +50,12 @@ in {
     inherit initialHashedPassword;
 
     extraGroups = lib.mkAfter [ "wheel" "sudoers" "kvm" ];
+    isNormalUser = true;
     openssh.authorizedKeys.keyFiles = [ shazowGithubKeys ];
+  };
+  users.users."agent" = {
+    extraGroups = lib.mkAfter [ "kvm" ];
+    isNormalUser = true;
   };
   users.users.root.openssh.authorizedKeys.keyFiles = [ shazowGithubKeys ];
 
@@ -60,6 +71,9 @@ in {
     tmux
     uv
     wget
+    gnumake
+
+    home-manager
   ];
 
   # https://nixos.org/manual/nixos/stable/options.html#opt-system.stateVersion
