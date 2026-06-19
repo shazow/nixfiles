@@ -76,7 +76,6 @@ in
   services.fstrim.enable = true;
 
   # Keep this small headless Intel box cooler/quieter while idle.
-  powerManagement.powertop.enable = true;
   services.thermald.enable = true;
 
   services.tuned = {
