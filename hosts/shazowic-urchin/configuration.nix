@@ -3,16 +3,24 @@
   lib,
   initialHashedPassword,
   ...
-}: let
+}:
+let
   primaryUsername = "shazow";
   shazowGithubKeys = pkgs.fetchurl {
     url = "https://github.com/shazow.keys";
     hash = "sha256-nHKvVjTmTJM32hFEcdJ0bnNEV0ZEQThuuK8FW3YBdl8=";
   };
-in {
+in
+{
   imports = [
     ./hardware.nix
+    ../../modules/users.nix
   ];
+
+  nixfiles.users = {
+    enable = true;
+    inherit initialHashedPassword primaryUsername;
+  };
 
   networking.hostName = "shazowic-urchin";
 
@@ -25,6 +33,33 @@ in {
     extra-trusted-public-keys = [
       "niks3.numtide.com-1:DTx8wZduET09hRmMtKdQDxNNthLQETkc/yaX7M4qK0g="
     ];
+  };
+
+  system.autoUpgrade = {
+    enable = true;
+    flake = "github:shazow/nixfiles#shazowic-urchin";
+    dates = "04:00";
+    randomizedDelaySec = "45min";
+    persistent = true;
+    allowReboot = true;
+    rebootWindow = {
+      lower = "04:00";
+      upper = "06:00";
+    };
+    runGarbageCollection = true;
+  };
+
+  nix.gc = {
+    automatic = true;
+    dates = "weekly";
+    randomizedDelaySec = "1h";
+    options = "--delete-older-than 30d";
+  };
+
+  nix.optimise = {
+    automatic = true;
+    dates = [ "weekly" ];
+    randomizedDelaySec = "1h";
   };
 
   swapDevices = [
@@ -49,8 +84,13 @@ in {
   users.users.${primaryUsername} = {
     inherit initialHashedPassword;
 
-    extraGroups = lib.mkAfter [ "wheel" "sudoers" "kvm" ];
+    extraGroups = lib.mkAfter [
+      "wheel"
+      "sudoers"
+      "kvm"
+    ];
     isNormalUser = true;
+
     openssh.authorizedKeys.keyFiles = [ shazowGithubKeys ];
   };
   users.users."agent" = {
