@@ -118,6 +118,8 @@ in
     wget
     gnumake
 
+    lm_sensors
+
     home-manager
   ];
 
