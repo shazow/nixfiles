@@ -14,13 +14,7 @@ in
 {
   imports = [
     ./hardware.nix
-    ../../modules/users.nix
   ];
-
-  nixfiles.users = {
-    enable = true;
-    inherit initialHashedPassword primaryUsername;
-  };
 
   networking.hostName = "shazowic-urchin";
 
@@ -96,7 +90,7 @@ in
   users.users."agent" = {
     extraGroups = lib.mkAfter [ "kvm" ];
     isNormalUser = true;
-    linger = true;
+    linger = true; # Need this for running systemd services without being logged in
   };
   users.users.root.openssh.authorizedKeys.keyFiles = [ shazowGithubKeys ];
 
