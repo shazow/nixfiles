@@ -75,6 +75,15 @@ in
   services.tailscale.enable = true;
   services.fstrim.enable = true;
 
+  # Keep this small headless Intel box cooler/quieter while idle.
+  powerManagement.powertop.enable = true;
+  services.thermald.enable = true;
+
+  services.tuned = {
+    enable = true;
+    ppdSettings.main.default = "power-saver";
+  };
+
   users.users.${primaryUsername} = {
     inherit initialHashedPassword;
 
@@ -91,6 +100,8 @@ in
     extraGroups = lib.mkAfter [ "kvm" ];
     isNormalUser = true;
     linger = true; # Need this for running systemd services without being logged in
+
+    openssh.authorizedKeys.keyFiles = [ shazowGithubKeys ];
   };
   users.users.root.openssh.authorizedKeys.keyFiles = [ shazowGithubKeys ];
 
