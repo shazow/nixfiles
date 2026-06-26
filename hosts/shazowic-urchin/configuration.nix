@@ -67,6 +67,9 @@ in
     enable = true;
     startWhenNeeded = true;
     settings = {
+      # Keep SSH logins attached to a logind/PAM session so systemd --user
+      # receives XDG_RUNTIME_DIR and DBUS_SESSION_BUS_ADDRESS.
+      UsePAM = true;
       PasswordAuthentication = false;
       KbdInteractiveAuthentication = false;
     };
@@ -93,6 +96,7 @@ in
       "kvm"
     ];
     isNormalUser = true;
+    linger = true; # Keep the user manager/bus available for systemd --user over SSH.
 
     openssh.authorizedKeys.keyFiles = [ shazowGithubKeys ];
   };
