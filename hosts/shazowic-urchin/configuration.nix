@@ -100,7 +100,10 @@ in
     openssh.authorizedKeys.keyFiles = [ shazowGithubKeys ];
   };
   users.users."agent" = {
-    extraGroups = lib.mkAfter [ "kvm" ];
+    extraGroups = lib.mkAfter [
+      "kvm"
+      "systemd-journal"
+    ];
     isNormalUser = true;
     linger = true; # Need this for running systemd services without being logged in
 
