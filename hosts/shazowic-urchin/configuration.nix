@@ -83,7 +83,8 @@ in
 
   services.tuned = {
     enable = true;
-    ppdSettings.main.default = "power-saver";
+    ppdSupport = false;
+    recommend.powersave = { };
   };
 
   users.users.${primaryUsername} = {
