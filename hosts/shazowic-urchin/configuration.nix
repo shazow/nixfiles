@@ -46,7 +46,7 @@ in
 
   nix.optimise = {
     automatic = true;
-    dates = [ "Thu *-*-* 04:00:00 America/New_York" ];
+    dates = [ "Thu *-*-* 05:00:00 America/New_York" ];
   };
 
   swapDevices = [
