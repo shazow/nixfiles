@@ -32,28 +32,21 @@ in
   system.autoUpgrade = {
     enable = true;
     flake = "github:shazow/nixfiles#shazowic-urchin";
-    dates = "04:00";
-    randomizedDelaySec = "45min";
+    dates = "Tue *-*-* 04:00:00 America/New_York";
     persistent = true;
     allowReboot = true;
-    rebootWindow = {
-      lower = "04:00";
-      upper = "06:00";
-    };
-    runGarbageCollection = true;
+    runGarbageCollection = false;
   };
 
   nix.gc = {
     automatic = true;
-    dates = "weekly";
-    randomizedDelaySec = "1h";
+    dates = "Thu *-*-* 04:00:00 America/New_York";
     options = "--delete-older-than 30d";
   };
 
   nix.optimise = {
     automatic = true;
-    dates = [ "weekly" ];
-    randomizedDelaySec = "1h";
+    dates = [ "Thu *-*-* 04:00:00 America/New_York" ];
   };
 
   swapDevices = [
