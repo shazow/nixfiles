@@ -14,6 +14,7 @@ in
 {
   imports = [
     ./hardware.nix
+    ../../modules/virtiofsd-nix-store.nix
   ];
 
   networking.hostName = "shazowic-urchin";
@@ -48,6 +49,8 @@ in
     automatic = true;
     dates = [ "Thu *-*-* 05:00:00 America/New_York" ];
   };
+
+  nixfiles.virtiofs-nix-store.enable = true;
 
   swapDevices = [
     {
