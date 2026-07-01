@@ -21,11 +21,9 @@
       [notice]
         fast_default_opt_out = true
 
-      [tui]
-        notification_method = "bel"
-
       [mcp_servers.nixos]
         command = "mcp-nixos"
+        enabled = false
       '';
   };
 }
