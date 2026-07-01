@@ -19,7 +19,7 @@
     }@inputs:
     let
       system = "x86_64-linux";
-      sandbox = agentspace.lib.mkSandbox {
+      mkSandbox = { spaces ? {} }: (agentspace.lib.mkSandbox {
         # I like to put all the images and workspace data in one place, so it's easier to track
         persistence.baseDir = "/home/shazow/vms/agentspace"; # Default: $PWD/.agentspace
 
@@ -39,6 +39,14 @@
 
         #machine.vcpu = 16; # Default: Use all cores
         machine.memory = 12 * 1024;
+
+        workspace = {
+          enable = true;
+
+          # Pass in which spaces we want to mount into $WORKSPACE, otherwise mount PWD
+          inherit spaces;
+          addCurrentDir = spaces == {};
+        };
 
         extraModules = [
           (
@@ -126,19 +134,29 @@
             }
           )
         ];
-      };
+      });
+      defaultSandbox = mkSandbox {};
     in
     {
-      nixosConfigurations.agentspace = sandbox;
+      nixosConfigurations.agentspace = defaultSandbox;
 
       apps.${system} = {
         default = {
           type = "app";
-          program = agentspace.lib.mkLaunch sandbox;
+          program = agentspace.lib.mkLaunch defaultSandbox;
         };
         connect = {
           type = "app";
-          program = agentspace.lib.mkConnect sandbox;
+          program = agentspace.lib.mkConnect defaultSandbox;
+        };
+        agentspace = {
+          type = "app";
+          program = agentspace.lib.mkLaunch (mkSandbox {
+            spaces = {
+              "agentspace" = "/home/shazow/projects/agentspace";
+              "virtle" = "/home/shazow/projects/virtle";
+            };
+          });
         };
       };
     };
