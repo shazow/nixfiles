@@ -37,6 +37,13 @@ in
     persistent = true;
     allowReboot = true;
     runGarbageCollection = false;
+    flags = [
+      # Auto-update the flake lock during auto-upgrade, despite what nixfiles says
+      "--no-write-lock-file"
+      "--update-input" "nixpkgs"
+      "--update-input" "nixpkgs-unstable"
+      "--update-input" "home-manager"
+    ];
   };
 
   nix.gc = {
