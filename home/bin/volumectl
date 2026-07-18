@@ -35,6 +35,17 @@ default_sink_name() {
 	pamixer --get-default-sink | tail -n1 | cut -d \" -f4
 }
 
+restore_physical_default_sink() {
+	if wpctl inspect @DEFAULT_AUDIO_SINK@ 2>/dev/null \
+		| grep -q '^[[:space:]]*\* node\.name = "easyeffects_sink"$'; then
+		wpctl clear-default || true
+	fi
+}
+
+case $1 in
+	up|down|mute) restore_physical_default_sink ;;
+esac
+
 SINK_NAME="$(default_sink_name)"
 VOLUME_LABEL="${SINK_NAME:-Volume}"
 
