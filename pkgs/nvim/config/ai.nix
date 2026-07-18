@@ -26,13 +26,13 @@
       lazyLoad.settings.cmd = "CopilotChat";
       # Consider adding keymaps if you have specific ones for CopilotChat actions
     };
-    avante = {
-      enable = true;
-      lazyLoad.settings.event = "DeferredUIEnter";
-      settings = {
-        provider = "claude";
-      };
-    };
+    #avante = {
+    #  enable = true;
+    #  lazyLoad.settings.event = "DeferredUIEnter";
+    #  settings = {
+    #    provider = "claude";
+    #  };
+    #};
   };
 
   extraPlugins = with pkgs; [
