@@ -2,8 +2,11 @@
   description = "A nixvim configuration";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
-    nixvim.url = "github:nix-community/nixvim"; # Use stable "/nixos-25.11" suffix?
+    #nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+
+    nixvim.url = "github:nix-community/nixvim";
+
+    # FIXME: Is this a good idea? May help with some internal inconsistency across nvim versions
     nixvim.inputs.nixpkgs.follows = "nixpkgs";
   };
 
