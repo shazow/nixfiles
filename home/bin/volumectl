@@ -9,25 +9,27 @@
 #
 # Inspired by https://gist.github.com/sebastiencs/5d7227f388d93374cebdf72e783fbd6a
 
-set -xe
+set -euo pipefail
 
 # Default values, feel free to override here or via environment variables
-: "${NOTIFY_ID_PATH:=${TMPDIR:=/tmp}/volumectl.$USER}"
-: "${NOTIFY_ID:=$(cat $NOTIFY_ID_PATH)}"
+: "${NOTIFY_ID_PATH:=${TMPDIR:-/tmp}/volumectl.${USER:-${UID}}}"
+: "${NOTIFY_ID:=$(cat "${NOTIFY_ID_PATH}" 2>/dev/null || true)}"
 : "${NOTIFY_TIMEOUT:=1500}"
-: "${NOTIFY_ICON:="audio-volume-medium"}"
-: "${NOTIFY_ICON_MUTED:="audio-volume-muted"}"
-: "${NOTIFY_CATEGORY:="audio"}"
+: "${NOTIFY_ICON:=audio-volume-medium}"
+: "${NOTIFY_ICON_MUTED:=audio-volume-muted}"
+: "${NOTIFY_CATEGORY:=audio}"
 
 notify() {
+	local icon="${3:-${NOTIFY_ICON}}"
+
 	notify-send \
 		--category="${NOTIFY_CATEGORY}" \
 		--expire-time="${NOTIFY_TIMEOUT}" \
-		--icon="${NOTIFY_ICON}" \
+		--icon="${icon}" \
 		--replace-id="${NOTIFY_ID:=0}" \
 		--print-id \
 		--hint="$2" \
-		"$1" > ${NOTIFY_ID_PATH}
+		"$1" > "${NOTIFY_ID_PATH}"
 }
 
 default_sink_name() {
@@ -37,19 +39,19 @@ default_sink_name() {
 
 restore_physical_default_sink() {
 	if wpctl inspect @DEFAULT_AUDIO_SINK@ 2>/dev/null \
-		| grep -q '^[[:space:]]*\* node\.name = "easyeffects_sink"$'; then
+		| grep '^[[:space:]]*\* node\.name = "easyeffects_sink"$' >/dev/null; then
 		wpctl clear-default || true
 	fi
 }
 
-case $1 in
+case ${1:-} in
 	up|down|mute) restore_physical_default_sink ;;
 esac
 
 SINK_NAME="$(default_sink_name)"
 VOLUME_LABEL="${SINK_NAME:-Volume}"
 
-case $1 in
+case ${1:-} in
 	up)
 		pamixer --increase 5
 		pamixer -u # Force unmute
@@ -61,7 +63,7 @@ case $1 in
 	mute)
 		pamixer --toggle-mute
 		if [[ "$(pamixer --get-mute)" == "true" ]]; then
-			notify "Muted ${SINK_NAME}" "int:value:0"
+			notify "Muted ${SINK_NAME}" "int:value:0" "${NOTIFY_ICON_MUTED}"
 			exit 0
 		fi
 	;;
