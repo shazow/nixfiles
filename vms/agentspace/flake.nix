@@ -109,7 +109,7 @@
 
           homeModules = [
             # Inject the skills we care about from ./skills sub-flake
-            inputs.skills.homeModules.default
+            #inputs.skills.homeModules.default
 
             (
               { pkgs, ... }:
