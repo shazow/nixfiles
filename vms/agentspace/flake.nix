@@ -23,13 +23,16 @@
       system = "x86_64-linux";
       mkSandbox =
         {
+          name ? "agentspace",
           spaces ? { },
           extraPackages ? [ ],
           extraModules ? [ ],
         }:
         (agentspace.lib.mkSandbox {
+          hostName = "${name}-sandbox";
+
           # I like to put all the images and workspace data in one place, so it's easier to track
-          persistence.baseDir = "/home/shazow/vms/agentspace"; # Default: $PWD/.agentspace
+          persistence.baseDir = "/home/shazow/vms/${name}"; # Default: $PWD/.agentspace
 
           # Powered by https://github.com/shazow/nixfiles/blob/main/modules/virtiofsd-nix-store.nix
           nixStoreShareSocket = "/var/run/virtiofs-nix-store.sock";
@@ -183,6 +186,7 @@
         urllib3 = {
           type = "app";
           program = agentspace.lib.mkLaunch (mkSandbox {
+            name = "urllib3";
             spaces = {
               "urllib3" = "/home/shazow/projects/urllib3";
             };
