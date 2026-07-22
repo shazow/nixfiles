@@ -80,6 +80,8 @@
                 nix.registry.nixpkgs.flake = inputs.nixpkgs;
                 nix.registry.llm-agents.flake = inputs.llm-agents;
 
+                programs.nh.enable = true;
+
                 environment.systemPackages = [
                   # Languages
                   pkgs.nodejs
@@ -100,6 +102,8 @@
                   pkgs.jq
 
                   # Harness
+                  # Can use the llm-agents overlay if you have the trusted substituter in host.
+                  #pkgs.llm-agents.codex
                   pkgs.codex
 
                   # MCP
