@@ -72,6 +72,7 @@ in
           deploy = "!merge(){ git checkout $2 && git merge $1 && git push $2 && git checkout \${1#refs/heads/}; }; merge $(git symbolic-ref HEAD) $1";
           blast = ''for-each-ref --sort=-committerdate refs/heads/ --format="%(committerdate:relative)%09%(refname:short)"'';
           pr = "!pr(){ git fetch origin pull/$1/head:pr-$1; git checkout pr-$1; }; pr";
+          mergeinto = "!git checkout \"$1\" && git merge - && git branch -d @{-1} #";
 
           # Interactive
           ilog = "!git log --oneline --color=always | fzf --ansi --reverse --preview='git show --color=always {1}'";
@@ -116,6 +117,8 @@ in
         ${builtins.readFile "${inputs.dotfiles.outPath}/.bash_profile"}
       '';
     };
+
+    gh.enable = true;
   };
 
   services.gpg-agent = {
