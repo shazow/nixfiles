@@ -33,6 +33,7 @@
 
           # I like to put all the images and workspace data in one place, so it's easier to track
           persistence.baseDir = "/home/shazow/vms/${name}"; # Default: $PWD/.agentspace
+          persistence.storeOverlaySize = 1024 * 16; # Default: 8GB but it fills up fast with VM experiments
 
           # Powered by https://github.com/shazow/nixfiles/blob/main/modules/virtiofsd-nix-store.nix
           nixStoreShareSocket = "/var/run/virtiofs-nix-store.sock";
