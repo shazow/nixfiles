@@ -11,6 +11,7 @@
     text = # toml
       ''
       service_tier = "fast"
+      model_reasoning_effort = "high"
 
       [projects."/home/agent/workspace"]
         trust_level = "trusted"
