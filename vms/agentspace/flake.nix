@@ -106,6 +106,7 @@
                   # Can use the llm-agents overlay if you have the trusted substituter in host.
                   #pkgs.llm-agents.codex
                   pkgs.codex
+                  pkgs.claude-code # We're harness-poly
 
                   # MCP
                   pkgs.mcp-nixos
