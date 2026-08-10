@@ -1,4 +1,4 @@
-{ pkgs, lib, hostname, primaryUsername, initialHashedPassword, ... }:
+{ pkgs, pkgs-unstable, lib, hostname, primaryUsername, initialHashedPassword, ... }:
 {
   nixpkgs.config = {
     allowUnfree = true;
@@ -147,6 +147,7 @@
   networking.wireguard.enable = true;
   networking.iproute2.enable = true; # Needed for mullvad daemon
   services.mullvad-vpn.enable = true;
+  services.mullvad-vpn.package = pkgs-unstable.mullvad;
   services.tailscale.enable = true;
 
   # Gaming and app wrapping (Steam)
