@@ -9,7 +9,7 @@
     ./lsp.nix
 
     # AI assistant stuff
-    ./ai.nix
+    #./ai.nix
 
     # A lot of QoL stuff implemented using snacks
     ./snacks.nix
