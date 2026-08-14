@@ -13,7 +13,7 @@
 
     # Wayland desktop overlays
     niri-flake.url = "github:sodiboo/niri-flake";
-    stylix.url = "github:nix-community/stylix/release-25.11"; # FIXME: Switch to 26.05 when available
+    stylix.url = "github:nix-community/stylix/release-26.05";
     stylix.inputs.nixpkgs.follows = "nixpkgs";
 
     nixvim.url = "github:nix-community/nixvim";
