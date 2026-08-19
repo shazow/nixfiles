@@ -124,7 +124,7 @@ in
 
   # Audio EQ
   services.easyeffects.enable = true;
-  
+
   fonts.fontconfig.enable = true; # Auto-discover fonts
 
   home.file.".tmux.conf".source = ../config/tmux.conf;
@@ -134,6 +134,9 @@ in
     dotfileScripts
     desktopScripts
   ] ++ (with pkgs; [
+    # Mine:
+    wifitui
+
     # Some extrapkgs are duplicated from system packages for more frequent
     # updates in userland
     nvim
@@ -211,17 +214,11 @@ in
     gotop
     glib # for gsettings
     gsettings-desktop-schemas
-    impala # wifi tui, like nmtui
     jq
     ncdu # disk space analyzer
     powerstat
     lsof
     hsetroot # for setting bg in picom (xsetroot doesn't work)
-    xrandr-invert-colors
-    xcwd # cwd of the current x window, tiny C program
-    xorg.xdpyinfo
-    xorg.xev
-    xorg.xkill
     whois
 
     # Fonts
@@ -231,11 +228,11 @@ in
     powerline-fonts
 
     # AI
-    (pkgs-unstable.whisper-cpp.override {
-      vulkanSupport = true; 
-    })
+    #(pkgs-unstable.whisper-cpp.override {
+    #  vulkanSupport = true;
+    #})
   ]);
-  
+
   xdg.configFile = {
     # Stop Chrome from self-owning its volume to oblivion
     "pipewire/pipewire-pulse.conf.d/99-chrome-volume-fix.conf" = {

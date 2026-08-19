@@ -36,6 +36,14 @@ in
     x11.enable = true;
   };
 
+  home.packages = with pkgs; [
+    xrandr-invert-colors
+    xcwd # cwd of the current x window, tiny C program
+    xdpyinfo
+    xev
+    xkill
+  ];
+
   gtk = {
     enable = true;
     theme = {
