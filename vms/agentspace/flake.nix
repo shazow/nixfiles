@@ -129,6 +129,7 @@
 
                 home.file.".config/agents/AGENTS.md".source = ./AGENTS.md;
                 home.file.".codex/AGENTS.md".source = ./AGENTS.md;
+                home.file.".claude/CLAUDE.md".source = ./AGENTS.md;
 
                 programs =
                   let
@@ -184,6 +185,7 @@
           type = "app";
           program = agentspace.lib.mkLaunch (mkSandbox {
             spaces = {
+              "nixfiles" = "/home/shazow/projects/nixfiles";
               "agentspace" = "/home/shazow/projects/agentspace";
               "virtle" = "/home/shazow/projects/virtle";
             };
