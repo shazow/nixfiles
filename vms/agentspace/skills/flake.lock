@@ -19,11 +19,11 @@
     "mattpocock": {
       "flake": false,
       "locked": {
-        "lastModified": 1784192592,
-        "narHash": "sha256-S6pARK99oGGSi6XdFm6zYKHT4gjOCN0wIPZFcl1hREE=",
+        "lastModified": 1787309793,
+        "narHash": "sha256-FPAAotNqA5aHrFDlj/XddoLs4TDKi+4J5H/mvevlOlk=",
         "owner": "mattpocock",
         "repo": "skills",
-        "rev": "9603c1cc8118d08bc1b3bf34cf714f62178dea3b",
+        "rev": "5b15a47f2d7150f545fbcacbfe381787fc0230dc",
         "type": "github"
       },
       "original": {
@@ -34,11 +34,12 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1784364478,
-        "narHash": "sha256-eiNlOqzMSGC+sKwgrhkBK/Mn4n717NV1DEfJqHBVhgg=",
-        "rev": "20535e48e12c86043b577b8518234ff5dbb26957",
-        "type": "tarball",
-        "url": "https://releases.nixos.org/nixpkgs/nixpkgs-26.11pre1036836.20535e48e12c/nixexprs.tar.xz"
+        "lastModified": 1787414105,
+        "narHash": "sha256-WncT27+3BOkgTaJZLnCsf3LcYf9RXMuR9ONSN4rzQ7s=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "a9e6d84f9c2f9012f5fe7d964a7851352300e61a",
+        "type": "github"
       },
       "original": {
         "id": "nixpkgs",
@@ -57,11 +58,11 @@
     "superpowers": {
       "flake": false,
       "locked": {
-        "lastModified": 1783029415,
-        "narHash": "sha256-kHdQ9e44doBk2yYW88tMSCqVG8ycYcvJSZlrIziXhpA=",
+        "lastModified": 1786553601,
+        "narHash": "sha256-EsGNO0dULWf5Bx6bGrCv2kI2Z8aKH0kRvGiuN23wChQ=",
         "owner": "obra",
         "repo": "superpowers",
-        "rev": "d884ae04edebef577e82ff7c4e143debd0bbec99",
+        "rev": "b36e0829c6d0140e93cfef2ca599b1b07d4a7797",
         "type": "github"
       },
       "original": {
@@ -73,11 +74,11 @@
     "trialofbits": {
       "flake": false,
       "locked": {
-        "lastModified": 1782832486,
-        "narHash": "sha256-hOA3v+QFGJLkw7OVPSzjtCZXS7zU792AfqGNdSNgsgA=",
+        "lastModified": 1787321383,
+        "narHash": "sha256-hQeyXgl4CJecknXjihhY5vNm8M9h8TzPeGNz8HT4zfc=",
         "owner": "trailofbits",
         "repo": "skills",
-        "rev": "cfe5d7b1619e47fb5b38b7e2561dad7e5f1e89af",
+        "rev": "293fb74c3151cceda32a85a545fe8acd67f8f5c6",
         "type": "github"
       },
       "original": {

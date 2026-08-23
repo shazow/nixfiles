@@ -29,7 +29,8 @@ sync:
 	nix flake update
 
 sync-pkgs:
-	cd pkgs/nvim && nix flake update
+	find . -mindepth 2 -name "flake.nix" -not -path "*/.*/*" \
+		-exec nix flake update --flake {}/.. --inputs-from $(CURDIR) \;
 
 clean:
 	sudo nix-collect-garbage --delete-older-than 7d
