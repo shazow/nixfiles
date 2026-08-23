@@ -13,6 +13,7 @@
 
   services.flatpak = {
     enable = true;
+    uninstallUnmanaged = true;
     packages = [
       "com.discordapp.Discord"
       "md.obsidian.Obsidian"
