@@ -1,4 +1,4 @@
-{ pkgs, username, ... }:
+{ pkgs, username, inputs, ... }:
 
 {
   home.packages = with pkgs; [
@@ -6,9 +6,19 @@
   ];
 
   imports = [
+    inputs.nix-flatpak.homeManagerModules.nix-flatpak
     ./modules/wayland
     ./common/apps.nix
   ];
+
+  services.flatpak = {
+    enable = true;
+    packages = [
+      "com.discordapp.Discord"
+      "md.obsidian.Obsidian"
+      "org.telegram.desktop"
+    ];
+  };
 
   nixfiles.wayland.enable = true;
 
