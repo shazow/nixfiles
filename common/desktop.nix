@@ -20,6 +20,10 @@
   # Turn off screen after 60s in console
   boot.kernelParams = [ "consoleblank=60" ];
 
+  boot.kernelModules = [
+    "ntsync" # Used by wine/proton for more optimal Windows-based system lock/event primitives
+  ];
+
   # Desktop environment agnostic packages.
   environment.systemPackages = with pkgs; [
     home-manager
