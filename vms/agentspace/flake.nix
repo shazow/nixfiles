@@ -93,6 +93,7 @@
                   (pkgs.python3.withPackages (python-pkgs: [
                     python-pkgs.uv
                   ]))
+                  pkgs.devenv
 
                   # Tools
                   pkgs.bubblewrap
