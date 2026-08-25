@@ -96,6 +96,7 @@
 
                   # Tools
                   pkgs.bubblewrap
+                  pkgs.devenv
                   pkgs.gnumake
                   pkgs.just
                   pkgs.tmux
