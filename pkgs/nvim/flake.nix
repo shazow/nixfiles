@@ -1,45 +1,48 @@
 {
-  description = "A nixvim configuration";
+  description = "Standalone development flake for the nixvim configuration";
 
   inputs = {
-    #nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-26.05";
 
     nixvim.url = "github:nix-community/nixvim";
-
-    # FIXME: Is this a good idea? May help with some internal inconsistency across nvim versions
     nixvim.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs =
+    { nixpkgs, nixvim, ... }:
+    let
+      systems = [
+        "aarch64-darwin"
+        "aarch64-linux"
+        "x86_64-darwin"
+        "x86_64-linux"
+      ];
+      forAllSystems = nixpkgs.lib.genAttrs systems;
+      bundleFor = system: import ./. { inherit nixvim system; };
+    in
     {
-      nixpkgs,
-      nixvim,
-      flake-utils,
-      ...
-    }:
-    flake-utils.lib.eachDefaultSystem (
-      system:
-      let
-        nixvimLib = nixvim.lib.${system};
-        nixvim' = nixvim.legacyPackages.${system};
-        nixvimModule = {
-          inherit system;
-          extraSpecialArgs = {
-            nixvimHelpers = nixvim.lib.helpers;
+      packages = forAllSystems (system: {
+        default = (bundleFor system).package;
+        nvim = (bundleFor system).package;
+      });
+
+      apps = forAllSystems (
+        system:
+        let
+          nvim = (bundleFor system).package;
+          app = {
+            type = "app";
+            program = "${nvim}/bin/nvim";
           };
-          module = import ./config;
-        };
-        nvim = nixvim'.makeNixvimWithModule nixvimModule;
-      in
-      {
-        checks = {
-          # Run `nix flake check .` to verify that your config is not broken
-          default = nixvimLib.check.mkTestDerivationFromNixvimModule nixvimModule;
-        };
+        in
+        {
+          default = app;
+          nvim = app;
+        }
+      );
 
-        packages = nvim;
-        defaultPackage = nvim;
-
-      }
-    );
+      checks = forAllSystems (system: {
+        nvim = (bundleFor system).check;
+      });
+    };
 }
