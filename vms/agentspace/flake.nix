@@ -8,9 +8,6 @@
     llm-agents.url = "github:numtide/llm-agents.nix";
     #llm-agents.inputs.nixpkgs.follows = "nixpkgs";
 
-    skills.url = "path:skills";
-    skills.inputs.nixpkgs.follows = "nixpkgs";
-
     urllib3-shell.url = "path:../../shells/urllib3";
   };
 
@@ -119,8 +116,8 @@
           ];
 
           homeModules = [
-            # Inject the skills we care about from ./skills sub-flake
-            #inputs.skills.homeModules.default
+            # Skills are pinned in ./skills.nix, but remain disabled by default.
+            # (import ./skills.nix)
 
             (
               { pkgs, ... }:

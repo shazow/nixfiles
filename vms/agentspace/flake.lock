@@ -116,22 +116,6 @@
         "type": "github"
       }
     },
-    "improve": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1781504319,
-        "narHash": "sha256-m0a1n8xguDI2nooJ856sWPofh+tZI5VvIrVZrQH6XgY=",
-        "owner": "shadcn",
-        "repo": "improve",
-        "rev": "03369ee6d7cafbfcecc4346539b05b3dc0a603bb",
-        "type": "github"
-      },
-      "original": {
-        "owner": "shadcn",
-        "repo": "improve",
-        "type": "github"
-      }
-    },
     "llm-agents": {
       "inputs": {
         "bun2nix": "bun2nix",
@@ -151,22 +135,6 @@
       "original": {
         "owner": "numtide",
         "repo": "llm-agents.nix",
-        "type": "github"
-      }
-    },
-    "mattpocock": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1787581197,
-        "narHash": "sha256-N5tpUIHO2VFeJntBTl6/VLDIVpqoshwFxNJlfXXUwsQ=",
-        "owner": "mattpocock",
-        "repo": "skills",
-        "rev": "6654f6b60cd9d5be8b54c6fafe44346dabeb3b76",
-        "type": "github"
-      },
-      "original": {
-        "owner": "mattpocock",
-        "repo": "skills",
         "type": "github"
       }
     },
@@ -245,29 +213,8 @@
         "agentspace": "agentspace",
         "llm-agents": "llm-agents",
         "nixpkgs": "nixpkgs_2",
-        "skills": "skills",
         "urllib3-shell": "urllib3-shell"
       }
-    },
-    "skills": {
-      "inputs": {
-        "improve": "improve",
-        "mattpocock": "mattpocock",
-        "nixpkgs": [
-          "nixpkgs"
-        ],
-        "superpowers": "superpowers",
-        "trialofbits": "trialofbits"
-      },
-      "locked": {
-        "path": "skills",
-        "type": "path"
-      },
-      "original": {
-        "path": "skills",
-        "type": "path"
-      },
-      "parent": []
     },
     "spectrum": {
       "flake": false,
@@ -283,22 +230,6 @@
       "original": {
         "type": "git",
         "url": "https://spectrum-os.org/git/spectrum"
-      }
-    },
-    "superpowers": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1786553601,
-        "narHash": "sha256-EsGNO0dULWf5Bx6bGrCv2kI2Z8aKH0kRvGiuN23wChQ=",
-        "owner": "obra",
-        "repo": "superpowers",
-        "rev": "b36e0829c6d0140e93cfef2ca599b1b07d4a7797",
-        "type": "github"
-      },
-      "original": {
-        "owner": "obra",
-        "repo": "superpowers",
-        "type": "github"
       }
     },
     "systems": {
@@ -349,22 +280,6 @@
       "original": {
         "owner": "numtide",
         "repo": "treefmt-nix",
-        "type": "github"
-      }
-    },
-    "trialofbits": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1788184038,
-        "narHash": "sha256-wWKuQXkSiXNRsNOiWjVY/NAVmEMu+uPWN873TauW6ZI=",
-        "owner": "trailofbits",
-        "repo": "skills",
-        "rev": "9645e2f89b2d3195847df5c82ddf68b67e4de90f",
-        "type": "github"
-      },
-      "original": {
-        "owner": "trailofbits",
-        "repo": "skills",
         "type": "github"
       }
     },
