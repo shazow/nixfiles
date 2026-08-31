@@ -29,7 +29,7 @@ sync:
 	nix flake update
 
 sync-pkgs:
-	find . -mindepth 2 -name "flake.nix" -not -path "*/.*/*" \
+	find . -mindepth 2 -name "flake.lock" -not -path "*/.*/*" \
 		-exec nix flake update --flake {}/.. --inputs-from $(CURDIR) \;
 
 clean:
@@ -76,5 +76,4 @@ ${KEYFILE}:
 initrd.keys.gz: ${KEYFILE}
 	find $^ | cpio --quiet -H newc -o | gzip -9 -n > "$@"
 	chmod 400 "$@"
-
 
