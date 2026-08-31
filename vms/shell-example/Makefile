@@ -1,2 +1,2 @@
 run:
-	nix run .
+	nix run ..#shell-example
