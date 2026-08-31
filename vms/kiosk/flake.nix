@@ -53,11 +53,13 @@
               hardware.graphics.enable = true;
               users.users.guest = {
                 isNormalUser = true;
+                group = "guest";
                 extraGroups = [
                   "video"
                   "input"
                 ];
               };
+              users.groups.guest = { };
 
               services.cage = {
                 enable = true;
