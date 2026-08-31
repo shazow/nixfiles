@@ -62,7 +62,12 @@
                 system.stateVersion = lib.trivial.release;
                 nixpkgs.config.allowUnfree = true;
                 hardware.graphics.enable = true;
-                users.users.guest.password = "";
+                users.users.guest = {
+                  isNormalUser = true;
+                  group = "guest";
+                  password = "";
+                };
+                users.groups.guest = { };
 
                 services.cage = {
                   enable = true;
