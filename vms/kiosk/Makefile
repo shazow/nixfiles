@@ -1,2 +1,2 @@
 run:
-	nix run .#chrome-kiosk
+	nix run ..#kiosks.chromium
