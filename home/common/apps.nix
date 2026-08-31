@@ -145,7 +145,7 @@ in
     #bitwarden-desktop # FIXME: Can add back when they update electron: https://github.com/NixOS/nixpkgs/issues/526914
     google-chrome
     signal-desktop
-    pkgs-unstable.qbz # Qobuz music player
+    #pkgs-unstable.qbz # Qobuz music player
 
     # PDF, image manipulation
     imagemagick

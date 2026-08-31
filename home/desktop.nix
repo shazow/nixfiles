@@ -18,7 +18,11 @@
       "com.discordapp.Discord"
       "md.obsidian.Obsidian"
       "org.telegram.desktop"
+      "com.blitzfc.qbz"
     ];
+    overrides."com.blitzfc.qbz"."Session Bus Policy" = {
+      "org.freedesktop.ReserveDevice1.*" = "own";
+    };
   };
 
   nixfiles.wayland.enable = true;
