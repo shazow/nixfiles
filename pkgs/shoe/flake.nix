@@ -5,7 +5,8 @@
     nixpkgs.url = "github:NixOS/nixpkgs";
   };
 
-  outputs = { self, nixpkgs }:
+  outputs =
+    { self, nixpkgs }:
     let
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
@@ -14,12 +15,13 @@
       packages.${system}.default = pkgs.buildFHSEnv {
         name = "shoe";
 
-        targetPkgs = p: with p; [
-          coreutils
-          bashInteractive
-          bubblewrap
-          cacert
-        ];
+        targetPkgs =
+          p: with p; [
+            coreutils
+            bashInteractive
+            bubblewrap
+            cacert
+          ];
 
         runScript = pkgs.writeShellScript "runner" ''
           exec bwrap \
@@ -44,7 +46,8 @@
         '';
 
         extraBwrapArgs = [
-          "--cap-drop" "ALL"
+          "--cap-drop"
+          "ALL"
 
           "--unshare-ipc"
           "--unshare-pid"
