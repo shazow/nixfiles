@@ -176,10 +176,6 @@
           type = "app";
           program = agentspace.lib.mkLaunch defaultSandbox;
         };
-        connect = {
-          type = "app";
-          program = agentspace.lib.mkConnect defaultSandbox;
-        };
         agentspace = {
           type = "app";
           program = agentspace.lib.mkLaunch (mkSandbox {
