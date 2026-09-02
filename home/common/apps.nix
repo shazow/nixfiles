@@ -32,6 +32,25 @@ in
   nix.registry.unstable.flake = inputs.nixpkgs-unstable;
   nix.registry.nixpkgs.flake = inputs.nixpkgs;
 
+  imports = [
+    inputs.nix-flatpak.homeManagerModules.nix-flatpak
+  ];
+
+  services.flatpak = {
+    enable = true;
+    uninstallUnmanaged = true;
+    packages = [
+      "com.discordapp.Discord"
+      "md.obsidian.Obsidian"
+      "org.telegram.desktop"
+      "com.blitzfc.qbz"
+    ];
+    overrides."com.blitzfc.qbz"."Session Bus Policy" = {
+      "org.freedesktop.ReserveDevice1.*" = "own";
+    };
+  };
+
+
   programs = let
     name = "Andrey Petrov";
     email = "andrey.petrov@shazow.net";

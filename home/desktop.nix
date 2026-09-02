@@ -1,4 +1,4 @@
-{ pkgs, username, inputs, ... }:
+{ pkgs, username, ... }:
 
 {
   home.packages = with pkgs; [
@@ -6,24 +6,9 @@
   ];
 
   imports = [
-    inputs.nix-flatpak.homeManagerModules.nix-flatpak
     ./modules/wayland
     ./common/apps.nix
   ];
-
-  services.flatpak = {
-    enable = true;
-    uninstallUnmanaged = true;
-    packages = [
-      "com.discordapp.Discord"
-      "md.obsidian.Obsidian"
-      "org.telegram.desktop"
-      "com.blitzfc.qbz"
-    ];
-    overrides."com.blitzfc.qbz"."Session Bus Policy" = {
-      "org.freedesktop.ReserveDevice1.*" = "own";
-    };
-  };
 
   nixfiles.wayland.enable = true;
 
