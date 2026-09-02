@@ -42,8 +42,6 @@
     wireless-regdb
   ];
 
-  networking.networkmanager.wifi.scanRandMacAddress = true;
-  networking.networkmanager.wifi.macAddress = "stable-ssid"; # One of "permanent", "preserve", "random", "stable", "stable-ssid", "00:11:22:33:44:55"
   networking.hostName = "shazowic-fae";
   networking.firewall.allowedTCPPorts = [
     8010 # VLC Chromecast
