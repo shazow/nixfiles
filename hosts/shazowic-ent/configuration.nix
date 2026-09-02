@@ -150,7 +150,7 @@
 
   networking.hostName = "shazowic-ent";
   networking.networkmanager.wifi.backend = "iwd";
-  networking.networkmanager.wifi.macAddress = "permanent"; # One of "preserve", "random", "stable", "permanent", "00:11:22:33:44:55"
+  networking.networkmanager.wifi.macAddress = "permanent"; # One of "permanent", "preserve", "random", "stable", "stable-ssid", "00:11:22:33:44:55"
   networking.interfaces.eno1.wakeOnLan.enable = true;
 
   users.users.${primaryUsername} = {
