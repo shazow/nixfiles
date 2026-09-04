@@ -96,7 +96,15 @@
   #networking.networkmanager.dns = "dnsmasq";
 
   networking.networkmanager.enable = true;
-  networking.networkmanager.appendNameservers = [ "1.1.1.1" "8.8.8.8" "2001:4860:4860::8844" ];
+  networking.networkmanager.dns = "systemd-resolved";
+
+  services.resolved = {
+    enable = true;
+    dnssec = "true";
+    domains = [ "~." ];
+    fallbackDns = [ "1.1.1.1#one.one.one.one" "1.0.0.1#one.one.one.one" "8.8.8.8" ];
+    dnsovertls = "true";
+  };
 
   networking.hostName = hostname;
   networking.search = [ "shazow.gmail.com.beta.tailscale.net" ];
