@@ -93,17 +93,16 @@
   networking.networkmanager.enable = true;
   networking.networkmanager.dns = "systemd-resolved";
 
-  services.resolved = let
-    nameservers = [
-      "1.1.1.1#one.one.one.one"
-      "1.0.0.1#one.one.one.one"
-      "2606:4700:4700::1111#one.one.one.one"
-    ];
-  in {
+  services.resolved = {
     enable = true;
-    domains = [ "~." ];
 
-    settings.Resolve = {
+    settings.Resolve = let
+      nameservers = [
+        "1.1.1.1#one.one.one.one"
+        "1.0.0.1#one.one.one.one"
+        "2606:4700:4700::1111#one.one.one.one"
+      ];
+    in {
       DNS = nameservers;
       FallbackDNS = nameservers;
       Domains = [ "~." ];

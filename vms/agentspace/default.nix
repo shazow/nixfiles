@@ -50,7 +50,7 @@ let
               ];
             };
 
-            nix.registry.nixpkgs.flake = inputs.nixpkgs-unstable or inputs.nixpkgs;
+            nix.registry.nixpkgs.flake = inputs.nixpkgs-unstable;
             nix.registry.llm-agents.flake = inputs.llm-agents;
 
             programs.nh.enable = true;
