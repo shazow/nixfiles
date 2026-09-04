@@ -90,20 +90,30 @@
     defaultLocale = "en_US.UTF-8";
   };
 
-  # dnsmasq
-  #services.dnsmasq.enable = true;
-  #services.dnsmasq.servers = [ "1.1.1.1" "8.8.8.8" "2001:4860:4860::8844" "100.100.100.100" ];
-  #networking.networkmanager.dns = "dnsmasq";
-
   networking.networkmanager.enable = true;
   networking.networkmanager.dns = "systemd-resolved";
 
-  services.resolved = {
+  services.resolved = let
+    nameservers = [
+      "1.1.1.1#one.one.one.one"
+      "1.0.0.1#one.one.one.one"
+      "2606:4700:4700::1111#one.one.one.one"
+    ];
+  in {
     enable = true;
-    dnssec = "true";
     domains = [ "~." ];
-    fallbackDns = [ "1.1.1.1#one.one.one.one" "1.0.0.1#one.one.one.one" "8.8.8.8" ];
-    dnsovertls = "true";
+
+    settings.Resolve = {
+      DNS = nameservers;
+      FallbackDNS = nameservers;
+      Domains = [ "~." ];
+
+      # A little sprinkle of sadness for dealing with rando wifi networks:
+      DNSOverTLS = "opportunistic";
+      DNSSEC = "allow-downgrade";
+      MulticastDNS = false;
+      LLMNR = false;
+    };
   };
 
   networking.hostName = hostname;
