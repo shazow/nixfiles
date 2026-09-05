@@ -151,7 +151,7 @@
     nssmdns4 = true;
     openFirewall = true;
     publish = {
-      enable = true;
+      enable = lib.mkDefault true;
       addresses = true;
     };
   };

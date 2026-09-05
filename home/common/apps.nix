@@ -214,7 +214,7 @@ in
     gocryptfs # Encrypted volumes
     # obs-studio # Screen recording, streaming
     transmission_4-gtk # Torrents
-    mullvad-vpn # Frontend
+    pkgs-unstable.mullvad-vpn # Match the daemon's package set in common/desktop.nix
     keymapp # ZSA keyboard gui
 
     #mplayer  # TODO: Switch to mpc?
