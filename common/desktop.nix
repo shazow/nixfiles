@@ -90,8 +90,6 @@
     defaultLocale = "en_US.UTF-8";
   };
 
-  networking.networkmanager.enable = true;
-  networking.networkmanager.dns = "systemd-resolved";
 
   services.resolved = {
     enable = true;
@@ -112,8 +110,11 @@
   };
 
   networking.hostName = hostname;
-  networking.search = [ "shazow.gmail.com.beta.tailscale.net" ];
+  #networking.search = [ "shazow.gmail.com.beta.tailscale.net" ];
 
+  networking.networkmanager.enable = true;
+  networking.networkmanager.dns = "systemd-resolved";
+  networking.networkmanager.wifi.backend = "iwd"; # Default: wpa_supplicant
   networking.networkmanager.wifi.scanRandMacAddress = true;
   networking.networkmanager.wifi.macAddress = lib.mkDefault "stable-ssid"; # One of "permanent", "preserve", "random", "stable", "stable-ssid", "00:11:22:33:44:55"
   networking.networkmanager.wifi.powersave = true;
