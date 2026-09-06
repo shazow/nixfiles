@@ -84,6 +84,8 @@ in
     temperature.day = 5700;
     temperature.night = 3500;
   };
+  # Bound shutdown delays when Gammastep or its tray process hangs on exit.
+  systemd.user.services.gammastep.Service.TimeoutStopSec = "5s";
 
   # TODO: Try services.swaync.enable = true;
   services.mako.enable = true;
