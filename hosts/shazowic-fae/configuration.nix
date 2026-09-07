@@ -65,6 +65,13 @@
   # Battery dbus interface
   services.upower.enable = true;
 
+  # Toggle Wi-Fi power saving when the charger is plugged in or unplugged.
+  # Boot/reconnect settings can override this until the next charger event.
+  services.udev.extraRules = ''
+    SUBSYSTEM=="power_supply", ACTION=="change", ATTR{type}=="Mains", ATTR{online}=="1", RUN+="${pkgs.iw}/bin/iw dev wlan0 set power_save off"
+    SUBSYSTEM=="power_supply", ACTION=="change", ATTR{type}=="Mains", ATTR{online}=="0", RUN+="${pkgs.iw}/bin/iw dev wlan0 set power_save on"
+  '';
+
   environment.systemPackages = with pkgs; [
     framework-tool # Embedded controller tool (battery charge limit, etc.), replaces ectool
 
