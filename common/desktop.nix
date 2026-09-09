@@ -103,9 +103,9 @@
 
       # A little sprinkle of sadness for dealing with rando wifi networks:
       DNSOverTLS = "opportunistic";
-      DNSSEC = "allow-downgrade";
-      MulticastDNS = false;
-      LLMNR = false;
+      #DNSSEC = "allow-downgrade";
+      #MulticastDNS = false;
+      #LLMNR = false;
     };
   };
 
