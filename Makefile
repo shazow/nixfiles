@@ -10,7 +10,7 @@ update-os:
 	sudo -i sh -c 'cd nixfiles && git pull'
 	sudo -i sh -c 'cd nixos && make'
 
-update-home: sync-pkgs sync update-env update-homemanager update-flatpak
+update-home: update-flake sync-flakes commit-flakes update-env update-homemanager update-flatpak
 
 update-env:
 	nix-env -u '*'
@@ -25,12 +25,15 @@ outdated: sync
 	# TODO: sudo nixos-rebuild dry-build --upgrade
 	echo "Not implemented for flake"
 
-sync:
+update-flake:
 	nix flake update
 
-sync-pkgs:
+sync-flakes:
 	find . -mindepth 2 -name "flake.lock" -not -path "*/.*/*" \
 		-exec nix flake update --flake {}/.. --inputs-from $(CURDIR) \;
+
+commit-flakes:
+	git commit -m "nix flake update" -- ':(glob)**/flake.lock'
 
 clean:
 	sudo nix-collect-garbage --delete-older-than 7d
