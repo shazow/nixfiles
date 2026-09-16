@@ -23,4 +23,4 @@ if [ -f "$1" ]; then
 fi
 
 # Print the available layout options, and execute the selection
-find . -type f -executable -printf "%f\n" | sort | rofi -dmenu | xargs -I '{}' -r -t sh -c './{}'
+find . -type f -executable -printf "%f\n" | sort | fuzzel --dmenu | xargs -I '{}' -r -t sh -c './{}'

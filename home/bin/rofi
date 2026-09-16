@@ -1,3 +1,0 @@
-#!/usr/bin/env sh
-# We have rofi at home
-fuzzel $@
