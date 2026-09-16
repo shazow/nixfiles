@@ -65,7 +65,7 @@ in
 
           $clock = {
             type = "clock" 
-            format = "%Y-%m-%d %I:%M %p"
+            format = "%a %Y-%m-%d %I:%M %p"
           }
 
           $clipboard = { type = "clipboard" max_items = 3 truncate.mode = "end" truncate.length = 50 }
