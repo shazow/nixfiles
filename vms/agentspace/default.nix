@@ -8,6 +8,7 @@ let
       spaces ? { },
       extraPackages ? [ ],
       extraModules ? [ ],
+      forwardPorts ? [ ],
     }:
     agentspace.lib.mkSandbox {
       hostName = "${name}-sandbox";
@@ -26,6 +27,8 @@ let
 
       machine.memory = 12 * 1024;
 
+      inherit forwardPorts;
+
       workspace = {
         enable = true;
         inherit spaces;
@@ -36,6 +39,15 @@ let
         (
           { pkgs, ... }:
           {
+            # Guest side of `forwardPorts`: the NixOS firewall is enabled by
+            # default, so the forwarded ports need to be opened too.
+            networking.firewall.allowedTCPPorts = map (forward: forward.guest.port) (
+              builtins.filter (forward: (forward.proto or "tcp") == "tcp") forwardPorts
+            );
+            networking.firewall.allowedUDPPorts = map (forward: forward.guest.port) (
+              builtins.filter (forward: (forward.proto or "tcp") == "udp") forwardPorts
+            );
+
             nix.settings = {
               extra-substituters = [
                 "https://cache.numtide.com"
@@ -135,7 +147,23 @@ let
     builtins.filter (pkg: builtins.isAttrs pkg && pkg ? type && pkg.type == "derivation") combinedList;
 
   sandboxes = {
-    default = mkSandbox { };
+    default = mkSandbox {
+      forwardPorts = [
+        {
+          proto = "tcp";
+          from = "host";
+          host = {
+            address = "127.0.0.1";
+            port = 8080;
+          };
+          guest = {
+            # Guest address on the user-mode (slirp) network.
+            address = "10.0.2.15";
+            port = 8080;
+          };
+        }
+      ];
+    };
 
     projects = mkSandbox {
       spaces = {
