@@ -187,6 +187,7 @@ in
       python-lsp-server
       jedi
     ]))
+    devenv
     gcc
     nodejs_latest
     tree-sitter
